@@ -1,0 +1,6 @@
+.anywhere{
+    clip-path: polygon(13% 0, 100% 0, 86% 100%, 0% 100%);
+    background: #FF8D8D;
+    padding: 8px 30px;
+    cursor: pointer;
+}
