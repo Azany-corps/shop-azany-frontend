@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useRef, useState } from "react";
 import Advert from "../../components/General/landing/Advert";
 import BottomHeader from "../../components/General/BottomHeader";
 import Footer from "../../components/General/Footer";
@@ -15,8 +15,30 @@ import MobileFooter from "../../components/General/MobileFooter";
 import ExclusiveCategories from "../../components/General/landing/ExclusiveCategories";
 import Carousel from "../../components/Core/Carousel";
 import { countries } from "../../newCountries";
+import { Status, Wrapper } from "@googlemaps/react-wrapper";
 import axios from "axios";
 import { count } from "console";
+
+function MyMapComponent({
+  center,
+  zoom,
+}: {
+  center: google.maps.LatLngLiteral;
+  zoom: number;
+}) {
+  const ref = useRef<HTMLDivElement | null>(null); // Initialize the ref properly
+
+  useEffect(() => {
+    if (ref.current) {
+      new window.google.maps.Map(ref.current, {
+        center,
+        zoom,
+      });
+    }
+  }, [center, zoom]);
+
+  return <div ref={ref} className="flex flex-1" id="map" />;
+}
 
 const Home = () => {
   const [selectedCountry, setSelectedCountry] = useState<any>();
@@ -24,7 +46,8 @@ const Home = () => {
   const [longitude, setLongitude] = useState("");
   const [latitude, setLatitude] = useState("");
   const handleCountryChange = (country: string) => {};
-
+  const center = { lat: -34.397, lng: 150.644 };
+  const zoom = 11;
   useEffect(() => {
     axios
       .get("https://api.ipify.org?format=json")
@@ -56,6 +79,10 @@ const Home = () => {
 
   const mapUrl = `https://maps.google.com/maps?q=${latitude},${longitude}&amp;t=m&amp;z=10&amp;output=embed&amp;iwloc=near`;
 
+  const render = (status: Status): ReactElement => {
+    if (status === Status.FAILURE) return <p>error</p>;
+    return <p>loading</p>;
+  };
   return (
     <div className="bg-[#F5F5F5] xs:overflow-x-hidden">
       <TopHeader />
@@ -69,14 +96,14 @@ const Home = () => {
         <div className="w-2/3">
           <Carousel />
         </div>
-        <div className="w-2/3">
-          <div className="">
-            <iframe
-              title="frameborder"
-              src={mapUrl}
-              aria-label="Location"
-              className="w-full h-3/4"
-            ></iframe>
+        <div className="w-2/3 flex flex-col gap-1">
+          <div className="flex-1 flex flex-col">
+            <Wrapper
+              apiKey={"AIzaSyCD1FuJyVYo8fzxw9xxX7NTexAYviVGv0U"}
+              render={render}
+            >
+              <MyMapComponent center={{lat:Number(latitude), lng:Number(longitude)}} zoom={zoom} />
+            </Wrapper>
           </div>
           <div>
             <h1 className="text-2xl font-medium">
@@ -120,6 +147,15 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <Wrapper
+        apiKey={"AIzaSyCD1FuJyVYo8fzxw9xxX7NTexAYviVGv0U"}
+        render={render}
+      >
+        <MyMapComponent
+          center={{ lat: Number(latitude), lng: Number(longitude) }}
+          zoom={11}
+        />
+      </Wrapper>
       <Categories
         styles={"bg-red-600 font-medium text-lg text-white "}
         title={"Newly Posted"}
