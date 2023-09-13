@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
 
-const baseUrl = "https://shopazanyb2b.urbantour.org/api/";
+const baseUrl = "https://test.shopazany.com/api/";
 
 const callAPI = async (
   url: string,

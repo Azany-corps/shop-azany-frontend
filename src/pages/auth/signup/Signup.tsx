@@ -140,8 +140,8 @@ const AuthSignup = () => {
       data.append("last_name", formData.last_name);
       data.append("phone", formData.phone);
       data.append("country", country.name);
-      data.append("state", state.name);
-      data.append("city", city.name);
+      data.append("state", state.name || "lagos");
+      data.append("city", city.name || "ikeja");
       data.append("address", formData.address);
       data.append("poster_code", formData.poster_code);
       data.append("referrer_code", formData.referrer_code);
