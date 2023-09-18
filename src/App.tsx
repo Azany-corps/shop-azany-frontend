@@ -80,6 +80,7 @@ import ManufacturersIndex from "./pages/manufacturersProfile";
 import Login from "./pages/CustomerProfile/Login";
 import Inbox from "./pages/CustomerProfile/Inbox";
 import Order from "./pages/CustomerProfile/Order";
+import Email from "./pages/email/Email";
 
 function App() {
   return (
@@ -94,6 +95,7 @@ function App() {
         <Route path="/">
           <Route index element={<Home />} />
           <Route path="manufacturers" element={<Manufacturers />} />
+          <Route path="email" element={<Email />} />
           <Route path="merchants" element={<Merchants />} />
           <Route
             path="500"
