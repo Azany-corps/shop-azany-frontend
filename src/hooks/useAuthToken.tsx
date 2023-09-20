@@ -21,17 +21,17 @@ const useAuthToken = (): [string | null, (token: string) => void, (token: string
   const checkAuthToken = () => {
     console.log("checking token");
     let token = localStorage.getItem("token");
-    // if (
-    //   !token &&
-    //   !window.location.pathname.startsWith("/products") &&
-    //   window.location.pathname !== "/" &&
-    //   !window.location.pathname.startsWith("/farmers") &&
-    //   window.location.pathname !== "/manufacturers" &&
-    //   !window.location.pathname.startsWith("/categories") && window.location.pathname !== "/merchants"
-    // ) {
-    //   console.log("no token");
-    //   navigate("/auth");
-    // }
+    if (
+      !token &&
+      !window.location.pathname.startsWith("/products") &&
+      window.location.pathname !== "/" &&
+      !window.location.pathname.startsWith("/farmers") &&
+      window.location.pathname !== "/manufacturers" &&
+      !window.location.pathname.startsWith("/categories") && window.location.pathname !== "/merchants"
+    ) {
+      console.log("no token");
+      navigate("/auth");
+    }
   };
 
   return [authToken, saveAuthToken, deleteAuthToken, checkAuthToken];
