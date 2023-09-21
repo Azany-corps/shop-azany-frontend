@@ -30,7 +30,7 @@ const AuthForgot = () => {
     try {
       let data = new FormData();
       data.append("email", formData.email);
-      const response = await callAPI("auth/customer_new_password_entry", "POST", data, {
+      const response = await callAPI("auth/customer_reset_password_email_entry", "POST", data, {
         "Content-Type": "multipart/form-data",
       });
       localStorage.setItem("customerId", response.data.user[0].id) 
