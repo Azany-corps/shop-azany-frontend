@@ -30,7 +30,7 @@ const AuthReset = () => {
     event.preventDefault();
     setLoading(true);
     try {
-      const user_id = localStorage.getItem("customerId");
+      const user_id = localStorage.getItem("user_id");
       if (user_id === null) {
         throw new Error("User ID not found in local storage");
       }
@@ -39,7 +39,7 @@ const AuthReset = () => {
       otpData.append("user_id", user_id);
       otpData.append("password", formData.password);
       otpData.append("password_confirmation", formData.password_confirmation);
-      const response = await callAPI("auth/customer_new_password_entry", "POST", otpData, {
+      const response = await callAPI("auth/new_password_entry", "POST", otpData, {
         "Content-Type": "multipart/form-data",
       });
       console.log(response);

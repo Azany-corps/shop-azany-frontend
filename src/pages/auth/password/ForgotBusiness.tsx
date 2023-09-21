@@ -33,7 +33,7 @@ const AuthForgotBusiness = () => {
       const response = await callAPI("auth/reset_password_email_entry", "POST", data, {
         "Content-Type": "multipart/form-data",
       });
-      localStorage.setItem("userId", response.data.user[0].id) 
+      localStorage.setItem("user_id", response.data.user[0].id) 
       toast.success("OTP has been sent to your email", {
         position: "top-center",
         autoClose: 3000,

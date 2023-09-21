@@ -84,13 +84,13 @@ const SignupBusiness = () => {
       data.append("city", formData.city);
       data.append("poster_code", formData.poster_code);
       data.append("registration_number", formData.registration_number);
-      data.append("business_category", selectedValue);
-      if (selectedFile) {
-        data.append("document", selectedFile);
-      }
-      if (selectedLogo) {
-        data.append("logo", selectedLogo);
-      }
+      // data.append("business_category", selectedValue);
+      // if (selectedFile) {
+      //   data.append("document", selectedFile);
+      // }
+      // if (selectedLogo) {
+      //   data.append("logo", selectedLogo);
+      // }
 
       const token = localStorage.getItem("token");
       if (token === null) {
