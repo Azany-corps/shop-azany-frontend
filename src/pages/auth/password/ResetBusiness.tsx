@@ -30,13 +30,13 @@ const AuthReset = () => {
     event.preventDefault();
     setLoading(true);
     try {
-      const customer_id = localStorage.getItem("customerId");
-      if (customer_id === null) {
-        throw new Error("Customer ID not found in local storage");
+      const user_id = localStorage.getItem("customerId");
+      if (user_id === null) {
+        throw new Error("User ID not found in local storage");
       }
 
       const otpData = new FormData();
-      otpData.append("customer_id", customer_id);
+      otpData.append("user_id", user_id);
       otpData.append("password", formData.password);
       otpData.append("password_confirmation", formData.password_confirmation);
       const response = await callAPI("auth/customer_new_password_entry", "POST", otpData, {
