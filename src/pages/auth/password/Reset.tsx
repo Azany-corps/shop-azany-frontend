@@ -30,7 +30,7 @@ const AuthReset = () => {
     event.preventDefault();
     setLoading(true);
     try {
-      const customer_id = localStorage.getItem("customerId");
+      const customer_id = localStorage.getItem("customer_id");
       if (customer_id === null) {
         throw new Error("Customer ID not found in local storage");
       }
