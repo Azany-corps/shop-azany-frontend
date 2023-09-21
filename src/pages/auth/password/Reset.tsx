@@ -10,8 +10,7 @@ const AuthReset = () => {
   const [, setLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
   const navigate = useNavigate();
-  const [confirmPasswordVisible, setConfirmPasswordVisible] =
-    useState<boolean>(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState<boolean>(false);
 
   function handleBack() {
     window.history.back();
@@ -31,22 +30,25 @@ const AuthReset = () => {
     event.preventDefault();
     setLoading(true);
     try {
-      const user_id = localStorage.getItem("customerId");
+      // const user_id = localStorage.getItem("customerId");
+      // if (user_id === null) {
+      //   throw new Error("User ID not found in local storage");
+      // }
+      let user_id = localStorage.getItem("userId");
+      if (user_id === null) {
+        user_id = localStorage.getItem("customerId");
+      }
       if (user_id === null) {
         throw new Error("User ID not found in local storage");
       }
+
       const otpData = new FormData();
       otpData.append("user_id", user_id);
       otpData.append("password", formData.password);
       otpData.append("password_confirmation", formData.password_confirmation);
-      const response = await callAPI(
-        "auth/new_password_entry",
-        "POST",
-        otpData,
-        {
-          "Content-Type": "multipart/form-data",
-        }
-      );
+      const response = await callAPI("auth/new_password_entry", "POST", otpData, {
+        "Content-Type": "multipart/form-data",
+      });
       console.log(response);
       setLoading(false);
       toast.success("Your password has been reset successfully", {
@@ -77,10 +79,7 @@ const AuthReset = () => {
   return (
     <div className="bg-[#F5F5F5]">
       <div className="w-screen h-screen py-10 flex flex-col gap-5">
-        <button
-          onClick={handleBack}
-          className="flex px-20 items-center xs:px-4 gap-2 text-[#515151] "
-        >
+        <button onClick={handleBack} className="flex px-20 items-center xs:px-4 gap-2 text-[#515151] ">
           <ArrowBackIcon />
           Back
         </button>
@@ -90,22 +89,12 @@ const AuthReset = () => {
               <img src="/images/loginkey.png" alt="" />
             </div>
             <div className="flex flex-col items-center justify-center">
-              <p className="text-[40px] xs:text-[30px] font-[500]">
-                Set New Password
-              </p>
-              <p className="text-[#515151] items-center flex">
-                Your new password must be different from previously used
-                passwords
-              </p>
+              <p className="text-[40px] xs:text-[30px] font-[500]">Set New Password</p>
+              <p className="text-[#515151] items-center flex">Your new password must be different from previously used passwords</p>
             </div>
-            <form
-              className="gap-4 flex flex-col w-full items-center"
-              onSubmit={handleSubmit}
-            >
+            <form className="gap-4 flex flex-col w-full items-center" onSubmit={handleSubmit}>
               <div className="relative flex flex-col w-full">
-                <label className="font-normal text-[12px] text-gray-600">
-                  PASSWORD
-                </label>
+                <label className="font-normal text-[12px] text-gray-600">PASSWORD</label>
                 <div className="flex relative">
                   <input
                     placeholder=""
@@ -126,9 +115,7 @@ const AuthReset = () => {
                 </div>
               </div>
               <div className="relative flex flex-col w-full">
-                <label className="font-normal text-[12px] text-gray-600">
-                  CONFIRM PASSWORD
-                </label>
+                <label className="font-normal text-[12px] text-gray-600">CONFIRM PASSWORD</label>
                 <div className="flex relative">
                   <input
                     placeholder=""
@@ -148,9 +135,7 @@ const AuthReset = () => {
                   />
                 </div>
               </div>
-              <button className="py-2 w-full bg-[#E51B48] rounded-md text-white">
-                Reset Password
-              </button>
+              <button className="py-2 w-full bg-[#E51B48] rounded-md text-white">Reset Password</button>
             </form>
           </div>
         </div>
