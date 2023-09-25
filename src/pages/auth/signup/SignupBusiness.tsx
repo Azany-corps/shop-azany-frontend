@@ -84,7 +84,7 @@ const SignupBusiness = () => {
       data.append("city", formData.city);
       data.append("poster_code", formData.poster_code);
       data.append("registration_number", formData.registration_number);
-      data.append("business_category", selectedValue);
+      // data.append("business_category", selectedValue);
       if (selectedFile) {
         data.append("document", selectedFile);
       }
@@ -298,17 +298,17 @@ const SignupBusiness = () => {
                 </div>
               </div>
               <div className="w-3/2">
-                <label htmlFor="document" className="font-normal text-[12px] text-gray-600">
+                {/* <label htmlFor="document" className="font-normal text-[12px] text-gray-600">
                   CATEGORY
-                </label>
-                <CategoryDropdown
+                </label> */}
+                {/* <CategoryDropdown
                   placeholder={isFarmer ? "Farm" : "Select a Category"}
                   selectedValue={selectedValue}
                   setSelectedValue={setSelectedValue}
                   onChange={handleCategoryChange}
                   styles={isFarmer ? "rounded-md bg-gray-300" : "rounded-md"}
                   disabled={isFarmer}
-                />
+                /> */}
               </div>
             </div>
             <div className="bg-white rounded-md py-8 px-4 flex items-center w-full">
