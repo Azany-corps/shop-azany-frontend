@@ -47,7 +47,7 @@ const ContainerSOA = () => {
         </div>
       </div>
       <div className="flex xs:flex-col items-center justify-center gap-10 xs:gap-4 bg-[#0A1F3B] text-white p-6 rounded-md">
-        <div className="flex flex-col gap-4 w-1/4">
+        <div className="flex flex-col gap-4 xs:w-full w-1/4">
           <Icon icon="la:shipping-fast" width="40" height="40" />
           <div className="flex-col flex gap-2">
             <p className="text-2xl">Shipping</p>
@@ -56,7 +56,7 @@ const ContainerSOA = () => {
             </p>
           </div>
         </div>
-        <div className="flex flex-col gap-4 w-1/4">
+        <div className="flex flex-col gap-4 xs:w-full w-1/4">
           <Icon icon="tdesign:chart-line" width="40" height="40" />
           <div className="flex-col flex gap-2">
             <p className="text-2xl">Market Trends</p>
@@ -65,7 +65,7 @@ const ContainerSOA = () => {
             </p>
           </div>
         </div>
-        <div className="flex flex-col gap-4 w-1/4">
+        <div className="flex flex-col gap-4 xs:w-full w-1/4">
           <Icon icon="cil:badge" width="40" height="40" />
           <div className="flex-col flex gap-2">
             <p className="text-2xl">Your Brand</p>
@@ -74,7 +74,7 @@ const ContainerSOA = () => {
             </p>
           </div>
         </div>
-        <div className="flex flex-col gap-4 w-1/4">
+        <div className="flex flex-col gap-4 xs:w-full w-1/4">
           <Icon icon="uil:store" width="40" height="40" />
           <div className="flex-col flex gap-2">
             <p className="text-2xl">Dedicated Store Front</p>
