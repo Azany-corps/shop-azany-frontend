@@ -81,6 +81,7 @@ import Login from "./pages/CustomerProfile/Login";
 import Inbox from "./pages/CustomerProfile/Inbox";
 import Order from "./pages/CustomerProfile/Order";
 import Email from "./pages/email/Email";
+import AzanyFarmers from "./pages/landing/AzanyFarmers";
 
 function App() {
   return (
@@ -146,6 +147,9 @@ function App() {
           />
           <Route path="search" element={<Search />} />
           <Route path="plans" element={<Plans />} />
+        </Route>
+        <Route path="/sell-on-azany">
+        <Route path="farmers" element={<AzanyFarmers />} />
         </Route>
         <Route path="/auth">
           <Route index element={<AuthLogin />} />

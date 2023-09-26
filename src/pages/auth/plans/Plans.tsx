@@ -61,7 +61,7 @@ const Plans = () => {
       <ToastContainer />
       <div className="py-10 mx-auto w-[90%]">
         <div className="text-left ">
-          <img src="/images/azanylogofinal.png" alt="logo" className="xs:w-24" />
+          <img src="/images/azanylogofinal.png" alt="logo" className="w-20" />
         </div>
         <div className="flex flex-col gap-8">
           <div className="flex flex-col items-center justify-center gap-2">

@@ -89,7 +89,7 @@ const Home = () => {
       <BottomHeader style={"bg-[#1B7CFC] py-2 xs:hidden"} />
       <MobileHeader />
       <Header style={"bg-[#70ADFF] xs:hidden"} />
-      <Slider />
+      {/* <Slider /> */}
       {/* <Hero onCountryChange={handleCountryChange} /> */}
       <MobileHero onCountryChange={handleCountryChange} />
       <div className="w-full flex flex-row py-4 px-14 gap-10 bg-white xs:hidden">

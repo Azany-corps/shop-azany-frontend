@@ -45,18 +45,18 @@ const Header = ({ style }: HeaderProps) => {
       label: "Farmers",
       link: "/farmers",
     },
-    {
-      label: "Product orders",
-      link: "/manufacturers-profile/orders",
-    },
-    {
-      label: "Customer Service",
-      link: "/Customer Service",
-    },
-    {
-      label: "Payments",
-      link: "/manufacturers-profile/payment",
-    },
+    // {
+    //   label: "Product orders",
+    //   link: "/manufacturers-profile/orders",
+    // },
+    // {
+    //   label: "Customer Service",
+    //   link: "/Customer Service",
+    // },
+    // {
+    //   label: "Payments",
+    //   link: "/manufacturers-profile/payment",
+    // },
   ];
 
   const customerMenu = [
@@ -72,18 +72,18 @@ const Header = ({ style }: HeaderProps) => {
       label: "Farmers",
       link: "/farmers",
     },
-    {
-      label: "Buy Again",
-      link: "/buy-again",
-    },
-    {
-      label: "Customer Service",
-      link: "/Customer Service",
-    },
-    {
-      label: "Cards",
-      link: "/Cards",
-    },
+    // {
+    //   label: "Buy Again",
+    //   link: "/buy-again",
+    // },
+    // {
+    //   label: "Customer Service",
+    //   link: "/Customer Service",
+    // },
+    // {
+    //   label: "Cards",
+    //   link: "/Cards",
+    // },
   ];
   const [currentMenu, setCurrentMenu] = useState<Menu[]>([]);
 
@@ -102,7 +102,7 @@ const Header = ({ style }: HeaderProps) => {
     <>
       <div className={`${style}`}>
         <div className="w-[90%] flex mx-auto justify-between items-center">
-          <div className="flex justify-between items-center md:flex-[100%] flex-[50%] text-white font-medium md:font-normal md:text-[14px]">
+          <div className="flex gap-4 items-center md:flex-[100%] flex-[50%] text-white font-medium md:font-normal md:text-[14px]">
             <div className="xs:hidden">
               <IconButton onClick={handleOpenModal} className="xs:hidden">
                 <MenuIcon className="text-white" />
