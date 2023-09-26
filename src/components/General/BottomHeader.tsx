@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
+/* eslint-disable */
+import { useEffect, useState } from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import EditLocationIcon from "@mui/icons-material/EditLocation";
 import { Avatar } from "@mui/material";
@@ -8,7 +9,6 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import useAuthToken from "../../hooks/useAuthToken";
 import { CategoryModal } from "../Core/CategoryModal";
-import MenuIcon from "@mui/icons-material/Menu";
 import { IconButton } from "@mui/material";
 import { Icon } from "@iconify/react";
 
