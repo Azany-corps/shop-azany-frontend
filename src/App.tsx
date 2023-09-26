@@ -81,20 +81,28 @@ import Login from "./pages/CustomerProfile/Login";
 import Inbox from "./pages/CustomerProfile/Inbox";
 import Order from "./pages/CustomerProfile/Order";
 import Email from "./pages/email/Email";
+import ManufacturerHomePage from "./pages/landing/ManufacturerHomePage";
 
 function App() {
   return (
     <div className="">
       <ToastContainer />
       <Routes>
-        <Route path="*" element={ <Error
-                errorType="Page not found"
-                image="/images/notfound.svg"
-                message="Sorry, the page you are looking for doesn’t exist or has been moved."
-              />} />
+        <Route
+          path="*"
+          element={
+            <Error
+              errorType="Page not found"
+              image="/images/notfound.svg"
+              message="Sorry, the page you are looking for doesn’t exist or has been moved."
+            />
+          }
+        />
         <Route path="/">
           <Route index element={<Home />} />
-          <Route path="manufacturers" element={<Manufacturers />} />
+          {/* <Route path="manufacturers" element={<Manufacturers />} /> */}
+          <Route path="manufacturers" element={<ManufacturerHomePage />} />
+
           <Route path="email" element={<Email />} />
           <Route path="merchants" element={<Merchants />} />
           <Route

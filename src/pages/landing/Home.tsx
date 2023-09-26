@@ -46,8 +46,7 @@ const Home = () => {
   const [longitude, setLongitude] = useState("");
   const [latitude, setLatitude] = useState("");
   const handleCountryChange = (country: string) => {};
-  const center = { lat: -34.397, lng: 150.644 };
-  const zoom = 11;
+  const zoom = 12;
   useEffect(() => {
     axios
       .get("https://api.ipify.org?format=json")
