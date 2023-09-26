@@ -1,3 +1,4 @@
+/* eslint-disable react/style-prop-object */
 import React from "react";
 import ReturnTop from "../../components/CustomerProfile/ReturnTop";
 import BannerSOA from "../../components/General/sell-on-azany/BannerSOA";
