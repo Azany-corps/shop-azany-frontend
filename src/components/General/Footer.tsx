@@ -11,7 +11,7 @@ const Footer = ({ style }: FooterProps) => {
       <footer className={`${style}`}>
         <div className="mx-auto grid grid-cols-5 items-start">
           <div className="md:w-30 w-40">
-            <img src="/images/azanylogofinal.png" />
+            <img src="/images/azanylogofinal.png" alt="logo" className="bg-white p-2"/>
           </div>
           <div className="">
             <div className="text-left text-white">

@@ -57,7 +57,7 @@ const BottomHeader = ({ style, isFarmer }: BottomProps) => {
         <div className="w-[90%] mx-auto flex justify-between items-center ">
           <CategoryModal show={showModal} onClose={handleCloseModal} />
           <Link to="/">
-            <div className="md:w-30 w-24">
+            <div className="md:w-30 w-24 bg-white p-2">
               <img src="/images/azanylogofinal.png" className="md:w-30 w-24" alt="azanylogo" />
             </div>
           </Link>
