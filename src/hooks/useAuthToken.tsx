@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const useAuthToken = (): [string | null, (token: string) => void, (token: string) => void, () => void] => {
   const [authToken, setAuthToken] = useState(() => localStorage.getItem("token"));
@@ -26,6 +26,7 @@ const useAuthToken = (): [string | null, (token: string) => void, (token: string
       !window.location.pathname.startsWith("/products") &&
       window.location.pathname !== "/" &&
       !window.location.pathname.startsWith("/farmers") &&
+      !window.location.pathname.startsWith("/sell-on-azany") &&
       window.location.pathname !== "/manufacturers" &&
       !window.location.pathname.startsWith("/categories") && window.location.pathname !== "/merchants"
     ) {
