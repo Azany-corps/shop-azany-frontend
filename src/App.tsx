@@ -82,17 +82,23 @@ import Inbox from "./pages/CustomerProfile/Inbox";
 import Order from "./pages/CustomerProfile/Order";
 import Email from "./pages/email/Email";
 import AzanyFarmers from "./pages/landing/AzanyFarmers";
+import ManufacturerHomePage from "./pages/landing/ManufacturerHomePage";
 
 function App() {
   return (
     <div className="">
       <ToastContainer />
       <Routes>
-        <Route path="*" element={ <Error
-                errorType="Page not found"
-                image="/images/notfound.svg"
-                message="Sorry, the page you are looking for doesn’t exist or has been moved."
-              />} />
+        <Route
+          path="*"
+          element={
+            <Error
+              errorType="Page not found"
+              image="/images/notfound.svg"
+              message="Sorry, the page you are looking for doesn’t exist or has been moved."
+            />
+          }
+        />
         <Route path="/">
           <Route index element={<Home />} />
           <Route path="manufacturers" element={<Manufacturers />} />
@@ -149,7 +155,8 @@ function App() {
           <Route path="plans" element={<Plans />} />
         </Route>
         <Route path="/sell-on-azany">
-        <Route path="farmers" element={<AzanyFarmers />} />
+          <Route path="farmers" element={<AzanyFarmers />} />
+          <Route path="manufacturers-merchant" element={< ManufacturerHomePage/>} />
         </Route>
         <Route path="/auth">
           <Route index element={<AuthLogin />} />
