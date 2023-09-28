@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import ReturnTop from "../../../CustomerProfile/ReturnTop";
+// import ReturnTop from "../../../CustomerProfile/ReturnTop";
 import Footer from "../../Footer";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import TopHeader from "../../TopHeader";
@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import CloseAccountModal from "../../../Core/CloseAccountModal";
 import MobileHeader from "../../MobileHeader";
 import MobileFooter from "../../MobileFooter";
-import Slider from "../../landing/Slider";
+// import Slider from "../../landing/Slider";
 
 type each = {
   image: string;
@@ -24,7 +24,6 @@ const ManufacturersProfileLayout = ({
 }: {
   children: React.ReactNode | React.ReactNode[];
 }) => {
-  const [list, setList] = useState([]);
   const [active, setActive] = useState<each>();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -117,7 +116,7 @@ const ManufacturersProfileLayout = ({
       </div>
       <div className="bg-white py-2 xs:hidden mb-6">
         <div className="py-2">
-          <Slider />
+          {/* <Slider /> */}
         </div>
       </div>
 

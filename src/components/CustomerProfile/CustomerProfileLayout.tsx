@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ReturnTop from "./ReturnTop";
+// import ReturnTop from "./ReturnTop";
 import { Grid } from "@mui/material";
 import "./index.css";
 import Footer from "../General/Footer";
@@ -11,9 +11,8 @@ import Header from "../General/Header";
 import MobileHeader from "../General/MobileHeader";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import MobileFooter from "../General/MobileFooter";
-import Slider from "../General/landing/Slider";
+// import Slider from "../General/landing/Slider";
 
-type Props = {};
 
 type each = {
   image: string;
@@ -26,21 +25,21 @@ const CustomerProfileLayout = ({
 }: {
   children: React.ReactNode | React.ReactNode[];
 }) => {
-const [list, setList] = useState([]);
+// const [list, setList] = useState([]);
 const [active, setActive] = useState<each>();
-const [isModalOpen, setIsModalOpen] = useState(false);
+// const [isModalOpen, setIsModalOpen] = useState(false);
 
 const [isHidden, setIsHidden] = useState(false);
 
 const navigate = useNavigate();
 
-const openModal = () => {
-  setIsModalOpen(true);
-};
+// const openModal = () => {
+//   setIsModalOpen(true);
+// };
 
-const closeModal = () => {
-  setIsModalOpen(false);
-};
+// const closeModal = () => {
+//   setIsModalOpen(false);
+// };
 
 useEffect(() => {
   if (window.location.pathname === "/customer-profile") {
@@ -113,7 +112,7 @@ useEffect(() => {
       </div>
       <div className="bg-white py-2 xs:hidden">
         <div className="py-2">
-          <Slider />
+          {/* <Slider /> */}
         </div>
       </div>
       <div className="py-4 w-[90%] mx-auto xs:w-full xs:py-0">
