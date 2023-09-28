@@ -12,6 +12,7 @@ const AuthLogin = () => {
   const [isCustomer, setIsCustomer] = useState(true);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState(''); 
   const [formData, setFormData] = useState<{ email: string; password: string }>({
     email: "",
     password: "",
@@ -117,6 +118,8 @@ const AuthLogin = () => {
         });
         navigate("/customer-profile");
       } else {
+        // Set the error message in the state variable
+        setErrorMessage(response.message);
         toast.error(response.message, {
           position: "top-center",
           autoClose: 3000,
@@ -130,7 +133,8 @@ const AuthLogin = () => {
     } catch (err) {
       console.log(err);
       setLoading(false);
-      toast.error("Failed to log in", {
+      // Set the error message in the state variable
+      toast.error(errorMessage, {  // Use the state variable here
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
@@ -140,7 +144,7 @@ const AuthLogin = () => {
         progress: undefined,
       });
     }
-  };
+  };;
 
   return (
     <div className="bg-[#F5F5F5] xs:h-screen ">

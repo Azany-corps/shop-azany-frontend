@@ -68,7 +68,7 @@ import WatchList from "./pages/CustomerProfile/WatchList";
 import Merchants from "./pages/merchants/Merchants";
 import Error from "./pages/errors/Error";
 import Report from "./pages/Report/Report";
-import DocPagesLayout from "./components/Documents/Layout";
+// import DocPagesLayout from "./components/Documents/Layout";
 import Warehouse from "./components/Documents/Warehouse";
 import Logistics from "./components/Documents/Logistics";
 import CancelledOrder from "./components/Documents/CancelledOrder";
