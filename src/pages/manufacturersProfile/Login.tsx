@@ -85,7 +85,7 @@ const MLogin = () => {
   return (
     <div className="bg-[#F5F5F5] flex flex-col justify-between min-h-screen">
       <ManufacturersProfileLayout>
-        <form className="p-8 xs:p-2 smm:bg-[#F5F5F5] bg-white w-full rounded-lg flex-grow" onSubmit={handleSubmit}>
+        <form className="p-8 xs:p-2 bg-white w-full rounded-lg flex-grow" onSubmit={handleSubmit}>
           <div className="w-full ">
             <h1 className="text-[40px] font-[500] xs:text-[22px]">Login & Security</h1>
             <div className="py-5 w-full">
