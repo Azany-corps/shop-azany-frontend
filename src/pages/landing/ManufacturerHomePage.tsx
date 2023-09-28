@@ -20,7 +20,7 @@ const ManufacturerHomePage = () => {
       <Header style={"bg-[#70ADFF] xs:hidden"} />
       <MobileHeader />
       <div className="flex flex-col gap-20">
-        <div className="flex items-center justify-between pt-6  bg-[#DBEAFF] pl-6 mt-6 w-[90%] rounded-2xl mx-auto">
+        <div className="flex flex-row items-center justify-between pt-6 mdm:flex-col  bg-[#DBEAFF] pl-6 mt-6 w-[90%] rounded-2xl mx-auto">
           <div className="right-text w-full  mr-3 max-w-[450px]">
             <h1 className="text-[#0A1F3B] text-5xl font-bold mb-4">
               Start selling as a Manufacturer with Azany
@@ -77,7 +77,7 @@ const ManufacturerHomePage = () => {
         </div>
         <div className="flex w-[90%] items-center mx-auto justify-between">
           <div className="w-full flex flex-col items-center">
-            <p className="text-slate-900 text-5xl font-bold font-['Inter']">
+            <p className="text-slate-900 text-center text-5xl font-bold font-['Inter']">
               Why Choose Azany?
             </p>
             <p className="text-center text-slate-900 text-2xl font-normal font-['Inter'] leading-loose">
@@ -86,8 +86,8 @@ const ManufacturerHomePage = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-11 gap-6 w-[90%] items-center mx-auto justify-between">
-          <div className="col-span-3 flex-col flex gap-5">
+        <div className="grid grid-cols-11 mdm:grid-cols-12 gap-6 w-[90%] items-center mx-auto justify-between">
+          <div className="col-span-12 mdm:col-span-4 flex-col flex gap-5">
             <div
               className="img w-full h-[325px] rounded-lg bg-cover"
               style={{ backgroundImage: "url(/images/branch-creation.jpeg)" }}
@@ -95,12 +95,12 @@ const ManufacturerHomePage = () => {
             <p className="text-black text-3xl font-medium font-['Inter']">
               Branch Creation
             </p>
-            <p className="w-80 text-black text-base font-normal font-['Inter'] leading-loose">
+            <p className=" text-black text-base font-normal font-['Inter'] leading-loose">
               Lorem ipsum dolor sit amet consec. Lorem ipsum dolor sit amet
               consectetur.Lore ipsum dolor sit amet consectetur.Lorem
             </p>
           </div>
-          <div className=" col-span-5 flex-col flex  items-center gap-5">
+          <div className="col-span-12 mdm:col-span-4 flex-col flex gap-5">
             <div
               className="img  w-full h-[377px] rounded-lg bg-cover"
               style={{ backgroundImage: "url(/images/logistics.jpeg)" }}
@@ -111,13 +111,10 @@ const ManufacturerHomePage = () => {
             <p className="text-black text-base font-normal font-['Inter'] leading-loose">
               Lorem ipsum dolor sit amet consec. Lorem ipsum dolor sit amet
               consectetur.Lore ipsum dolor sit amet consectetur.Lorem ipsum
-              dolor sit amet consectetur.Lorem ipsum dolor sit amet consectetur.
-              Lorem ipsum dolor sit amet consec. Lorem ipsum
-              dolorconsectetur.Lore ipsum dolor sit amet consectetur.Lorem ipsum
-              dolor sit amet consectetur.Lorem ipsum dolor sit
+              dolor sit amet consectetur.
             </p>
           </div>
-          <div className="col-span-3 flex-col flex  items-center gap-5">
+          <div className="col-span-12 mdm:col-span-4 flex-col flex gap-5">
             <div
               className="img w-full h-[325px] rounded-lg bg-cover"
               style={{ backgroundImage: "url(/images/shipping.jpeg)" }}
@@ -125,15 +122,15 @@ const ManufacturerHomePage = () => {
             <p className="text-black text-3xl font-medium font-['Inter']">
               Branch Creation
             </p>
-            <p className="w-80 text-black text-base font-normal font-['Inter'] leading-loose">
+            <p className=" text-black text-base font-normal font-['Inter'] leading-loose">
               Lorem ipsum dolor sit amet consec. Lorem ipsum dolor sit amet
               consectetur.Lore ipsum dolor sit amet consectetur.Lorem
             </p>
           </div>
         </div>
         <div className="flex w-[90%] items-center mx-auto justify-between">
-          <div className="w-full flex-1 pl-16 pr-14 py-9 bg-slate-900 rounded-2xl justify-end items-end gap-12 inline-flex">
-            <div className="flex  flex-col gap-4 relative">
+          <div className="w-full flex-wrap flex-1 py-9 bg-slate-900 rounded-2xl justify-between items-center gap-12 px-6 flex">
+            <div className="flex flex-1 flex-col gap-4 relative">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="46"
@@ -155,7 +152,7 @@ const ManufacturerHomePage = () => {
                 consectetur.Lore ipsum dolor sit amet consectetur.Lorem
               </div>
             </div>
-            <div className="flex  flex-col gap-4 relative">
+            <div className="flex flex-1 flex-col gap-4 relative">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="46"
@@ -194,7 +191,7 @@ const ManufacturerHomePage = () => {
                 consectetur.Lore ipsum dolor sit amet consectetur.Lorem
               </div>
             </div>
-            <div className="flex  flex-col gap-4 relative">
+            <div className="flex flex-1 flex-col gap-4 relative">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="69"
@@ -234,7 +231,7 @@ const ManufacturerHomePage = () => {
                 consectetur.Lore ipsum dolor sit amet consectetur.Lorem
               </div>
             </div>
-            <div className="flex  flex-col gap-4 relative">
+            <div className="flex flex-1 flex-col gap-4 relative">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="46"
@@ -267,7 +264,7 @@ const ManufacturerHomePage = () => {
           </div>
         </div>
         <div className="flex w-[90%] mx-auto bg-[#DBEAFF] py-6">
-          <div className="w-full flex flex-col items-center gap-6">
+          <div className="w-full flex flex-col text-center items-center gap-6">
             <div>
               <p className="text-slate-900 text-5xl font-bold font-['Inter']">
                 Why Choose Azany?
@@ -279,7 +276,7 @@ const ManufacturerHomePage = () => {
                 All paid plans start with a 14 day trial period.
               </small>
             </div>
-            <div className="flex flex-row gap-8 justify-center xs:flex-col mx-auto">
+            <div className="flex flex-wrap flex-row gap-8 justify-center xs:flex-col mx-auto">
               <PlansCard
                 price={"$44"}
                 module={"Basic Plan"}
