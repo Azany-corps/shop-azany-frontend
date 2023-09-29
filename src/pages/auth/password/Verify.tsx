@@ -26,7 +26,7 @@ const AuthVerify = () => {
     event.preventDefault();
     setLoading(true);
     try {
-      const customer_id = localStorage.getItem("customerId");  
+      const customer_id = localStorage.getItem("customer_id");
       const otpData = new FormData();
       otpData.append("customer_id", customer_id);
       otpData.append("code", value);
@@ -48,7 +48,7 @@ const AuthVerify = () => {
     } catch (error: unknown) {
       console.log(error);
       setLoading(false);
-      toast.error((error as Error).message || "Something went wrong", {
+      toast.error((error as Error).message || "Error: unable to reset password", {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
@@ -59,8 +59,9 @@ const AuthVerify = () => {
       });
     }
   };
-  
-  
+
+  // Retrieve email from local storage
+  const userEmail = localStorage.getItem("eMail");
 
   return (
     <div className="bg-[#F5F5F5]">
@@ -76,8 +77,9 @@ const AuthVerify = () => {
             </div>
             <div className="flex flex-col items-center justify-center">
               <p className="text-[40px] font-[500] xs:text-[30px]">Check your email</p>
+              {/* Replace the placeholder email with the retrieved email */}
               <p className="text-[#515151]">
-                We sent a password reset link to <span className="font-medium">Simonbill89@yahoo.com</span>
+                We sent a password reset link to <span className="font-medium">{userEmail}</span>
               </p>
             </div>
             <div className="flex gap-[8px] justify-center">

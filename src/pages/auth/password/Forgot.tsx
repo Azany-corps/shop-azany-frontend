@@ -33,7 +33,9 @@ const AuthForgot = () => {
       const response = await callAPI("auth/customer_reset_password_email_entry", "POST", data, {
         "Content-Type": "multipart/form-data",
       });
+      console.log(response.data);
       localStorage.setItem("customer_id", response.data.user[0].id) 
+      localStorage.setItem("eMail", response.data.user[0].email);
       console.log(localStorage.getItem("customer_id"));
       toast.success("OTP has been sent to your email", {
         position: "top-center",
@@ -45,10 +47,10 @@ const AuthForgot = () => {
         progress: undefined,
       });
       navigate("/auth/verify-email");
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       setLoading(false);
-      toast.error("Unable to reset password", {
+      toast.error((error as Error).message, {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,

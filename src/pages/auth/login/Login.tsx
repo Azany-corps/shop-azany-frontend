@@ -75,10 +75,10 @@ const AuthLogin = () => {
           progress: undefined,
         });
       }
-    } catch (err) {
-      console.log(err);
+    } catch (error: unknown) {
+      console.log(error);
       setLoading(false);
-      toast.error("Failed to log in", {
+      toast.error((error as Error).message || "Error: unable to login", {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
@@ -130,11 +130,11 @@ const AuthLogin = () => {
           progress: undefined,
         });
       }
-    } catch (err) {
-      console.log(err);
+    } catch (error: unknown) {
+      console.log(Error);
       setLoading(false);
       // Set the error message in the state variable
-      toast.error(errorMessage, {  // Use the state variable here
+      toast.error((error as Error).message || "Error: unable to login", {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,

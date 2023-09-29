@@ -4,11 +4,9 @@ import Switches from "../../components/Core/Switches";
 import callAPI from "../../api/callApi";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import { useNavigate } from "react-router-dom";
 
 const MLogin = () => {
   const [loading, setLoading] = useState(false);
-  // const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
