@@ -1,6 +1,6 @@
 import ManufacturersProfileLayout from "../../components/General/manufacturers/profile/Layout";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import FormData from "form-data";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,10 +9,8 @@ import { Icon } from "@iconify/react";
 
 const MBusiness = () => {
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [selectedValue, setSelectedValue] = useState("");
-  const [accountType, setAccountType] = useState("");
 
   const handleFileChange = () => {
     const input = document.createElement("input");
@@ -35,7 +33,6 @@ const MBusiness = () => {
       try {
         const response = await callAPI(`auth/fetch_profile_info`, "GET", null, headers);
         setFormData(response?.data?.values[0]?.busisness_details[0]);
-        setAccountType(response?.data?.values[0]?.profile[0]?.account_type);
         console.log(response?.data?.values[0]?.profile[0]);
       } catch (error) {
         console.error(error);
@@ -43,8 +40,6 @@ const MBusiness = () => {
     };
     fetchStoreData();
   }, []);
-
-  const isFarmer = accountType === "Farmer";
 
   const handleChange = (event: any) => {
     const { name, value } = event.target;
@@ -91,7 +86,7 @@ const MBusiness = () => {
         throw new Error("Token not found in local storage");
       }
 
-      const response = await callAPI("auth/create_business_details", "POST", data, {
+      const response = await callAPI("auth/update_profile_info", "PUT", data, {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       });
@@ -105,7 +100,7 @@ const MBusiness = () => {
         draggable: true,
         progress: undefined,
       });
-      navigate("/plans");
+      window.location.reload();
     } catch (err) {
       console.log(err);
       setLoading(false);
@@ -120,14 +115,6 @@ const MBusiness = () => {
       });
     }
   };
-
-
-  useEffect(() => {
-    if (isFarmer) {
-      setSelectedValue("Farm");
-    }
-  }, [isFarmer]);
-  console.log(selectedValue);
 
   return (
     <div className="bg-[#F5F5F5]">
