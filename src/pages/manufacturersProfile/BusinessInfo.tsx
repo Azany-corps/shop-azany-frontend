@@ -65,20 +65,20 @@ const MBusiness = () => {
     event.preventDefault();
     setLoading(true);
     try {
-      let data = new FormData();
-      data.append("first_name", formData.first_name);
-      data.append("last_name", formData.last_name);
-      data.append("business_name", formData.business_name);
-      data.append("email", formData.email);
-      data.append("phone", formData.phone);
-      data.append("address", formData.address);
-      data.append("country", formData.country);
-      data.append("state", formData.state);
-      data.append("city", formData.city);
-      data.append("zip_code", formData.zip_code);
-      data.append("registration_number", formData.registration_number);
+      const formDataToSend = new URLSearchParams();
+      formDataToSend.append("first_name", formData.first_name);
+      formDataToSend.append("last_name", formData.last_name);
+      formDataToSend.append("business_name", formData.business_name);
+      formDataToSend.append("email", formData.email);
+      formDataToSend.append("phone", formData.phone);
+      formDataToSend.append("address", formData.address);
+      formDataToSend.append("country", formData.country);
+      formDataToSend.append("state", formData.state);
+      formDataToSend.append("city", formData.city);
+      formDataToSend.append("poster_code", formData.zip_code);
+      formDataToSend.append("registration_number", formData.registration_number);
       if (selectedFile) {
-        data.append("document_url", selectedFile);
+        formDataToSend.append("document_url", selectedFile.name);
       }
 
       const token = localStorage.getItem("token");
@@ -86,8 +86,8 @@ const MBusiness = () => {
         throw new Error("Token not found in local storage");
       }
 
-      const response = await callAPI("auth/update_profile_info", "PUT", data, {
-        "Content-Type": "multipart/form-data",
+      const response = await callAPI("auth/update_profile_info", "PUT", formDataToSend.toString(), {
+        "Content-Type": "application/x-www-form-urlencoded",
         Authorization: `Bearer ${token}`,
       });
       console.log(response);
