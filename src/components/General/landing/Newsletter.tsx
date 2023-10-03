@@ -1,4 +1,7 @@
 import React from "react";
+import InstagramIcon from '@mui/icons-material/Instagram';
+import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
+import { IconButton } from "@mui/material";
 
 interface NewsletterProps {
   style: string;
@@ -18,7 +21,7 @@ const Newsletter = ({ style }: NewsletterProps) => {
           </div>
         </div>
 
-        <div className="flex flex-row text-center">
+        <div className="flex flex-row md:flex-col text-center space-x-10">
           <div className="justify-end text-left ">
             <div className="space-y-3 cursor-pointer text-left">
               <h1 className="text-xl font-semibold text-white capitalize">
@@ -40,7 +43,18 @@ const Newsletter = ({ style }: NewsletterProps) => {
           </div>
 
           <div className="bottom-0 text-right items-end">
-            <p>Logo</p>
+            <IconButton>
+                <FacebookRoundedIcon className="text-white" />
+            </IconButton>
+            <IconButton>
+                <InstagramIcon className="text-white" />
+            </IconButton>
+            <IconButton>
+                <InstagramIcon className="text-white" />
+            </IconButton>
+            <IconButton>
+                <InstagramIcon className="text-white" />
+            </IconButton>
           </div>
         </div>
       </div>
