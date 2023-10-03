@@ -19,6 +19,8 @@ import { Status, Wrapper } from "@googlemaps/react-wrapper";
 import axios from "axios";
 import { count } from "console";
 
+import Newsletter from "../../components/General/landing/Newsletter";
+
 function MyMapComponent({
   center,
   zoom,
@@ -85,7 +87,7 @@ const Home = () => {
   };
   return (
     <div className="bg-[#F5F5F5] xs:overflow-x-hidden">
-      <TopHeader />
+      {/*<TopHeader />*/}
       <BottomHeader style={"bg-[#1B7CFC] py-2 xs:hidden"} />
       <MobileHeader />
       <Header style={"bg-[#70ADFF] xs:hidden"} />
@@ -192,6 +194,7 @@ const Home = () => {
         title={"Exclusive Deals"}
         country={country}
       />
+      <Newsletter style={"bg-[#70ADFF] py-5 px-10 xs:hidden"} />
       <Footer style={"bg-[#1B7CFC] py-10 px-10 xs:hidden"} />
       <MobileFooter
         style={
