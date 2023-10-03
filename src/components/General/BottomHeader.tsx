@@ -54,7 +54,7 @@ const BottomHeader = ({ style, isFarmer }: BottomProps) => {
   return (
     <>
       <div className={`${style}`}>
-        <div className="w-[90%] mx-auto flex justify-between items-center ">
+        <div className="w-[90%] mx-auto flex justify-between items-center space-x-10">
           <CategoryModal show={showModal} onClose={handleCloseModal} />
           <Link to="/">
             <div className="md:w-30 w-24 bg-white p-2">
@@ -63,26 +63,26 @@ const BottomHeader = ({ style, isFarmer }: BottomProps) => {
           </Link>
           <div className="flex justify-start items-center space-x-5 md:space-x-0 flex-[80%] ">
             <div className="flex flex-col items-center">
-              <p className="text-white">Shopping from</p>
+              <p className="text-white font-light">Shopping from</p>
               <div className="flex items-center space-x-2">
                 <IconButton>
                   <EditLocationIcon className="text-white" />
                 </IconButton>
-                <p className="font-bold text-white ">Kenya</p>
+                <p className="font-semibold text-white ">Kenya</p>
                 <IconButton>
                   <ArrowDropDownIcon className="text-white" />
                 </IconButton>
               </div>
             </div>
-            <div className="flex space-x-2 items-center ">
-              <input className="py-3 px-8 w-full rounded-[10px] " placeholder="Search Azany" />
-              <div className="bg-white py-[4px] px-6 rounded-[10px] ">
+            <div className="flex items-center ">
+              <input className="py-3 px-8 w-[full] rounded-l-[10px] outline-none" placeholder="Search Azany" />
+              <div className="bg-white py-[4px] px-6 rounded-r-[10px] ">
                 <IconButton>
                   <SearchIcon className="text-[#E51B48]" />
                 </IconButton>
               </div>
-              <div className="flex items-center space-x-2 md:hidden">
-                <p className="text-white">EN</p>
+              <div className="flex items-center space-x-0 md:hidden">
+                <p className="text-white px-5">EN</p>
                 <img src="/images/usa.png" />
               </div>
             </div>

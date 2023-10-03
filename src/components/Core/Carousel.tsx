@@ -13,7 +13,7 @@ const images = [
 
 const Carousel: FC = () => {
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
@@ -27,13 +27,26 @@ const Carousel: FC = () => {
   function NextArrow(props: any) {
     const { className, onClick } = props;
     return (
-      <div
-        className={`${className} absolute right-0 top-1/2 transform -translate-y-1/2 -translate-x-1/2 bg-white bg-opacity-50 px-2 py-1 rounded-lg cursor-pointer hover:bg-opacity-100 transition-all duration-300`}
-        onClick={onClick}
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 stroke-current text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-        </svg>
+      <div>
+        <div
+          className={`${className} absolute right-0 top-1/2 transform -translate-y-1/2 -translate-x-1/2 bg-white bg-opacity-50 px-2 py-1 rounded-lg cursor-pointer hover:bg-opacity-100 transition-all duration-300`}
+          onClick={onClick}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 stroke-current text-black"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </div>
       </div>
     );
   }
@@ -45,8 +58,19 @@ const Carousel: FC = () => {
         className={`${className} absolute left-0 top-1/2 transform -translate-y-1/2 translate-x-1/2 bg-white bg-opacity-50 px-2 py-1 rounded-lg cursor-pointer hover:bg-opacity-100 transition-all duration-300`}
         onClick={onClick}
       >
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 stroke-current text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6 stroke-current text-black"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M15 19l-7-7 7-7"
+          />
         </svg>
       </div>
     );
@@ -56,7 +80,11 @@ const Carousel: FC = () => {
     <Slider {...settings}>
       {images.map((image) => (
         <div key={image.src}>
-          <img src={image.src} alt={image.alt} className="object-cover rounded-md" />
+          <img
+            src={image.src}
+            alt={image.alt}
+            className="object-cover rounded-md"
+          />
         </div>
       ))}
     </Slider>
