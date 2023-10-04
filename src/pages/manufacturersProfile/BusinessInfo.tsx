@@ -100,7 +100,6 @@ const MBusiness = () => {
         draggable: true,
         progress: undefined,
       });
-      window.location.reload();
     } catch (err) {
       console.log(err);
       setLoading(false);
