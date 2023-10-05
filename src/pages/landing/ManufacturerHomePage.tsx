@@ -20,7 +20,7 @@ const ManufacturerHomePage = () => {
       <Header style={"bg-[#70ADFF] xs:hidden"} />
       <MobileHeader />
       <div className="flex flex-col gap-20">
-        <div className="flex flex-row items-center justify-between pt-6 mdm:flex-col  bg-[#DBEAFF] pl-6 mt-6 w-[90%] rounded-2xl mx-auto">
+        <div className="flex flex-row items-center justify-between pt-6 md:flex-col  bg-[#DBEAFF] pl-6 mt-6 w-[90%] rounded-2xl mx-auto">
           <div className="right-text w-full  mr-3 max-w-[450px]">
             <h1 className="text-[#0A1F3B] text-5xl font-bold mb-4">
               Start selling as a Manufacturer with Azany

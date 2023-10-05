@@ -45,7 +45,7 @@ const CategoryModal: React.FC<CategoryModalProps> = (props) => {
         setSubCategories(subCategoriesStrings);
         setSelectedCategory(category);
       }
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       console.error(error);
     }
