@@ -405,7 +405,7 @@ const SignupSeller = () => {
         </div>
         <div className="relative xl:w-3/4">
           <img src="/images/signupbanner.jpg" alt="" className="xs:max-h-20 sm:max-h-40 h-screen w-full md:max-h-40 object-cover" />
-          <div className="absolute top-0 left-0 w-full h-full bg-[#1B7CFC] opacity-70 flex justify-center items-center">
+          <div className="absolute top-0 left-0 w-full h-full bg-[#44444C] opacity-70 flex justify-center items-center">
             <span className="text-white text-4xl text-[86px] md:text-[60px] xs:text-[40px] font-bold">AZANY</span>
           </div>
           <Link to="/" className="absolute top-4 left-4">
