@@ -3,6 +3,7 @@ import Buy from "../../components/CustomerProfile/Buy";
 import CancelledOrder from "../../components/CustomerProfile/CancelledOrder";
 import CustomerProfileLayout from "../../components/CustomerProfile/CustomerProfileLayout";
 import OrderItem from "../../components/CustomerProfile/Order";
+import BsSearch from "react-icons/bs";
 
 const Order = () => {
   const [order, setOrder] = useState(true);
@@ -38,6 +39,12 @@ const Order = () => {
           <div className="w-full">
             <div className="bg-white smm:ml-0 -ml-4 smm:w-full w-[calc(100%+32px)] smm:px-0 px-2">
               <h1 className="text-[40px] xs:text-[20px] font-[500]">Orders</h1>
+              {/*<div className="border-[1px] rounded-[10px] px-[13px] border-black">
+                <input
+                  placeholder="Product name or order number"
+                  className="xs:w-full py-3 w-4/5 text-[20px] font-[400] text-[#515151]"
+                />
+              </div>*/}
               {!searchBarVisible && (
                 <div className="flex items-center">
                   <div className="py-6 w-full">

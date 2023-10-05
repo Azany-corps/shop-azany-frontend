@@ -21,21 +21,35 @@ const WatchList = (props: Props) => {
   return (
     <>
       <CustomerProfileLayout>
-        <div className="p-8 w-full xs:p-4">
+        <div className="pl-8 w-full xs:p-4 pr-40 md:pr-0 sm:pr-0">
           <div className="py-2">
             <div className="py-2 px-3">
-              <h2 className="text-[40px] xs:text-[26px] font-[500]">Watchlist</h2>
+              <h1 className="text-[36px] font-[500] xs:text-[22px]">
+                Recently viewed
+              </h1>
+              <p className="text-[18px]">
+                Lorem ipsum dolor sit amet consectetur. Et sapien et a mauris
+                nam adipiscing. onsect..
+              </p>
               <div className="py-4 mt-2">
                 <div className="flex items-center space-x-6">
                   <h2
                     onClick={() => handleWatch()}
-                    className={watchlist ? "font-bold cursor-pointer border-b-4 border-[#E51B48]" : "text-[#515151] cursor-pointer"}
+                    className={
+                      watchlist
+                        ? "font-bold cursor-pointer border-b-4 border-[#E51B48]"
+                        : "text-[#515151] cursor-pointer"
+                    }
                   >
                     Watchlist
                   </h2>
                   <h2
                     onClick={() => handleRecent()}
-                    className={recent ? "font-bold cursor-pointer border-b-4 border-[#E51B48]" : "text-[#515151] cursor-pointer"}
+                    className={
+                      recent
+                        ? "font-bold cursor-pointer border-b-4 border-[#E51B48]"
+                        : "text-[#515151] cursor-pointer"
+                    }
                   >
                     Recent Viewed
                   </h2>

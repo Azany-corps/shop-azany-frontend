@@ -6,8 +6,8 @@ import Message from "../../components/CustomerProfile/Inbox/Message";
 type Props = {};
 
 const Inbox = (props: Props) => {
-  const [message, setMessage] = useState(true);
-  const [buyers, setBuyers] = useState(false);
+  const [message, setMessage] = useState(false);
+  const [buyers, setBuyers] = useState(true);
 
   const handleMessage = () => {
     setMessage(true);
@@ -23,7 +23,11 @@ const Inbox = (props: Props) => {
         <div className="py-2">
           <div className="py-2 bg-white mb-3 px-3">
             <h2 className="text-[40px] xs:text-[26px] font-[500]">Inbox</h2>
-            <div className="smm:py-4 py-1 mt-2">
+            <p className="text-[18px]">
+              Lorem ipsum dolor sit amet consectetur. Et sapien et a mauris nam
+              adipiscing. onsect..
+            </p>
+            {/*<div className="smm:py-4 py-1 mt-2">
               <div className="flex items-center space-x-6">
                 <h2
                   onClick={() => handleMessage()}
@@ -46,10 +50,13 @@ const Inbox = (props: Props) => {
                   Buyer/Seller Messages
                 </h2>
               </div>
-            </div>
+            </div>*/}
           </div>
           {message && (
             <div className="space-y-3">
+              <Message />
+              <Message />
+              <Message />
               <Message />
               <Message />
               <Message />
@@ -57,6 +64,8 @@ const Inbox = (props: Props) => {
           )}
           {buyers && (
             <div className="space-y-3">
+              <Buyers />
+              <Buyers />
               <Buyers />
               <Buyers />
               <Buyers />

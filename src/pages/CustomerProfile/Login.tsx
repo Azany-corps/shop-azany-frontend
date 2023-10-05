@@ -7,53 +7,94 @@ const Login = (props: Props) => {
   return (
     <div className="bg-[#F5F5F5] flex flex-col justify-between min-h-screen">
       <CustomerProfileLayout>
-        <div className="p-8 xs:p-2 smm:bg-[#F5F5F5] bg-white w-full rounded-lg flex-grow">
+        <div className="px-10 py-7 xs:p-2 smm:bg-[#F5F5F5] !bg-white border w-full !rounded-lg flex-grow h-[1005px]">
           <div className="w-full">
-            <h1 className="text-[40px] font-[500] xs:text-[22px]">
-              Login & Security
+            <h1 className="text-[36px] font-[500] xs:text-[22px]">
+              Personal Details
             </h1>
-            <div className="py-5 w-full">
-              <div className="xs:flex xs:flex-col grid grid-cols-2 gap-8 items-start w-full">
-                <div className="w-full relative flex flex-col items-start">
-                  <label>FIRST NAME</label>
-                  <input
-                    placeholder="John"
-                    className="px-4 xs:w-full py-3 w-4/5 rounded-md border border-gray-300"
-                  />
-                  {/* <p className="absolute right-32 top-9 cursor-pointer text-[#E51B48]">Edit</p> */}
+            <p className="text-[18px]">
+              Update your name, email, and account password at any time.
+            </p>
+
+            <div className="py-10 w-full">
+              <div className="xs:flex xs:flex-col flex flex-col items-start w-full">
+                <div className="w-[50%] sm:w-full xs:w-full md:w-full relative flex flex-col items-start">
+                  <div className="">
+                    <label className="text-[12px]">FIRST NAME</label>
+                    <input
+                      placeholder="John"
+                      className="xs:w-full py-3 w-4/5 text-[20px] font-[400]"
+                    />
+                  </div>
+                  <div>
+                    <p className="absolute right-32 top-9 cursor-pointer text-[#E51B48]">
+                      Edit
+                    </p>
+                  </div>
                 </div>
-                <div className="w-full  flex flex-col relative items-start">
-                  <label>LAST NAME</label>
-                  <input
-                    placeholder="Clinton"
-                    className="px-4 xs:w-full w-4/5 py-3 rounded-md border border-gray-300"
-                  />
-                  {/* <p className="absolute right-32 top-9 cursor-pointer text-[#E51B48]">Edit</p> */}
+                <div className="w-[50%] sm:w-full xs:w-full md:w-full relative flex flex-col items-start">
+                  <div>
+                    <label className="text-[12px]">LAST NAME</label>
+                    <input
+                      placeholder="Clinton"
+                      className="xs:w-full py-3 w-4/5 text-[20px] font-[400]"
+                    />
+                  </div>
+                  <div>
+                    <p className="absolute right-32 top-9 cursor-pointer text-[#E51B48]">
+                      Edit
+                    </p>
+                  </div>
                 </div>
-                <div className="w-full flex flex-col items-start relative">
-                  <label>EMAIL</label>
-                  <input
-                    placeholder="Johnclinton231@gmail.com"
-                    className="px-4 xs:w-full w-4/5 py-3 rounded-md border border-gray-300"
-                  />
-                  {/* <p className="absolute right-32 top-9 cursor-pointer text-[#E51B48]">Edit</p> */}
+                <div className="w-[50%] sm:w-full xs:w-full md:w-full relative flex flex-col items-start">
+                  <div className="flex flex-col">
+                    <label className="text-[12px]">EMAIL</label>
+                    <input
+                      placeholder="Johnclinton231@gmail.com"
+                      className="xs:w-full py-3 w-4/5 text-[20px] font-[400]"
+                    />
+                  </div>
+                  <div>
+                    <p className="absolute right-32 top-9 cursor-pointer text-[#E51B48]">
+                      Edit
+                    </p>
+                  </div>
                 </div>
-                <div className="w-full relative flex flex-col items-start">
-                  <label>PHONE</label>
-                  <input
-                    placeholder="07036226327"
-                    className="px-4 xs:w-full w-4/5 py-3 rounded-md border border-gray-300"
-                  />
-                  {/* <p className="absolute right-32 top-9 cursor-pointer text-[#E51B48]">Edit</p> */}
+                <div className="w-[50%] sm:w-full xs:w-full md:w-full relative flex flex-col items-start">
+                  <div className="flex flex-col">
+                    <label className="text-[12px]">PHONE</label>
+                    <input
+                      placeholder="803-4646-362"
+                      className="xs:w-full py-3 w-4/5 text-[20px] font-[400]"
+                    />
+                  </div>
+                  <div>
+                    <p className="absolute right-32 top-9 cursor-pointer text-[#E51B48]">
+                      Edit
+                    </p>
+                  </div>
                 </div>
-                <div className="w-full flex flex-col items-start relative">
-                  <label>PASSWORD</label>
+                <div className="w-[50%] sm:w-full xs:w-full md:w-full relative flex flex-col items-start">
+                  <div className="flex flex-col">
+                    <label className="text-[12px]">PASSWORD</label>
+                    <input
+                      placeholder="***************"
+                      type="password"
+                      className="xs:w-full py-3 w-4/5 text-[20px] font-[400]"
+                    />
+                  </div>
+                  <div>
+                    <p className="absolute right-32 top-9 cursor-pointer text-[#E51B48]">
+                      Edit
+                    </p>
+                  </div>
+                </div>
+                <div className="py-12">
                   <input
-                    placeholder="*****"
-                    type="password"
-                    className="px-4 xs:w-full w-4/5 py-3 rounded-md border border-gray-300"
+                    className="bg-[#E51B48] w-[975px] h-[50px] p-[10px] font-[16px] text-white rounded-[10px] text-center cursor-pointer"
+                    type="button"
+                    value="Save"
                   />
-                  {/* <p className="absolute right-32 top-9 cursor-pointer text-[#E51B48]">Change</p> */}
                 </div>
               </div>
             </div>

@@ -9,7 +9,7 @@ const Recent = (props: Props) => {
     return (
         <div className='py-3'>
         <div className=''>
-            <div className='space-y-2'>
+            <div className='space-y-2 '>
                 <img src='/images/watchlist_001.png' className='w-full' />
                 <div className='flex items-center justify-between '>
                     <h2 className='font-bold text-[15px]'>Pristine Steel (30inch) </h2>

@@ -6,23 +6,29 @@ type Props = {};
 
 const CancelledOrder = (props: Props) => {
   const order = {
+    date: "September 24, 2023",
     image: "/images/ordershirt.png",
     item: "MURIOKI Mens Printed T-Shirt Short Sleeve Shirt - Blue",
     vendor: "Chukwudi Enterprise",
     price: 566,
     status: "In Stock",
+    number: 78376384,
   };
   return (
     <Link
       to={"/customer-profile/confirm-order"}
       className="flex flex-col gap-6"
     >
-      <div className="flex smm:gap-3 gap-2 flex-col smm:p-4 px-2 py-4 bg-white rounded-md shadow-md">
+      <div className="flex smm:gap-3 gap-2 flex-col smm:p-4 px-2 py-4 border-[1px] rounded-[10px] border-black bg-white">
+        <div>
+          <p className="font-[400] text-[20px]">{order.date}</p>
+        </div>
+        <div className="my-2 h-[1px] w-full bg-[#C1C1C1]" />
         <div className=" flex justify-between gap-2">
           <div className="flex flex-row smm:gap-4 gap-2">
             <img
               src={order.image}
-              className="object-cover h-[70px] !w-[70px] rounded-lg"
+              className="object-cover h-[114px] !w-[137px]"
               alt=""
             />
             <div className="flex flex-col smm:gap-4 gap-1 smm:text-[16px] text-sm">
@@ -35,13 +41,13 @@ const CancelledOrder = (props: Props) => {
           </div>
           <div className="flex flex-col justify-between items-end">
             <p className="font-medium smm:text-[24px] text-sm text-right">
-              {order.price}
+              ${order.price}
             </p>
           </div>
         </div>
         <div className="flex items-center">
           <p>Status: Cancelled</p>
-          <div className="py-2 flex items-center mr-3">
+          {/*<div className="py-2 flex items-center mr-3">
             <svg
               className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium text-[#1B7CFC] css-i4bv87-MuiSvgIcon-root"
               focusable="false"
@@ -55,8 +61,14 @@ const CancelledOrder = (props: Props) => {
             <p className="font-bold">
               Azany <span className="text-[#1B7CFC]">Express</span>
             </p>
-          </div>
+          </div>*/}
         </div>
+        <div className="my-2 h-[1px] w-full bg-[#C1C1C1]" />
+          <div className="flex flex-row justify-between items-center">
+            <div>
+              <p className="font-[400] text-[20px]"><span className="font-[700]">Order Number:</span> {order.number}</p>
+            </div>
+          </div>
       </div>
     </Link>
   );
