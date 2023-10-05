@@ -24,7 +24,7 @@ interface State {
   id: string;
 }
 
-const AuthSignup = () => {
+const SignupSeller = () => {
   const [selectedValue, setSelectedValue] = React.useState("");
   const [loading, setLoading] = useState(false);
   const [country, setCountry] = useState<any>();
@@ -99,7 +99,6 @@ const AuthSignup = () => {
   };
 
   const vendor = [
-    { label: "Customer", value: "Customer" },
     { label: "Farmer", value: "Farmer" },
     { label: "Manufacturer", value: "Manufacturer" },
     { label: "Merchant", value: "Merchant" },
@@ -189,7 +188,7 @@ const AuthSignup = () => {
       <div className="flex xs:flex-col-reverse sm:flex-col-reverse md:flex-col-reverse xl:justify-between sm:flex-col 2xl:justify-between xl:h-screen xs:w-screen ">
         <div className="flex flex-col gap-4 p-10 xs:p-4 xs:h-full md:h-screen xl:w-full">
           <div className="bg-white rounded-md py-2 smm:px-4 px-2 flex items-center justify-between">
-            <p className="text-[40px] font-[500] xs:text-[18px]">Signup</p>
+            <p className="text-[40px] font-[500] xs:text-[18px]">Signup Business</p>
             <div className="smm:hidden flex flex-row gap-4 text-[#515151] ">
               <p className=" text-xs">
                 Already have an Account?
@@ -205,19 +204,14 @@ const AuthSignup = () => {
                 <label className="font-normal text-[12px] text-gray-600">ACCOUNT TYPE</label>
 
                 <div className="w-full">
-                  {/* <DropdownComponent
+                  <DropdownComponent
                     options={vendor}
                     error="Error selecting account type"
                     placeholder="Select your account type..."
                     selectedValue={selectedValue}
                     setSelectedValue={setSelectedValue}
                     onChange={(e: { target: { value: React.SetStateAction<string> } }) => e && setSelectedValue(e.target.value)}
-                  /> */}
-                  <select name="account_type" id="account_type" required className="xs:p-2 w-full p-3 rounded-md border border-gray-300 bg-[#F5F5F5]">
-                    <option value="Customer" selected>
-                      Customer
-                    </option>
-                  </select>
+                  />
                 </div>
               </div>
               <div className="flex flex-row gap-4">
@@ -428,4 +422,4 @@ const AuthSignup = () => {
   );
 };
 
-export default AuthSignup;
+export default SignupSeller;

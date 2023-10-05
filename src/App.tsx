@@ -83,6 +83,7 @@ import Order from "./pages/CustomerProfile/Order";
 import Email from "./pages/email/Email";
 import AzanyFarmers from "./pages/landing/AzanyFarmers";
 import ManufacturerHomePage from "./pages/landing/ManufacturerHomePage";
+import SignupSeller from "./pages/auth/signup/SignupSeller";
 
 function App() {
   return (
@@ -161,7 +162,8 @@ function App() {
         <Route path="/auth">
           <Route index element={<AuthLogin />} />
           <Route path="signup" element={<AuthSignup />} />
-          <Route path="signup-business" element={<SignupBusiness />} />
+          <Route path="signup-business" element={<SignupSeller />} />
+          <Route path="signup-business-information" element={<SignupBusiness />} />
           <Route path="otp" element={<AuthOTP />} />
           <Route path="otp-business" element={<AuthOTPBusiness />} />
           <Route path="reset-password" element={<AuthReset />} />
