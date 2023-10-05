@@ -201,6 +201,20 @@ const AuthSignup = () => {
           </div>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div className="bg-white rounded-md p-4 w-[760px] xs:w-full md:w-full overflow-y-scroll h-[420px] md:h-full xs:h-full flex flex-col gap-4 ">
+              <div className="w-full flex flex-col relative items-start">
+                <label className="font-normal text-[12px] text-gray-600">ACCOUNT TYPE</label>
+
+                <div className="w-full">
+                  <DropdownComponent
+                    options={vendor}
+                    error="Error selecting account type"
+                    placeholder="Select your account type..."
+                    selectedValue={selectedValue}
+                    setSelectedValue={setSelectedValue}
+                    onChange={(e: { target: { value: React.SetStateAction<string> } }) => e && setSelectedValue(e.target.value)}
+                  />
+                </div>
+              </div>
               <div className="flex flex-row gap-4">
                 <div className="w-full relative flex flex-col items-start">
                   <label className="font-normal text-[12px] text-gray-600">FIRST NAME</label>
@@ -318,19 +332,6 @@ const AuthSignup = () => {
                   />
                 </div>
               </div>
-              <div className="w-full flex flex-col relative items-start">
-                <div className="w-full">
-                  <DropdownComponent
-                    options={vendor}
-                    error="Error selecting account type"
-                    placeholder="Select your account type..."
-                    selectedValue={selectedValue}
-                    setSelectedValue={setSelectedValue}
-                    onChange={(e: { target: { value: React.SetStateAction<string> } }) => e && setSelectedValue(e.target.value)}
-                  />
-                </div>
-              </div>
-
               <div className="w-full flex flex-col relative items-start">
                 <label className="font-normal text-[12px] text-gray-600">REFERRAL CODE(Optional)</label>
                 <input

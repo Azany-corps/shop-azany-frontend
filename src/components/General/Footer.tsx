@@ -53,10 +53,10 @@ const Footer = ({ style }: FooterProps) => {
             <div className="text-left text-white">
               <h1 className="text-white cursor-pointer text-xl font-semibold capitalize ">MAKE US MONEY</h1>
               <div className="mt-2 py-4 flex flex-col">
-                <Link to={"/doc/sell-on-azany-business"} className="font-normal pb-2">
+                <Link to={"/sell-on-azany/farmers"} className="font-normal pb-2">
                   Sell on Azany
                 </Link>
-                <Link to={"/doc/sell-on-azany-business"} className="font-normal pb-2">
+                <Link to={"/sell-on-azany/manufacturers-merchant"} className="font-normal pb-2">
                 Sell on Azany Business
                 </Link>
                 <Link to={"/doc/"} className="font-normal pb-2">

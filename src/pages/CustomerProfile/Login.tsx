@@ -85,7 +85,7 @@ const Login = (/*props: Props*/) => {
     <div className="bg-[#F5F5F5] flex flex-col justify-between min-h-screen">
       <CustomerProfileLayout>
         <div className="px-10 py-7 xs:p-2 smm:bg-[#F5F5F5] !bg-white border w-full !rounded-lg flex-grow h-[1005px]">
-          <form className="w-full" onSubmit={handleSubmit}>
+          <form className="w-full">
             <h1 className="text-[36px] font-[500] xs:text-[22px]">
               Personal Details
             </h1>
