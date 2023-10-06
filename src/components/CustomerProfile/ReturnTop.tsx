@@ -6,7 +6,7 @@ import TopHeader from "../General/TopHeader";
 const ReturnTop = () => {
   return (
     <>
-      <TopHeader />
+      {/* <TopHeader /> */}
       <BottomHeader
         style={"bg-[#132A13] py-2 py-2 xs:hidden"}
         isFarmer={true}
