@@ -113,7 +113,7 @@ const CustomerProfileLayout = ({
       path: "/track_orders",
     },
   ];
-  console.log(active);
+
   return (
     <div className="xs:overflow-x-hidden smm:bg-[#F5F5F5] bg-white">
       {/*<TopHeader />*/}
@@ -188,6 +188,7 @@ const CustomerProfileLayout = ({
                         onClick={() => {
                           setActive(true);
                           navigate("/customer-profile/login");
+                          console.log(active);
                         }}
                       >
                         <div className="group pl-7 flex space-x-5 items-center">
@@ -205,6 +206,7 @@ const CustomerProfileLayout = ({
                         }
                         onClick={() => {
                           setActive2(true);
+                          setActive(false);
                           navigate("/customer-profile/order");
                         }}
                       >

@@ -4,9 +4,7 @@ import callAPI from "../../api/callApi";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-//type Props = {};
-
-const Login = (/*props: Props*/) => {
+const Login = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -15,6 +13,7 @@ const Login = (/*props: Props*/) => {
     const fetchStoreData = async () => {
       try {
         const response = await callAPI(`auth/fetch_profile_info`, "GET", null, headers);
+        console.log(response);
         setFormData(response?.data?.values[0]?.profile[0]);
         console.log(response?.data?.values[0]?.profile[0]);
       } catch (error) {
@@ -45,6 +44,7 @@ const Login = (/*props: Props*/) => {
       data.append("last_name", formData.last_name);
       data.append("email", formData.email);
       data.append("phone", formData.phone);
+      console.log(formData.first_name);
 
       const token = localStorage.getItem("token");
       if (token === null) {
@@ -85,7 +85,7 @@ const Login = (/*props: Props*/) => {
     <div className="bg-[#F5F5F5] flex flex-col justify-between min-h-screen">
       <CustomerProfileLayout>
         <div className="px-10 py-7 xs:p-2 smm:bg-[#F5F5F5] !bg-white border w-full !rounded-lg flex-grow h-[1005px]">
-          <form className="w-full">
+          <form className="w-full" onSubmit={handleSubmit}>
             <h1 className="text-[36px] font-[500] xs:text-[22px]">
               Personal Details
             </h1>
