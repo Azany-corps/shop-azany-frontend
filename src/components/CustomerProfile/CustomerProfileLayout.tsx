@@ -178,9 +178,9 @@ const CustomerProfileLayout = ({
                   </div>
 
                   <div className="py-5 bg-white">
-                    <div className="px-0 space-y-3">
+                    <div className="px-0">
                       <div
-                        className={
+                        className={ 
                           active
                             ? "xs:shadow-md text-white font-bold xs:font-mediumcursor-pointer bg-[#E51B48] rounded-[10px]"
                             : "text-black cursor-pointer hover:bg-[#E51B48] hover:text-white focus:bg-[#E51B48] hover:rounded-[10px]"
@@ -191,7 +191,7 @@ const CustomerProfileLayout = ({
                           console.log(active);
                         }}
                       >
-                        <div className="group pl-7 flex space-x-5 items-center">
+                        <div className="group pl-7 flex space-x-5 items-center h-[60px]">
                           <AccountCircleOutlinedIcon />
                           <div className="py-3">
                             <h2 className="font-bold">Personal Details</h2>
@@ -210,7 +210,7 @@ const CustomerProfileLayout = ({
                           navigate("/customer-profile/order");
                         }}
                       >
-                        <div className="group pl-7 flex space-x-5 items-center">
+                        <div className="group pl-7 flex space-x-5 items-center h-[60px]">
                           <AccessTimeOutlinedIcon />
                           <div className="py-2">
                             <h2 className="font-bold">Orders</h2>
@@ -230,7 +230,7 @@ const CustomerProfileLayout = ({
                           navigate("/customer-profile/cards");
                         }}
                       >
-                        <div className="group pl-7 flex space-x-5 items-center">
+                        <div className="group pl-7 flex space-x-5 items-center h-[60px]">
                           <PaymentOutlinedIcon />
                           
                           <div className="py-3">
@@ -251,7 +251,7 @@ const CustomerProfileLayout = ({
                           navigate("/customer-profile/address");
                         }}
                       >
-                        <div className="group pl-7 flex space-x-5 items-center">
+                        <div className="group pl-7 flex space-x-5 items-center h-[60px]">
                           <RoomOutlinedIcon />
                           
                           <div className="py-3">
@@ -272,7 +272,7 @@ const CustomerProfileLayout = ({
                           navigate("/customer-profile/watchlist");
                         }}
                       >
-                        <div className="group pl-7 flex space-x-5 items-center">
+                        <div className="group pl-7 flex space-x-5 items-center h-[60px]">
                           <AccessTimeOutlinedIcon />
                           
                           <div className="py-3">
@@ -293,7 +293,7 @@ const CustomerProfileLayout = ({
                           navigate("/customer-profile/saved");
                         }}
                       >
-                        <div className="group pl-7 flex space-x-5 items-center">
+                        <div className="group pl-7 flex space-x-5 items-center h-[60px]">
                           <SaveAltOutlinedIcon />
                           
                           <div className="py-3">
@@ -314,7 +314,7 @@ const CustomerProfileLayout = ({
                           navigate("/customer-profile/rating");
                         }}
                       >
-                        <div className="group pl-7 flex space-x-5 items-center">
+                        <div className="group pl-7 flex space-x-5 items-center h-[60px]">
                           <ModeCommentOutlinedIcon />
                           
                           <div className="py-3">
@@ -335,7 +335,7 @@ const CustomerProfileLayout = ({
                           navigate("/customer-profile/messages");
                         }}
                       >
-                        <div className="group pl-7 flex space-x-5 items-center">
+                        <div className="group pl-7 flex space-x-5 items-center h-[60px]">
                           <SendOutlinedIcon/>
                           
                           <div className="py-3">
