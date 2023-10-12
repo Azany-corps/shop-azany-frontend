@@ -515,7 +515,7 @@ const EditProduct = () => {
                   selectedValue={selectedCategory}
                   setSelectedValue={setSelectedCategory}
                   onChange={handleCategoryChange}
-                  categoryy={category}
+                  // categoryy={category}
                 />
               </div>
               <div className="w-full flex flex-col relative items-start gap-2">

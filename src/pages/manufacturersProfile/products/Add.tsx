@@ -48,7 +48,7 @@ const AddProduct = () => {
   const [optionsString, setOptionsString] = useState("");
   const [selectedValue, setSelectedValue] = React.useState("");
   const [selectedCategory, setSelectedCategory] = React.useState("");
-  const [category, setCategory] = useState("");
+  // const [category, setCategory] = useState("");
   const [selectedImages, setSelectedImages] = useState<FileWithPath[]>([]);
   const [authToken] = useAuthToken();
   const [country, setCountry] = useState<Country>({
@@ -100,7 +100,7 @@ const AddProduct = () => {
         const storeCategory = response.data.values[0].store_category;
         setStore(response?.data?.values?.[0]);
         // handleChangeCountry(response.data.values?.[0].country);
-        setCategory(storeCategory);
+        // setCategory(storeCategory);
       } catch (error) {
         console.error(error);
       }
@@ -318,7 +318,7 @@ const AddProduct = () => {
 
   return (
     <div className="bg-[#F5F5F5] xs:overflow-x-hidden">
-      <TopHeader />
+      {/* <TopHeader /> */}
       <BottomHeader style={"bg-[#1B7CFC] py-2 xs:hidden"} />
       <MobileHeader />
       <Header style={"bg-[#70ADFF] xs:hidden"} />
@@ -362,13 +362,13 @@ const AddProduct = () => {
               />
             </div>
             <div className="w-full flex flex-col relative items-start gap-2">
-              <label className="font-[500]">PRODUCT SUB-CATEGORY</label>
+              <label className="font-[500]">PRODUCT CATEGORY</label>
               <SubCategoryDropdown
                 styles={"rounded-md"}
                 selectedValue={selectedCategory}
                 setSelectedValue={setSelectedCategory}
                 onChange={handleCategoryChange}
-                categoryy={category}
+                // categoryy={category}
               />
             </div>
             <div className="w-full flex flex-col relative items-start gap-2">
