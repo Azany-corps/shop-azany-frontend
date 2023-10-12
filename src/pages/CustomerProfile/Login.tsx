@@ -100,35 +100,33 @@ const Login = (props: Props) => {
             <div className="py-5 gap-8 flex-col flex w-full">
               <div className="xs:flex xs:flex-col grid grid-cols-2 gap-8 items-start w-full">
                 <div className="w-full relative flex flex-col items-start">
-                  <label>FIRST NAME</label>
+                  <label className="font-normal text-sm text-gray-600">FIRST NAME</label>
                   <input
                     placeholder="John"
-                    className="px-4 xs:w-full py-3 w-full rounded-md border border-gray-300"
+                    className="px-4 py-3 w-full rounded-md border border-gray-300 bg-[#F5F5F5]"
                     onChange={handleChange}
                     name="first_name"
                     value={formData?.first_name}
                   />
                   {/* <p className="absolute right-32 top-9 cursor-pointer text-[#E51B48]">Edit</p> */}
                 </div>
-                <div className="w-full flex flex-col relative items-start">
-                  <label>LAST NAME</label>
-                  <div className="relative">
-                    <input
-                      placeholder="Clinton"
-                      className="px-4 xs:w-full w-full py-3 rounded-md border border-gray-300"
-                      onChange={handleChange}
-                      name="last_name"
-                      value={formData?.last_name}
-                    />
-                    {/* <p className="absolute top-4 right-2 cursor-pointer text-[#E51B48]">Edit</p> */}
-                  </div>
+                <div className="w-full relative flex flex-col items-start">
+                  <label className="font-normal text-sm text-gray-600">LAST NAME</label>
+                  <input
+                    placeholder="John"
+                    className="px-4 py-3 w-full rounded-md border border-gray-300 bg-[#F5F5F5]"
+                    onChange={handleChange}
+                    name="last_name"
+                    value={formData?.last_name}
+                  />
+                  {/* <p className="absolute right-32 top-9 cursor-pointer text-[#E51B48]">Edit</p> */}
                 </div>
 
                 <div className="w-full flex flex-col items-start relative">
-                  <label>EMAIL</label>
+                  <label className="font-normal text-sm text-gray-600">EMAIL</label>
                   <input
                     placeholder="Johnclinton231@gmail.com"
-                    className="px-4 xs:w-full w-full py-3 rounded-md border border-gray-300"
+                    className="px-4 py-3 w-full rounded-md border border-gray-300 bg-[#F5F5F5]"
                     onChange={handleChange}
                     name="email"
                     value={formData?.email}
@@ -136,10 +134,10 @@ const Login = (props: Props) => {
                   {/* <p className="absolute right-32 top-9 cursor-pointer text-[#E51B48]">Edit</p> */}
                 </div>
                 <div className="w-full relative flex flex-col items-start">
-                  <label>PHONE</label>
+                  <label className="font-normal text-sm text-gray-600">PHONE</label>
                   <input
                     placeholder="07036226327"
-                    className="px-4 xs:w-full w-full py-3 rounded-md border border-gray-300"
+                    className="px-4 py-3 w-full rounded-md border border-gray-300 bg-[#F5F5F5]"
                     onChange={handleChange}
                     name="phone"
                     value={formData?.phone}
@@ -147,15 +145,15 @@ const Login = (props: Props) => {
                   {/* <p className="absolute right-32 top-9 cursor-pointer text-[#E51B48]">Edit</p> */}
                 </div>
                 <div className="w-full flex flex-col items-start relative">
-                  <label>PASSWORD</label>
-                  <input placeholder="*****" type="password" className="px-4 xs:w-full w-full py-3 rounded-md border border-gray-300" />
+                  <label className="font-normal text-sm text-gray-600">PASSWORD</label>
+                  <input placeholder="*****" type="password" className="px-4 py-3 w-full rounded-md border border-gray-300 bg-[#F5F5F5]" />
                   {/* <p className="absolute right-32 top-9 cursor-pointer text-[#E51B48]">Change</p> */}
                 </div>
                 <div className="w-full relative flex flex-col items-start">
                   <label className="font-normal text-sm text-gray-600">STREET ADDRESS</label>
                   <input
                     placeholder=""
-                    className="px-4 xs:w-full w-full py-3 rounded-md border border-gray-300"
+                    className="px-4 py-3 w-full rounded-md border border-gray-300 bg-[#F5F5F5]"
                     onChange={handleChange}
                     name="address"
                     value={formData?.address}
@@ -208,6 +206,9 @@ const Login = (props: Props) => {
                 </div>
               </div>
             </div>
+            <button disabled={loading ? true : false} className="py-2 px-20 bg-[#E51B48] hover:bg-red-700 rounded-md text-white w-full">
+              {loading ? "Loading..." : "Save"}
+            </button>
           </form>
         </div>
       </CustomerProfileLayout>
