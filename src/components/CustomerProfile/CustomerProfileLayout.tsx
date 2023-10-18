@@ -116,7 +116,6 @@ const CustomerProfileLayout = ({
 
   return (
     <div className="xs:overflow-x-hidden smm:bg-[#F5F5F5] bg-white">
-      {/*<TopHeader />*/}
       <BottomHeader style={"bg-[#1B7CFC] py-2 xs:hidden"} />
       <Header style={"bg-[#70ADFF] xs:hidden"} />
       <MobileHeader hideScrollMenu={false} />

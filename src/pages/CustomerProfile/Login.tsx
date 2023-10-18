@@ -12,7 +12,7 @@ const Login = () => {
     const headers = { Authorization: `Bearer ${token}` };
     const fetchStoreData = async () => {
       try {
-        const response = await callAPI(`auth/fetch_profile_info`, "GET", null, headers);
+        const response = await callAPI(`auth/customer_fetch_profile_info`, "GET", null, headers);
         console.log(response);
         setFormData(response?.data?.values[0]?.profile[0]);
         console.log(response?.data?.values[0]?.profile[0]);
@@ -33,6 +33,11 @@ const Login = () => {
     last_name: "",
     email: "",
     phone: "",
+    address: "",
+    country: "",
+    state: "",
+    city: "",
+    zip_code: "",
   });
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -45,14 +50,25 @@ const Login = () => {
       data.append("email", formData.email);
       data.append("phone", formData.phone);
       console.log(formData.first_name);
+       //const formDataToSend = new URLSearchParams();
+      //formDataToSend.append("first_name", formData.first_name);
+      //formDataToSend.append("last_name", formData.last_name);
+      //formDataToSend.append("email", formData.email);
+      //formDataToSend.append("phone", formData.phone);
+      //formDataToSend.append("address", formData.address);
+      //formDataToSend.append("country", formData.country);
+      //formDataToSend.append("state", formData.state);
+      //formDataToSend.append("city", formData.city);
+      //formDataToSend.append("poster_code", formData.zip_code);
+
 
       const token = localStorage.getItem("token");
       if (token === null) {
         throw new Error("Token not found in local storage");
       }
 
-      const response = await callAPI("auth/create_business_details", "POST", data, {
-        "Content-Type": "multipart/form-data",
+      const response = await callAPI("auth/customer_update_profile", "PUT", formDataToSend.toString(), {
+        "Content-Type": "application/x-www-form-urlencoded",
         Authorization: `Bearer ${token}`,
       });
       console.log(response);
@@ -177,6 +193,9 @@ const Login = () => {
                 </div>
               </div>
             </div>
+            <button disabled={loading ? true : false} className="py-2 px-20 bg-[#E51B48] hover:bg-red-700 rounded-md text-white w-full">
+              {loading ? "Loading..." : "Save"}
+            </button>
           </form>
         </div>
       </CustomerProfileLayout>
