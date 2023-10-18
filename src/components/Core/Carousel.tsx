@@ -4,16 +4,16 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
 const images = [
-  { src: "/images/azanyslide1.png", alt: "Image 1" },
-  { src: "/images/azanyslide5.png", alt: "Image 5" },
-  { src: "/images/azanyslide2.png", alt: "Image 2" },
-  { src: "/images/azanyslide6.png", alt: "Image 6" },
-  { src: "/images/azanyslide4.png", alt: "Image 4" },
+  { src: "/images/azanyslide7.png", alt: "Image 1" },
+  { src: "/images/azanyslide7.png", alt: "Image 5" },
+  { src: "/images/azanyslide7.png", alt: "Image 2" },
+  { src: "/images/azanyslide7.png", alt: "Image 6" },
+  { src: "/images/azanyslide7.png", alt: "Image 4" },
 ];
 
 const Carousel: FC = () => {
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
