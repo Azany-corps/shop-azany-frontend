@@ -111,7 +111,12 @@ const SignupBusiness = () => {
         draggable: true,
         progress: undefined,
       });
-      navigate("/plans");
+      if (isFarmer) {
+        navigate("/sell-on-azany/farmers");
+      } else {
+        navigate("/sell-on-azany/manufacturers-merchant");
+      }
+      // navigate("/plans");
     } catch (err) {
       console.log(err);
       setLoading(false);

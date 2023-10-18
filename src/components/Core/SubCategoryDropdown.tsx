@@ -12,20 +12,21 @@ interface Props {
   setSelectedValue?: (value: string) => void;
   onChange?: any;
   styles?: string;
-  categoryy?: string;
+  // categoryy?: string;
 }
 
-const SubCategoryDropdown: React.FC<Props> = ({ placeholder, selectedValue, setSelectedValue, onChange, styles, categoryy }) => {
+const SubCategoryDropdown: React.FC<Props> = ({ placeholder, selectedValue, setSelectedValue, onChange, styles,  }) => {
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
-    console.log(categoryy)
+    // console.log(categoryy)
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(`https://shopazanyb2b.urbantour.org/api/general/products/fetch_sub_categories/${categoryy}`);
+        const response = await axios.get(`https://test.shopazany.com/api/general/products/fetch_store_categories`);
+        console.log(response.data.data.values);
         const subCategoryList = response.data.data.values.map((category: any) => ({
-          label: category.name,
-          value: category.name,
+          label: category.category,
+          value: category.category,
         }));
         console.log(subCategoryList);
         setCategories(subCategoryList);
@@ -35,7 +36,7 @@ const SubCategoryDropdown: React.FC<Props> = ({ placeholder, selectedValue, setS
     };
 
     fetchCategories();
-  }, [categoryy]);
+  }, []);
 
   const renderOption = (category: Category, index: number) => (
     <option

@@ -43,7 +43,7 @@ const AuthOTPBusiness = () => {
         draggable: true,
         progress: undefined,
       });
-      navigate("/auth/signup-business");
+      navigate("/auth/signup-business-information");
     } catch (error) {
       console.log(error);
       setLoading(false);
