@@ -93,7 +93,7 @@ const BottomHeader = ({ style, isFarmer }: BottomProps) => {
                 <>
                   <div className="gap-2 flex-row flex items-center cursor-pointer" onClick={handleMenuClick}>
                     {isModalOpen && (
-                      <div className="absolute top-40 w-[300px] h-600 right-30 mr-2 p-4 z-20 rounded-md bg-white shadow">
+                      <div className="absolute top-20 w-[300px] h-600 right-30 mr-2 p-4 z-20 rounded-md bg-white shadow">
                         <div className="flex flex-col gap-2 text-black">
                           <div className="flex flex-row gap-1 items-center">
                             <Icon icon="mdi:user-circle" width={32} height={32} />
