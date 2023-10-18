@@ -110,7 +110,7 @@ const Header = ({ style }: HeaderProps) => {
       <div className={`${style}`}>
         <div className="w-[90%] flex mx-auto justify-between items-center">
           <div className="flex gap-4 items-center md:flex-[100%] flex-[50%] text-white font-medium md:font-normal md:text-[14px]">
-            <div className="justify-center items-center flex xs:hidden bg-[#E51B48] -ml-20 pl-[4.5rem] pr-3 ">
+            <div className="justify-center items-center flex xs:hidden bg-[#E51B48] -ml-20 pl-[4.5rem] pr-3 rounded-tr-lg">
               <IconButton onClick={handleOpenModal} className="xs:hidden">
                 <MenuIcon className="text-white" />
               </IconButton>
@@ -164,7 +164,7 @@ const Header = ({ style }: HeaderProps) => {
                     </div>
                   </div>
                 )}
-                <div>
+                <div className="flex flex-row justify-center items-center">
                   <h2>Sell on Azany</h2>
                   <IconButton>
                     <ArrowDropDownIcon className="text-white" />

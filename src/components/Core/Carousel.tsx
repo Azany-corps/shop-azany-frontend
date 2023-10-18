@@ -20,8 +20,8 @@ const Carousel: FC = () => {
     slidesToScroll: 1,
     autoplay: true, // added autoplay property
     autoplaySpeed: 3000, // added autoplaySpeed property (3 seconds)
-    //nextArrow: <NextArrow />,
-    //prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
   };
 
   function NextArrow(props: any) {
