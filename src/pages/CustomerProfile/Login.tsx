@@ -67,7 +67,7 @@ const Login = () => {
         throw new Error("Token not found in local storage");
       }
 
-      const response = await callAPI("auth/customer_update_profile", "PUT", formDataToSend.toString(), {
+      const response = await callAPI("auth/customer_update_profile", "PUT", data.toString(), {
         "Content-Type": "application/x-www-form-urlencoded",
         Authorization: `Bearer ${token}`,
       });
