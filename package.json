@@ -1,5 +1,6 @@
 {
   "name": "shopazany_b2b_frontend",
+  "homepage": "http://live.shopazany.com",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

@@ -15,3 +15,6 @@
     background-color: rgb(229 27 72 / var(--tw-bg-opacity));
 }
 
+.icon:hover {
+    fill: white;
+  }

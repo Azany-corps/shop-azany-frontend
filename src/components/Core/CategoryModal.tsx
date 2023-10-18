@@ -105,9 +105,9 @@ const CategoryModal: React.FC<CategoryModalProps> = (props) => {
           })}
         >
           {/* MODAL HEADER */}
-          <div className="flex items-start items-center justify-between py-3 px-6 bg-[#1B7CFC]">
+          <div className="flex items-start justify-between py-3 px-6 bg-[#1B7CFC]">
             <Icon icon="gg:profile" width="40" height="40" />
-            <h3 className="text-[18px] font-bold ml-[12px] font-medium text-white">Hello {username}</h3>
+            <h3 className="text-[18px] font-bold ml-[12px] text-white">Hello {username}</h3>
             <button
               aria-label="Close"
               className="ml-auto inline-flex items-center rounded-lg bg-transparent text-white"

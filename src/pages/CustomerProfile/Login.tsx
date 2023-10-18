@@ -4,9 +4,7 @@ import callAPI from "../../api/callApi";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-type Props = {};
-
-const Login = (props: Props) => {
+const Login = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -15,6 +13,7 @@ const Login = (props: Props) => {
     const fetchStoreData = async () => {
       try {
         const response = await callAPI(`auth/customer_fetch_profile_info`, "GET", null, headers);
+        console.log(response);
         setFormData(response?.data?.values[0]?.profile[0]);
         console.log(response?.data?.values[0]?.profile[0]);
       } catch (error) {
@@ -45,23 +44,30 @@ const Login = (props: Props) => {
     event.preventDefault();
     setLoading(true);
     try {
-      const formDataToSend = new URLSearchParams();
-      formDataToSend.append("first_name", formData.first_name);
-      formDataToSend.append("last_name", formData.last_name);
-      formDataToSend.append("email", formData.email);
-      formDataToSend.append("phone", formData.phone);
-      formDataToSend.append("address", formData.address);
-      formDataToSend.append("country", formData.country);
-      formDataToSend.append("state", formData.state);
-      formDataToSend.append("city", formData.city);
-      formDataToSend.append("poster_code", formData.zip_code);
+      let data = new FormData();
+      data.append("first_name", formData.first_name);
+      data.append("last_name", formData.last_name);
+      data.append("email", formData.email);
+      data.append("phone", formData.phone);
+      console.log(formData.first_name);
+       //const formDataToSend = new URLSearchParams();
+      //formDataToSend.append("first_name", formData.first_name);
+      //formDataToSend.append("last_name", formData.last_name);
+      //formDataToSend.append("email", formData.email);
+      //formDataToSend.append("phone", formData.phone);
+      //formDataToSend.append("address", formData.address);
+      //formDataToSend.append("country", formData.country);
+      //formDataToSend.append("state", formData.state);
+      //formDataToSend.append("city", formData.city);
+      //formDataToSend.append("poster_code", formData.zip_code);
+
 
       const token = localStorage.getItem("token");
       if (token === null) {
         throw new Error("Token not found in local storage");
       }
 
-      const response = await callAPI("auth/customer_update_profile", "PUT", formDataToSend.toString(), {
+      const response = await callAPI("auth/customer_update_profile", "PUT", data.toString(), {
         "Content-Type": "application/x-www-form-urlencoded",
         Authorization: `Bearer ${token}`,
       });
@@ -94,115 +100,96 @@ const Login = (props: Props) => {
   return (
     <div className="bg-[#F5F5F5] flex flex-col justify-between min-h-screen">
       <CustomerProfileLayout>
-        <div className="p-8 xs:p-2 sm:bg-[#F5F5F5] bg-white w-full rounded-lg flex-grow">
+        <div className="px-10 py-7 xs:p-2 smm:bg-[#F5F5F5] !bg-white border w-full !rounded-lg flex-grow h-[1005px]">
           <form className="w-full" onSubmit={handleSubmit}>
-            <h1 className="text-[40px] font-[500] xs:text-[22px]">Login & Security</h1>
-            <div className="py-5 gap-8 flex-col flex w-full">
-              <div className="xs:flex xs:flex-col grid grid-cols-2 gap-8 items-start w-full">
-                <div className="w-full relative flex flex-col items-start">
-                  <label className="font-normal text-sm text-gray-600">FIRST NAME</label>
-                  <input
-                    placeholder="John"
-                    className="px-4 py-3 w-full rounded-md border border-gray-300 bg-[#F5F5F5]"
-                    onChange={handleChange}
-                    name="first_name"
-                    value={formData?.first_name}
-                  />
-                  {/* <p className="absolute right-32 top-9 cursor-pointer text-[#E51B48]">Edit</p> */}
-                </div>
-                <div className="w-full relative flex flex-col items-start">
-                  <label className="font-normal text-sm text-gray-600">LAST NAME</label>
-                  <input
-                    placeholder="John"
-                    className="px-4 py-3 w-full rounded-md border border-gray-300 bg-[#F5F5F5]"
-                    onChange={handleChange}
-                    name="last_name"
-                    value={formData?.last_name}
-                  />
-                  {/* <p className="absolute right-32 top-9 cursor-pointer text-[#E51B48]">Edit</p> */}
-                </div>
+            <h1 className="text-[36px] font-[500] xs:text-[22px]">
+              Personal Details
+            </h1>
+            <p className="text-[18px]">
+              Update your name, email, and account password at any time.
+            </p>
 
-                <div className="w-full flex flex-col items-start relative">
-                  <label className="font-normal text-sm text-gray-600">EMAIL</label>
-                  <input
-                    placeholder="Johnclinton231@gmail.com"
-                    className="px-4 py-3 w-full rounded-md border border-gray-300 bg-[#F5F5F5]"
-                    onChange={handleChange}
-                    name="email"
-                    value={formData?.email}
-                  />
-                  {/* <p className="absolute right-32 top-9 cursor-pointer text-[#E51B48]">Edit</p> */}
-                </div>
-                <div className="w-full relative flex flex-col items-start">
-                  <label className="font-normal text-sm text-gray-600">PHONE</label>
-                  <input
-                    placeholder="07036226327"
-                    className="px-4 py-3 w-full rounded-md border border-gray-300 bg-[#F5F5F5]"
-                    onChange={handleChange}
-                    name="phone"
-                    value={formData?.phone}
-                  />
-                  {/* <p className="absolute right-32 top-9 cursor-pointer text-[#E51B48]">Edit</p> */}
-                </div>
-                <div className="w-full flex flex-col items-start relative">
-                  <label className="font-normal text-sm text-gray-600">PASSWORD</label>
-                  <input placeholder="*****" type="password" className="px-4 py-3 w-full rounded-md border border-gray-300 bg-[#F5F5F5]" />
-                  {/* <p className="absolute right-32 top-9 cursor-pointer text-[#E51B48]">Change</p> */}
-                </div>
-                <div className="w-full relative flex flex-col items-start">
-                  <label className="font-normal text-sm text-gray-600">STREET ADDRESS</label>
-                  <input
-                    placeholder=""
-                    className="px-4 py-3 w-full rounded-md border border-gray-300 bg-[#F5F5F5]"
-                    onChange={handleChange}
-                    name="address"
-                    value={formData?.address}
-                  />
-                  {/* <p className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-[#E51B48]">Edit</p> */}
-                </div>
-              </div>
-              <div className="xs:flex xs:flex-col gap-8 flex flex-col">
-                <div className="flex xs:flex-col justify-between gap-4">
-                  <div className="w-full relative flex flex-col items-start">
-                    <label className="font-normal text-sm text-gray-600">COUNTRY</label>
+            <div className="py-10 w-full">
+              <div className="xs:flex xs:flex-col flex flex-col items-start w-full">
+                <div className="w-[50%] sm:w-full xs:w-full md:w-full relative flex flex-col items-start">
+                  <div className="">
+                    <label className="text-[12px]">FIRST NAME</label>
                     <input
-                      placeholder=""
-                      className="px-4 py-3 w-full rounded-md border border-gray-300 bg-[#F5F5F5]"
+                      className="xs:w-full py-3 w-4/5 text-[20px] font-[400]"
+                      placeholder="John"
                       onChange={handleChange}
-                      name="country"
-                      value={formData?.country}
+                      name="first_name"
+                      value={formData?.first_name}
                     />
                   </div>
-                  <div className="w-full  flex flex-col relative items-start">
-                    <label className="font-normal text-sm text-gray-600">STATE/ PROVINCE</label>
-                    <input
-                      placeholder=""
-                      className="px-4 w-full py-3 rounded-md border border-gray-300 bg-[#F5F5F5]"
-                      onChange={handleChange}
-                      name="state"
-                      value={formData?.state}
-                    />
-                  </div>
-                  <div className="w-full  flex flex-col relative items-start">
-                    <label className="font-normal text-sm text-gray-600">CITY</label>
-                    <input
-                      placeholder=""
-                      className="px-4 w-full py-3 rounded-md border border-gray-300 bg-[#F5F5F5]"
-                      onChange={handleChange}
-                      name="city"
-                      value={formData?.city}
-                    />
+                  <div>
+                    {/* <p className="absolute right-32 top-9 cursor-pointer text-[#E51B48]">Edit</p> */}
                   </div>
                 </div>
-                <div className="w-full  flex flex-col relative items-start">
-                  <label className="font-normal text-sm text-gray-600">POSTAL CODE</label>
-                  <input
-                    placeholder=""
-                    className="px-4 w-1/3 py-3 rounded-md border border-gray-300 bg-[#F5F5F5]"
-                    onChange={handleChange}
-                    name="zip_code"
-                    value={formData?.zip_code}
-                  />
+                <div className="w-[50%] sm:w-full xs:w-full md:w-full relative flex flex-col items-start">
+                  <div className="">
+                    <label className="text-[12px]">LAST NAME</label>
+                    <input
+                      placeholder="Clinton"
+                      className="xs:w-full py-3 w-4/5 text-[20px] font-[400]"
+                      onChange={handleChange}
+                      name="last_name"
+                      value={formData?.last_name}
+                    />
+                  </div>
+                  <div>
+                    {/* <p className="absolute right-32 top-9 cursor-pointer text-[#E51B48]">Edit</p> */}
+                  </div>
+                </div>
+                <div className="w-[50%] sm:w-full xs:w-full md:w-full relative flex flex-col items-start">
+                  <div className="flex flex-col">
+                    <label className="text-[12px]">EMAIL</label>
+                    <input
+                      placeholder="Johnclinton231@gmail.com"
+                      className="xs:w-full py-3 w-4/5 text-[20px] font-[400]"
+                      onChange={handleChange}
+                      name="email"
+                      value={formData?.email} 
+                    />
+                  </div>
+                  <div>
+                    {/* <p className="absolute right-32 top-9 cursor-pointer text-[#E51B48]">Edit</p> */}
+                  </div>
+                </div>
+                <div className="w-[50%] sm:w-full xs:w-full md:w-full relative flex flex-col items-start">
+                  <div className="flex flex-col">
+                    <label className="text-[12px]">PHONE</label>
+                    <input
+                      placeholder="07036226327"
+                      className="xs:w-full py-3 w-4/5 text-[20px] font-[400]"
+                      onChange={handleChange}
+                      name="phone"
+                      value={formData?.phone}
+                    />
+                  </div>
+                  <div>
+                    {/* <p className="absolute right-32 top-9 cursor-pointer text-[#E51B48]">Edit</p> */}
+                  </div>
+                </div>
+                <div className="w-[50%] sm:w-full xs:w-full md:w-full relative flex flex-col items-start">
+                  <div className="flex flex-col">
+                    <label className="text-[12px]">PASSWORD</label>
+                    <input
+                      placeholder="***************"
+                      type="password"
+                      className="xs:w-full py-3 w-4/5 text-[20px] font-[400]"
+                    />
+                  </div>
+                  <div>
+                    {/* <p className="absolute right-32 top-9 cursor-pointer text-[#E51B48]">Edit</p> */}
+                  </div>
+                </div>
+                <div className="py-12">
+                  <button
+                    disabled={loading ? true : false}
+                    className="bg-[#C1C1C1] w-[975px] h-[50px] p-[10px] font-[16px] text-white rounded-[10px] text-center cursor-pointer hover:bg-[#E51B48]"
+                    type="submit"
+                  >{loading ? "Saving..." : "Save"}</button>
                 </div>
               </div>
             </div>

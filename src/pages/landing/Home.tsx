@@ -88,17 +88,17 @@ const Home = () => {
   return (
     <div className="bg-[#F5F5F5] xs:overflow-x-hidden">
       {/*<TopHeader />*/}
-      <BottomHeader style={"bg-[#1B7CFC] py-2 xs:hidden"} />
+      <BottomHeader style={"bg-[#221E22] py-2 xs:hidden"} />
       <MobileHeader />
-      <Header style={"bg-[#70ADFF] xs:hidden"} />
+      <Header style={"bg-[#44444C] xs:hidden"} />
       {/* <Slider /> */}
       {/* <Hero onCountryChange={handleCountryChange} /> */}
       <MobileHero onCountryChange={handleCountryChange} />
-      <div className="w-full flex flex-row py-4 px-14 gap-10 bg-white xs:hidden">
-        <div className="w-2/3">
+      <div className=" home-background w-full flex py-4 px-14 xs:hidden">
+        <div className="w-full">
           <Carousel />
         </div>
-        <div className="w-2/3 flex flex-col gap-1">
+        {/*<div className="w-2/3 flex flex-col gap-1">
           <div className="flex-1 flex flex-col">
             <Wrapper
               apiKey={"AIzaSyCD1FuJyVYo8fzxw9xxX7NTexAYviVGv0U"}
@@ -124,7 +124,7 @@ const Home = () => {
             onOptionSelect={handleOptionSelect}
             options={options}
             styles="rounded-md"
-          /> */}
+          /> 
             <select
               name="flag"
               id="flag"
@@ -147,7 +147,7 @@ const Home = () => {
                 ))}
             </select>
           </div>
-        </div>
+        </div>*/}
       </div>
       <Wrapper
         apiKey={"AIzaSyCD1FuJyVYo8fzxw9xxX7NTexAYviVGv0U"}

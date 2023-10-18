@@ -7,7 +7,7 @@ type Props = {}
 
 const WatchListed = (props: Props) => {
     return (
-        <div className='py-3'>
+        <div className='py-3 px-3 w-[90%] shadow-md rounded-[10px]'>
             <div className=''>
                 <div className='space-y-2'>
                     <img src='/images/watchlist_001.png' className='w-full' />

@@ -3,6 +3,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
 import { IconButton } from "@mui/material";
 import { CategoryModal } from "../Core/CategoryModal";
+import { Avatar } from "@mui/material";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 interface HeaderProps {
   style: string;
@@ -23,6 +25,11 @@ const Header = ({ style }: HeaderProps) => {
 
   const handleCloseModal = () => {
     setShowModal(false);
+  };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleMenuClick = () => {
+    setIsModalOpen(!isModalOpen);
   };
 
   const handleItemClick = (item: string) => {
@@ -60,39 +67,39 @@ const Header = ({ style }: HeaderProps) => {
   ];
 
   const customerMenu = [
+    //{
+    //  label: "Manufacturers",
+    //  link: "/manufacturers",
+    //},
+    //{
+    //  label: "Merchants",
+    //  link: "/merchants",
+    //},
+    //{
+    //  label: "Farmers",
+    //  link: "/farmers",
+    //},
     {
-      label: "Manufacturers",
-      link: "/manufacturers",
+      label: "Buy Again",
+      link: "/buy-again",
     },
     {
-      label: "Merchants",
-      link: "/merchants",
+      label: "Customer Service",
+      link: "/Customer Service",
     },
     {
-      label: "Farmers",
-      link: "/farmers",
+      label: "Cards",
+      link: "/Cards",
     },
-    // {
-    //   label: "Buy Again",
-    //   link: "/buy-again",
-    // },
-    // {
-    //   label: "Customer Service",
-    //   link: "/Customer Service",
-    // },
-    // {
-    //   label: "Cards",
-    //   link: "/Cards",
-    // },
   ];
   const [currentMenu, setCurrentMenu] = useState<Menu[]>([]);
 
   useEffect(() => {
     const accountType = localStorage.getItem("account_type");
     console.log(accountType);
-    if (accountType === "Customer"){
+    if (accountType === "Customer") {
       setCurrentMenu(customerMenu);
-    }else{
+    } else {
       setCurrentMenu(otherMenu);
     }
     return;
@@ -103,10 +110,11 @@ const Header = ({ style }: HeaderProps) => {
       <div className={`${style}`}>
         <div className="w-[90%] flex mx-auto justify-between items-center">
           <div className="flex gap-4 items-center md:flex-[100%] flex-[50%] text-white font-medium md:font-normal md:text-[14px]">
-            <div className="xs:hidden">
+            <div className="justify-center items-center flex xs:hidden bg-[#E51B48] -ml-20 pl-[4.5rem] pr-3 ">
               <IconButton onClick={handleOpenModal} className="xs:hidden">
                 <MenuIcon className="text-white" />
               </IconButton>
+              <p className="general-font">All</p>
             </div>
             <CategoryModal show={showModal} onClose={handleCloseModal} />
             {/* <div
@@ -128,6 +136,42 @@ const Header = ({ style }: HeaderProps) => {
                 <h2 onClick={() => handleItemClick("Merchants")}>Merchants</h2>
               </Link>
             </div> */}
+            <div>
+              <div
+                className="gap-2 flex-row flex items-center cursor-pointer"
+                onClick={handleMenuClick}>
+                {isModalOpen && (
+                  <div className="absolute top-40 w-[250px] h-600 right-30 mr-2 p-4 z-20 rounded-md bg-white shadow">
+                    <div className="flex flex-col gap-2 text-black">
+                      <div className="flex flex-col gap-4">
+                        <Link to="/manufacturers-profile/">
+                          <h2 className="text-md hover:text-[#1B7CFC]">
+                            Manufacturers
+                          </h2>
+                        </Link>
+                        <Link to="/manufacturers-profile/">
+                          <h2 className="text-md hover:text-[#1B7CFC]">
+                            Merchants
+                          </h2>
+                        </Link>
+                        <Link to="/manufacturers-profile/">
+                          <h2 className="text-md hover:text-[#1B7CFC]">
+                            Farmers
+                          </h2>
+                        </Link>
+                        
+                      </div>
+                    </div>
+                  </div>
+                )}
+                <div>
+                  <h2>Sell on Azany</h2>
+                  <IconButton>
+                    <ArrowDropDownIcon className="text-white" />
+                  </IconButton>
+                </div>
+              </div>
+            </div>
             {currentMenu &&
               currentMenu.map((menuItem) => (
                 <Link to={`${menuItem.link}`} key={menuItem.label}>

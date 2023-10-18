@@ -65,6 +65,7 @@ import Cards from "./pages/CustomerProfile/Cards";
 import Ratings from "./pages/CustomerProfile/Ratings";
 import TrackOrder from "./pages/CustomerProfile/TrackOrder";
 import WatchList from "./pages/CustomerProfile/WatchList";
+import Saved from "./pages/CustomerProfile/Saved";
 import Merchants from "./pages/merchants/Merchants";
 import Error from "./pages/errors/Error";
 import Report from "./pages/Report/Report";
@@ -185,6 +186,7 @@ function App() {
           <Route path="cards" element={<Cards />} />
           <Route path="messages" element={<Inbox />} />
           <Route path="watchlist" element={<WatchList />} />
+          <Route path="saved" element={<Saved />} />
           <Route path="rating" element={<Ratings />} />
           <Route path="address" element={<Address />} />
           <Route path="track_orders" element={<TrackOrder />} />

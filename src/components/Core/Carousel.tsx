@@ -4,11 +4,11 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
 const images = [
-  { src: "/images/azanyslide1.png", alt: "Image 1" },
-  { src: "/images/azanyslide5.png", alt: "Image 5" },
-  { src: "/images/azanyslide2.png", alt: "Image 2" },
-  { src: "/images/azanyslide6.png", alt: "Image 6" },
-  { src: "/images/azanyslide4.png", alt: "Image 4" },
+  { src: "/images/azanyslide7.png", alt: "Image 1" },
+  { src: "/images/azanyslide7.png", alt: "Image 5" },
+  { src: "/images/azanyslide7.png", alt: "Image 2" },
+  { src: "/images/azanyslide7.png", alt: "Image 6" },
+  { src: "/images/azanyslide7.png", alt: "Image 4" },
 ];
 
 const Carousel: FC = () => {
@@ -20,8 +20,8 @@ const Carousel: FC = () => {
     slidesToScroll: 1,
     autoplay: true, // added autoplay property
     autoplaySpeed: 3000, // added autoplaySpeed property (3 seconds)
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
+    //nextArrow: <NextArrow />,
+    //prevArrow: <PrevArrow />,
   };
 
   function NextArrow(props: any) {
