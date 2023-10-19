@@ -63,26 +63,26 @@ const BottomHeader = ({ style, isFarmer }: BottomProps) => {
           </Link>
           <div className="flex justify-start items-center space-x-5 md:space-x-0 flex-[80%] ">
             <div className="flex flex-col items-center">
-              <p className="text-white font-light">Shopping from</p>
+              <p className="general-font text-white font-light">Shopping from</p>
               <div className="flex items-center space-x-2">
                 <IconButton>
                   <EditLocationIcon className="text-white" />
                 </IconButton>
-                <p className="font-semibold text-white ">Kenya</p>
+                <p className="general-font font-semibold text-white ">Kenya</p>
                 <IconButton>
                   <ArrowDropDownIcon className="text-white" />
                 </IconButton>
               </div>
             </div>
             <div className="flex items-center ">
-              <input className="py-3 px-8 w-[full] rounded-l-[10px] outline-none" placeholder="Search Azany" />
+              <input className="general-font py-3 px-8 w-[full] rounded-l-[10px] outline-none" placeholder="Search Azany" />
               <div className="bg-white py-[4px] px-6 rounded-r-[10px] ">
                 <IconButton>
                   <SearchIcon className="text-[#E51B48]" />
                 </IconButton>
               </div>
               <div className="flex items-center space-x-0 md:hidden">
-                <p className="text-white px-5">EN</p>
+                <p className="general-font text-white px-5">EN</p>
                 <img src="/images/usa.png" />
               </div>
             </div>
@@ -97,18 +97,18 @@ const BottomHeader = ({ style, isFarmer }: BottomProps) => {
                         <div className="flex flex-col gap-2 text-black">
                           <div className="flex flex-row gap-1 items-center">
                             <Icon icon="mdi:user-circle" width={32} height={32} />
-                            <h2 className="text-bold text-lg">Hello {username}</h2>
+                            <h2 className="general-font text-bold text-lg">Hello {username}</h2>
                           </div>
                           <div className="border-t border-gray-400"></div>
                           <div className="flex flex-col gap-4">
                             <Link to="/manufacturers-profile/">
                               <h2 className="text-md hover:text-[#1B7CFC]">Account</h2>
                             </Link>
-                            <h2 className="text-md hover:text-[#1B7CFC]">Orders</h2>
-                            <h2 className="text-md hover:text-[#1B7CFC]">Watchlist</h2>
-                            <h2 className="text-md hover:text-[#1B7CFC]">Recently Viewed</h2>
-                            <h2 className="text-md hover:text-[#1B7CFC]">Cards</h2>
-                            <h2 className="text-md hover:text-red-600 text-red-400 cursor-pointer" onClick={handleLogout}>
+                            <h2 className="text-md hover:text-[#1B7CFC] general-font">Orders</h2>
+                            <h2 className="text-md hover:text-[#1B7CFC] general-font">Watchlist</h2>
+                            <h2 className="text-md hover:text-[#1B7CFC] general-font">Recently Viewed</h2>
+                            <h2 className="text-md hover:text-[#1B7CFC] general-font">Cards</h2>
+                            <h2 className="text-md hover:text-red-600 text-red-400 cursor-pointer general-font" onClick={handleLogout}>
                               Sign Out
                             </h2>
                           </div>

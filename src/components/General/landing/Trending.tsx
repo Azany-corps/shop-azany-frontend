@@ -19,8 +19,8 @@ const Trending = ({ styles, title }: TrendingProps) => {
   return (
     <div className="mx-12 my-10 flex flex-col gap-4 xs:mx-4">
       <div className={`${styles}  px-8 py-4 flex justify-between rounded-lg`}>
-        <p className="">{title}</p>
-        <p className="">SEE ALL</p>
+        <p className="general-font">{title}</p>
+        <p className="general-font">SEE ALL</p>
       </div>
       <div className="flex flex-row gap-4 overflow-x-scroll">
         {products.map((product, index) => (

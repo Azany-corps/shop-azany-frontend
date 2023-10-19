@@ -35,8 +35,8 @@ const OverFlow = () => {
           </div>
         </div>
         <div className="pt-4">
-          <h1 className="font-[700] text-xl">Top Selling</h1>
-          <p className="pt-2 font-[500] text-sm text-[#E51B48]">See More</p>
+          <h1 className="general-font font-[700] text-xl">Top Selling</h1>
+          <p className="general-font pt-2 font-[500] text-sm text-[#E51B48]">See More</p>
         </div>
       </div>
       <div className="p-5 w-full h-[550px] rounded-[10px] bg-[#fff] space-y-3">
@@ -47,8 +47,8 @@ const OverFlow = () => {
         </div>
         
         <div className="pt-4">
-          <h1 className="font-[700] text-xl">Top Categories</h1>
-          <p className="pt-2 font-[500] text-sm text-[#E51B48]">See More</p>
+          <h1 className="general-font font-[700] text-xl">Top Categories</h1>
+          <p className="general-font pt-2 font-[500] text-sm text-[#E51B48]">See More</p>
         </div>
       </div>
       <div className="p-5 w-full h-[550px] rounded-[10px] bg-[#fff] space-y-3">
@@ -56,8 +56,8 @@ const OverFlow = () => {
             <img src="/images/topfarm.png" />
         </div>
         <div className="pt-4">
-          <h1 className="font-[700] text-xl">Top Selling</h1>
-          <p className="pt-2 font-[500] text-sm text-[#E51B48]">See More</p>
+          <h1 className="general-font font-[700] text-xl">Top Selling</h1>
+          <p className="general-font pt-2 font-[500] text-sm text-[#E51B48]">See More</p>
         </div>
       </div>
     </div>

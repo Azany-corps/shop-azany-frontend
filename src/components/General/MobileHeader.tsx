@@ -138,7 +138,7 @@ const MobileHeader = ({ isFarmer, style, hideScrollMenu }: Props) => {
     deleteAuthToken("");
   };
   return (
-    <div className={`${style ? style : " bg-[#1B7CFC]"} lg:hidden md:hidden 2xl:hidden xl:hidden sm:hidden flex flex-col w-screen gap-4`}>
+    <div className={`${style ? style : " bg-[#221E22]"} lg:hidden md:hidden 2xl:hidden xl:hidden sm:hidden flex flex-col w-screen gap-4`}>
       <div className="flex justify-between items-center mx-2 mt-4">
         <div>
           <IconButton onClick={handleOpenModal} className="">
@@ -234,7 +234,7 @@ const MobileHeader = ({ isFarmer, style, hideScrollMenu }: Props) => {
         </div>
       )}
 
-      <div className={`flex flex-row gap-2 ${isFarmer ? "bg-[#95A179]" : "bg-[#70ADFF]"} p-3 text-white text-xs`}>
+      <div className={`flex flex-row gap-2 ${isFarmer ? "bg-[#95A179]" : "bg-[#44444C)]"} p-3 text-white text-xs`}>
         <Icon icon="material-symbols:location-on-rounded" width="16" height="16" />
         <p>Shopping from Kenya</p>
       </div>
