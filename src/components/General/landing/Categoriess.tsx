@@ -48,8 +48,8 @@ const Categoriess = ({ styles, title, country }: CategoriessProps) => {
       <div
         className={`${styles} px-8 xs:text-sm xs:px-4 py-4 flex justify-between rounded-tl-lg rounded-tr-lg`}
       >
-        <p className="">{title}</p>
-        <p className="">SEE ALL</p>
+        <p className="general-font">{title}</p>
+        <p className="general-font">SEE ALL</p>
       </div>
       <div className="flex overflow-x-scroll flex-row gap-4 bg-white">
         {store.length > 0 ? (

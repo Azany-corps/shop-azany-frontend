@@ -145,8 +145,8 @@ const ExclusiveCategories = ({ styles, title, country }: ExclusiveCategoriesProp
   return (
     <div className="mx-12 my-10 xs:mx-4">
     <div className={`${styles} px-8 xs:text-sm xs:px-4 py-4 flex justify-between rounded-tl-lg rounded-tr-lg`}>
-        <p className="">{title}</p>
-        <p className="">SEE ALL</p>
+        <p className="general-font">{title}</p>
+        <p className="general-font">SEE ALL</p>
       </div>
       {product.length > 0 ? (
         <Slider {...settings}>

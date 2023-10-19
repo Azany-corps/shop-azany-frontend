@@ -141,21 +141,21 @@ const Header = ({ style }: HeaderProps) => {
                 className="gap-2 flex-row flex items-center cursor-pointer"
                 onClick={handleMenuClick}>
                 {isModalOpen && (
-                  <div className="absolute top-40 w-[250px] h-600 right-30 mr-2 p-4 z-20 rounded-md bg-white shadow">
+                  <div className="absolute top-[8rem] w-[200px] h-600 right-30 mr-2 p-4 z-20 rounded-md bg-white shadow">
                     <div className="flex flex-col gap-2 text-black">
                       <div className="flex flex-col gap-4">
                         <Link to="/manufacturers-profile/">
-                          <h2 className="text-md hover:text-[#1B7CFC]">
+                          <h2 className="general-font text-md hover:text-[#1B7CFC]">
                             Manufacturers
                           </h2>
                         </Link>
                         <Link to="/manufacturers-profile/">
-                          <h2 className="text-md hover:text-[#1B7CFC]">
+                          <h2 className="general-font text-md hover:text-[#1B7CFC]">
                             Merchants
                           </h2>
                         </Link>
                         <Link to="/manufacturers-profile/">
-                          <h2 className="text-md hover:text-[#1B7CFC]">
+                          <h2 className="general-font text-md hover:text-[#1B7CFC]">
                             Farmers
                           </h2>
                         </Link>
@@ -165,9 +165,9 @@ const Header = ({ style }: HeaderProps) => {
                   </div>
                 )}
                 <div className="flex flex-row justify-center items-center">
-                  <h2>Sell on Azany</h2>
+                  <h2 className="general-font">Sell on Azany</h2>
                   <IconButton>
-                    <ArrowDropDownIcon className="text-white" />
+                    <ArrowDropDownIcon className="text-white general-font -ml-2" />
                   </IconButton>
                 </div>
               </div>
@@ -180,7 +180,7 @@ const Header = ({ style }: HeaderProps) => {
                       `${menuItem.label}`
                     )}`}
                   >
-                    <h2 onClick={() => handleItemClick(menuItem.label)}>
+                    <h2 className="mx-2 general-font" onClick={() => handleItemClick(menuItem.label)}>
                       {menuItem.label}
                     </h2>
                   </div>
@@ -206,7 +206,7 @@ const Header = ({ style }: HeaderProps) => {
           </div>
           <div className="flex-[30%] xs:hidden md:text-[14px]">
             <h2
-              className={`text-white font-medium md:font-normal cursor-pointer text-right ${isItemSelected(
+              className={`general-font text-white font-medium md:font-normal cursor-pointer text-right ${isItemSelected(
                 "Retailers"
               )}`}
             >

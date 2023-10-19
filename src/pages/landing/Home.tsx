@@ -163,12 +163,12 @@ const Home = () => {
       </Wrapper>
       <OverFlow />
       <Categories
-        styles={"bg-red-600 font-medium text-lg text-white "}
+        styles={"general-font bg-red-600 font-medium text-lg text-white "}
         title={"Flash Sales"}
         country={country}
       />
       <Categoriess
-        styles={"bg-[#DDDDDD] font-medium text-lg text-black"}
+        styles={"general-font bg-[#DDDDDD] font-medium text-lg text-black"}
         title={"Top Products"}
         country={country}
       />

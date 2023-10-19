@@ -7,7 +7,7 @@ const BackTop = () => {
             onClick={() => {
                 window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
               }}
-            className='w-full h-[70px] text-white font-[700]'>Back to Top</button>
+            className='general-font w-full h-[70px] text-white font-[700]'>Back to Top</button>
     </div>
   )
 }

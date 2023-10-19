@@ -13,37 +13,37 @@ const Footer = ({ style }: FooterProps) => {
           
           <div className="">
             <div className="text-left text-white">
-              <h1 className="text-white cursor-pointer font-semibold text-xl ">ABOUT AZANY</h1>
+              <h1 className="text-white cursor-pointer font-semibold text-xl general-font">ABOUT AZANY</h1>
               <div className="mt-2 py-4">
-                <p className="font-normal pb-2">About Us</p>
-                <p className="font-normal pb-2">Cookie Notice</p>
-                <p className="font-normal pb-2">Privacy Notice</p>
-                <p className="font-normal pb-2">Terms & Conditons</p>
-                <p className="font-normal pb-2">Top deals</p>
-                <p className="font-normal pb-2">Blog</p>
+                <p className="font-normal pb-2 general-font">About Us</p>
+                <p className="font-normal pb-2 general-font">Cookie Notice</p>
+                <p className="font-normal pb-2 general-font">Privacy Notice</p>
+                <p className="font-normal pb-2 general-font">Terms & Conditons</p>
+                <p className="font-normal pb-2 general-font">Top deals</p>
+                <p className="font-normal pb-2 general-font">Blog</p>
               </div>
             </div>
           </div>
           <div className="">
             <div className="text-left text-white">
-              <h1 className="text-white cursor-pointer text-xl font-semibold capitalize">HELP</h1>
+              <h1 className="text-white cursor-pointer text-xl font-semibold capitalize general-font">HELP</h1>
               <div className="mt-2 py-4 flex flex-col">
-                <Link className="font-normal pb-2" to={"/report/vendor"}>
+                <Link className="general-font font-normal pb-2" to={"/report/vendor"}>
                   Report a vendor
                 </Link>
-                <Link className="font-normal pb-2" to={"/report/product"}>
+                <Link className="general-font font-normal pb-2" to={"/report/product"}>
                   Report a product
                 </Link>
-                <Link className="font-normal pb-2" to={"/docs/refund-policy"}>
+                <Link className="general-font font-normal pb-2" to={"/docs/refund-policy"}>
                   Returns & Refund Policy
                 </Link>
-                <Link className="font-normal pb-2" to={"/doc/track-order"}>
+                <Link className="general-font font-normal pb-2" to={"/doc/track-order"}>
                   Help Center
                 </Link>
-                <Link className="font-normal pb-2" to={"/doc/track-order"}>
+                <Link className="general-font font-normal pb-2" to={"/doc/track-order"}>
                   Orders
                 </Link>
-                <Link className="font-normal pb-2" to={"/doc/avc"}>
+                <Link className="general-font font-normal pb-2" to={"/doc/avc"}>
                   AVC
                 </Link>
               </div>
@@ -53,13 +53,13 @@ const Footer = ({ style }: FooterProps) => {
             <div className="text-left text-white">
               <h1 className="text-white cursor-pointer text-xl font-semibold capitalize ">MAKE US MONEY</h1>
               <div className="mt-2 py-4 flex flex-col">
-                <Link to={"/sell-on-azany/farmers"} className="font-normal pb-2">
+                <Link to={"/sell-on-azany/farmers"} className="general-font font-normal pb-2">
                   Sell on Azany
                 </Link>
-                <Link to={"/sell-on-azany/manufacturers-merchant"} className="font-normal pb-2">
+                <Link to={"/sell-on-azany/manufacturers-merchant"} className="general-font font-normal pb-2">
                 Sell on Azany Business
                 </Link>
-                <Link to={"/doc/"} className="font-normal pb-2">
+                <Link to={"/doc/"} className="general-font font-normal pb-2">
                   Become an affiliate
                 </Link>
               </div>
@@ -67,15 +67,15 @@ const Footer = ({ style }: FooterProps) => {
           </div>
           <div className="">
             <div className="text-left text-white">
-              <h1 className="text-white cursor-pointer text-xl font-semibold capitalize ">MAKE US MONEY</h1>
+              <h1 className="general-font text-white cursor-pointer text-xl font-semibold capitalize ">MAKE US MONEY</h1>
               <div className="mt-2 py-4 flex flex-col">
-                <Link to={"/doc/sell-on-azany-business"} className="font-normal pb-2">
+                <Link to={"/doc/sell-on-azany-business"} className="general-font font-normal pb-2">
                   Sell on Azany
                 </Link>
-                <Link to={"/doc/sell-on-azany-business"} className="font-normal pb-2">
+                <Link to={"/doc/sell-on-azany-business"} className="general-font font-normal pb-2">
                 Sell on Azany Business
                 </Link>
-                <Link to={"/doc/"} className="font-normal pb-2">
+                <Link to={"/doc/"} className="general-font font-normal pb-2">
                   Become an affiliate
                 </Link>
               </div>
@@ -91,7 +91,7 @@ const Footer = ({ style }: FooterProps) => {
           </div>*/}
         </div>
         <div className="py-10">
-          <p className="text-center text-white">c2023 Azany ALL RIGHTS RESERVED</p>
+          <p className="general-font text-center text-white">c2023 Azany ALL RIGHTS RESERVED</p>
         </div>
       </footer>
     </>

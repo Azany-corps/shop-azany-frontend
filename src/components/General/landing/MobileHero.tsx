@@ -43,7 +43,7 @@ const MobileHero = ({ onCountryChange }: HeroProps) => {
       <div className="w-full">
         <Carousel />
       </div>
-      <div className="relative p-6 rounded-lg flex flex-col bg-white mx-4 gap-4 -mt-6 z-2">
+      {/*<div className="relative p-6 rounded-lg flex flex-col bg-white mx-4 gap-4 -mt-6 z-2">
         <div>
           <h1 className="text-lg font-medium">Where would you like to shop?</h1>
           <h1 className="font-normal">You get access to exclusive deals across the globe</h1>
@@ -57,7 +57,7 @@ const MobileHero = ({ onCountryChange }: HeroProps) => {
             styles="rounded-md"
           />
         </div>
-      </div>
+    </div>*/}
     </div>
   );
 };
