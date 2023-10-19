@@ -26,7 +26,11 @@ const Categoriess = ({ styles, title, country }: CategoriessProps) => {
       const fetchStore = async () => {
         try {
           setIsLoading(true);
-          const response = await callAPI(`general/products/list_top_seller/${country}`, "GET", null);
+          const response = await callAPI(
+            `general/products/list_top_seller/${country}`,
+            "GET",
+            null
+          );
           setStore(response.data?.values);
           console.log(response.data?.values);
         } catch (error) {
@@ -41,7 +45,9 @@ const Categoriess = ({ styles, title, country }: CategoriessProps) => {
 
   return (
     <div className="mx-12 my-10 xs:mx-4">
-    <div className={`${styles} px-8 xs:text-sm xs:px-4 py-4 flex justify-between rounded-tl-lg rounded-tr-lg`}>
+      <div
+        className={`${styles} px-8 xs:text-sm xs:px-4 py-4 flex justify-between rounded-tl-lg rounded-tr-lg`}
+      >
         <p className="">{title}</p>
         <p className="">SEE ALL</p>
       </div>

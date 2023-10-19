@@ -20,6 +20,8 @@ import axios from "axios";
 import { count } from "console";
 
 import Newsletter from "../../components/General/landing/Newsletter";
+import BackTop from "../../components/General/landing/BackTop";
+import OverFlow from "../../components/General/landing/OverFlow";
 
 function MyMapComponent({
   center,
@@ -91,10 +93,11 @@ const Home = () => {
       <BottomHeader style={"bg-[#221E22] py-2 xs:hidden"} />
       <MobileHeader />
       <Header style={"bg-[#44444C] xs:hidden"} />
+      <div className="h-[3px] w-full bg-[#E51B48]" />
       {/* <Slider /> */}
       {/* <Hero onCountryChange={handleCountryChange} /> */}
       <MobileHero onCountryChange={handleCountryChange} />
-      <div className=" home-background w-full flex py-4 px-14 xs:hidden">
+      <div className="home-background w-full flex py-4 px-14 xs:hidden">
         <div className="w-full">
           <Carousel />
         </div>
@@ -158,30 +161,31 @@ const Home = () => {
           zoom={11}
         />
       </Wrapper>
+      <OverFlow />
       <Categories
         styles={"bg-red-600 font-medium text-lg text-white "}
-        title={"Newly Posted"}
+        title={"Flash Sales"}
         country={country}
       />
       <Categoriess
-        styles={"bg-blue-400 font-medium text-lg text-white "}
-        title={"Top Sellers"}
-        country={country}
-      />
-      <Categoriess
-        styles={"bg-blue-600 font-medium text-lg text-white"}
+        styles={"bg-[#DDDDDD] font-medium text-lg text-black"}
         title={"Top Products"}
         country={country}
       />
-      <Advert src={"/images/azanyad1.png"} />
+      <Advert src={"/images/azanyad5.png"} />
       <Categoriess
         styles={"bg-white font-medium text-lg text-black"}
         title={"Chuks Enterprise"}
         country={country}
       />
       <ExclusiveCategories
-        styles={"bg-white font-medium text-lg text-black "}
-        title={"Exclusive Deals"}
+        styles={"bg-[#DDDDDD] font-medium text-lg text-black "}
+        title={"Amazing Deals"}
+        country={country}
+      />
+      <Categoriess
+        styles={"bg-white font-medium text-lg text-black"}
+        title={"Top Deals"}
         country={country}
       />
       <Advert src={"/images/azanyad2.png"} />
@@ -189,13 +193,14 @@ const Home = () => {
         styles={"bg-white font-medium text-lg text-black "}
         title={"Trending Categories"}
       />
-      <ExclusiveCategories
+      {/*<ExclusiveCategories
         styles={"bg-white font-medium text-lg text-black "}
         title={"Exclusive Deals"}
         country={country}
-      />
-      <Newsletter style={"bg-[#70ADFF] py-5 px-10 xs:hidden"} />
-      <Footer style={"bg-[#1B7CFC] py-10 px-10 xs:hidden"} />
+      />*/}
+      <BackTop />
+      <Newsletter style={"bg-[#44444C] py-5 px-10 xs:hidden"} />
+      <Footer style={"bg-[#221E22] py-10 px-10 xs:hidden"} />
       <MobileFooter
         style={
           "bg-[#1B7CFC] sm:hidden lg:hidden md:hidden 2xl:hidden xl:hidden"
