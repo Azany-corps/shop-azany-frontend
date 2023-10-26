@@ -1,20 +1,38 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Alert, Grid } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Snackbar } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import callAPI from "../../api/callApi";
 import OrderSummary from "../../components/General/cart/OrderSummary";
 
 const Callback = () => {
+    const token = localStorage.getItem("token");
+    const headers = { Authorization: `Bearer ${token}` };
     const [alertOpen, setAlertOpen] = useState(false);
     const [data, setData] = useState<any>(null)
+    const location = useLocation();
+    const [status, setStatus] = useState<boolean>(false)
 
     useEffect(() => {
         const callback = async () => {
             try {
-                // const response = await callAPI(`general/products/fetch_countries`, "GET", null, headers);
-                // console.log(response?.data?.values);
-                // setData(response?.data?.values);
+                const reference = new URLSearchParams(location.search).get('reference');
+
+                const response = await callAPI(`transaction/success/callback/paystack/${reference}`, "GET", null, headers);
+
+                if (response?.data?.values === 'paid') {
+                    const verifyResponse = await callAPI(`transaction/paystackVerifyPayment/${reference}`, "GET", null, headers);
+                    console.log(verifyResponse?.status)
+                    setStatus(verifyResponse?.status);
+                    console.log('datahk: ', data)
+
+                    // const cardResponse = await callAPI(`transaction/transaction/paystackSaveCard/${reference}`, "GET", null, headers);
+                    // console.log(cardResponse?.data)
+
+
+                }
             } catch (error) {
                 console.error(error);
             }
@@ -97,9 +115,20 @@ const Callback = () => {
                             <div className="flex justify-between items-center ">
                                 <p className="font-semibold text-[24px]">Pyment Callback</p>
                             </div>
-                            <div className="flex">
-                                Payment Successfull
+                            <div className="fle justify-center w-full items-center py-24 font-semibold text-3xl">
+                                {
+                                    status ? (
+                                        <p className="text-green-500 text-center">
+                                            Payment Successfull !!!
+                                        </p>
+                                    ) : (
+                                        <p className="text-red-500 text-center">
+                                            Payment Failed
+                                        </p>
+                                    )
+                                }
                             </div>
+
                             <div className="flex justify-between ">
                                 <div className="flex items-center gap-2 text-[#515151] smm:text-base text-sm">
                                     <ArrowBackIcon />

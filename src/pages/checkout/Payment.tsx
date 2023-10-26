@@ -124,15 +124,15 @@ const PaymentInfo = () => {
       );
       // sessionStorage.removeItem("customerInfo");
       console.log(response?.data?.values?.data.authorization_url);
-      const payResponse = await callAPI(
-        response?.data?.values?.data.authorization_url,
-        "GET",
-        null,
-        null,
-        true
-      )
-      console.log(payResponse)
-      // window.location.replace(response?.data?.values?.data.authorization_url)
+      // const payResponse = await callAPI(
+      //   response?.data?.values?.data.authorization_url,
+      //   "GET",
+      //   null,
+      //   null,
+      //   true
+      // )
+      // console.log(payResponse)
+      window.location.replace(response?.data?.values?.data.authorization_url)
     } catch (error) {
       console.log(error);
     }
