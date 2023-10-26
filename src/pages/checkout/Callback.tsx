@@ -12,9 +12,9 @@ const Callback = () => {
     useEffect(() => {
         const callback = async () => {
             try {
-                const response = await callAPI(`general/products/fetch_countries`, "GET", null, headers);
-                console.log(response?.data?.values);
-                setData(response?.data?.values);
+                // const response = await callAPI(`general/products/fetch_countries`, "GET", null, headers);
+                // console.log(response?.data?.values);
+                // setData(response?.data?.values);
             } catch (error) {
                 console.error(error);
             }
