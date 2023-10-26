@@ -23,7 +23,7 @@ const Callback = () => {
                 const response = await callAPI(`transaction/success/callback/paystack/${reference}`, "GET", null, headers);
 
                 if (response?.data?.values === 'paid') {
-                    const verifyResponse = await callAPI(`transaction/paystackVerifyPayment/${reference}`, "GET", null, headers);
+                    const verifyResponse = await callAPI(`transaction/paystackSaveCard/${reference}`, "GET", null, headers);
                     console.log(verifyResponse?.status)
                     setStatus(verifyResponse?.status);
                     console.log('datahk: ', data)
