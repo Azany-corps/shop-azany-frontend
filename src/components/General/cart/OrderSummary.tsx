@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { calculateTotalPrice, getCartProducts } from "../../../Services/cartservices";
 
-type Props = {};
+type Props = {
+  setTPrice?: Function
+};
 
-function OrderSummary({}: Props) {
+function OrderSummary({ setTPrice }: Props) {
   const [cart, setCart] = useState<any[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
@@ -18,6 +20,9 @@ function OrderSummary({}: Props) {
   }, []);
   useEffect(() => {
     setTotalPrice(calculateTotalPrice(cart));
+    if (setTPrice !== undefined) {
+      setTPrice(calculateTotalPrice(cart))
+    }
   }, [cart]);
   return (
     <div className="p-4 bg-white shadow-md h-full rounded-md gap-4 flex-col flex ">

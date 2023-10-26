@@ -107,18 +107,18 @@ const AuthSignup = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!selectedValue || selectedValue === "") {
-      toast.error("Select account type", {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      return;
-    }
+    // if (!selectedValue || selectedValue === "") {
+    //   toast.error("Select account type", {
+    //     position: "top-center",
+    //     autoClose: 3000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //   });
+    //   return;
+    // }
     if (formData.password !== formData.password_confirmation) {
       toast.warning("Password and Confirm Password must match.", {
         position: "top-center",
@@ -145,7 +145,7 @@ const AuthSignup = () => {
       data.append("address", formData.address);
       data.append("poster_code", formData.poster_code);
       data.append("referrer_code", formData.referrer_code);
-      data.append("account_type", selectedValue);
+      data.append("account_type", 'manufacturer');
       data.append("password", formData.password);
       data.append("password_confirmation", formData.password_confirmation);
 
