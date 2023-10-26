@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Alert, Grid } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Snackbar } from "@material-ui/core";
@@ -7,6 +7,22 @@ import OrderSummary from "../../components/General/cart/OrderSummary";
 
 const Callback = () => {
     const [alertOpen, setAlertOpen] = useState(false);
+    const [data, setData] = useState<any>(null)
+
+    useEffect(() => {
+        const callback = async () => {
+            try {
+                const response = await callAPI(`general/products/fetch_countries`, "GET", null, headers);
+                console.log(response?.data?.values);
+                setData(response?.data?.values);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        callback()
+
+    }, [])
 
     return (
         <div className="bg-[#F5F5F5] overflow-hidden">
