@@ -4,6 +4,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Link, useNavigate } from "react-router-dom";
 import callAPI from "../../api/callApi";
 import OrderSummary from "../../components/General/cart/OrderSummary";
+import * as countryList from "../../newCountries";
 
 interface Country {
   name: string;
@@ -27,6 +28,7 @@ const CustomerInfo = () => {
     state: "",
     postalCode: "",
     city: "",
+    email: ""
   });
 
   const [country, setCountry] = useState<Country>({
@@ -44,10 +46,17 @@ const CustomerInfo = () => {
     const token = localStorage.getItem("token");
     const headers = { Authorization: `Bearer ${token}` };
 
+    // const fetchCountriesData = async () => {
+    //   try {
+    //     const response = await callAPI(`general/products/fetch_countries`, "GET", null, headers);
+    //     setCountries(response?.data?.values);
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // };
     const fetchCountriesData = async () => {
       try {
-        const response = await callAPI(`general/products/fetch_countries`, "GET", null, headers);
-        setCountries(response?.data?.values);
+        setCountries(countryList.countries);
       } catch (error) {
         console.error(error);
       }
@@ -115,6 +124,15 @@ const CustomerInfo = () => {
     );
     navigate("/checkout/shipment");
   };
+
+  // const initiatePayment = async (e: any) => {
+  //   try {
+  //     const response = await callAPI(`transaction/pay_with_paystack/yemi@yemi.com/200/yemi/adex`, "GET", null, Headers);
+  //     setStates(response?.data?.values);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   useEffect(() => {
     const customerInfo = sessionStorage.getItem("customerInfo");
@@ -216,6 +234,17 @@ const CustomerInfo = () => {
                       className="px-4 py-3 w-full rounded-md border border-gray-300 bg-[#F5F5F5]"
                     />
                   </div>
+                </div>
+                <div className="w-full relative flex flex-col items-start">
+                  <label className="font-normal text-sm text-gray-600">EMAIL</label>
+                  <input
+                    onChange={handleChange}
+                    name="email"
+                    value={formData?.email}
+                    placeholder=""
+                    required
+                    className="px-4 py-3 w-full rounded-md border border-gray-300 bg-[#F5F5F5]"
+                  />
                 </div>
 
                 <div className="w-full flex flex-col relative items-start gap-2">
