@@ -13,6 +13,7 @@ const Callback = () => {
     const [alertOpen, setAlertOpen] = useState(false);
     const [data, setData] = useState<any>(null)
     const location = useLocation();
+    const [status, setStatus] = useState<boolean>(false)
 
     useEffect(() => {
         const callback = async () => {
@@ -22,8 +23,15 @@ const Callback = () => {
                 const response = await callAPI(`transaction/success/callback/paystack/${reference}`, "GET", null, headers);
 
                 if (response?.data?.values === 'paid') {
-                    const verifyResponse = await callAPI(`transaction/paystackSaveCard/${reference}`, "GET", null, headers);
-                    setData(verifyResponse?.data);
+                    const verifyResponse = await callAPI(`transaction/paystackVerifyPayment/${reference}`, "GET", null, headers);
+                    console.log(verifyResponse?.status)
+                    setStatus(verifyResponse?.status);
+                    console.log('datahk: ', data)
+
+                    // const cardResponse = await callAPI(`transaction/transaction/paystackSaveCard/${reference}`, "GET", null, headers);
+                    // console.log(cardResponse?.data)
+
+
                 }
             } catch (error) {
                 console.error(error);
@@ -109,7 +117,7 @@ const Callback = () => {
                             </div>
                             <div className="fle justify-center w-full items-center py-24 font-semibold text-3xl">
                                 {
-                                    data.status === 'success' ? (
+                                    status ? (
                                         <p className="text-green-500 text-center">
                                             Payment Successfull !!!
                                         </p>
