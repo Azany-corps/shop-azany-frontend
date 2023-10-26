@@ -22,7 +22,7 @@ const ProductCart = () => {
   const [cart, setCart] = useState<any[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [checkoutDisabled, setCheckoutDisabled] = useState(false);
-   const updateButtonRef = useRef<HTMLButtonElement | null>(null);
+  const updateButtonRef = useRef<HTMLButtonElement | null>(null);
   const navigate = useNavigate();
 
   const handleIncrease = (
@@ -132,11 +132,11 @@ const ProductCart = () => {
   }, [cart]);
 
 
-const enableButton = () => {
-  if (updateButtonRef.current) {
-    updateButtonRef.current.disabled = true;
-  }
-};
+  const enableButton = () => {
+    if (updateButtonRef.current) {
+      updateButtonRef.current.disabled = true;
+    }
+  };
 
   // check if any of the update button is enabled then setCheckoutDisabled(true) else setCheckoutDisabled(false)
   useEffect(() => {
@@ -190,17 +190,17 @@ const enableButton = () => {
                         smm:w-[120px] smm:h-[120px] w-[66px] h-[66px] aspect-square object-contain"
                             alt=""
                           />
-                         
-                            <div
-                              className="flex flex-row smm:gap-2 gap-0 text-[#E51B48] cursor-pointer smm:text-base text-sm items-end"
-                              onClick={() =>
-                                reomveProductFromCart(cartItem?.id)
-                              }
-                            >
-                              <DeleteForeverIcon />
-                              Remove
-                            </div>
-                          
+
+                          <div
+                            className="flex flex-row smm:gap-2 gap-0 text-[#E51B48] cursor-pointer smm:text-base text-sm items-end"
+                            onClick={() =>
+                              reomveProductFromCart(cartItem?.id)
+                            }
+                          >
+                            <DeleteForeverIcon />
+                            Remove
+                          </div>
+
                         </div>
                         <div className="flex flex-col smm:gap-1 font-light gap-0">
                           <p className="font-medium text-sm smm:text-base">
