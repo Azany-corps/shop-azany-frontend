@@ -16,7 +16,6 @@ const EditStore = () => {
     banner_url: "",
   });
 
-
   const handleClick = () => {
     const input = document.createElement("input");
     input.type = "file";
@@ -59,7 +58,12 @@ const EditStore = () => {
     const headers = { Authorization: `Bearer ${token}` };
     const fetchStore = async () => {
       try {
-        const response = await callAPI("auth/store/fetch_my_store_detail", "GET", null, headers);
+        const response = await callAPI(
+          "auth/store/fetch_my_store_detail",
+          "GET",
+          null,
+          headers
+        );
         setStore(response.data?.values[0]);
         setFormData(response.data?.values[0]);
         console.log(response.data?.values[0]);
@@ -96,10 +100,15 @@ const EditStore = () => {
       for (let i = 0; i < selectedImages.length; i++) {
         data.append("image[]", selectedImages[i]);
       }
-      const response = await callAPI("auth/store/update_store_page_content", "POST", data, {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${token}`,
-      });
+      const response = await callAPI(
+        "auth/store/update_store_page_content",
+        "POST",
+        data,
+        {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        }
+      );
       console.log(response);
       if (response.status && response.status_code === 200) {
         setLoading(false);
@@ -245,7 +254,7 @@ const EditStore = () => {
                   className="px-4 w-full py-3 rounded-md border border-gray-300 bg-[#F5F5F5]"
                   onChange={handleChange}
                   name="store_name"
-                  value={formData?.store_name}
+                  value={formData?.store_name || ""}
                 />
                 <p className="absolute inset-y-0 right-0 pr-3 mt-8 flex items-center cursor-pointer text-[#E51B48]">
                   Edit
@@ -262,7 +271,7 @@ const EditStore = () => {
                   cols={50}
                   onChange={handleChange}
                   style={{ height: "250px" }}
-                  value={formData?.about}
+                  value={formData?.about || ""}
                 />
                 <p className="absolute inset-y-0 right-0 pr-3 mb-40 flex items-center cursor-pointer text-[#E51B48]">
                   Edit
@@ -276,21 +285,21 @@ const EditStore = () => {
                   className="px-4 w-full py-3 rounded-md border border-gray-300 bg-[#F5F5F5]"
                   onChange={handleChange}
                   name="facebook"
-                  value={formData?.facebook}
+                  value={formData?.facebook || ""}
                 />
                 <input
                   placeholder="http://twitter.com/mamagold"
                   className="px-4 w-full py-3 rounded-md border border-gray-300 bg-[#F5F5F5]"
                   onChange={handleChange}
                   name="twitter"
-                  value={formData?.twitter}
+                  value={formData?.twitter || ""}
                 />
                 <input
                   placeholder="http://instagram.com/mamagold"
                   className="px-4 w-full py-3 rounded-md border border-gray-300 bg-[#F5F5F5]"
                   onChange={handleChange}
                   name="instagram"
-                  value={formData?.instagram}
+                  value={formData?.instagram || ""}
                 />
               </div>
 
