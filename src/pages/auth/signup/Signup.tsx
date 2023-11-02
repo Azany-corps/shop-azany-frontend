@@ -107,18 +107,18 @@ const AuthSignup = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!selectedValue || selectedValue === "") {
-      toast.error("Select account type", {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      return;
-    }
+    // if (!selectedValue || selectedValue === "") {
+    //   toast.error("Select account type", {
+    //     position: "top-center",
+    //     autoClose: 3000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //   });
+    //   return;
+    // }
     if (formData.password !== formData.password_confirmation) {
       toast.warning("Password and Confirm Password must match.", {
         position: "top-center",
@@ -145,7 +145,7 @@ const AuthSignup = () => {
       data.append("address", formData.address);
       data.append("poster_code", formData.poster_code);
       data.append("referrer_code", formData.referrer_code);
-      data.append("account_type", selectedValue);
+      data.append("account_type", 'manufacturer');
       data.append("password", formData.password);
       data.append("password_confirmation", formData.password_confirmation);
 
@@ -183,6 +183,11 @@ const AuthSignup = () => {
     }
   };
 
+  const accountType = [
+    { label: "Customer", value: "customer" },
+    { label: "Manufacturer", value: "manufacturer" },
+  ];
+
   return (
     <div className="bg-[#F5F5F5]">
       <ToastContainer />
@@ -205,19 +210,19 @@ const AuthSignup = () => {
                 <label className="font-normal text-[12px] text-gray-600">ACCOUNT TYPE</label>
 
                 <div className="w-full">
-                  {/* <DropdownComponent
-                    options={vendor}
+                  <DropdownComponent
+                    options={accountType}
                     error="Error selecting account type"
                     placeholder="Select your account type..."
                     selectedValue={selectedValue}
                     setSelectedValue={setSelectedValue}
                     onChange={(e: { target: { value: React.SetStateAction<string> } }) => e && setSelectedValue(e.target.value)}
-                  /> */}
-                  <select name="account_type" id="account_type" required className="xs:p-2 w-full p-3 rounded-md border border-gray-300 bg-[#F5F5F5]">
+                  />
+                  {/* <select name="account_type" id="account_type" required className="xs:p-2 w-full p-3 rounded-md border border-gray-300 bg-[#F5F5F5]">
                     <option value="Customer" selected>
                       Customer
                     </option>
-                  </select>
+                  </select> */}
                 </div>
               </div>
               <div className="flex flex-row gap-4">

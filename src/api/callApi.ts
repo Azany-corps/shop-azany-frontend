@@ -8,11 +8,14 @@ const callAPI = async (
   body: any,
   headers: any = {
     "Content-Type": "application/json",
-  }
+  },
+  base?: boolean
 ) => {
   try {
+    const myUrl = base ? url : baseUrl + url;
+    console.log(myUrl)
     const response = await axios({
-      url: `${baseUrl}${url}`,
+      url: `${myUrl}`,
       method,
       headers,
       data: body,
@@ -29,7 +32,7 @@ const callAPI = async (
     if (axiosError.response && axiosError.response.status === 403) {
       window.location.pathname = "/403";
     }
-   
+
     throw error;
   }
 };

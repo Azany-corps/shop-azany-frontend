@@ -8,6 +8,7 @@ import PopUpModal from "../../components/Core/PopUpModal";
 import LoginModal from "../../components/Core/LoginModal";
 import { calculateTotalPrice, getCartProducts } from "../../Services/cartservices";
 import OrderSummary from "../../components/General/cart/OrderSummary";
+import * as countryList from "../../newCountries";
 
 interface Country {
   name: string;
@@ -21,6 +22,7 @@ interface State {
 }
 
 const ShipmentInfo = () => {
+  const data = new FormData();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState("Door Step");
   const [country, setCountry] = useState<Country>({
@@ -101,21 +103,28 @@ const ShipmentInfo = () => {
     e.preventDefault();
 
     const token = localStorage.getItem("token");
-    const headers = { Authorization: `Bearer ${token}` };
+    const headers = {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${token}`
+    };
 
     try {
       if (customerInfo) {
+        data.append("first_name", customerInfo?.firstName);
+        data.append("last_name", customerInfo?.lastName);
+        data.append("country", customerInfo?.country);
+        data.append("state", customerInfo?.state);
+        data.append("postal_code", customerInfo?.postalCode);
+        data.append("city", "ammasoma"); //customerInfo?.city
+        data.append("address", customerInfo?.deliveryAddress);
+        data.append("delivery_options", selectedValue);
+
         const response = await callAPI(
-          `general/products/collect_customer_delivery_info?first_name=${customerInfo?.firstName}&last_name=${customerInfo?.lastName}&country=${
-            customerInfo?.country
-          }&state=${customerInfo?.state}&postal_code=${customerInfo?.postalCode}&city=${customerInfo?.city}&address=${
-            customerInfo?.deliveryAddress
-          }&delivery_options=${selectedValue}&pickup_id=${pickUpStation ? pickUpStation : null}`,
+          `general/products/collect_customer_delivery_info`,
           "POST",
-          null,
+          data,
           headers
         );
-        sessionStorage.removeItem("customerInfo");
         navigate("/checkout/confirmation");
         toast.success(response?.message, {
           position: "top-center",
@@ -141,9 +150,9 @@ const ShipmentInfo = () => {
         if (cachedCountries) {
           setCountries(JSON.parse(cachedCountries));
         } else {
-          const response = await callAPI(`general/products/fetch_countries`, "GET", null);
-          setCountries(response?.data?.values);
-          localStorage.setItem("countries", JSON.stringify(response?.data?.values));
+          // const response = await callAPI(`general/products/fetch_countries`, "GET", null);
+          setCountries(countryList.countries);
+          localStorage.setItem("countries", JSON.stringify(countryList.countries));
         }
       } catch (error) {
         console.error(error);

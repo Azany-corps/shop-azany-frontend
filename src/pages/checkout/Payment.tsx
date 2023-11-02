@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Grid, Radio } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import PopUpModal from "../../components/Core/PopUpModal";
 import { Accordion, AccordionItem, AccordionItemHeading, AccordionItemButton, AccordionItemPanel } from "react-accessible-accordion";
 import "react-accessible-accordion/dist/fancy-example.css";
@@ -22,8 +22,12 @@ interface CardDetails {
 }
 
 const PaymentInfo = () => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const headers = { Authorization: `Bearer ${token}` };
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("wallet");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [tPrice, setTPrice] = useState(0)
   const [cardDetails, setCardDetails] = useState<CardDetails>({
     card_number: "",
     card_type: "Master",
@@ -50,6 +54,14 @@ const PaymentInfo = () => {
     setIsModalOpen(true);
   };
 
+  let customerInfo: any = sessionStorage.getItem("customerInfo");
+  console.log(customerInfo);
+  if (customerInfo !== null || customerInfo !== undefined) {
+    customerInfo = JSON.parse(customerInfo);
+  } else {
+    navigate("/checkout");
+  }
+
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -67,8 +79,7 @@ const PaymentInfo = () => {
   };
 
   const handlePaymentWithPayPal = async () => {
-    const token = localStorage.getItem("token");
-    const headers = { Authorization: `Bearer ${token}` };
+
     console.log(cardDetails);
     try {
       const response = await callAPI(
@@ -101,6 +112,31 @@ const PaymentInfo = () => {
       });
     }
   };
+
+  const initiatePayment = async (e: any) => {
+    try {
+      console.log(headers)
+      const response = await callAPI(
+        `transaction/pay_with_paystack/${customerInfo.email}/${tPrice}/${customerInfo.firstName}/${customerInfo.lastName}`,
+        "GET",
+        null,
+        headers
+      );
+      // sessionStorage.removeItem("customerInfo");
+      console.log(response?.data?.values?.data.authorization_url);
+      // const payResponse = await callAPI(
+      //   response?.data?.values?.data.authorization_url,
+      //   "GET",
+      //   null,
+      //   null,
+      //   true
+      // )
+      // console.log(payResponse)
+      window.location.replace(response?.data?.values?.data.authorization_url)
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     if (selectedPaymentMethod === "card") {
@@ -428,14 +464,14 @@ const PaymentInfo = () => {
                   <ArrowBackIcon />
                   Back to Shipment Information
                 </div>
-                <Link to="/checkout/confirmation">
-                  <button className="bg-[#E51B48] text-sm smm:text-base text-white py-2 rounded-md smm:px-10 px-7">Proceed</button>
-                </Link>
+                {/* <Link to="/checkout/confirmation"> */}
+                <button onClick={initiatePayment} className="bg-[#E51B48] text-sm smm:text-base text-white py-2 rounded-md smm:px-10 px-7">Proceed</button>
+                {/* </Link> */}
               </div>
             </div>
           </Grid>
           <Grid item xs={12} md={4}>
-            <OrderSummary />
+            <OrderSummary setTPrice={setTPrice} />
           </Grid>
         </Grid>
       </div>

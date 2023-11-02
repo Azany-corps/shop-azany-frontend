@@ -85,6 +85,7 @@ import Email from "./pages/email/Email";
 import AzanyFarmers from "./pages/landing/AzanyFarmers";
 import ManufacturerHomePage from "./pages/landing/ManufacturerHomePage";
 import SignupSeller from "./pages/auth/signup/SignupSeller";
+import Callback from "./pages/checkout/Callback";
 
 function App() {
   return (
@@ -158,7 +159,7 @@ function App() {
         </Route>
         <Route path="/sell-on-azany">
           <Route path="farmers" element={<AzanyFarmers />} />
-          <Route path="manufacturers-merchant" element={< ManufacturerHomePage/>} />
+          <Route path="manufacturers-merchant" element={< ManufacturerHomePage />} />
         </Route>
         <Route path="/auth">
           <Route index element={<AuthLogin />} />
@@ -224,6 +225,8 @@ function App() {
           <Route path="shipment" element={<ShipmentInfo />} />
           <Route path="payment" element={<PaymentInfo />} />
           <Route path="confirmation" element={<Confirmation />} />
+          <Route path="callback" element={<Callback />} />
+
         </Route>
         <Route path="/farmers">
           <Route index element={<Farmers />} />

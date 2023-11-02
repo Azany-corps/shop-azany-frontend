@@ -63,7 +63,7 @@ const updateProductQuantityInCart = async (
     });
 
     return response;
-  } catch (err:any) {
+  } catch (err: any) {
     if (err.response.data.status_code === 422) {
       toast.warning(err.response.data.message, {
         position: "top-center",
