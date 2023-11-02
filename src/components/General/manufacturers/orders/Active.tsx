@@ -1,45 +1,143 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Icon } from '@iconify/react';
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { getProductOrders } from "../../../../Services/order.service";
+import Status from "./Status";
+
+interface IProduct {
+  product_name: string,
+  image_url: string,
+  quantity: number
+}
+
+interface IOrder {
+  order_code: string,
+  created_at: string,
+  address: string,
+  order_status: number,
+  products: IProduct[]
+}
 
 const OrderActv = () => {
-  const order = {
-    image: "/images/ordershirt.png",
-    item: "MURIOKI Mens Printed T-Shirt Short Sleeve Shirt - Blue",
-    vendor: "Chukwudi Enterprise",
-    price: "$566",
-    status: "In Stock",
-    time: "Order Placed 09/01",
-  };
+  // const orders = [
+  //   {
+  //     order_code: 'PBM_xvtGNpKo_101623',
+  //     created_at: '09/10',
+  //     address: '42 Main Street, Parkview Estates, Ikeja, Lagos, Nigeria',
+  //     order_status: ['pending', 'stock'],
+  //     products: [
+  //       {
+  //         product_name: "MURIOKI Men's Printed T-Shirt Short Sleeve Shirt - Blue",
+  //         image_url: "/images/ordershirt.png",
+  //         quantity: '4'
+  //       },
+  //       {
+  //         product_name: "MURIOKI Men's Printed T-Shirt Short Sleeve Shirt - Blue",
+  //         image_url: "/images/ordershirt.png",
+  //         quantity: '4'
+  //       }
+  //     ]
+
+  //   },
+  //   {
+  //     order_code: 'PBM_xvtGNpKo_101623',
+  //     created_at: '09/10',
+  //     address: '42 Main Street, Parkview Estates, Ikeja, Lagos, Nigeria',
+  //     order_status: ['pending', 'stock'],
+  //     products: [
+  //       {
+  //         product_name: "MURIOKI Men's Printed T-Shirt Short Sleeve Shirt - Blue",
+  //         image_url: "/images/ordershirt.png",
+  //         quantity: '4'
+  //       },
+  //       {
+  //         product_name: "MURIOKI Men's Printed T-Shirt Short Sleeve Shirt - Blue",
+  //         image_url: "/images/ordershirt.png",
+  //         quantity: '4'
+  //       }
+  //     ]
+
+  //   }
+  // ];
+
+  const [orders, setOrders] = useState<Array<IOrder>>([]);
+  const [status, setStatus] = useState<string>('Pending')
+
+
+  useEffect(() => {
+    getProductOrders()
+      .then((res) => {
+        setOrders(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [status]);
+
   return (
-    <Link
-      to={"/manufacturers-profile/confirm-order"}
-      className="flex flex-col gap-6"
-    >
-      <div className="flex smm:gap-3 gap-2 flex-col smm:p-4 px-2 py-4 bg-white rounded-md shadow-md">
-        <div className=" flex justify-between gap-2">
-          <div className="flex flex-row smm:gap-4 gap-2">
-            <img
-              src={order.image}
-              className="object-cover h-[70px] !w-[70px] rounded-lg"
-              alt=""
-            />
-            <div className="flex flex-col smm:gap-4 gap-1 smm:text-[16px] text-sm">
-              <p className="font-medium smm:text-[16px] text-sm line-clamp-2">
-                {order.item}
-              </p>
-              <p className="smm:font-medium font-light">{order.status}</p>
-              <p className="smm:font-medium font-light">{order.time}</p>
-              <p>Status: Shipped</p>
+    <div className="flex justify-center items-center flex-col gap-2">
+      <div className="flex w-full justify-start items-center gap-4">
+        <p className="text-[#515151] text-base text-left font-bold w-[10%]">OrderID</p>
+        <p className="text-[#515151] text-base text-left font-bold flex-1">Product Name</p>
+        <p className="text-[#515151] text-base text-left font-bold w-[10%]">Quantity</p>
+        <p className="text-[#515151] text-base text-left font-bold flex-1">Shipping Address</p>
+        <p className="text-[#515151] text-base text-left font-bold w-[20%]">Actions</p>
+      </div>
+      {
+        orders.map((order: any, index: number) => (
+          <div className="flex flex-col w-full rounded-[10px] px-4 bg-white">
+            <div className="flex flex-col">
+              {
+                order.products.map((product: any, index: number) => (
+                  <>
+                    <div className="flex justify-start font-medium text-sm items-center gap-4 relative w-full pt-4 pb-8">
+                      <div className="flex w-[10%] justify-start items-center">
+                        <p className="break-words w-full">{index === 0 && order.order_code}</p>
+                      </div>
+                      <div className="flex flex-1 justify-start items-center flex-row smm:gap-4 gap-2">
+                        <img
+                          src={product.image_url}
+                          className="object-cover h-[3.25rem] !w-[3.25rem]"
+                          alt=""
+                        />
+                        <p className="font-medium text-sm line-clamp-2">
+                          {product.product_name}
+                        </p>
+                      </div>
+                      <div className="flex w-[10%] justify-start items-center">{product.quantity}</div>
+                      <div className="flex flex-1 justify-start items-center">
+                        <p className="font-medium text-sm line-clamp-2">
+                          {index === 0 && order.address}
+                        </p>
+                      </div>
+                      <div className="flex w-[20%] gap-1 justify-start items-center">
+                        {
+                          index === 0 && (
+                            <Status orderID={order.id} setStatus={setStatus} status={order.order_status} />
+                          )
+                        }
+                      </div>
+                    </div>
+                    {order.products.length !== index + 1 &&
+                      <div className="my-2 h-[1px] w-full bg-[#C1C1C1]" />
+                    }
+                  </>
+                ))
+              }
+            </div>
+            <div className="flex justify-between items-center py-4 border-t border-black">
+              <small>Order placed 09/01</small>
+              <span className="flex justify-center items-center gap-1">
+                <Icon icon="material-symbols:mail-outline" color="#09cdcd" />
+                <p className="text-[#09CDCD] font-medium text-sm">Message Customer</p>
+              </span>
             </div>
           </div>
-          <div className="flex flex-col justify-between items-end">
-            <p className="font-medium smm:text-[24px] text-sm text-right">
-              {order.price}
-            </p>
-          </div>
-        </div>
-      </div>
-    </Link>
+        ))
+      }
+
+    </div>
   );
 };
 
