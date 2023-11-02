@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import ManufacturersProfileLayout from '../../components/General/manufacturers/profile/Layout'
-import { Grid } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import ManufacturersProfileLayout from "../../components/General/manufacturers/profile/Layout";
+import { Grid } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 type each = {
   image: string;
   title: string;
@@ -9,76 +9,75 @@ type each = {
 };
 
 const ManufacturersIndex = () => {
+  const [list, setList] = useState([]);
+  const [active, setActive] = useState<each>();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
-   const [list, setList] = useState([]);
-   const [active, setActive] = useState<each>();
-   const [isModalOpen, setIsModalOpen] = useState(false);
-   const navigate = useNavigate();
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
 
-   const openModal = () => {
-     setIsModalOpen(true);
-   };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
-   const closeModal = () => {
-     setIsModalOpen(false);
-   };
-
-   const data = [
-     {
-       image: "/images/Security.png",
-       title: "Login & Security",
-       subheading: "Edit Name, Email, Phone, 2FA",
-       path: "/login",
-     },
-     {
-       image: "/images/business.png",
-       title: "Business Information",
-       subheading: "Manage your business information",
-       path: "/business-info",
-     },
-     {
-       image: "/images/store.png",
-       title: "Edit Store",
-       subheading: "Edit your virtual store",
-       path: "/edit",
-     },
-     {
-       image: "/images/myproducts.png",
-       title: "My Products",
-       subheading: "Manage and post your products",
-       path: "/product",
-     },
-     {
-       image: "/images/productorders.png",
-       title: "Product Orders",
-       subheading: "Manage customer orders",
-       path: "/orders",
-     },
-     {
-       image: "/images/Cards.png",
-       title: "Payment",
-       subheading: "Manage payment options",
-       path: "/payment",
-     },
-     {
-       image: "/images/Message.png",
-       title: "Inbox",
-       subheading: "View messages from Azany",
-       path: "/messages",
-     },
-     {
-       image: "/images/branches.png",
-       title: "Branches",
-       subheading: "Manage your branches",
-       path: "/branches",
-     },
-     {
-       image: "/images/Book (2).png",
-       title: "Track Orders",
-       subheading: "Track your orders",
-       path: "/track-orders",
-     },
-   ];
+  const data = [
+    {
+      image: "/images/Security.png",
+      title: "Login & Security",
+      subheading: "Edit Name, Email, Phone, 2FA",
+      path: "/login",
+    },
+    {
+      image: "/images/business.png",
+      title: "Business Information",
+      subheading: "Manage your business information",
+      path: "/business-info",
+    },
+    {
+      image: "/images/store.png",
+      title: "Edit Store",
+      subheading: "Edit your virtual store",
+      path: "/edit",
+    },
+    {
+      image: "/images/myproducts.png",
+      title: "My Products",
+      subheading: "Manage and post your products",
+      path: "/product",
+    },
+    {
+      image: "/images/productorders.png",
+      title: "Product Orders",
+      subheading: "Manage customer orders",
+      path: "/orders",
+    },
+    {
+      image: "/images/Cards.png",
+      title: "Payment",
+      subheading: "Manage payment options",
+      path: "/payment",
+    },
+    {
+      image: "/images/Message.png",
+      title: "Inbox",
+      subheading: "View messages from Azany",
+      path: "/messages",
+    },
+    {
+      image: "/images/branches.png",
+      title: "Branches",
+      subheading: "Manage your branches",
+      path: "/branches",
+    },
+    {
+      image: "/images/Book (2).png",
+      title: "Track Orders",
+      subheading: "Track your orders",
+      path: "/track-orders",
+    },
+  ];
 
   return (
     <div className="bg-[#F5F5F5]">
@@ -131,7 +130,7 @@ const ManufacturersIndex = () => {
               </div>
               <div className="py-5 bg-white">
                 <div className="px-2 space-y-2">
-                  {data.map((each, index) => (
+                  {data?.map((each, index) => (
                     <div
                       className={`list-itemed xs:shadow-md text-black ${
                         active === each ? "bg-[#E51B48]" : ""
@@ -174,6 +173,6 @@ const ManufacturersIndex = () => {
       </ManufacturersProfileLayout>
     </div>
   );
-}
+};
 
-export default ManufacturersIndex
+export default ManufacturersIndex;

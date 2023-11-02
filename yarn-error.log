@@ -1,13 +1,38 @@
 Arguments: 
+<<<<<<< HEAD
+  /usr/local/bin/node /opt/homebrew/Cellar/yarn/1.22.19/libexec/bin/yarn.js install
+
+PATH: 
+  /opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public
+=======
   C:\Program Files\nodejs\node.exe C:\Users\Oebiy\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js install
 
 PATH: 
   C:\Users\Oebiy\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Oebiy\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\Git\cmd;C:\Program Files\nodejs;C:\Users\Oebiy\AppData\Local\Microsoft\WindowsApps;C:\Users\Oebiy\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Oebiy\AppData\Roaming\npm;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
+>>>>>>> b280d4c760d50263080ff46b99d9ffdd1d8b541f
 
 Yarn version: 
   1.22.19
 
 Node version: 
+<<<<<<< HEAD
+  18.18.2
+
+Platform: 
+  darwin arm64
+
+Trace: 
+  Error: https://registry.npmjs.org/react-icons/-/react-icons-4.10.1.tgz: ESOCKETTIMEDOUT
+      at ClientRequest.<anonymous> (/opt/homebrew/Cellar/yarn/1.22.19/libexec/lib/cli.js:141517:19)
+      at Object.onceWrapper (node:events:631:28)
+      at ClientRequest.emit (node:events:517:28)
+      at TLSSocket.emitRequestTimeout (node:_http_client:847:9)
+      at Object.onceWrapper (node:events:631:28)
+      at TLSSocket.emit (node:events:529:35)
+      at Socket._onTimeout (node:net:598:8)
+      at listOnTimeout (node:internal/timers:569:17)
+      at process.processTimers (node:internal/timers:512:7)
+=======
   20.8.0
 
 Platform: 
@@ -24,10 +49,12 @@ Trace:
       at Socket._onTimeout (node:net:589:8)
       at listOnTimeout (node:internal/timers:573:17)
       at process.processTimers (node:internal/timers:514:7)
+>>>>>>> b280d4c760d50263080ff46b99d9ffdd1d8b541f
 
 npm manifest: 
   {
     "name": "shopazany_b2b_frontend",
+    "homepage": "http://live.shopazany.com",
     "version": "0.1.0",
     "private": true,
     "dependencies": {
