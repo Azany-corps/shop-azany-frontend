@@ -19,69 +19,12 @@ interface IOrder {
   products: IProduct[]
 }
 
-const OrderItem = () => {
-  const [orders, setOrders] = useState<Array<IOrder>>([]);
-
-  // const orders = [
-  //   {
-  //     order_code: 'PBM_xvtGNpKo_101623',
-  //     created_at: '09/10',
-  //     address: '42 Main Street, Parkview Estates, Ikeja, Lagos, Nigeria',
-  //     order_status: ['pending', 'stock'],
-  //     products: [
-  //       {
-  //         product_name: "MURIOKI Men's Printed T-Shirt Short Sleeve Shirt - Blue",
-  //         image_url: "/images/ordershirt.png",
-  //         quantity: '4',
-  //         price: 9000
-  //       },
-  //       {
-  //         product_name: "MURIOKI Men's Printed T-Shirt Short Sleeve Shirt - Blue",
-  //         image_url: "/images/ordershirt.png",
-  //         quantity: '4',
-  //         price: 9000
-  //       }
-  //     ]
-
-  //   },
-  //   {
-  //     order_code: 'PBM_xvtGNpKo_101623',
-  //     created_at: '09/10',
-  //     address: '42 Main Street, Parkview Estates, Ikeja, Lagos, Nigeria',
-  //     order_status: ['pending', 'stock'],
-  //     products: [
-  //       {
-  //         product_name: "MURIOKI Men's Printed T-Shirt Short Sleeve Shirt - Blue",
-  //         image_url: "/images/ordershirt.png",
-  //         quantity: '4',
-  //         price: 9000
-  //       },
-  //       {
-  //         product_name: "MURIOKI Men's Printed T-Shirt Short Sleeve Shirt - Blue",
-  //         image_url: "/images/ordershirt.png",
-  //         quantity: '4',
-  //         price: 9000
-  //       }
-  //     ]
-
-  //   }
-  // ];
-
-  useEffect(() => {
-    getCustomerProductOrders()
-      .then((res: any) => {
-        setOrders(res);
-      })
-      .catch((error: any) => {
-        console.log(error);
-      });
-  }, []);
-
+const OrderItem = ({ orders, setOrderStatus }: { orders: Array<IOrder>, setOrderStatus: Function }) => {
   const updateOrderStatus = (orderID: number, status: number) => {
     updateCustomerProductOrderStatus(orderID, status)
       .then((res) => {
         console.log(res?.data?.values)
-        // setStatus(res?.data?.values)
+        setOrderStatus(res?.data?.values.order_status)
         // setModal(false)
       })
       .catch((error) => {
@@ -99,7 +42,7 @@ const OrderItem = () => {
   return (
     <div className="flex flex-col gap-2">
       {
-        orders.map((order, index) => (
+        orders?.map((order, index) => (
           <>
             {
               order.order_status !== '4' && (

@@ -26,10 +26,15 @@ const Status = ({ orderID, setStatus, status }: { orderID: number, setStatus: Fu
                 {status.toString() === "2" && <span className="font-bold">Ready To Ship</span>}
                 {status.toString() === "3" && <span className="font-bold">Shipped</span>}
                 {status.toString() === "4" && <span className="font-bold">Delivered</span>}
-
-                <button onClick={() => setModal(!modal)} className="w-fit bg-transparent">
-                    <KeyboardArrowDownIcon />
-                </button>
+                {
+                    status.toString() === "4" ?
+                        <button className="w-fit bg-transparent">
+                            <KeyboardArrowDownIcon />
+                        </button> :
+                        <button onClick={() => setModal(!modal)} className="w-fit bg-transparent">
+                            <KeyboardArrowDownIcon />
+                        </button>
+                }
                 {
                     modal && (
                         <div className="flex flex-col absolute w-52 rounded-bl-md pb-2 rounded-br-md bg-white justify-center items-center shadow-md">

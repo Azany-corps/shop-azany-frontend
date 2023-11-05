@@ -20,46 +20,6 @@ interface IOrder {
 }
 
 const OrderActv = () => {
-  // const orders = [
-  //   {
-  //     order_code: 'PBM_xvtGNpKo_101623',
-  //     created_at: '09/10',
-  //     address: '42 Main Street, Parkview Estates, Ikeja, Lagos, Nigeria',
-  //     order_status: ['pending', 'stock'],
-  //     products: [
-  //       {
-  //         product_name: "MURIOKI Men's Printed T-Shirt Short Sleeve Shirt - Blue",
-  //         image_url: "/images/ordershirt.png",
-  //         quantity: '4'
-  //       },
-  //       {
-  //         product_name: "MURIOKI Men's Printed T-Shirt Short Sleeve Shirt - Blue",
-  //         image_url: "/images/ordershirt.png",
-  //         quantity: '4'
-  //       }
-  //     ]
-
-  //   },
-  //   {
-  //     order_code: 'PBM_xvtGNpKo_101623',
-  //     created_at: '09/10',
-  //     address: '42 Main Street, Parkview Estates, Ikeja, Lagos, Nigeria',
-  //     order_status: ['pending', 'stock'],
-  //     products: [
-  //       {
-  //         product_name: "MURIOKI Men's Printed T-Shirt Short Sleeve Shirt - Blue",
-  //         image_url: "/images/ordershirt.png",
-  //         quantity: '4'
-  //       },
-  //       {
-  //         product_name: "MURIOKI Men's Printed T-Shirt Short Sleeve Shirt - Blue",
-  //         image_url: "/images/ordershirt.png",
-  //         quantity: '4'
-  //       }
-  //     ]
-
-  //   }
-  // ];
 
   const [orders, setOrders] = useState<Array<IOrder>>([]);
   const [status, setStatus] = useState<string>('Pending')
@@ -85,15 +45,15 @@ const OrderActv = () => {
         <p className="text-[#515151] text-base text-left font-bold w-[20%]">Actions</p>
       </div>
       {
-        orders.map((order: any, index: number) => (
+        orders?.map((order: any, index: number) => (
           <div className="flex flex-col w-full rounded-[10px] px-4 bg-white">
             <div className="flex flex-col">
               {
-                order.products.map((product: any, index: number) => (
+                order?.products?.map((product: any, index: number) => (
                   <>
                     <div className="flex justify-start font-medium text-sm items-center gap-4 relative w-full pt-4 pb-8">
                       <div className="flex w-[10%] justify-start items-center">
-                        <p className="break-words w-full">{index === 0 && order.order_code}</p>
+                        <p className="break-words w-full">{index === 0 && order?.order_code}</p>
                       </div>
                       <div className="flex flex-1 justify-start items-center flex-row smm:gap-4 gap-2">
                         <img
@@ -105,10 +65,10 @@ const OrderActv = () => {
                           {product.product_name}
                         </p>
                       </div>
-                      <div className="flex w-[10%] justify-start items-center">{product.quantity}</div>
+                      <div className="flex w-[10%] justify-start items-center">{product?.quantity}</div>
                       <div className="flex flex-1 justify-start items-center">
                         <p className="font-medium text-sm line-clamp-2">
-                          {index === 0 && order.address}
+                          {index === 0 && order?.address}
                         </p>
                       </div>
                       <div className="flex w-[20%] gap-1 justify-start items-center">
@@ -119,7 +79,7 @@ const OrderActv = () => {
                         }
                       </div>
                     </div>
-                    {order.products.length !== index + 1 &&
+                    {order?.products?.length !== index + 1 &&
                       <div className="my-2 h-[1px] w-full bg-[#C1C1C1]" />
                     }
                   </>
