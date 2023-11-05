@@ -1,9 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Buy from "../../components/CustomerProfile/Buy";
 import CancelledOrder from "../../components/CustomerProfile/CancelledOrder";
 import CustomerProfileLayout from "../../components/CustomerProfile/CustomerProfileLayout";
 import OrderItem from "../../components/CustomerProfile/Order";
 import BsSearch from "react-icons/bs";
+import { getCustomerProductOrders, updateCustomerProductOrderStatus } from "../../Services/order.service";
+
+interface IProduct {
+  product_name: string,
+  image_url: string,
+  quantity: number,
+  price: number,
+  stock: string
+}
+
+interface IOrder {
+  id: number,
+  order_code: string,
+  created_at: string,
+  address: string,
+  order_status: string,
+  products: IProduct[]
+}
 
 const Order = () => {
   const [order, setOrder] = useState(true);
@@ -11,6 +29,9 @@ const Order = () => {
   const [buy, setBuy] = useState(false);
   const [searchBarVisible, setSearchBarVisible] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [orders, setOrders] = useState<Array<IOrder>>([]);
+  const [orderStatus, setOrderStatus] = useState<string>('')
+
   const [selectedSorting, setSelectedSorting] = useState("Show all");
 
   const handleOrder = () => {
@@ -31,6 +52,16 @@ const Order = () => {
   const onClose = React.useCallback(() => {
     setIsVisible(false);
   }, []);
+
+  useEffect(() => {
+    getCustomerProductOrders()
+      .then((res: any) => {
+        setOrders(res);
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
+  }, [orderStatus]);
 
   return (
     <div className="bg-[#F5F5F5]">
@@ -130,9 +161,9 @@ const Order = () => {
               )}
             </div>
             <div className="py-3">
-              {order && <OrderItem />}
-              {cancelled && <CancelledOrder />}
-              {buy && <Buy />}
+              {order && <OrderItem orders={orders} setOrderStatus={setOrderStatus} />}
+              {cancelled && <CancelledOrder orders={orders} setOrderStatus={setOrderStatus} />}
+              {buy && <Buy orders={orders} setOrderStatus={setOrderStatus} />}
             </div>
           </div>
         </div>
