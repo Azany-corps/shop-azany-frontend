@@ -17,6 +17,7 @@ const BusinessInfo = ({ handleChange, handleSubmit, previous, formData }: Props)
                 <div className="flex w-full  justify-between gap-10">
                     <input
                         className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] xs:py-[9px] sm:py-[9px]"
+                        required
                         placeholder="Business owner/Legal representative First Name"
                         onChange={handleChange}
                         name="rep_first_name"
@@ -25,6 +26,7 @@ const BusinessInfo = ({ handleChange, handleSubmit, previous, formData }: Props)
                     />
                     <input
                         className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] xs:py-[9px] sm:py-[9px]"
+                        required
                         placeholder="Business owner/Legal representative middle Name"
                         onChange={handleChange}
                         name="rep_middle_name"
@@ -35,6 +37,7 @@ const BusinessInfo = ({ handleChange, handleSubmit, previous, formData }: Props)
                 <div className="flex w-full justify-between gap-10">
                     <input
                         className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] xs:py-[9px] sm:py-[9px]"
+                        required
                         onChange={handleChange}
                         placeholder="Business owner/Legal representative last Name"
                         type="text"
@@ -43,6 +46,7 @@ const BusinessInfo = ({ handleChange, handleSubmit, previous, formData }: Props)
                     />
                     <input
                         className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] xs:py-[9px] sm:py-[9px]"
+                        required
                         placeholder="Registered company name"
                         onChange={handleChange}
                         name="company_name"
@@ -53,6 +57,7 @@ const BusinessInfo = ({ handleChange, handleSubmit, previous, formData }: Props)
                 <div className="flex w-full justify-between gap-10">
                     <input
                         className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] xs:py-[9px] sm:py-[9px]"
+                        required
                         onChange={handleChange}
                         placeholder="Company address - country  state,  city,  address"
                         type="text"
@@ -61,6 +66,7 @@ const BusinessInfo = ({ handleChange, handleSubmit, previous, formData }: Props)
                     />
                     <input
                         className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] xs:py-[9px] sm:py-[9px]"
+                        required
                         onChange={handleChange}
                         placeholder="Postal Code"
                         type="text"
@@ -71,6 +77,7 @@ const BusinessInfo = ({ handleChange, handleSubmit, previous, formData }: Props)
                 <div className="flex w-full justify-between gap-10">
                     <input
                         className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] xs:py-[9px] sm:py-[9px]"
+                        required
                         onChange={handleChange}
                         placeholder="Company phone number"
                         type="text"
@@ -79,6 +86,7 @@ const BusinessInfo = ({ handleChange, handleSubmit, previous, formData }: Props)
                     />
                     <input
                         className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] xs:py-[9px] sm:py-[9px]"
+                        required
                         onChange={handleChange}
                         placeholder="Additional phone number"
                         type="text"
@@ -89,6 +97,7 @@ const BusinessInfo = ({ handleChange, handleSubmit, previous, formData }: Props)
                 <div className="flex w-full justify-between gap-10">
                     <input
                         className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] xs:py-[9px] sm:py-[9px]"
+                        required
                         onChange={handleChange}
                         placeholder="CAC registration number"
                         type="text"
@@ -97,6 +106,7 @@ const BusinessInfo = ({ handleChange, handleSubmit, previous, formData }: Props)
                     />
                     <input
                         className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] xs:py-[9px] sm:py-[9px]"
+                        required
                         onChange={handleChange}
                         placeholder="Tax Identification number"
                         type="text"
@@ -107,6 +117,7 @@ const BusinessInfo = ({ handleChange, handleSubmit, previous, formData }: Props)
                 <div className="flex w-full justify-between gap-10">
                     <input
                         className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] xs:py-[9px] sm:py-[9px]"
+                        required
                         onChange={handleChange}
                         placeholder="Country shipping from"
                         type="text"
@@ -150,8 +161,8 @@ const BusinessInfo = ({ handleChange, handleSubmit, previous, formData }: Props)
                     </div>
                 </div>
                 <div className="flex gap-6 w-[60%] md:w-[90%] sm:w-[90%] xs:w-[90%] justify-center items-center">
-                    <button onClick={previous} className="border-[#D65D5B] border bg-transparent font-bold text-black rounded-2xl  sm:text-xs xs:text-xs sm:py-2 xs:py-2 sm:w-[40%] xs:w-[40%] py-3 w-[30%]">Previous</button>
-                    <button className="bg-[#D65D5B] font-bold text-white rounded-2xl py-3 sm:text-xs xs:text-xs sm:py-2 xs:py-2 sm:w-[40%] xs:w-[40%] w-[30%]">Next</button>
+                    <button onClick={previous} className="border-[#D65D5B] border bg-transparent font-bold text-black rounded-2xl  sm:text-xs xs:text-xs sm:py-2 xs:py-2 sm:w-[40%] xs:w-[40%] py-3 w-[40%]">Previous</button>
+                    <button className="bg-[#D65D5B] font-bold text-white rounded-2xl py-3 sm:text-xs xs:text-xs sm:py-2 xs:py-2 sm:w-[40%] xs:w-[40%] w-[40%]">Next</button>
                 </div>
             </form>
         </>

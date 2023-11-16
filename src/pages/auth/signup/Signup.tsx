@@ -119,12 +119,16 @@ const AuthSignup = () => {
 
   const handleChange = (event: any) => {
     const { name, value } = event.target;
-    console.log(name, value)
     setFormData({ ...formData, [name]: value });
   };
 
   const previous = () => {
     setStep(step - 1);
+  }
+
+  const next = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setStep(step + 1);
   }
 
   const vendor = [
@@ -134,10 +138,15 @@ const AuthSignup = () => {
     { label: "Merchant", value: "Merchant" },
   ];
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const data = [
+    { progress: Progress_1, heading: "Seller Account Information" },
+    { progress: Progress_2, heading: "Business Information" },
+    { progress: Progress_3, heading: "Bank Account Information" },
+    { progress: "", heading: "Summary" },
+  ]
+
+  const handleSubmit = async () => {
     console.log("formd: ", formData)
-    setStep(step + 1);
 
     // if (!selectedValue || selectedValue === "") {
     //   toast.error("Select account type", {
@@ -215,6 +224,7 @@ const AuthSignup = () => {
     // }
   };
 
+
   const accountType = [
     { label: "Customer", value: "customer" },
     { label: "Manufacturer", value: "manufacturer" },
@@ -226,238 +236,19 @@ const AuthSignup = () => {
       <div className="flex relative rounded-2xl h-full py-8 flex-col w-full bg-white gap-10 justify-center items-center">
         <img className="" src={Logo} alt="Azany Logo" />
         <div className="flex w-[60%] md:w-[90%] sm:w-[90%] xs:w-[90%]  flex-col justify-center items-center gap-3">
-          <img src={Progress_1} alt="Progress stage 1" />
-          <p className="text-xs">Seller Account Information</p>
+          <img src={data[step - 1].progress} alt={`Progress stage ${step}`} />
+          <p className="text-xs">
+            {data[step - 1].heading}
+          </p>
         </div>
 
-        {step === 1 && <SellerInfo handleChange={handleChange} handleSubmit={handleSubmit} formData={formData} />}
-        {step === 2 && <BusinessInfo handleChange={handleChange} handleSubmit={handleSubmit} formData={formData} previous={previous} />}
-        {step === 3 && <AccountInfo handleChange={handleChange} handleSubmit={handleSubmit} formData={formData} previous={previous} />}
-        {step === 4 && <Preview formData={formData} previous={previous} />}
-
-
-
+        {step === 1 && <SellerInfo handleChange={handleChange} handleSubmit={next} formData={formData} />}
+        {step === 2 && <BusinessInfo handleChange={handleChange} handleSubmit={next} formData={formData} previous={previous} />}
+        {step === 3 && <AccountInfo handleChange={handleChange} handleSubmit={next} formData={formData} previous={previous} />}
+        {step === 4 && <Preview formData={formData} previous={previous} handleSubmit={handleSubmit} />}
       </div >
-      {/* <div className="flex flex-col gap-4 p-10 xs:p-4 xs:h-full md:h-screen xl:w-full">
-        <div className="bg-white rounded-md py-2 smm:px-4 px-2 flex items-center justify-between">
-          <p className="text-[40px] font-[500] xs:text-[18px]">Signup</p>
-          <div className="smm:hidden flex flex-row gap-4 text-[#515151] ">
-            <p className=" text-xs">
-              Already have an Account?
-              <Link to="/auth/">
-                <span className="text-[#E51B48] text-xs"> Login here</span>
-              </Link>
-            </p>
-          </div>
-        </div> 
-    
-      </div> */}
     </div >
   );
 };
 
 export default AuthSignup;
-
-// <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-//   <div className="bg-white rounded-md p-4 w-[760px] xs:w-full md:w-full overflow-y-scroll h-[420px] md:h-full xs:h-full flex flex-col gap-4 ">
-//     <div className="w-full flex flex-col relative items-start">
-//       <label className="font-normal text-[12px] text-gray-600">ACCOUNT TYPE</label>
-
-//       <div className="w-full">
-//         <DropdownComponent
-//           options={accountType}
-//           error="Error selecting account type"
-//           placeholder="Select your account type..."
-//           selectedValue={selectedValue}
-//           setSelectedValue={setSelectedValue}
-//           onChange={(e: { target: { value: React.SetStateAction<string> } }) => e && setSelectedValue(e.target.value)}
-//         />
-//       </div>
-//     </div>
-//     <div className="flex flex-row gap-4">
-//       <div className="w-full relative flex flex-col items-start">
-//         <label className="font-normal text-[12px] text-gray-600">FIRST NAME</label>
-//         <input
-//           name="first_name"
-//           className="p-3 w-full xs:p-2 rounded-md border border-gray-300 bg-[#F5F5F5]"
-//           onChange={handleChange}
-//           required
-//         />
-//       </div>
-//       <div className="w-full relative flex flex-col items-start">
-//         <label className="font-normal text-[12px] text-gray-600">LAST NAME</label>
-//         <input
-//           name="last_name"
-//           className="p-3 xs:p-2 w-full rounded-md border border-gray-300 bg-[#F5F5F5]"
-//           onChange={handleChange}
-//           required
-//         />
-//       </div>
-//     </div>
-//     <div className="flex flex-row xs:flex-col gap-4">
-//       <div className="w-full relative flex flex-col items-start">
-//         <label className="font-normal text-[12px] text-gray-600">EMAIL</label>
-//         <input name="email" className="p-3 xs:p-2 w-full rounded-md border border-gray-300 bg-[#F5F5F5]" onChange={handleChange} required />
-//       </div>
-//       <div className="w-full relative flex flex-col items-start">
-//         <label className="font-normal text-[12px] text-gray-600">PHONE</label>
-//         <input
-//           placeholder="+234"
-//           className="p-3 xs:p-2 w-full rounded-md border border-gray-300 bg-[#F5F5F5]"
-//           onChange={handleChange}
-//           name="phone"
-//           required
-//         />
-//       </div>
-//     </div>
-//     <div className="w-full flex flex-col relative items-start gap-2">
-//       <div className="flex justify-between xs:flex-col md:justify-between w-full gap-4">
-//         <div className="w-full relative flex flex-col items-start">
-//           <label className="font-normal text-[12px] text-gray-600">COUNTRY</label>
-//           <select
-//             name="country"
-//             id="country"
-//             required
-//             className="xs:p-2 w-full p-3 rounded-md border border-gray-300 bg-[#F5F5F5]"
-//             onChange={(e) => {
-//               handleChangeCountry(e.target.value);
-//             }}
-//           >
-//             <option value="" disabled>
-//               Choose country
-//             </option>
-//             {countries?.map((country: Country) => (
-//               <option key={country.id} value={country?.name}>
-//                 {country?.name}
-//               </option>
-//             ))}
-//           </select>
-//         </div>
-//         <div className="w-full  flex flex-col relative items-start">
-//           <label className="font-normal text-[12px] text-gray-600">STATE</label>
-//           <select
-//             name="state"
-//             id="state"
-//             className="xs:p-2 w-full p-3 rounded-md border border-gray-300 bg-[#F5F5F5]"
-//             required
-//             onChange={(e) => {
-//               handleChangeState(e.target.value);
-//             }}
-//           >
-//             <option>Choose state/ province</option>
-//             {states?.map((state: State) => (
-//               <option value={state?.name}>{state?.name}</option>
-//             ))}
-//           </select>
-//         </div>
-//         <div className="w-full  flex flex-col relative items-start">
-//           <label className="font-normal text-[12px] text-gray-600">CITY</label>
-//           <select
-//             name="city"
-//             id="city"
-//             required
-//             className="xs:p-2 w-full p-3 rounded-md border border-gray-300 bg-[#F5F5F5]"
-//             value={city.name}
-//             onChange={(e) => handleChangeCity(e.target.value)}
-//           >
-//             <option>Choose city</option>
-//             {cities?.map((city: any) => (
-//               <option value={city?.name}>{city?.name}</option>
-//             ))}
-//           </select>
-//         </div>
-//       </div>
-//     </div>
-//     <div className="flex smm:flex-row flex-col gap-4">
-//       <div className="w-full  flex flex-col relative items-start">
-//         <label className="font-normal text-[12px] text-gray-600">ADDRESS</label>
-//         <input
-//           placeholder=""
-//           className="p-3 w-full xs:p-2 rounded-md border border-gray-300 bg-[#F5F5F5]"
-//           onChange={handleChange}
-//           name="address"
-//           required
-//         />
-//       </div>
-//       <div className="w-full  flex flex-col relative items-start">
-//         <label className="font-normal text-[12px] text-gray-600">POSTAL CODE</label>
-//         <input
-//           placeholder="263001"
-//           className="p-3 xs:p-2 w-1/3 xs:w-full md:w-full rounded-md border border-gray-300 bg-[#F5F5F5]"
-//           onChange={handleChange}
-//           name="poster_code"
-//           required
-//         />
-//       </div>
-//     </div>
-//     <div className="w-full flex flex-col relative items-start">
-//       <label className="font-normal text-[12px] text-gray-600">REFERRAL CODE(Optional)</label>
-//       <input
-//         placeholder="Type in your referral code"
-//         className="p-3 smm:w-1/3 w-full xs:p-2 rounded-md border border-gray-300 bg-[#F5F5F5]"
-//         onChange={handleChange}
-//         name="referrer_code"
-//       />
-//     </div>
-
-//     <div className="gap-4 flex smm:flex-row flex-col w-full items-center">
-//       <div className="relative flex flex-col w-full ">
-//         <label className="font-normal text-[12px] text-gray-600">PASSWORD</label>
-//         <div className="flex relative">
-//           <input
-//             placeholder="Password"
-//             type={passwordVisible ? "text" : "password"}
-//             id="password"
-//             className="p-3 w-full xs:p-2 rounded-md border border-gray-300 bg-[#F5F5F5]"
-//             onChange={handleChange}
-//             name="password"
-//           />
-//           <img
-//             src="/images/EyeOutline.svg"
-//             alt="hide"
-//             className="absolute right-2 cursor-pointer bottom-1/2 translate-y-1/2"
-//             onClick={() => {
-//               setPasswordVisible(!passwordVisible);
-//             }}
-//           />
-//         </div>
-//       </div>
-
-//       <div className="relative flex flex-col w-full">
-//         <label className="font-normal text-[12px] text-gray-600">CONFIRM PASSWORD</label>
-//         <div className="flex relative">
-//           <input
-//             placeholder="Confirm Password"
-//             type={confirmPasswordVisible ? "text" : "password"}
-//             className="p-3 w-full xs:p-2 rounded-md border border-gray-300 bg-[#F5F5F5]"
-//             onChange={handleChange}
-//             name="password_confirmation"
-//           />
-//           <img
-//             src="/images/EyeOutline.svg"
-//             alt="hide"
-//             className="absolute right-2 cursor-pointer bottom-1/2 translate-y-1/2"
-//             onClick={() => {
-//               setConfirmPasswordVisible(!confirmPasswordVisible);
-//             }}
-//           />
-//         </div>
-//       </div>
-//     </div>
-//   </div>
-
-//   <div className="bg-white rounded-md py-8 xs:py-4 xs:gap-4 px-4 flex justify-between xs:flex-col-reverse items-center">
-//     <div className="hidden smm:flex flex-row gap-4 text-[#515151] ">
-//       <LoginOutlinedIcon />
-//       <p className="">
-//         Already have an Account?
-//         <Link to="/auth/">
-//           <span className="text-[#E51B48]"> Login here</span>
-//         </Link>
-//       </p>
-//     </div>
-//     <button disabled={loading ? true : false} className="py-2 px-20 bg-[#E51B48] hover:bg-red-700 rounded-md text-white xs:w-full">
-//       {loading ? "Loading..." : "Sign Up"}
-//     </button>
-//   </div>
-// </form>

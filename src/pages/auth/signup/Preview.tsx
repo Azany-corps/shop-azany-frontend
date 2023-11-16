@@ -3,11 +3,13 @@ import { ISignUp } from "./signup.type";
 
 
 interface Props {
-    formData: ISignUp
+    formData: ISignUp;
     previous: MouseEventHandler<HTMLButtonElement>;
+    handleSubmit: MouseEventHandler<HTMLButtonElement>;
+
 }
 
-const Preview = ({ formData, previous }: Props) => {
+const Preview = ({ formData, previous, handleSubmit }: Props) => {
     return (
         <>
             <div className="flex relative justify-center flex-col gap-7 items-center w-full">
@@ -84,7 +86,7 @@ const Preview = ({ formData, previous }: Props) => {
 
                 <div className="flex gap-6 w-[60%] md:w-[90%] sm:w-[90%] xs:w-[90%] justify-center items-center">
                     <button onClick={previous} className="border-[#D65D5B] border bg-transparent font-bold text-black rounded-2xl  sm:text-xs xs:text-xs sm:py-2 xs:py-2 sm:w-[40%] xs:w-[40%] py-3 w-[20%]">Previous</button>
-                    <button className="bg-[#D65D5B] font-bold text-white rounded-2xl py-3 sm:text-xs xs:text-xs sm:py-2 xs:py-2 sm:w-[40%] xs:w-[40%] w-[20%]">Next</button>
+                    <button onClick={handleSubmit} className="bg-[#D65D5B] font-bold text-white rounded-2xl py-3 sm:text-xs xs:text-xs sm:py-2 xs:py-2 sm:w-[40%] xs:w-[40%] w-[20%]">Next</button>
                 </div>
             </div>
         </>

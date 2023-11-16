@@ -1,34 +1,42 @@
-import React, { ChangeEventHandler, FormEventHandler, MouseEventHandler } from 'react'
+import React, { ChangeEventHandler, FormEventHandler, MouseEventHandler, useState } from 'react'
 import { ISignUp } from "./signup.type";
 import { Icon } from '@iconify/react';
 
 
 interface Props {
-    handleChange: ChangeEventHandler<HTMLInputElement>,
-    handleSubmit: FormEventHandler<HTMLFormElement>
+    handleChange: ChangeEventHandler<HTMLInputElement>;
+    handleSubmit: FormEventHandler<HTMLFormElement>;
     previous: MouseEventHandler<HTMLButtonElement>;
     formData: ISignUp
 }
 
 const AccountInfo = ({ handleChange, handleSubmit, previous, formData }: Props) => {
+    const [isRequired, setIsRequired] = useState<boolean>(true);
+    //fix skip functionality
+    // const skip = async (event: React.FormEvent<HTMLFormElement>) => {
+    //     setIsRequired(false);
+    //     handleSubmit(event);
+    // }
     return (
         <>
             <form className="w-[60%] md:w-[90%] sm:w-[90%] xs:w-[90%] flex justify-between h-[45vh] flex-col items-center gap-10" onSubmit={handleSubmit} action="">
                 <div className="flex w-full justify-between gap-10">
                     <input
                         className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] xs:py-[9px] sm:py-[9px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB]"
-                        placeholder="Business owner/Legal representative First Name"
+                        placeholder="Account number"
+                        required={isRequired}
                         onChange={handleChange}
-                        name="rep_first_name"
-                        value={formData.rep_first_name}
+                        name="account_number"
+                        value={formData.account_number}
                         type="text"
                     />
                     <input
                         className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] xs:py-[9px] sm:py-[9px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB]"
-                        placeholder="Business owner/Legal representative middle Name"
+                        placeholder="Select bank"
+                        required={isRequired}
                         onChange={handleChange}
-                        name="rep_middle_name"
-                        value={formData.rep_middle_name}
+                        name="bank_name"
+                        value={formData.bank_name}
                         type="text"
                     />
                 </div>

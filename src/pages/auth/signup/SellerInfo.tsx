@@ -14,7 +14,9 @@ const SellerInfo = ({ handleChange, handleSubmit, formData }: Props) => {
             <form className="w-[60%] md:w-[90%] sm:w-[90%] xs:w-[90%] flex flex-col items-center gap-10" onSubmit={handleSubmit} action="">
                 <div className="flex w-full  justify-between gap-10">
                     <input
-                        className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] xs:py-[9px] sm:py-[9px]" placeholder="shop name"
+                        className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] xs:py-[9px] sm:py-[9px]"
+                        required
+                        placeholder="shop name"
                         onChange={handleChange}
                         name="shop_name"
                         value={formData.shop_name}
@@ -31,6 +33,7 @@ const SellerInfo = ({ handleChange, handleSubmit, formData }: Props) => {
                 <div className="flex w-full justify-between gap-10">
                     <input
                         className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] xs:py-[9px] sm:py-[9px]"
+                        required
                         onChange={handleChange}
                         placeholder="Account manager’s first name"
                         type="text"
@@ -48,6 +51,7 @@ const SellerInfo = ({ handleChange, handleSubmit, formData }: Props) => {
                 <div className="flex w-full justify-between gap-10">
                     <input
                         className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] xs:py-[9px] sm:py-[9px]"
+                        required
                         onChange={handleChange}
                         placeholder="Account manager’s last name"
                         type="text"
@@ -56,6 +60,7 @@ const SellerInfo = ({ handleChange, handleSubmit, formData }: Props) => {
                     />
                     <input
                         className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] xs:py-[9px] sm:py-[9px]"
+                        required
                         onChange={handleChange}
                         placeholder="Account phone number"
                         type="phone"
@@ -66,6 +71,7 @@ const SellerInfo = ({ handleChange, handleSubmit, formData }: Props) => {
                 <div className="flex w-full justify-between gap-10">
                     <input
                         className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] xs:py-[9px] sm:py-[9px]"
+                        required
                         onChange={handleChange}
                         placeholder="password"
                         type="password"
@@ -74,6 +80,7 @@ const SellerInfo = ({ handleChange, handleSubmit, formData }: Props) => {
                     />
                     <input
                         className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] xs:py-[9px] sm:py-[9px]"
+                        required
                         onChange={handleChange}
                         placeholder="retype password"
                         type="password"
@@ -84,8 +91,9 @@ const SellerInfo = ({ handleChange, handleSubmit, formData }: Props) => {
                 <div className="flex w-full justify-between gap-10">
                     <input
                         className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] xs:py-[9px] sm:py-[9px]"
+                        required
                         onChange={handleChange}
-                        placeholder="Email password"
+                        placeholder="Enter Email"
                         type="email"
                         name="email"
                         value={formData.email}

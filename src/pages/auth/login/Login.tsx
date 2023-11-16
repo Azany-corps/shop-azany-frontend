@@ -166,7 +166,7 @@ const AuthLogin = () => {
               type="password"
             />
           </div>
-          <button className="bg-[#D65D5B] font-bold text-white rounded-2xl text-sm py-2 px-10">
+          <button disabled={loading ? true : false} className="bg-[#D65D5B] font-bold text-white rounded-2xl text-sm py-2 px-10">
             {loading ? "Loading..." : "Login"}
           </button>
         </form>
