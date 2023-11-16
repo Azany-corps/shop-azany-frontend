@@ -91,7 +91,7 @@ const SellerInfo = ({ handleChange, handleSubmit, formData }: Props) => {
                         value={formData.email}
                     />
                 </div>
-                <button className="bg-[#D65D5B] font-bold text-white rounded-2xl py-3 px-11 sm:text-xs xs:text-xs sm:py-2 xs:py-2 sm:w-[40%] xs:w-[40%] w-[20%]">Next</button>
+                <button className="bg-[#D65D5B] font-bold text-white rounded-2xl py-3 px-11 sm:text-xs xs:text-xs sm:py-2 xs:py-2 sm:w-[40%] xs:w-[40%] w-[30%]">Next</button>
             </form>
         </>
     )
