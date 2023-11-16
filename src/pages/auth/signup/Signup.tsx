@@ -10,6 +10,14 @@ import { DropdownComponent } from "../../../components/Core/DropdownComponent";
 import { countries } from "../../../newCountries";
 import Logo from "../../../assets/Logo.png"
 import Progress_1 from "../../../assets/Progress_1.png"
+import Progress_2 from "../../../assets/Progress_2.png"
+import Progress_3 from "../../../assets/Progress_3.png"
+import { ISignUp } from "./signup.type";
+import { Icon } from '@iconify/react';
+import BusinessInfo from "./BusinessInfo";
+import SellerInfo from "./SellerInfo";
+import AccountInfo from "./AccountInfo";
+import Preview from "./Preview";
 
 
 interface Country {
@@ -38,6 +46,7 @@ const AuthSignup = () => {
   const [cities, setCities] = useState<any[]>([]);
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState<boolean>(false);
+  const [step, setStep] = useState<number>(1);
 
   const navigate = useNavigate();
 
@@ -80,7 +89,7 @@ const AuthSignup = () => {
     }
   };
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ISignUp>({
     first_name: "",
     last_name: "",
     shop_name: "",
@@ -90,18 +99,33 @@ const AuthSignup = () => {
     account_type: "",
     password: "",
     password_confirmation: "",
-    country: "",
-    state: "",
-    city: "",
+    rep_first_name: "",
+    rep_middle_name: "",
+    rep_last_name: "",
+    company_name: "",
     address: "",
-    poster_code: "",
-    referrer_code: "",
+    postal_code: "",
+    company_phone: "",
+    other_phone: "",
+    cac_number: "",
+    tax_number: "",
+    shipping_address: "",
+    cac_document: "",
+    tax_document: "",
+    id_document: "",
+    account_number: "",
+    bank_name: "",
   });
 
   const handleChange = (event: any) => {
     const { name, value } = event.target;
+    console.log(name, value)
     setFormData({ ...formData, [name]: value });
   };
+
+  const previous = () => {
+    setStep(step - 1);
+  }
 
   const vendor = [
     { label: "Customer", value: "Customer" },
@@ -113,6 +137,8 @@ const AuthSignup = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("formd: ", formData)
+    setStep(step + 1);
+
     // if (!selectedValue || selectedValue === "") {
     //   toast.error("Select account type", {
     //     position: "top-center",
@@ -195,96 +221,23 @@ const AuthSignup = () => {
   ];
 
   return (
-    <div className="flex min-h-screen px-44 py-5 bg-[#F5F5F5]">
+    <div className="flex min-h-screen md:px-20 sm:px-10 xs:px-10 px-44 py-5 bg-[#F5F5F5]">
       <ToastContainer />
       <div className="flex relative rounded-2xl h-full py-8 flex-col w-full bg-white gap-10 justify-center items-center">
-        <img src={Logo} alt="Azany Logo" />
-        <img src={Progress_1} alt="Progress stage 1" />
-        <p className="text-xs">Seller Account Information</p>
+        <img className="" src={Logo} alt="Azany Logo" />
+        <div className="flex w-[60%] md:w-[90%] sm:w-[90%] xs:w-[90%]  flex-col justify-center items-center gap-3">
+          <img src={Progress_1} alt="Progress stage 1" />
+          <p className="text-xs">Seller Account Information</p>
+        </div>
 
-        <form className="w-[60%] flex flex-col items-center gap-10" onSubmit={handleSubmit} action="">
-          <div className="flex w-full  justify-between gap-10">
-            <input
-              className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB]" placeholder="shop name"
-              onChange={handleChange}
-              name="shop_name"
-              value={formData.shop_name}
-              type="text"
-            />
-            <select
-              className="bg-transparent text-xs w-full px-3 outline-none py-[15px] text-[#B3B7BB] text-center border rounded-2xl border-[#B3B7BB]"
-              name="seller_type"
-              id=""
-            >
-              <option value="">seller type</option>
-            </select>
-          </div>
-          <div className="flex w-full justify-between gap-10">
-            <input
-              className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB]"
-              onChange={handleChange}
-              placeholder="Account manager’s first name"
-              type="text"
-              name="first_name"
-              value={formData.first_name}
-            />
-            <select
-              className="bg-transparent text-xs w-full px-3 outline-none py-[15px] text-[#B3B7BB] text-center border rounded-2xl border-[#B3B7BB]"
-              name="account_type"
-              id=""
-            >
-              <option value="">Account type</option>
-            </select>
-          </div>
-          <div className="flex w-full justify-between gap-10">
-            <input
-              className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB]"
-              onChange={handleChange}
-              placeholder="Account manager’s last name"
-              type="text"
-              name="last_name"
-              value={formData.last_name}
-            />
-            <input
-              className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB]"
-              onChange={handleChange}
-              placeholder="Account phone number"
-              type="phone"
-              name="phone"
-              value={formData.phone}
-            />
-          </div>
-          <div className="flex w-full justify-between gap-10">
-            <input
-              className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB]"
-              onChange={handleChange}
-              placeholder="password"
-              type="password"
-              name="password"
-              value={formData.password}
-            />
-            <input
-              className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB]"
-              onChange={handleChange}
-              placeholder="retype password"
-              type="password"
-              name="password_confirmation"
-              value={formData.password_confirmation}
-            />
-          </div>
-          <div className="flex w-full justify-between gap-10">
-            <input
-              className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB]"
-              onChange={handleChange}
-              placeholder="Email password"
-              type="email"
-              name="email"
-              value={formData.email}
-            />
-          </div>
-          <button className="bg-[#D65D5B] font-bold text-white rounded-2xl py-3 px-11">Next</button>
-        </form>
-      </div>
+        {step === 1 && <SellerInfo handleChange={handleChange} handleSubmit={handleSubmit} formData={formData} />}
+        {step === 2 && <BusinessInfo handleChange={handleChange} handleSubmit={handleSubmit} formData={formData} previous={previous} />}
+        {step === 3 && <AccountInfo handleChange={handleChange} handleSubmit={handleSubmit} formData={formData} previous={previous} />}
+        {step === 4 && <Preview formData={formData} previous={previous} />}
+
+
+
+      </div >
       {/* <div className="flex flex-col gap-4 p-10 xs:p-4 xs:h-full md:h-screen xl:w-full">
         <div className="bg-white rounded-md py-2 smm:px-4 px-2 flex items-center justify-between">
           <p className="text-[40px] font-[500] xs:text-[18px]">Signup</p>
@@ -299,7 +252,7 @@ const AuthSignup = () => {
         </div> 
     
       </div> */}
-    </div>
+    </div >
   );
 };
 
