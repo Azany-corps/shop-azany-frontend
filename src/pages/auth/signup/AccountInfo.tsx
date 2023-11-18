@@ -26,6 +26,17 @@ const AccountInfo = ({ handleChange, handleSubmit, previous, formData }: Props) 
                         placeholder="Account number"
                         required={isRequired}
                         onChange={handleChange}
+                        name="account_name"
+                        value={formData.account_name}
+                        type="text"
+                    />
+                </div>
+                <div className="flex w-full justify-between gap-10">
+                    <input
+                        className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] xs:py-[9px] sm:py-[9px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB]"
+                        placeholder="Account number"
+                        required={isRequired}
+                        onChange={handleChange}
                         name="account_number"
                         value={formData.account_number}
                         type="text"
