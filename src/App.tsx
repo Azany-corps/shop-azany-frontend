@@ -159,13 +159,19 @@ function App() {
         </Route>
         <Route path="/sell-on-azany">
           <Route path="farmers" element={<AzanyFarmers />} />
-          <Route path="manufacturers-merchant" element={< ManufacturerHomePage />} />
+          <Route
+            path="manufacturers-merchant"
+            element={<ManufacturerHomePage />}
+          />
         </Route>
         <Route path="/auth">
           <Route index element={<AuthLogin />} />
           <Route path="signup" element={<AuthSignup />} />
           <Route path="signup-business" element={<SignupSeller />} />
-          <Route path="signup-business-information" element={<SignupBusiness />} />
+          <Route
+            path="signup-business-information"
+            element={<SignupBusiness />}
+          />
           <Route path="otp" element={<AuthOTP />} />
           <Route path="otp-business" element={<AuthOTPBusiness />} />
           <Route path="reset-password" element={<AuthReset />} />
@@ -226,7 +232,6 @@ function App() {
           <Route path="payment" element={<PaymentInfo />} />
           <Route path="confirmation" element={<Confirmation />} />
           <Route path="callback" element={<Callback />} />
-
         </Route>
         <Route path="/farmers">
           <Route index element={<Farmers />} />
