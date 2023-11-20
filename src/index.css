@@ -1,18 +1,18 @@
-.azany_main{
-    color:'#1B7CFC'
+.azany_main {
+  color: "#1B7CFC";
 }
-.azany_secondary{
-    color: '#E51B48'
+.azany_secondary {
+  color: "#E51B48";
 }
 
-.bx_shadow{
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+.bx_shadow {
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
 }
 .general-font {
   font-family: "Lato";
 }
 .home-background {
-  background: linear-gradient(180deg, #D8CBCB 0%, rgba(169, 116, 114, 0.00) 100%);
+  background: linear-gradient(180deg, #d8cbcb 0%, rgba(169, 116, 114, 0) 100%);
 }
 
 input::-webkit-outer-spin-button,
@@ -21,10 +21,9 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input[type=number] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
-
 
 hr {
   margin: 1.875em 0;
@@ -38,19 +37,24 @@ hr {
   border: none;
   height: 2px;
   background: #000;
-  background: repeating-linear-gradient(90deg,#fff,#fff 6px,transparent 6px,transparent 12px);
+  background: repeating-linear-gradient(
+    90deg,
+    #fff,
+    #fff 6px,
+    transparent 6px,
+    transparent 12px
+  );
 }
 
 .no-scrollbar::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
-
 
 @keyframes scroll {
   0% {
@@ -72,7 +76,6 @@ hr {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 
 .line-clamp-1 {
   display: -webkit-box;
