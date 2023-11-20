@@ -168,7 +168,7 @@ const SignupCustomer = () => {
               type="password"
             />
           </div>
-          <button disabled={loading ? true : false} className="bg-[#D65D5B] disabled:bg-slate-400 font-bold text-white rounded-2xl py-3 px-11 sm:text-xs xs:text-xs sm:py-2 xs:py-2 sm:w-[40%] xs:w-[40%] w-[30%]">
+          <button disabled={loading ? true : false} className="bg-[#D65D5B] flex justify-center items-center disabled:bg-slate-400 font-bold text-white rounded-2xl py-3 px-11 sm:text-xs xs:text-xs sm:py-2 xs:py-2 sm:w-[40%] xs:w-[40%] w-[30%]">
             {loading ? "Loading..." : "Register"}
           </button>
         </form>

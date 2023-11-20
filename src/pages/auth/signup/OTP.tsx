@@ -32,7 +32,7 @@ const AuthOTPBusiness = () => {
         throw new Error("User ID not found in local storage");
       }
       const otpData = new FormData();
-      otpData.append("user_id", user_id);
+      otpData.append("customer_id", user_id);
       otpData.append("code", value);
       const response = await callAPI("auth/customer_verify_email_code", "POST", otpData, {
         "Content-Type": "multipart/form-data",

@@ -7,6 +7,7 @@ import Manufacturers from "./pages/manufacturers/Manufacturers";
 import Search from "./pages/search/Search";
 
 import MLogin from "./pages/manufacturersProfile/Login";
+import LoginCustomer from "./pages/auth/login/LoginCustomer"
 import MBusiness from "./pages/manufacturersProfile/BusinessInfo";
 import EditStore from "./pages/manufacturersProfile/Edit";
 import MProduct from "./pages/manufacturersProfile/products/Products";
@@ -163,6 +164,7 @@ function App() {
         </Route>
         <Route path="/auth">
           <Route index element={<AuthLogin />} />
+          <Route path="customer-login" element={<LoginCustomer />} />
           <Route path="signup-seller" element={<AuthSignup />} />
           <Route path="signup-customer" element={<SignupCustomer />} />
           <Route path="signup-business-information" element={<SignupBusiness />} />
