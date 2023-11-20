@@ -17,7 +17,7 @@ interface BottomProps {
   isFarmer?: boolean;
 }
 
-const BottomHeader = ({ style, isFarmer }: BottomProps) => {
+const BottomHeaderCustomer = ({ style, isFarmer }: BottomProps) => {
   const [authToken, saveAuthToken, deleteAuthToken, checkAuthToken] = useAuthToken();
   const [showModal, setShowModal] = useState(false);
   const handleOpenModal = () => {
@@ -45,7 +45,7 @@ const BottomHeader = ({ style, isFarmer }: BottomProps) => {
   }, []);
 
   const handleLogout = () => {
-    navigate("/auth");
+    navigate("/auth/customer-login");
     localStorage.removeItem("name");
     console.log("logged out");
     deleteAuthToken("");
@@ -141,12 +141,12 @@ const BottomHeader = ({ style, isFarmer }: BottomProps) => {
                 </>
               ) : (
                 <>
-                  <Link to="/auth/">
+                  <Link to="/auth/customer-login">
                     <div>
                       <h2 className="text-xl text-white ">Login</h2>
                     </div>
                   </Link>
-                  <Link to="/auth/signup-seller">
+                  <Link to="/auth/signup-customer">
                     <div className="md:hidden">
                       <button className="border-[#E51B48] text-[#E51B48] bg-white rounded-[10px] border py-2 px-5 hover:bg-red-600 hover:text-white">
                         Get Started
@@ -176,4 +176,4 @@ const BottomHeader = ({ style, isFarmer }: BottomProps) => {
   );
 };
 
-export default BottomHeader;
+export default BottomHeaderCustomer;

@@ -10,9 +10,7 @@ import Background from "../../../assets/Grad effect asset (top).png";
 import Logo from "../../../assets/azanylogofinal 2.png";
 
 
-const AuthLogin = () => {
-  const [isBusiness, setIsBusiness] = useState(false);
-  const [isCustomer, setIsCustomer] = useState(true);
+const AuthLoginCustomer = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState('');
@@ -30,14 +28,13 @@ const AuthLogin = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('hi')
     setLoading(true);
     try {
       let data = new FormData();
       data.append("email", formData.email);
       data.append("password", formData.password);
 
-      const response = await callAPI("auth/login", "POST", data, {
+      const response = await callAPI("auth/customer_login", "POST", data, {
         "Content-Type": "multipart/form-data",
       });
 
@@ -58,7 +55,7 @@ const AuthLogin = () => {
           draggable: true,
           progress: undefined,
         });
-        navigate("/manufacturers-profile");
+        navigate("/customer-profile");
       } else {
         toast.error(response.message, {
           position: "top-center",
@@ -84,62 +81,6 @@ const AuthLogin = () => {
       });
     }
   };
-
-  // const handleSubmitCustomer = async (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   setLoading(true);
-  //   try {
-  //     let data = new FormData();
-  //     data.append("email", formData.email);
-  //     data.append("password", formData.password);
-
-  //     const response = await callAPI("auth/customer_login", "POST", data, {
-  //       "Content-Type": "multipart/form-data",
-  //     });
-
-  //     if (response.status && response.status_code === 200) {
-  //       localStorage.setItem("token", response.token);
-  //       localStorage.setItem("name", response.data?.values?.first_name);
-  //       localStorage.setItem("account_type", response.data?.values?.account_type);
-  //       console.log(response);
-  //       toast.success("Login Suceessful", {
-  //         position: "top-center",
-  //         autoClose: 3000,
-  //         hideProgressBar: false,
-  //         closeOnClick: true,
-  //         pauseOnHover: true,
-  //         draggable: true,
-  //         progress: undefined,
-  //       });
-  //       navigate("/customer-profile");
-  //     } else {
-  //       // Set the error message in the state variable
-  //       setErrorMessage(response.message);
-  //       toast.error(response.message, {
-  //         position: "top-center",
-  //         autoClose: 3000,
-  //         hideProgressBar: false,
-  //         closeOnClick: true,
-  //         pauseOnHover: true,
-  //         draggable: true,
-  //         progress: undefined,
-  //       });
-  //     }
-  //   } catch (error: unknown) {
-  //     console.log(Error);
-  //     setLoading(false);
-  //     // Set the error message in the state variable
-  //     toast.error((error as Error).message || "Error: unable to login", {
-  //       position: "top-center",
-  //       autoClose: 3000,
-  //       hideProgressBar: false,
-  //       closeOnClick: true,
-  //       pauseOnHover: true,
-  //       draggable: true,
-  //       progress: undefined,
-  //     });
-  //   }
-  // };;
 
   return (
     <div className="flex w-full justify-center items-start xs:items-center sm:items-center bg-[#F5F5F5] h-screen ">
@@ -172,7 +113,7 @@ const AuthLogin = () => {
         </form>
         <p className="text-center z-20  font-semibold mt-3">
           If you don’t have an account yet,
-          <Link to="/auth/signup-business">
+          <Link to="/auth/signup-customer">
             <span className="text-[#0F60FF]"> Sign up here</span>
           </Link>
         </p>
@@ -184,4 +125,4 @@ const AuthLogin = () => {
   );
 };
 
-export default AuthLogin;
+export default AuthLoginCustomer;
