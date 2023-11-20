@@ -115,6 +115,7 @@ const AuthSignup = () => {
     id_document: "",
     account_number: "",
     bank_name: "",
+    account_name: ""
   });
 
   const handleChange = (event: any) => {
@@ -148,80 +149,76 @@ const AuthSignup = () => {
   const handleSubmit = async () => {
     console.log("formd: ", formData)
 
-    // if (!selectedValue || selectedValue === "") {
-    //   toast.error("Select account type", {
-    //     position: "top-center",
-    //     autoClose: 3000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //   });
-    //   return;
-    // }
-    // if (formData.password !== formData.password_confirmation) {
-    //   toast.warning("Password and Confirm Password must match.", {
-    //     position: "top-center",
-    //     autoClose: 3000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //   });
-    //   return;
-    // }
+    if (formData.password !== formData.password_confirmation) {
+      toast.warning("Password and Confirm Password must match.", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
+    }
 
-    // setLoading(true);
-    // try {
-    //   let data = new FormData();
-    //   data.append("email", formData.email);
-    //   data.append("first_name", formData.first_name);
-    //   data.append("last_name", formData.last_name);
-    //   data.append("phone", formData.phone);
-    //   data.append("country", country.name);
-    //   data.append("state", state.name || "lagos");
-    //   data.append("city", city.name || "ikeja");
-    //   data.append("address", formData.address);
-    //   data.append("poster_code", formData.poster_code);
-    //   data.append("referrer_code", formData.referrer_code);
-    //   data.append("account_type", 'manufacturer');
-    //   data.append("password", formData.password);
-    //   data.append("password_confirmation", formData.password_confirmation);
+    setLoading(true);
+    try {
+      let data = new FormData();
+      data.append("email", formData.email);
+      data.append("first_name", formData.first_name);
+      data.append("last_name", formData.last_name);
+      data.append("phone", formData.phone);
+      data.append("account_type", 'farmer');
+      data.append("password", formData.password);
+      data.append("password_confirmation", formData.password_confirmation);
+      data.append("shop_name", formData.shop_name);
+      data.append("business_type", "Individual");
+      data.append("business_owner_first_name", formData.rep_first_name);
+      data.append("business_owner_middle_name", formData.rep_middle_name);
+      data.append("business_owner_last_name", formData.rep_last_name);
+      data.append("company_name", formData.company_name);
+      data.append("company_phone", formData.company_phone);
+      data.append("company_additional_phone", formData.other_phone);
+      data.append("company_address", formData.address);
+      data.append("company_poster_code", formData.postal_code);
+      data.append("country_shipping_from", formData.shipping_address);
+      data.append("cac_registration_number", formData.cac_number);
+      data.append("cac_certificate", formData.cac_document);
+      data.append("tin", formData.tax_number);
+      data.append("tin_certificate", formData.tax_document);
+      data.append("account_name", formData.account_name);
+      data.append("account_number", formData.account_number);
+      data.append("bank", formData.bank_name);
 
-    //   const response = await callAPI("auth/register", "POST", data, {
-    //     "Content-Type": "multipart/form-data",
-    //   });
-    //   console.log(response);
-    //   localStorage.setItem("user_id", response.data.user.id);
-    //   toast.success("Success message", {
-    //     position: "top-center",
-    //     autoClose: 3000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //   });
-    //   if (selectedValue === "Customer") {
-    //     navigate("/auth/otp");
-    //   } else {
-    //     navigate("/auth/otp-business");
-    //   }
-    // } catch (err: any) {
-    //   console.log(err);
-    //   setLoading(false);
-    //   toast.error(err?.response?.data?.data?.errors?.[0], {
-    //     position: "top-center",
-    //     autoClose: 3000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //   });
-    // }
+      const response = await callAPI("auth/seller_register", "POST", data, {
+        "Content-Type": "multipart/form-data",
+      });
+      console.log(response);
+      localStorage.setItem("user_id", response.data.user.id);
+      toast.success("Success message", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      navigate("/auth/otp-business");
+    } catch (err: any) {
+      console.log(err);
+      setLoading(false);
+      toast.error(err?.response?.data?.data?.errors?.[0], {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
   };
 
 

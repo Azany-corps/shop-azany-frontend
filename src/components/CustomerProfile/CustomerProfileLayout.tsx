@@ -6,7 +6,7 @@ import Footer from "../General/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import "./ndex.css";
 import TopHeader from "../General/TopHeader";
-import BottomHeader from "../General/BottomHeader";
+import BottomHeaderCustomer from "../General/BottomHeaderCustomer";
 import Header from "../General/Header";
 import MobileHeader from "../General/MobileHeader";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -116,7 +116,7 @@ const CustomerProfileLayout = ({
 
   return (
     <div className="xs:overflow-x-hidden smm:bg-[#F5F5F5] bg-white">
-      <BottomHeader style={"bg-[#1B7CFC] py-2 xs:hidden"} />
+      <BottomHeaderCustomer style={"bg-[#1B7CFC] py-2 xs:hidden"} />
       <Header style={"bg-[#70ADFF] xs:hidden"} />
       <MobileHeader hideScrollMenu={false} />
       <div className="flex-row gap-2 p-2 w-[90%] flex mx-auto items-center bg-[#F5F5F5] xs:hidden">
@@ -179,7 +179,7 @@ const CustomerProfileLayout = ({
                   <div className="py-5 bg-white">
                     <div className="px-0">
                       <div
-                        className={ 
+                        className={
                           active
                             ? "xs:shadow-md text-white font-bold xs:font-mediumcursor-pointer bg-[#E51B48] rounded-[10px]"
                             : "text-black cursor-pointer hover:bg-[#E51B48] hover:text-white focus:bg-[#E51B48] hover:rounded-[10px]"
@@ -231,7 +231,7 @@ const CustomerProfileLayout = ({
                       >
                         <div className="group pl-7 flex space-x-5 items-center h-[60px]">
                           <PaymentOutlinedIcon />
-                          
+
                           <div className="py-3">
                             <h2 className="font-bold">Payment Methods</h2>
                           </div>
@@ -252,7 +252,7 @@ const CustomerProfileLayout = ({
                       >
                         <div className="group pl-7 flex space-x-5 items-center h-[60px]">
                           <RoomOutlinedIcon />
-                          
+
                           <div className="py-3">
                             <h2 className="font-bold">Addresses</h2>
                           </div>
@@ -273,7 +273,7 @@ const CustomerProfileLayout = ({
                       >
                         <div className="group pl-7 flex space-x-5 items-center h-[60px]">
                           <AccessTimeOutlinedIcon />
-                          
+
                           <div className="py-3">
                             <h2 className="font-bold">Recently Viewed</h2>
                           </div>
@@ -294,7 +294,7 @@ const CustomerProfileLayout = ({
                       >
                         <div className="group pl-7 flex space-x-5 items-center h-[60px]">
                           <SaveAltOutlinedIcon />
-                          
+
                           <div className="py-3">
                             <h2 className="font-bold">Saved Items</h2>
                           </div>
@@ -315,7 +315,7 @@ const CustomerProfileLayout = ({
                       >
                         <div className="group pl-7 flex space-x-5 items-center h-[60px]">
                           <ModeCommentOutlinedIcon />
-                          
+
                           <div className="py-3">
                             <h2 className="font-bold">Reviews</h2>
                           </div>
@@ -335,8 +335,8 @@ const CustomerProfileLayout = ({
                         }}
                       >
                         <div className="group pl-7 flex space-x-5 items-center h-[60px]">
-                          <SendOutlinedIcon/>
-                          
+                          <SendOutlinedIcon />
+
                           <div className="py-3">
                             <h2 className="font-bold">Inbox</h2>
                           </div>

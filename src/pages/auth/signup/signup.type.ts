@@ -24,4 +24,14 @@ export interface ISignUp {
     id_document: string;
     account_number: string;
     bank_name: string;
+    account_name: string;
+}
+
+export interface ISignUpCustomer {
+    first_name: string;
+    last_name: string;
+    email: string;
+    phone: string;
+    password: string;
+    password_confirmation: string;
 }
