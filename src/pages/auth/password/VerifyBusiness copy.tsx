@@ -48,15 +48,18 @@ const AuthVerifyBusiness = () => {
     } catch (error: unknown) {
       console.log(error);
       setLoading(false);
-      toast.error((error as Error).message || "Error: unable to reset password", {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast.error(
+        (error as Error).message || "Error: unable to reset password",
+        {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        }
+      );
     }
   };
 
@@ -65,7 +68,10 @@ const AuthVerifyBusiness = () => {
   return (
     <div className="bg-[#F5F5F5]">
       <div className="w-screen h-screen py-10 flex flex-col gap-5">
-        <button onClick={handleBack} className="flex px-20 xs:px-4 items-center gap-2 text-[#515151] ">
+        <button
+          onClick={handleBack}
+          className="flex px-20 xs:px-4 items-center gap-2 text-[#515151] "
+        >
           <ArrowBackIcon />
           Back
         </button>
@@ -75,23 +81,35 @@ const AuthVerifyBusiness = () => {
             onSubmit={handleSubmit}
           >
             <div>
-              <img src="/images/loginmessage.png" alt="" />
+              <img src="/images/loginmessage.png" alt="login" />
             </div>
             <div className="flex flex-col items-center justify-center">
-              <p className="text-[40px] font-[500] xs:text-[30px]">Check your email</p>
+              <p className="text-[40px] font-[500] xs:text-[30px]">
+                Check your email
+              </p>
               <p className="text-[#515151]">
-                We sent a password reset link to <span className="font-medium">{userEmail}</span>
+                We sent a password reset link to{" "}
+                <span className="font-medium">{userEmail}</span>
               </p>
             </div>
             <div className="flex gap-[8px] justify-center">
               <div>
-                <MuiOtpInput display="flex" length={6} value={value} onChange={handleChange} className="text-center" />
+                <MuiOtpInput
+                  display="flex"
+                  length={6}
+                  value={value}
+                  onChange={handleChange}
+                  className="text-center"
+                />
               </div>
             </div>
             <div className="gap-4 flex flex-col w-full items-center">
-              <button className="py-2 w-full bg-[#E51B48] rounded-md text-white hover:bg-red-700">Verify Email</button>
+              <button className="py-2 w-full bg-[#E51B48] rounded-md text-white hover:bg-red-700">
+                Verify Email
+              </button>
               <p>
-                Didn’t receive the email? <span className="text-[#E51B48]">Click to resend</span>
+                Didn’t receive the email?{" "}
+                <span className="text-[#E51B48]">Click to resend</span>
               </p>
             </div>
           </form>
