@@ -166,14 +166,7 @@ function App() {
           />
         </Route>
         <Route path="/auth">
-          <Route index element={<AuthLogin />} />
-          <Route path="customer-login" element={<LoginCustomer />} />
-          <Route path="signup-seller" element={<AuthSignup />} />
-          <Route path="signup-customer" element={<SignupCustomer />} />
-          <Route
-            path="signup-business-information"
-            element={<SignupBusiness />}
-          />
+          <Route path="signup-business-information" element={<SignupBusiness />} />
           <Route path="otp" element={<AuthOTP />} />
           <Route path="otp-business" element={<AuthOTPBusiness />} />
           <Route path="reset-password" element={<AuthReset />} />
@@ -187,7 +180,19 @@ function App() {
           <Route path="verify-successful" element={<AuthSuccessful />} />
         </Route>
 
-        <Route path="/sellers" element={<SellersProfile />} />
+        <Route path="sellers">
+          <Route index element={<SellersProfile />} />
+          <Route path="login" element={<AuthLogin />} />
+          <Route path="signup" element={<AuthSignup />} />
+          <Route path="otp" element={<AuthOTPBusiness />} />
+        </Route>
+
+        <Route path="customers">
+          <Route path="login" element={<LoginCustomer />} />
+          <Route path="signup" element={<SignupCustomer />} />
+          <Route path="otp" element={<AuthOTP />} />
+        </Route>
+
         <Route path="/customer-profile">
           <Route index element={<IndexPage />} />
           <Route path="login" element={<Login />} />

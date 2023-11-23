@@ -17,7 +17,7 @@ const MobileModal: React.FC<MobileModalProps> = (props) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    navigate("/auth");
+    navigate("/customers/login");
     localStorage.removeItem("name");
     console.log("logged out");
     deleteAuthToken("");
@@ -52,7 +52,7 @@ const MobileModal: React.FC<MobileModalProps> = (props) => {
         {/* Modal */}
         <div
           ref={modalRef}
-          onClick={() => {}}
+          onClick={() => { }}
           className={cx({
             "relative z-50 h-full w-full": true,
             "max-w-lg bg-white  animate-slide-in-from-right": true,

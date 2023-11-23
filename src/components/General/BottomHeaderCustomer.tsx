@@ -45,7 +45,7 @@ const BottomHeaderCustomer = ({ style, isFarmer }: BottomProps) => {
   }, []);
 
   const handleLogout = () => {
-    navigate("/auth/customer-login");
+    navigate("/customers/login");
     localStorage.removeItem("name");
     console.log("logged out");
     deleteAuthToken("");
@@ -141,12 +141,12 @@ const BottomHeaderCustomer = ({ style, isFarmer }: BottomProps) => {
                 </>
               ) : (
                 <>
-                  <Link to="/auth/customer-login">
+                  <Link to="/customers/login">
                     <div>
                       <h2 className="text-xl text-white ">Login</h2>
                     </div>
                   </Link>
-                  <Link to="/auth/signup-customer">
+                  <Link to="/customers/signup">
                     <div className="md:hidden">
                       <button className="border-[#E51B48] text-[#E51B48] bg-white rounded-[10px] border py-2 px-5 hover:bg-red-600 hover:text-white">
                         Get Started

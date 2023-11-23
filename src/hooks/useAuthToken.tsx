@@ -31,7 +31,7 @@ const useAuthToken = (): [string | null, (token: string) => void, (token: string
       !window.location.pathname.startsWith("/categories") && window.location.pathname !== "/merchants"
     ) {
       console.log("no token");
-      navigate("/auth");
+      navigate("/customers/login");
     }
   };
 
