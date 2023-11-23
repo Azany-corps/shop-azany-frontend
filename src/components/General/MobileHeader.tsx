@@ -165,7 +165,7 @@ const MobileHeader = ({ isFarmer, style, hideScrollMenu }: Props) => {
               </>
             ) : (
               <>
-                <Link to="/auth/">
+                <Link to="/customers/login">
                   <div>
                     <h2 className="text-sm text-white ">Login</h2>
                   </div>
