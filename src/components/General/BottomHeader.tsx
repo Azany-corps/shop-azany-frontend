@@ -45,7 +45,7 @@ const BottomHeader = ({ style, isFarmer }: BottomProps) => {
   }, []);
 
   const handleLogout = () => {
-    navigate("/auth");
+    navigate("/customers/login");
     localStorage.removeItem("name");
     console.log("logged out");
     deleteAuthToken("");
