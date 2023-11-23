@@ -127,7 +127,7 @@ const AddProduct = () => {
       handleChangeCountry(store?.country);
     }
   }, [countries, store]);
-   useEffect(() => {
+  useEffect(() => {
     if (store !== undefined && store !== null) {
       handleChangeCountry(store?.country);
     }

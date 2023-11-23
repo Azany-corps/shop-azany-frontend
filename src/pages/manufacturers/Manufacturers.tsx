@@ -14,13 +14,20 @@ const Manufacturers = () => {
     <div className="bg-[#F5F5F5] xs:overflow-x-hidden">
       <TopHeader />
       <BottomHeader style={"bg-[#1B7CFC] py-2 xs:hidden"} />
-      <Header style={"bg-[#70ADFF] xs:hidden"}/>
+      <Header style={"bg-[#70ADFF] xs:hidden"} />
       <MobileHeader />
       <Banner />
-      <Category styles={"text-white bg-blue-400 font-medium text-lg"} title={"Top Manufacturers"} />
+      <Category
+        styles={"text-white bg-blue-400 font-medium text-lg"}
+        title={"Top Manufacturers"}
+      />
       <Body />
-      <Footer style={"bg-[#1B7CFC] w- py-10 px-10 xs:hidden"}/>
-      <MobileFooter style={"bg-[#1B7CFC] sm:hidden lg:hidden md:hidden 2xl:hidden xl:hidden"} />
+      <Footer style={"bg-[#1B7CFC] w- py-10 px-10 xs:hidden"} />
+      <MobileFooter
+        style={
+          "bg-[#1B7CFC] sm:hidden lg:hidden md:hidden 2xl:hidden xl:hidden"
+        }
+      />
     </div>
   );
 };
