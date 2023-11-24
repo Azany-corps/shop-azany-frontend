@@ -17,7 +17,7 @@ const MobileModal: React.FC<MobileModalProps> = (props) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    navigate("/customers/login");
+    navigate("/login");
     localStorage.removeItem("name");
     console.log("logged out");
     deleteAuthToken("");

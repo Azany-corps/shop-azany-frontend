@@ -27,7 +27,7 @@ const CloseAccountModal: React.FC<CloseAccountModalProps> = ({ onClose }) => {
         progress: undefined,
       });
 
-      navigate("/customers/login");
+      navigate("/login");
     } catch (error) {
       console.error(error);
       toast.error("Error deleting account", {

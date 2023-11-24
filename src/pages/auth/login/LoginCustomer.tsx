@@ -113,7 +113,7 @@ const AuthLoginCustomer = () => {
         </form>
         <p className="text-center z-20  font-semibold mt-3">
           If you don’t have an account yet,
-          <Link to="/customers/signup">
+          <Link to="/signup">
             <span className="text-[#0F60FF]"> Sign up here</span>
           </Link>
         </p>

@@ -105,6 +105,8 @@ function App() {
         />
         <Route path="/">
           <Route index element={<Home />} />
+          <Route path="login" element={<LoginCustomer />} />
+          <Route path="signup" element={<SignupCustomer />} />
           <Route path="manufacturers" element={<Manufacturers />} />
           <Route path="email" element={<Email />} />
           <Route path="merchants" element={<Merchants />} />
@@ -185,8 +187,6 @@ function App() {
         </Route>
 
         <Route path="customers">
-          <Route path="login" element={<LoginCustomer />} />
-          <Route path="signup" element={<SignupCustomer />} />
           <Route path="otp" element={<AuthOTP />} />
         </Route>
 
