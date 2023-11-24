@@ -28,7 +28,7 @@ const CategoryModal: React.FC<CategoryModalProps> = (props) => {
   const [, deleteAuthToken] = useAuthToken();
   const handleLogout = () => {
     //fix - on login user type should be saved sos it determines which login routes it should be taken to
-    navigate("/customers/login");
+    navigate("/login");
     localStorage.removeItem("name");
     console.log("logged out");
     deleteAuthToken("");
