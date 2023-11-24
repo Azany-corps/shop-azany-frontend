@@ -115,9 +115,7 @@ const ManufacturersProfileLayout = ({
         <p className="text-gray-700">Your Account</p>
       </div>
       <div className="bg-white py-2 xs:hidden mb-6">
-        <div className="py-2">
-          {/* <Slider /> */}
-        </div>
+        <div className="py-2">{/* <Slider /> */}</div>
       </div>
 
       <div className="smm:py-4 bg-[#F5F5F5] py-2 smm:px-3 px-2 smm:w-[90%] w-full mx-auto">

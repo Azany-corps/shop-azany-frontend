@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ManufacturersProfileLayout from "../../components/General/manufacturers/profile/Layout";
 import { Grid } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
+import ManufacturersProfileLayoutComp from "../../components/General/manufacturers/profile/LayoutComp";
 type each = {
   image: string;
   title: string;
@@ -81,7 +82,8 @@ const ManufacturersIndex = () => {
 
   return (
     <div className="bg-[#F5F5F5]">
-      <ManufacturersProfileLayout>
+      {/* <ManufacturersProfileLayout> */}
+      <ManufacturersProfileLayoutComp title="overview">
         <Grid item xs={12} md={4} display={{ xs: "block", sm: "none" }}>
           <div className="w-full bg-transparent mx-auto">
             <div className="flex-col flex gap-3">
@@ -170,7 +172,8 @@ const ManufacturersIndex = () => {
             </div>
           </div>
         </Grid>
-      </ManufacturersProfileLayout>
+      </ManufacturersProfileLayoutComp>
+      {/* </ManufacturersProfileLayout> */}
     </div>
   );
 };
