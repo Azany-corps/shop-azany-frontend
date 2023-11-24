@@ -91,7 +91,7 @@ const AuthOTPBusiness = () => {
           <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center gap-24" action="">
             <div className="flex flex-col justify-center w-full items-center gap-4">
               <input
-                className="bg-transparent text-center text-xs w-2/3 placeholder:text-xs px-3 outline-none py-[10px] xs:py-[8px] sm:py-[9px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB]"
+                className="bg-transparent text-center text-xs w-2/3 placeholder:text-xs px-3 outline-none md:py-[10px] py-[9px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB]"
                 placeholder="Enter OTP"
                 onChange={handleChange}
                 name="value"
