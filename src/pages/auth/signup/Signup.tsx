@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import callAPI from "../../../api/callApi";
 import { DropdownComponent } from "../../../components/Core/DropdownComponent";
 import { countries } from "../../../newCountries";
-import Logo from "../../../assets/Logo.png"
+import Logo from "../../../assets/azanylogofinal 2.png";
 import Progress_1 from "../../../assets/Progress_1.png"
 import Progress_2 from "../../../assets/Progress_2.png"
 import Progress_3 from "../../../assets/Progress_3.png"
@@ -228,11 +228,11 @@ const AuthSignup = () => {
   ];
 
   return (
-    <div className="flex min-h-screen md:px-20 sm:px-10 xs:px-10 px-44 py-5 bg-[#F5F5F5]">
+    <div className="flex min-h-screen px-10 md:px-44 py-5 bg-[#F5F5F5]">
       <ToastContainer />
       <div className="flex relative rounded-2xl h-full py-8 flex-col w-full bg-white gap-10 justify-center items-center">
-        <img className="" src={Logo} alt="Azany Logo" />
-        <div className="flex w-[60%] md:w-[90%] sm:w-[90%] xs:w-[90%]  flex-col justify-center items-center gap-3">
+        <img className="md:scale-1 scale-[0.65] z-20" src={Logo} alt="logo" />
+        <div className="flex md:w-[60%] w-[90%] flex-col justify-center items-center gap-3">
           <img src={data[step - 1].progress} alt={`Progress stage ${step}`} />
           <p className="text-xs">
             {data[step - 1].heading}
