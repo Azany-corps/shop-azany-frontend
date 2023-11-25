@@ -27,7 +27,8 @@ const CategoryModal: React.FC<CategoryModalProps> = (props) => {
   const navigate = useNavigate();
   const [, deleteAuthToken] = useAuthToken();
   const handleLogout = () => {
-    navigate("/auth");
+    //fix - on login user type should be saved sos it determines which login routes it should be taken to
+    navigate("/login");
     localStorage.removeItem("name");
     console.log("logged out");
     deleteAuthToken("");
@@ -97,7 +98,7 @@ const CategoryModal: React.FC<CategoryModalProps> = (props) => {
         {/* Modal */}
         <div
           ref={modalRef}
-          onClick={() => {}}
+          onClick={() => { }}
           className={cx({
             "relative z-50 h-full w-full": true,
             "max-w-lg bg-white shadow": true,

@@ -83,15 +83,15 @@ const AuthLoginCustomer = () => {
   };
 
   return (
-    <div className="flex w-full justify-center items-start xs:items-center sm:items-center bg-[#F5F5F5] h-screen ">
+    <div className="flex w-full justify-center md:items-start items-center bg-[#F5F5F5] h-screen ">
       <ToastContainer />
-      <div className="flex flex-col relative h-full xs:h-2/3 sm:h-2/3 w-[70%] xs:w-[90%] sm:w-[90%] py-28 justify-center items-center bg-white">
+      <div className="flex flex-col relative md:h-full h-2/3 md:w-[70%] w-[90%] py-28 justify-center items-center bg-white">
         <img className="w-full h-full absolute" src={Background} alt="background" />
-        <img className="mb-36 xs:mb-24 sm:mb-24 xs:scale-[0.65] sm:scale-[0.65] z-20" src={Logo} alt="logo" />
-        <form onSubmit={handleSubmit} className="flex z-20 gap-8 flex-col justify-center items-center w-[30%] xs:gap-6 sm:gap-6 xs:w-2/3 sm:w-2/3">
-          <div className="flex flex-col w-full justify-between gap-14 xs:gap-8 sm:gap-8">
+        <img className="md:mb-36 mb-24 md:scale-1 scale-[0.65] z-20" src={Logo} alt="logo" />
+        <form onSubmit={handleSubmit} className="flex z-20 md:gap-8 flex-col justify-center items-center md:w-[30%] gap-6 w-2/3">
+          <div className="flex flex-col w-full justify-between md:gap-14 gap-8">
             <input
-              className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] xs:py-[9px] sm:py-[9px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB]"
+              className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none md:py-[15px] py-[9px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB]"
               placeholder="Enter Email"
               onChange={handleChange}
               name="email"
@@ -99,7 +99,7 @@ const AuthLoginCustomer = () => {
               type="email"
             />
             <input
-              className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] xs:py-[9px] sm:py-[9px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB]"
+              className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none md:py-[15px] py-[9px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB]"
               placeholder="Enter Password"
               onChange={handleChange}
               name="password"
@@ -113,7 +113,7 @@ const AuthLoginCustomer = () => {
         </form>
         <p className="text-center z-20  font-semibold mt-3">
           If you don’t have an account yet,
-          <Link to="/auth/signup-customer">
+          <Link to="/signup">
             <span className="text-[#0F60FF]"> Sign up here</span>
           </Link>
         </p>

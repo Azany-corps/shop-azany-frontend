@@ -84,9 +84,9 @@ const Preview = ({ formData, previous, handleSubmit }: Props) => {
                     <span className='w-[60%] text-xl text-[#B3B7BB] text-left italic'>{formData?.id_document}</span>
                 </div>
 
-                <div className="flex gap-6 w-[60%] md:w-[90%] sm:w-[90%] xs:w-[90%] justify-center items-center">
-                    <button onClick={previous} className="border-[#D65D5B] border bg-transparent font-bold text-black rounded-2xl  sm:text-xs xs:text-xs sm:py-2 xs:py-2 sm:w-[40%] xs:w-[40%] py-3 w-[20%]">Previous</button>
-                    <button onClick={handleSubmit} className="bg-[#D65D5B] font-bold text-white rounded-2xl py-3 sm:text-xs xs:text-xs sm:py-2 xs:py-2 sm:w-[40%] xs:w-[40%] w-[20%]">Next</button>
+                <div className="flex gap-6 md:w-[60%] w-[90%] justify-center items-center">
+                    <button onClick={previous} className="border-[#D65D5B] border bg-transparent font-bold text-black rounded-2xl md:text-base text-xs py-2 w-[40%] md:py-3 md:w-[20%]">Previous</button>
+                    <button onClick={handleSubmit} className="bg-[#D65D5B] font-bold text-white rounded-2xl md:text-base text-xs py-2 w-[40%] md:py-3 md:w-[20%]">Next</button>
                 </div>
             </div>
         </>
