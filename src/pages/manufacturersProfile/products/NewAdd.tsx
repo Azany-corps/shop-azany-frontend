@@ -32,23 +32,12 @@ import {
 import { useFormik } from "formik";
 import AddImageComp from "../../../components/Core/AddImageComp";
 import TextColorizer from "./ColorText";
+import { IProduct } from "./product.type";
 
 interface DiscountOption {
   quantity: string;
   percentage: string;
 }
-
-interface Country {
-  name: string;
-  id: string;
-  currency: string;
-}
-
-interface State {
-  name: string;
-  id: string;
-}
-
 interface ColorizedText {
   text: string;
 }
@@ -57,9 +46,44 @@ const AddProduct = () => {
   const data = new FormData();
 
   const [selectedImages, setSelectedImages] = useState<FileWithPath[]>([]);
+  // const [status, setStatus] = useState("status");
   const [parentColorizedTexts, setParentColorizedTexts] = useState<
     ColorizedText[]
   >([]);
+
+  const [formData, setFormData] = useState<IProduct>({
+    product_name: "",
+    product_category: "",
+    stock: "",
+    currency: "",
+    price: "",
+    brand: "",
+    weight: "",
+    short_description: "",
+    product_description: "",
+    certification: "",
+    main_material: "",
+    material_family: "",
+    model: "",
+    production_country: "",
+    production_line: "",
+    size: "",
+    warranty_duration: "",
+    warranty_type: "",
+    note: "",
+    color: "",
+    ram_size: "",
+    cpu_core: "",
+    operating_system: "",
+    screen_size: "",
+    display_features: "",
+    battery_size: "",
+    product_attributes: "",
+    sale_price: "",
+    sale_start_date: "",
+    sale_end_date: "",
+    stock_quantity: "",
+  });
 
   const handleColorizedTextsChange = (colorizedTexts: ColorizedText[]) => {
     // Access the colorizedTexts value in the parent component
@@ -67,11 +91,9 @@ const AddProduct = () => {
     setParentColorizedTexts(colorizedTexts);
   };
 
-  const handleStockStatusChange = () => {
-
+  const handleStockStatusChange = (status: string) => {
+    setFormData({ ...formData, stock: status });
   }
-
-  console.log(parentColorizedTexts);
 
   const handleImageSelect = (images: FileWithPath[]) => {
     setSelectedImages(images);
@@ -114,8 +136,79 @@ const AddProduct = () => {
 
     onSubmit: (values: any) => {
       console.log(values);
-    },
+    }
   });
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = event?.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    console.log("formd: ", formData)
+
+    // setLoading(true);
+    // try {
+    //   let data = new FormData();
+    //   data.append("email", formData.email);
+    //   data.append("first_name", formData.first_name);
+    //   data.append("last_name", formData.last_name);
+    //   data.append("phone", formData.phone);
+    //   data.append("account_type", formData.seller_type);
+    //   data.append("password", formData.password);
+    //   data.append("password_confirmation", formData.password_confirmation);
+    //   data.append("shop_name", formData.shop_name);
+    //   data.append("business_type", formData.account_type || "");
+    //   data.append("business_owner_first_name", formData.rep_first_name);
+    //   data.append("business_owner_middle_name", formData.rep_middle_name);
+    //   data.append("business_owner_last_name", formData.rep_last_name);
+    //   data.append("company_name", formData.company_name);
+    //   data.append("company_phone", formData.company_phone);
+    //   data.append("company_additional_phone", formData.other_phone);
+    //   data.append("company_address", formData.address);
+    //   data.append("company_poster_code", formData.postal_code);
+    //   data.append("company_country", formData.country);
+    //   data.append("company_state", formData.state);
+    //   data.append("company_city", formData.city);
+    //   data.append("country_shipping_from", formData.shipping_address);
+    //   data.append("cac_registration_number", formData.cac_number);
+    //   data.append("cac_certificate", formData.cac_document);
+    //   data.append("tin", formData.tax_number);
+    //   data.append("tin_certificate", formData.tax_document);
+    //   data.append("account_name", formData.account_name);
+    //   data.append("account_number", formData.account_number);
+    //   data.append("bank", formData.bank_name);
+
+    //   const response = await callAPI("auth/seller_register", "POST", data, {
+    //     "Content-Type": "multipart/form-data",
+    //   });
+    //   console.log(response);
+    //   localStorage.setItem("user_id", response.data.user.id);
+    //   toast.success("Success message", {
+    //     position: "top-center",
+    //     autoClose: 3000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //   });
+    //   navigate("/auth/otp-business");
+    // } catch (err: any) {
+    //   console.log(err);
+    //   setLoading(false);
+    //   toast.error(err?.response?.data?.data?.errors?.[0], {
+    //     position: "top-center",
+    //     autoClose: 3000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //   });
+    // }
+  };
 
   return (
     <div className="bg-[#F5F5F5] xs:overflow-x-hidden">
@@ -152,35 +245,35 @@ const AddProduct = () => {
               </div>
               <div className="w-full pl-[-10px]">
                 <MaterialSwitch onStockStatusChange={handleStockStatusChange} />
-                <StockCheckbox />
+                {/* <StockCheckbox /> */}
               </div>
             </div>
           </div>
         </div>
         <div className="md:w-[70%] w-full mx-auto">
-          <form onSubmit={Formik.handleSubmit}>
+          <form onSubmit={handleSubmit}>
             <div className="w-full mb-10">
               <FormInput
                 labelStyle="mb-[22px] text-base font-semibold uppercase"
                 type="text"
                 id="product_name"
                 name="Product name*"
-                value={Formik?.values?.product_name}
-                onChange={Formik.handleChange}
-                error={Formik?.errors?.product_name as string}
-                touched={Formik?.touched?.product_name as boolean}
-                onBlur={Formik.handleBlur}
+                value={formData?.product_name}
+                onChange={handleChange}
+              // error={Formik?.errors?.product_name as string}
+              // touched={Formik?.touched?.product_name as boolean}
+              // onBlur={Formik.handleBlur}
               />
             </div>
             <div className="w-full mb-10">
               <FormSelect
                 name="Product category*"
-                id="currency"
-                value={Formik?.values?.currency}
-                onChange={Formik.handleChange}
-                onBlur={Formik.handleBlur}
-                error={Formik?.errors?.currency as string}
-                touched={Formik?.touched?.currency as boolean}
+                id="product_category"
+                value={formData?.product_category}
+                onChange={handleChange}
+                // onBlur={Formik.handleBlur}
+                // error={Formik?.errors?.product_category as string}
+                // touched={Formik?.touched?.product_category as boolean}
                 options={[
                   { label: "Euro", value: "EUR" },
                   { label: "US Dollars", value: "USD" },
@@ -194,11 +287,11 @@ const AddProduct = () => {
                 <FormSelect
                   name="Product brand*"
                   id="brand"
-                  value={Formik?.values?.brand}
-                  onChange={Formik.handleChange}
-                  onBlur={Formik.handleBlur}
-                  error={Formik?.errors?.brand as string}
-                  touched={Formik?.touched?.brand as boolean}
+                  value={formData?.brand}
+                  onChange={handleChange}
+                  // onBlur={Formik.handleBlur}
+                  // error={Formik?.errors?.brand as string}
+                  // touched={Formik?.touched?.brand as boolean}
                   options={[
                     { label: "Euro", value: "EUR" },
                     { label: "US Dollars", value: "USD" },
@@ -213,11 +306,11 @@ const AddProduct = () => {
                   type="text"
                   id="weight"
                   name="Weight (kg)*"
-                  value={Formik?.values?.weight}
-                  onChange={Formik.handleChange}
-                  error={Formik?.errors?.weight as string}
-                  touched={Formik?.touched?.weight as boolean}
-                  onBlur={Formik.handleBlur}
+                  value={formData?.weight}
+                  onChange={handleChange}
+                // error={Formik?.errors?.weight as string}
+                // touched={Formik?.touched?.weight as boolean}
+                // onBlur={Formik.handleBlur}
                 />
               </div>
             </div>
@@ -231,10 +324,10 @@ const AddProduct = () => {
                   placeholder="Input short description"
                   id="short_description"
                   name="short description"
-                  value={Formik?.values?.short_description}
-                  onChange={Formik.handleChange}
-                  error={Formik?.errors?.short_description as string}
-                  touched={Formik?.touched?.short_description as boolean}
+                  value={formData?.short_description}
+                  onChange={handleChange}
+                // error={Formik?.errors?.short_description as string}
+                // touched={Formik?.touched?.short_description as boolean}
                 />
               </div>
               <div className="w-full">
@@ -243,10 +336,10 @@ const AddProduct = () => {
                   placeholder="Input product description"
                   id="product_description"
                   name="product description"
-                  value={Formik?.values?.product_description}
-                  onChange={Formik.handleChange}
-                  error={Formik?.errors?.product_description as string}
-                  touched={Formik?.touched?.product_description as boolean}
+                  value={formData?.product_description}
+                  onChange={handleChange}
+                // error={Formik?.errors?.product_description as string}
+                // touched={Formik?.touched?.product_description as boolean}
                 />
               </div>
             </div>
@@ -268,11 +361,11 @@ const AddProduct = () => {
                   <FormSelect
                     name="Certification"
                     id="certification"
-                    value={Formik?.values?.certification}
-                    onChange={Formik.handleChange}
-                    onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.certification as string}
-                    touched={Formik?.touched?.certification as boolean}
+                    value={formData?.certification}
+                    onChange={handleChange}
+                    // onBlur={Formik.handleBlur}
+                    // error={Formik?.errors?.certification as string}
+                    // touched={Formik?.touched?.certification as boolean}
                     options={[
                       { label: "Euro", value: "EUR" },
                       { label: "US Dollars", value: "USD" },
@@ -287,11 +380,11 @@ const AddProduct = () => {
                     type="text"
                     id="main_material"
                     name="Main material"
-                    value={Formik?.values?.main_material}
-                    onChange={Formik.handleChange}
-                    error={Formik?.errors?.main_material as string}
-                    touched={Formik?.touched?.main_material as boolean}
-                    onBlur={Formik.handleBlur}
+                    value={formData?.main_material}
+                    onChange={handleChange}
+                    // error={Formik?.errors?.main_material as string}
+                    // touched={Formik?.touched?.main_material as boolean}
+                    // onBlur={Formik.handleBlur}
                     placeholder="Material of the product"
                   />
                 </div>
@@ -299,13 +392,13 @@ const AddProduct = () => {
                   <FormInput
                     labelStyle="capitalize mb-2 font-normal text-sm"
                     type="text"
-                    id="material family"
+                    id="material_family"
                     name="Material family"
-                    value={Formik?.values?.material_family}
-                    onChange={Formik.handleChange}
-                    error={Formik?.errors?.material_family as string}
-                    touched={Formik?.touched?.material_family as boolean}
-                    onBlur={Formik.handleBlur}
+                    value={formData?.material_family}
+                    onChange={handleChange}
+                    // error={Formik?.errors?.material_family as string}
+                    // touched={Formik?.touched?.material_family as boolean}
+                    // onBlur={Formik.handleBlur}
                     placeholder="Material family of the product"
                   />
                 </div>
@@ -315,11 +408,11 @@ const AddProduct = () => {
                   <FormInput
                     name="Model"
                     id="model"
-                    value={Formik?.values?.model}
-                    onChange={Formik.handleChange}
-                    onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.model as string}
-                    touched={Formik?.touched?.model as boolean}
+                    value={formData?.model}
+                    onChange={handleChange}
+                    // onBlur={Formik.handleBlur}
+                    // error={Formik?.errors?.model as string}
+                    // touched={Formik?.touched?.model as boolean}
                     type="text"
                     labelStyle="block text-sm mb-2 font-normal general-font capitalize text-black"
                     placeholder="Model ID or Manufacturer part Number"
@@ -331,11 +424,11 @@ const AddProduct = () => {
                     type="text"
                     id="production_country"
                     name="Production country"
-                    value={Formik?.values?.production_country}
-                    onChange={Formik.handleChange}
-                    error={Formik?.errors?.production_country as string}
-                    touched={Formik?.touched?.production_country as boolean}
-                    onBlur={Formik.handleBlur}
+                    value={formData?.production_country}
+                    onChange={handleChange}
+                    // error={Formik?.errors?.production_country as string}
+                    // touched={Formik?.touched?.production_country as boolean}
+                    // onBlur={Formik.handleBlur}
                     placeholder="Material of the product"
                   />
                 </div>
@@ -345,11 +438,11 @@ const AddProduct = () => {
                     type="text"
                     id="production_line"
                     name="Production line"
-                    value={Formik?.values?.production_line}
-                    onChange={Formik.handleChange}
-                    error={Formik?.errors?.production_line as string}
-                    touched={Formik?.touched?.production_line as boolean}
-                    onBlur={Formik.handleBlur}
+                    value={formData?.production_line}
+                    onChange={handleChange}
+                    // error={Formik?.errors?.production_line as string}
+                    // touched={Formik?.touched?.production_line as boolean}
+                    // onBlur={Formik.handleBlur}
                     placeholder="Production line"
                   />
                 </div>
@@ -359,11 +452,11 @@ const AddProduct = () => {
                   <FormInput
                     name="Size (L x X x H cm)"
                     id="size"
-                    value={Formik?.values?.size}
-                    onChange={Formik.handleChange}
-                    onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.size as string}
-                    touched={Formik?.touched?.size as boolean}
+                    value={formData?.size}
+                    onChange={handleChange}
+                    // onBlur={Formik.handleBlur}
+                    // error={Formik?.errors?.size as string}
+                    // touched={Formik?.touched?.size as boolean}
                     placeholder="Input size"
                     type="text"
                     labelStyle="block text-sm mb-2 font-normal general-font text-black"
@@ -373,11 +466,11 @@ const AddProduct = () => {
                   <FormSelect
                     name="Warranty Duration"
                     id="warranty_duration"
-                    value={Formik?.values?.warranty_duration}
-                    onChange={Formik.handleChange}
-                    onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.warranty_duration as string}
-                    touched={Formik?.touched?.warranty_duration as boolean}
+                    value={formData?.warranty_duration}
+                    onChange={handleChange}
+                    // onBlur={Formik.handleBlur}
+                    // error={Formik?.errors?.warranty_duration as string}
+                    // touched={Formik?.touched?.warranty_duration as boolean}
                     options={[
                       { label: "Euro", value: "EUR" },
                       { label: "US Dollars", value: "USD" },
@@ -390,11 +483,11 @@ const AddProduct = () => {
                   <FormSelect
                     name="Warranty type"
                     id="warranty_type"
-                    value={Formik?.values?.warranty_type}
-                    onChange={Formik.handleChange}
-                    onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.warranty_type as string}
-                    touched={Formik?.touched?.warranty_type as boolean}
+                    value={formData?.warranty_type}
+                    onChange={handleChange}
+                    // onBlur={Formik.handleBlur}
+                    // error={Formik?.errors?.warranty_type as string}
+                    // touched={Formik?.touched?.warranty_type as boolean}
                     options={[
                       { label: "Euro", value: "EUR" },
                       { label: "US Dollars", value: "USD" },
@@ -409,11 +502,11 @@ const AddProduct = () => {
                   <FormInput
                     name="note"
                     id="note"
-                    value={Formik?.values?.note}
-                    onChange={Formik.handleChange}
-                    onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.note as string}
-                    touched={Formik?.touched?.note as boolean}
+                    value={formData?.note}
+                    onChange={handleChange}
+                    // onBlur={Formik.handleBlur}
+                    // error={Formik?.errors?.note as string}
+                    // touched={Formik?.touched?.note as boolean}
                     placeholder="Note/Comment"
                     type="text"
                     labelStyle="block text-sm mb-2 font-normal general-font text-black"
@@ -424,11 +517,11 @@ const AddProduct = () => {
                   <FormInput
                     name="color"
                     id="color"
-                    value={Formik?.values?.color}
-                    onChange={Formik.handleChange}
-                    onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.color as string}
-                    touched={Formik?.touched?.color as boolean}
+                    value={formData?.color}
+                    onChange={handleChange}
+                    // onBlur={Formik.handleBlur}
+                    // error={Formik?.errors?.color as string}
+                    // touched={Formik?.touched?.color as boolean}
                     placeholder="Input color"
                     type="text"
                     labelStyle="block text-sm mb-2 font-normal general-font text-black"
@@ -440,11 +533,11 @@ const AddProduct = () => {
                   <FormInput
                     name="RAM Size (GB)"
                     id="ram_size"
-                    value={Formik?.values?.ram_size}
-                    onChange={Formik.handleChange}
-                    onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.ram_size as string}
-                    touched={Formik?.touched?.ram_size as boolean}
+                    value={formData?.ram_size}
+                    onChange={handleChange}
+                    // onBlur={Formik.handleBlur}
+                    // error={Formik?.errors?.ram_size as string}
+                    // touched={Formik?.touched?.ram_size as boolean}
                     placeholder="RAM Size (GB)"
                     type="text"
                     labelStyle="block text-sm mb-2 font-normal general-font text-black"
@@ -455,11 +548,11 @@ const AddProduct = () => {
                   <FormInput
                     name="CPU Cores"
                     id="cpu_core"
-                    value={Formik?.values?.cpu_core}
-                    onChange={Formik.handleChange}
-                    onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.cpu_core as string}
-                    touched={Formik?.touched?.cpu_core as boolean}
+                    value={formData?.cpu_core}
+                    onChange={handleChange}
+                    // onBlur={Formik.handleBlur}
+                    // error={Formik?.errors?.cpu_core as string}
+                    // touched={Formik?.touched?.cpu_core as boolean}
                     placeholder="CPU Cores"
                     type="text"
                     labelStyle="block text-sm mb-2 font-normal general-font text-black"
@@ -469,12 +562,12 @@ const AddProduct = () => {
                 <div className="w-full col-span-1">
                   <FormInput
                     name="Operating System"
-                    id="color"
-                    value={Formik?.values?.operating_system}
-                    onChange={Formik.handleChange}
-                    onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.operating_system as string}
-                    touched={Formik?.touched?.operating_system as boolean}
+                    id="operating_system"
+                    value={formData?.operating_system}
+                    onChange={handleChange}
+                    // onBlur={Formik.handleBlur}
+                    // error={Formik?.errors?.operating_system as string}
+                    // touched={Formik?.touched?.operating_system as boolean}
                     placeholder="Operating System"
                     type="text"
                     labelStyle="block text-sm mb-2 font-normal general-font text-black"
@@ -486,11 +579,11 @@ const AddProduct = () => {
                   <FormInput
                     name="Screen Size"
                     id="screen_size"
-                    value={Formik?.values?.screen_size}
-                    onChange={Formik.handleChange}
-                    onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.screen_size as string}
-                    touched={Formik?.touched?.screen_size as boolean}
+                    value={formData?.screen_size}
+                    onChange={handleChange}
+                    // onBlur={Formik.handleBlur}
+                    // error={Formik?.errors?.screen_size as string}
+                    // touched={Formik?.touched?.screen_size as boolean}
                     placeholder="Screen Size"
                     type="text"
                     labelStyle="block text-sm mb-2 font-normal general-font text-black"
@@ -501,11 +594,11 @@ const AddProduct = () => {
                   <FormInput
                     name="Display Features"
                     id="display_features"
-                    value={Formik?.values?.display_features}
-                    onChange={Formik.handleChange}
-                    onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.display_features as string}
-                    touched={Formik?.touched?.display_features as boolean}
+                    value={formData?.display_features}
+                    onChange={handleChange}
+                    // onBlur={Formik.handleBlur}
+                    // error={Formik?.errors?.display_features as string}
+                    // touched={Formik?.touched?.display_features as boolean}
                     placeholder="Display Features"
                     type="text"
                     labelStyle="block text-sm mb-2 font-normal general-font text-black"
@@ -515,12 +608,12 @@ const AddProduct = () => {
                 <div className="w-full col-span-1">
                   <FormInput
                     name="Battery Size"
-                    id="color"
-                    value={Formik?.values?.battery_size}
-                    onChange={Formik.handleChange}
-                    onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.battery_size as string}
-                    touched={Formik?.touched?.battery_size as boolean}
+                    id="battery_size"
+                    value={formData?.battery_size}
+                    onChange={handleChange}
+                    // onBlur={Formik.handleBlur}
+                    // error={Formik?.errors?.battery_size as string}
+                    // touched={Formik?.touched?.battery_size as boolean}
                     placeholder="Battery Size"
                     type="text"
                     labelStyle="block text-sm mb-2 font-normal general-font text-black"
@@ -537,11 +630,11 @@ const AddProduct = () => {
               <FormInput
                 name=""
                 id="product_attributes"
-                value={Formik?.values?.product_attributes}
-                onChange={Formik.handleChange}
-                onBlur={Formik.handleBlur}
-                error={Formik?.errors?.product_attributes as string}
-                touched={Formik?.touched?.product_attributes as boolean}
+                value={formData?.product_attributes}
+                onChange={handleChange}
+                // onBlur={Formik.handleBlur}
+                // error={Formik?.errors?.product_attributes as string}
+                // touched={Formik?.touched?.product_attributes as boolean}
                 placeholder=""
                 type="text"
                 labelStyle="block text-sm mb-2 font-normal general-font text-black uppercase"
@@ -556,11 +649,11 @@ const AddProduct = () => {
                 <FormInput
                   name="Global Price (NGN)"
                   id="price"
-                  value={Formik?.values?.price}
-                  onChange={Formik.handleChange}
-                  onBlur={Formik.handleBlur}
-                  error={Formik?.errors?.price as string}
-                  touched={Formik?.touched?.price as boolean}
+                  value={formData?.price}
+                  onChange={handleChange}
+                  // onBlur={Formik.handleBlur}
+                  // error={Formik?.errors?.price as string}
+                  // touched={Formik?.touched?.price as boolean}
                   placeholder=""
                   type="text"
                   labelStyle="block text-sm mb-2 font-normal general-font text-black capitalize"
@@ -571,11 +664,11 @@ const AddProduct = () => {
                   <FormInput
                     name="Sale Price (NGN)"
                     id="sale_price"
-                    value={Formik?.values?.sale_price}
-                    onChange={Formik.handleChange}
-                    onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.sale_price as string}
-                    touched={Formik?.touched?.sale_price as boolean}
+                    value={formData?.sale_price}
+                    onChange={handleChange}
+                    // onBlur={Formik.handleBlur}
+                    // error={Formik?.errors?.sale_price as string}
+                    // touched={Formik?.touched?.sale_price as boolean}
                     placeholder="Input product description"
                     type="text"
                     labelStyle="block text-sm mb-2 font-normal general-font text-black capitalize"
@@ -585,11 +678,11 @@ const AddProduct = () => {
                   <FormInput
                     name="Sale Start Date"
                     id="sale_start_date"
-                    value={Formik?.values?.sale_start_date}
-                    onChange={Formik.handleChange}
-                    onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.sale_start_date as string}
-                    touched={Formik?.touched?.sale_start_date as boolean}
+                    value={formData?.sale_start_date}
+                    onChange={handleChange}
+                    // onBlur={Formik.handleBlur}
+                    // error={Formik?.errors?.sale_start_date as string}
+                    // touched={Formik?.touched?.sale_start_date as boolean}
                     placeholder="Select date"
                     type="date"
                     labelStyle="block text-sm mb-2 font-normal general-font text-black capitalize"
@@ -599,11 +692,11 @@ const AddProduct = () => {
                   <FormInput
                     name="Sale End Date"
                     id="sale_end_date"
-                    value={Formik?.values?.sale_end_date}
-                    onChange={Formik.handleChange}
-                    onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.sale_end_date as string}
-                    touched={Formik?.touched?.sale_end_date as boolean}
+                    value={formData?.sale_end_date}
+                    onChange={handleChange}
+                    // onBlur={Formik.handleBlur}
+                    // error={Formik?.errors?.sale_end_date as string}
+                    // touched={Formik?.touched?.sale_end_date as boolean}
                     placeholder="Select date"
                     type="date"
                     labelStyle="block text-sm mb-2 font-normal general-font text-black capitalize"
@@ -618,12 +711,12 @@ const AddProduct = () => {
               <div className="w-full mb-5">
                 <FormInput
                   name="Stock quantity"
-                  id="product_attributes"
-                  value={Formik?.values?.stock_quantity}
-                  onChange={Formik.handleChange}
-                  onBlur={Formik.handleBlur}
-                  error={Formik?.errors?.stock_quantity as string}
-                  touched={Formik?.touched?.stock_quantity as boolean}
+                  id="stock_quantity"
+                  value={formData?.stock_quantity}
+                  onChange={handleChange}
+                  // onBlur={Formik.handleBlur}
+                  // error={Formik?.errors?.stock_quantity as string}
+                  // touched={Formik?.touched?.stock_quantity as boolean}
                   placeholder="Select stock quantity"
                   type="text"
                   labelStyle="block text-sm mb-2 font-normal general-font text-black capitalize"
