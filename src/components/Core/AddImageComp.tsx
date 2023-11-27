@@ -56,12 +56,12 @@ export const AddImageComp = ({ onImageSelect }: AddImageProps) => {
   };
 
   return (
-    <div style={{ display: "flex", gap: "4px" }}>
+    <div style={{ display: "flex", gap: "10px" }}>
       {selectedImages.map((image, index) => (
         <div
           key={index}
           onClick={() => handleImageClick(index)}
-          className="cursor-pointer w-[120px] h-[120px] object-cover"
+          className="cursor-pointer w-[120px] h-[120px] object-cover rounded-[10px] overflow-hidden"
         >
           <img
             src={URL.createObjectURL(image)}
@@ -71,15 +71,15 @@ export const AddImageComp = ({ onImageSelect }: AddImageProps) => {
         </div>
       ))}
       {selectedImages.length >= 4 ? null : (
-        <div {...getRootProps()} className="cursor-pointer">
+        <div {...getRootProps()} className="cursor-pointer overflow-hidden">
           <input {...getInputProps()} disabled={selectedImages.length >= 6} />
           {isDragActive ? (
             <p>Drop the files here ...</p>
           ) : (
             <img
-              src="/images/newproduct.svg"
+              src="/images/addimage.png"
               alt="new_product"
-              className="w-[120px] h-[120px] object-cover"
+              className="w-[120px] h-[120px] object-cover rounded-[10px]"
             />
           )}
         </div>

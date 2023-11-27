@@ -67,6 +67,10 @@ const AddProduct = () => {
     setParentColorizedTexts(colorizedTexts);
   };
 
+  const handleStockStatusChange = () => {
+
+  }
+
   console.log(parentColorizedTexts);
 
   const handleImageSelect = (images: FileWithPath[]) => {
@@ -133,9 +137,9 @@ const AddProduct = () => {
         <div className="flex justify-between xs:hidden">
           <BackButton />
         </div>
-        <div className="pl-0 lgm:pl-[208px] w-full mx-auto">
+        <div className="pl-0 md:pl-40 w-full mx-auto">
           <div className="flex justify-between items-start">
-            <h1 className="text-[36px] xs:text-[26px] font-medium general-font">
+            <h1 className="md:text-[36px] text-[26px] font-medium general-font">
               Add Product
             </h1>
 
@@ -147,13 +151,13 @@ const AddProduct = () => {
                 </div>
               </div>
               <div className="w-full pl-[-10px]">
-                {/* <MaterialSwitch onStockStatusChange={handleStockStatusChange} /> */}
-                {/* <StockCheckbox /> */}
+                <MaterialSwitch onStockStatusChange={handleStockStatusChange} />
+                <StockCheckbox />
               </div>
             </div>
           </div>
         </div>
-        <div className="mdm:w-[70%] w-full mx-auto">
+        <div className="md:w-[70%] w-full mx-auto">
           <form onSubmit={Formik.handleSubmit}>
             <div className="w-full mb-10">
               <FormInput
@@ -223,7 +227,7 @@ const AddProduct = () => {
               </p>
               <div className="w-full my-5">
                 <FormTextArea
-                  labelStyle="capitalize"
+                  labelStyle="font-semibold"
                   placeholder="Input short description"
                   id="short_description"
                   name="short description"
@@ -235,7 +239,7 @@ const AddProduct = () => {
               </div>
               <div className="w-full">
                 <FormTextArea
-                  labelStyle="capitalize"
+                  labelStyle="font-semibold"
                   placeholder="Input product description"
                   id="product_description"
                   name="product description"
@@ -524,9 +528,14 @@ const AddProduct = () => {
                 </div>
               </div>
             </div>
-            <div className="w-full mb-10">
+            <div className="flex flex-col gap-3 w-full mb-10">
+              <TextColorizer
+                attributeText={["lorem", "ipsum", "jeje", "glow", "wine"]}
+                name="exampleName"
+                onColorizedTextsChange={handleColorizedTextsChange}
+              />
               <FormInput
-                name="PRODUCT ATTRIBUTES"
+                name=""
                 id="product_attributes"
                 value={Formik?.values?.product_attributes}
                 onChange={Formik.handleChange}
@@ -537,6 +546,7 @@ const AddProduct = () => {
                 type="text"
                 labelStyle="block text-sm mb-2 font-normal general-font text-black uppercase"
               />
+              <p className="text-[#515151] w-2/3 text-sm"><span className="text-black">Related Attributes: </span> Color,  Size,  Branding,  Depth,  Logo,  Color,  Size,  Branding,  Depth,  Logo,  Color,  Size,  Branding,  Depth,  Logo,</p>
             </div>
             <div className="w-full mb-10">
               <p className="block mb-[22px] text-base font-normal general-font uppercase text-black">
@@ -634,18 +644,13 @@ const AddProduct = () => {
                 posting does not include any Prohibited Items
               </p>
             </div>
-            <TextColorizer
-              attributeText={["lorem", "ipsum", "jeje", "glow", "wine"]}
-              name="exampleName"
-              onColorizedTextsChange={handleColorizedTextsChange}
-            />
           </form>
         </div>
       </div>
-      <Footer style={"bg-[#1B7CFC] py-10 px-10 xs:hidden"} />
+      <Footer style={"bg-[#1B7CFC] py-10 px-10 hidden"} />
       <MobileFooter
         style={
-          "bg-[#1B7CFC] sm:hidden lg:hidden md:hidden 2xl:hidden xl:hidden"
+          "bg-[#1B7CFC] md:hidden"
         }
       />
     </div>
