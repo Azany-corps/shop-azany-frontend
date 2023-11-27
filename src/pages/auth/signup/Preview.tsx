@@ -6,10 +6,10 @@ interface Props {
     formData: ISignUp;
     previous: MouseEventHandler<HTMLButtonElement>;
     handleSubmit: MouseEventHandler<HTMLButtonElement>;
-
+    previewUrls: any;
 }
 
-const Preview = ({ formData, previous, handleSubmit }: Props) => {
+const Preview = ({ formData, previous, handleSubmit, previewUrls }: Props) => {
     return (
         <>
             <div className="flex relative justify-center flex-col gap-7 items-center w-full">
@@ -79,14 +79,14 @@ const Preview = ({ formData, previous, handleSubmit }: Props) => {
                 </div>
 
                 <div className="flex gap-4  w-[60%] flex-col">
-                    <span className='w-[60%] text-xl text-[#B3B7BB] text-left italic'>{formData?.cac_document}</span>
-                    <span className='w-[60%] text-xl text-[#B3B7BB] text-left italic'>{formData?.tax_document}</span>
-                    <span className='w-[60%] text-xl text-[#B3B7BB] text-left italic'>{formData?.id_document}</span>
+                    <span className='w-[60%] text-xl text-[#B3B7BB] text-left italic'>{previewUrls?.cac_document}</span>
+                    <span className='w-[60%] text-xl text-[#B3B7BB] text-left italic'>{previewUrls?.tax_document}</span>
+                    <span className='w-[60%] text-xl text-[#B3B7BB] text-left italic'>{previewUrls?.id_document}</span>
                 </div>
 
                 <div className="flex gap-6 md:w-[60%] w-[90%] justify-center items-center">
                     <button onClick={previous} className="border-[#D65D5B] border bg-transparent font-bold text-black rounded-2xl md:text-base text-xs py-2 w-[40%] md:py-3 md:w-[20%]">Previous</button>
-                    <button onClick={handleSubmit} className="bg-[#D65D5B] font-bold text-white rounded-2xl md:text-base text-xs py-2 w-[40%] md:py-3 md:w-[20%]">Next</button>
+                    <button onClick={handleSubmit} className="bg-[#D65D5B] font-bold text-white rounded-2xl md:text-base text-xs py-2 w-[40%] md:py-3 md:w-[20%]">Submit</button>
                 </div>
             </div>
         </>

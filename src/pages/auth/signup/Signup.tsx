@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import { useNavigate } from "react-router-dom";
@@ -47,6 +47,11 @@ const AuthSignup = () => {
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState<boolean>(false);
   const [step, setStep] = useState<number>(1);
+  const [previewUrls, setPreviewUrls] = useState<any>({
+    cac_document: "",
+    tax_document: "",
+    id_document: ""
+  })
 
   const navigate = useNavigate();
 
@@ -106,6 +111,9 @@ const AuthSignup = () => {
     address: "",
     postal_code: "",
     company_phone: "",
+    country: "",
+    state: "",
+    city: "",
     other_phone: "",
     cac_number: "",
     tax_number: "",
@@ -118,8 +126,29 @@ const AuthSignup = () => {
     account_name: ""
   });
 
-  const handleChange = (event: any) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = event.target;
+    if (name === 'country') {
+      const selectedCountry = countries.find(
+        (country) => country?.name === value
+      );
+      getStatesInCountry(selectedCountry?.id);
+    }
+    if (name === 'state') {
+      const selectedState = states.find(
+        (state) => state.name === value
+      );
+
+      getCitiesInState(selectedState?.id);
+    }
+    if (name === 'city') {
+      const selectedCity = cities.find((city) => city.name === value);
+    }
     setFormData({ ...formData, [name]: value });
   };
 
@@ -132,12 +161,19 @@ const AuthSignup = () => {
     setStep(step + 1);
   }
 
-  const vendor = [
-    { label: "Customer", value: "Customer" },
-    { label: "Farmer", value: "Farmer" },
-    { label: "Manufacturer", value: "Manufacturer" },
-    { label: "Merchant", value: "Merchant" },
-  ];
+  const handleFileChange = async (event: any) => {
+    event.preventDefault();
+    let reader = new FileReader();
+    let value = event?.target?.files[0];
+    let name = event.currentTarget.name
+
+    reader.onloadend = () => {
+      setPreviewUrls({ ...previewUrls, [name]: reader.result })
+      setFormData({ ...formData, [name]: value });
+    };
+
+    reader.readAsDataURL(value);
+  };
 
   const data = [
     { progress: Progress_1, heading: "Seller Account Information" },
@@ -169,11 +205,11 @@ const AuthSignup = () => {
       data.append("first_name", formData.first_name);
       data.append("last_name", formData.last_name);
       data.append("phone", formData.phone);
-      data.append("account_type", 'farmer');
+      data.append("account_type", formData.seller_type);
       data.append("password", formData.password);
       data.append("password_confirmation", formData.password_confirmation);
       data.append("shop_name", formData.shop_name);
-      data.append("business_type", "Individual");
+      data.append("business_type", formData.account_type || "");
       data.append("business_owner_first_name", formData.rep_first_name);
       data.append("business_owner_middle_name", formData.rep_middle_name);
       data.append("business_owner_last_name", formData.rep_last_name);
@@ -182,6 +218,9 @@ const AuthSignup = () => {
       data.append("company_additional_phone", formData.other_phone);
       data.append("company_address", formData.address);
       data.append("company_poster_code", formData.postal_code);
+      data.append("company_country", formData.country);
+      data.append("company_state", formData.state);
+      data.append("company_city", formData.city);
       data.append("country_shipping_from", formData.shipping_address);
       data.append("cac_registration_number", formData.cac_number);
       data.append("cac_certificate", formData.cac_document);
@@ -239,10 +278,10 @@ const AuthSignup = () => {
           </p>
         </div>
 
-        {step === 1 && <SellerInfo handleChange={handleChange} handleSubmit={next} formData={formData} />}
-        {step === 2 && <BusinessInfo handleChange={handleChange} handleSubmit={next} formData={formData} previous={previous} />}
+        {step === 1 && <SellerInfo handleChange={handleChange} handleSelectChange={handleSelectChange} handleSubmit={next} formData={formData} />}
+        {step === 2 && <BusinessInfo handleChange={handleChange} handleSelectChange={handleSelectChange} states={states} countries={countries} cities={cities} previewUrls={previewUrls} handleFileChange={handleFileChange} handleSubmit={next} formData={formData} previous={previous} />}
         {step === 3 && <AccountInfo handleChange={handleChange} handleSubmit={next} formData={formData} previous={previous} />}
-        {step === 4 && <Preview formData={formData} previous={previous} handleSubmit={handleSubmit} />}
+        {step === 4 && <Preview formData={formData} previous={previous} previewUrls={previewUrls} handleSubmit={handleSubmit} />}
       </div >
     </div >
   );

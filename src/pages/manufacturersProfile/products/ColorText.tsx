@@ -60,6 +60,7 @@ const TextColorizer: React.FC<TextColorizerProps> = ({
               style={{
                 cursor: "pointer",
               }}
+              className="hover:cursor-pointer"
               onClick={() => handleCancelClick(item.text)}
             />
           </span>
