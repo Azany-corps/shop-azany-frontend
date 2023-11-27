@@ -6,7 +6,7 @@ import FormData from "form-data";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import callAPI from "../../../api/callApi";
-import Logo from "../../../assets/Logo.png"
+import Logo from "../../../assets/azanylogofinal 2.png";
 import { ISignUpCustomer } from "./signup.type";
 
 
@@ -91,21 +91,21 @@ const SignupCustomer = () => {
 
 
   return (
-    <div className="flex min-h-screen md:px-20 sm:px-10 xs:px-10 px-44 py-5 bg-[#F5F5F5]">
+    <div className="flex min-h-screen px-10 md:px-44 py-5 bg-[#F5F5F5]">
       <ToastContainer />
       <div className="flex relative rounded-2xl h-full py-8 flex-col w-full bg-white gap-10 justify-center items-center">
-        <img className="" src={Logo} alt="Azany Logo" />
-        <div className="flex w-[60%] md:w-[90%] sm:w-[90%] xs:w-[90%]  flex-col justify-center items-center">
+        <img className="md:scale-1 scale-[0.65] z-20" src={Logo} alt="logo" />
+        <div className="flex md:w-[60%] w-[90%]  flex-col justify-center items-center">
           <p className="text-xs">
             Signup
           </p>
         </div>
 
-        <form className="w-[50%] sm:w-[90%] xs:w-[90%] flex flex-col items-center gap-10" onSubmit={handleSubmit} action="">
+        <form className="md:w-[50%] w-[90%] flex flex-col items-center gap-10" onSubmit={handleSubmit} action="">
           <div className="flex w-full justify-center items-center gap-4">
             <label className="text-right text-sm w-1/3 font-medium" htmlFor="first_name">First Name</label>
             <input
-              className="bg-[#efefef] text-xs w-2/3 px-3 outline-none py-[15px] border rounded-[5px] border-[#B3B7BB] xs:py-[9px] sm:py-[9px]"
+              className="bg-[#efefef] text-xs w-2/3 px-3 outline-none md:py-[15px] border rounded-[5px] border-[#B3B7BB] py-[9px]"
               required
               onChange={handleChange}
               name="first_name"
@@ -116,7 +116,7 @@ const SignupCustomer = () => {
           <div className="flex w-full justify-center items-center gap-4">
             <label className="text-right text-sm w-1/3 font-medium" htmlFor="last_name">Last Name</label>
             <input
-              className="bg-[#efefef] text-xs w-2/3 px-3 outline-none py-[15px] border rounded-[5px] border-[#B3B7BB] xs:py-[9px] sm:py-[9px]"
+              className="bg-[#efefef] text-xs w-2/3 px-3 outline-none md:py-[15px] border rounded-[5px] border-[#B3B7BB] py-[9px]"
               required
               onChange={handleChange}
               name="last_name"
@@ -127,7 +127,7 @@ const SignupCustomer = () => {
           <div className="flex w-full justify-center items-center gap-4">
             <label className="text-right text-sm w-1/3 font-medium" htmlFor="phone">Phone number</label>
             <input
-              className="bg-[#efefef] text-xs w-2/3 px-3 outline-none py-[15px] border rounded-[5px] border-[#B3B7BB] xs:py-[9px] sm:py-[9px]"
+              className="bg-[#efefef] text-xs w-2/3 px-3 outline-none md:py-[15px] border rounded-[5px] border-[#B3B7BB] py-[9px]"
               required
               onChange={handleChange}
               name="phone"
@@ -138,7 +138,7 @@ const SignupCustomer = () => {
           <div className="flex w-full justify-center items-center gap-4">
             <label className="text-right text-sm w-1/3 font-medium" htmlFor="email">Email address</label>
             <input
-              className="bg-[#efefef] text-xs w-2/3 px-3 outline-none py-[15px] border rounded-[5px] border-[#B3B7BB] xs:py-[9px] sm:py-[9px]"
+              className="bg-[#efefef] text-xs w-2/3 px-3 outline-none md:py-[15px] border rounded-[5px] border-[#B3B7BB] py-[9px]"
               required
               onChange={handleChange}
               name="email"
@@ -149,7 +149,7 @@ const SignupCustomer = () => {
           <div className="flex w-full justify-center items-center gap-4">
             <label className="text-right text-sm w-1/3 font-medium" htmlFor="password">Password</label>
             <input
-              className="bg-[#efefef] text-xs w-2/3 px-3 outline-none py-[15px] border rounded-[5px] border-[#B3B7BB] xs:py-[9px] sm:py-[9px]"
+              className="bg-[#efefef] text-xs w-2/3 px-3 outline-none md:py-[15px] border rounded-[5px] border-[#B3B7BB] py-[9px]"
               required
               onChange={handleChange}
               name="password"
@@ -160,7 +160,7 @@ const SignupCustomer = () => {
           <div className="flex w-full justify-center items-center gap-4">
             <label className="text-right text-sm w-1/3 font-medium" htmlFor="password_confirmation">Retype password</label>
             <input
-              className="bg-[#efefef] text-xs w-2/3 px-3 outline-none py-[15px] border rounded-[5px] border-[#B3B7BB] xs:py-[9px] sm:py-[9px]"
+              className="bg-[#efefef] text-xs w-2/3 px-3 outline-none md:py-[15px] border rounded-[5px] border-[#B3B7BB] py-[9px]"
               required
               onChange={handleChange}
               name="password_confirmation"
@@ -168,7 +168,7 @@ const SignupCustomer = () => {
               type="password"
             />
           </div>
-          <button disabled={loading ? true : false} className="bg-[#D65D5B] flex justify-center items-center disabled:bg-slate-400 font-bold text-white rounded-2xl py-3 px-11 sm:text-xs xs:text-xs sm:py-2 xs:py-2 sm:w-[40%] xs:w-[40%] w-[30%]">
+          <button disabled={loading ? true : false} className="bg-[#D65D5B] flex justify-center items-center disabled:bg-slate-400 font-bold text-white rounded-2xl md:py-3 px-11 text-xs md:text-base py-2 w-[40%] md:w-[30%]">
             {loading ? "Loading..." : "Register"}
           </button>
         </form>

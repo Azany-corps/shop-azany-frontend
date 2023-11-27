@@ -15,6 +15,9 @@ export interface ISignUp {
     address: string;
     postal_code: string;
     company_phone: string;
+    country: string;
+    state: string;
+    city: string;
     other_phone: string;
     cac_number: string;
     tax_number: string;
