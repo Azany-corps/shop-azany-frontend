@@ -24,6 +24,10 @@ import MobileHeader from "../../../components/General/MobileHeader";
 import MobileFooter from "../../../components/General/MobileFooter";
 import * as countryList from "../../../newCountries";
 import StockCheckbox from "./StockCheck";
+import { Icon } from '@iconify/react';
+import { NestedAccordion } from "../../../components/Core/NestedAccordion";
+import { ModalSelect } from "../../../components/Core/ModalSelect";
+
 import {
   FormInput,
   FormSelect,
@@ -33,6 +37,7 @@ import { useFormik } from "formik";
 import AddImageComp from "../../../components/Core/AddImageComp";
 import TextColorizer from "./ColorText";
 import { IProduct } from "./product.type";
+import { fetchCategories } from "../../../Services/category.service";
 
 interface DiscountOption {
   quantity: string;
@@ -50,6 +55,8 @@ const AddProduct = () => {
   const [parentColorizedTexts, setParentColorizedTexts] = useState<
     ColorizedText[]
   >([]);
+  const [categories, setCategories] = useState<any>([])
+  const [isCategoryModal, setIsCategoryModal] = useState<boolean>(false)
 
   const [formData, setFormData] = useState<IProduct>({
     product_name: "",
@@ -98,46 +105,6 @@ const AddProduct = () => {
   const handleImageSelect = (images: FileWithPath[]) => {
     setSelectedImages(images);
   };
-
-  const Formik = useFormik({
-    initialValues: {
-      product_name: "",
-      product_category: "",
-      stock: "",
-      currency: "",
-      price: "",
-      brand: "",
-      weight: "",
-      short_description: "",
-      product_description: "",
-      certification: "",
-      main_material: "",
-      material_family: "",
-      model: "",
-      production_country: "",
-      production_line: "",
-      size: "",
-      warranty_duration: "",
-      warranty_type: "",
-      note: "",
-      color: "",
-      ram_size: "",
-      cpu_core: "",
-      operating_system: "",
-      screen_size: "",
-      display_features: "",
-      battery_size: "",
-      product_attributes: "",
-      sale_price: "",
-      sale_start_date: "",
-      sale_end_date: "",
-      stock_quantity: "",
-    },
-
-    onSubmit: (values: any) => {
-      console.log(values);
-    }
-  });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = event?.target;
@@ -210,8 +177,203 @@ const AddProduct = () => {
     // }
   };
 
+  const categs = [
+    {
+      "id": 14,
+      "title": "Appliances",
+      "business_type": "",
+      "parent_category_id": null,
+      "subcategories": [
+        {
+          "id": 15,
+          "title": "Dishwashers",
+          "business_type": "",
+          "parent_category_id": "14",
+          "subcategories": [
+            {
+              "id": 16,
+              "title": "Built-In Dishwashers",
+              "business_type": "",
+              "parent_category_id": "15",
+              "subcategories": []
+            },
+            {
+              "id": 17,
+              "title": "Portable Dishwashers",
+              "business_type": "",
+              "parent_category_id": "15",
+              "subcategories": []
+            },
+            {
+              "id": 18,
+              "title": "Countertop Dishwashers",
+              "business_type": "",
+              "parent_category_id": "15",
+              "subcategories": []
+            },
+            {
+              "id": 31,
+              "title": "dgwgwr",
+              "business_type": "",
+              "parent_category_id": "15",
+              "subcategories": []
+            },
+            {
+              "id": 32,
+              "title": "Test category",
+              "business_type": "",
+              "parent_category_id": "15",
+              "subcategories": []
+            },
+            {
+              "id": 33,
+              "title": "Test category",
+              "business_type": "",
+              "parent_category_id": "15",
+              "subcategories": []
+            },
+            {
+              "id": 37,
+              "title": "Test category",
+              "business_type": "",
+              "parent_category_id": "15",
+              "subcategories": []
+            }
+          ]
+        },
+        {
+          "id": 19,
+          "title": "Countertop Dishwashers",
+          "business_type": "",
+          "parent_category_id": "14",
+          "subcategories": [
+            {
+              "id": 20,
+              "title": "Washers & Dryers",
+              "business_type": "",
+              "parent_category_id": "19",
+              "subcategories": [
+                {
+                  "id": 21,
+                  "title": "Clothes Dryers",
+                  "business_type": "",
+                  "parent_category_id": "20",
+                  "subcategories": []
+                },
+                {
+                  "id": 22,
+                  "title": "Clothes Washing Machines",
+                  "business_type": "",
+                  "parent_category_id": "20",
+                  "subcategories": []
+                },
+                {
+                  "id": 23,
+                  "title": "Combination Washers & Dryers",
+                  "business_type": "",
+                  "parent_category_id": "20",
+                  "subcategories": []
+                }
+              ]
+            },
+            {
+              "id": 36,
+              "title": "cecec",
+              "business_type": "",
+              "parent_category_id": "19",
+              "subcategories": []
+            }
+          ]
+        },
+        {
+          "id": 34,
+          "title": "Test category 2",
+          "business_type": "",
+          "parent_category_id": "14",
+          "subcategories": []
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "title": "Arts",
+      "business_type": "",
+      "parent_category_id": null,
+      "subcategories": [
+        {
+          "id": 25,
+          "title": "Crafts & Sewing",
+          "business_type": "",
+          "parent_category_id": "24",
+          "subcategories": [
+            {
+              "id": 26,
+              "title": "Storage",
+              "business_type": "",
+              "parent_category_id": "25",
+              "subcategories": [
+                {
+                  "id": 27,
+                  "title": "Art & Poster Transport Tubes",
+                  "business_type": "",
+                  "parent_category_id": "26",
+                  "subcategories": []
+                },
+                {
+                  "id": 28,
+                  "title": "Art Portfolios",
+                  "business_type": "",
+                  "parent_category_id": "26",
+                  "subcategories": []
+                },
+                {
+                  "id": 29,
+                  "title": "Art Storage Cabinets",
+                  "business_type": "",
+                  "parent_category_id": "26",
+                  "subcategories": []
+                },
+                {
+                  "id": 30,
+                  "title": "Art Tool & Sketch Storage Boxes",
+                  "business_type": "",
+                  "parent_category_id": "26",
+                  "subcategories": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+
+  const handleCategorySelect = async (category: string) => {
+    setFormData({ ...formData, product_category: category });
+    closeCategoryModal();
+  }
+
+  const closeCategoryModal = () => {
+    setIsCategoryModal(false);
+  }
+
+  const openCategoryModal = () => {
+    setIsCategoryModal(true);
+  }
+
+  useEffect(() => {
+    fetchCategories()
+      .then((res) => {
+        setCategories(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+
   return (
-    <div className="bg-[#F5F5F5] xs:overflow-x-hidden">
+    <div className="bg-[#F5F5F5] relative w-full h-full xs:overflow-x-hidden">
       {/* <TopHeader /> */}
       <BottomHeader style={"bg-[#1B7CFC] py-2 xs:hidden"} />
       <MobileHeader />
@@ -266,21 +428,17 @@ const AddProduct = () => {
               />
             </div>
             <div className="w-full mb-10">
-              <FormSelect
-                name="Product category*"
-                id="product_category"
-                value={formData?.product_category}
-                onChange={handleChange}
-                // onBlur={Formik.handleBlur}
-                // error={Formik?.errors?.product_category as string}
-                // touched={Formik?.touched?.product_category as boolean}
-                options={[
-                  { label: "Euro", value: "EUR" },
-                  { label: "US Dollars", value: "USD" },
-                ]}
-                optionsLabel="Choose a currency"
-                labelStyle="font-semibold mb-[22px]"
-              />
+              <div className="flex flex-col gap-4 ">
+                <p className="block text-base general-font uppercase font-bold text-black">
+                  Product Category*
+                </p>
+                <div
+                  className="bg-[#F5F5F5] hover:cursor-pointer border general-font border-[#C1C1C1] text-[black] text-sm rounded-[10px] focus:ring-[#D65D5B] focus:border-[#D65D5B] block w-full py-5 pl-6"
+                  onClick={openCategoryModal}
+                >
+                  {formData.product_category ? formData.product_category : 'Select Product category'}
+                </div>
+              </div>
             </div>
             <div className="w-full mb-10 grid grid-cols-3 gap-x-[18.9px]">
               <div className="w-full col-span-2">
@@ -356,7 +514,8 @@ const AddProduct = () => {
               <p className="block mb-[22px] text-base font-semibold general-font uppercase text-black">
                 Specification*
               </p>
-              <div className="grid grid-cols-3 w-full gap-x-5 mb-5">
+              <p className="text-[#515151] text-xl">Select Category to specifications</p>
+              {/* <div className="grid grid-cols-3 w-full gap-x-5 mb-5">
                 <div className="w-full col-span-1">
                   <FormSelect
                     name="Certification"
@@ -619,7 +778,7 @@ const AddProduct = () => {
                     labelStyle="block text-sm mb-2 font-normal general-font text-black"
                   />
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="flex flex-col gap-3 w-full mb-10">
               <TextColorizer
@@ -746,6 +905,31 @@ const AddProduct = () => {
           "bg-[#1B7CFC] md:hidden"
         }
       />
+      {
+        isCategoryModal && (
+          <div className="flex justify-end z-40 fixed top-0 w-full h-screen bg-black/50  backdrop-blur-[1px]">
+            <div onClick={closeCategoryModal} className="w-1/2 h-full">
+            </div>
+            <div className="flex justify-start items-center flex-col h-full bg-white w-1/2">
+              <div className="flex px-8 w-full py-4 bg-[#221E22] justify-between items-center">
+                <p className="font-bold text-lg  text-white">Select Category</p>
+                <span
+                  className="hover:cursor-pointer"
+                  onClick={closeCategoryModal}
+                >
+                  <Icon icon="ic:outline-cancel" color="white" width="24" height="24" />
+                </span>
+              </div>
+              <div className="flex w-full bg-[#44444C] text-white text-sm px-8 py-2 font-bold">
+                Electronics `{'>'}` TVs `{'>'}` Smart TVs
+              </div>
+              <div className="flex flex-col w-full overflow-y-scroll">
+                <ModalSelect categories={categs} handleCategorySelect={handleCategorySelect} />
+              </div>
+            </div>
+          </div>
+        )
+      }
     </div>
   );
 };
