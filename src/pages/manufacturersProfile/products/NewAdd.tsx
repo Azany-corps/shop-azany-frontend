@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import BottomHeader from "../../../components/General/BottomHeader";
 import Footer from "../../../components/General/Footer";
 import Header from "../../../components/General/Header";
@@ -48,9 +47,10 @@ interface ColorizedText {
 }
 
 const AddProduct = () => {
-  const data = new FormData();
+  const navigate = useNavigate();
 
   const [selectedImages, setSelectedImages] = useState<FileWithPath[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   // const [status, setStatus] = useState("status");
   const [parentColorizedTexts, setParentColorizedTexts] = useState<
     ColorizedText[]
@@ -85,7 +85,7 @@ const AddProduct = () => {
     screen_size: "",
     display_features: "",
     battery_size: "",
-    product_attributes: "",
+    product_attributes: [],
     sale_price: "",
     sale_start_date: "",
     sale_end_date: "",
@@ -115,238 +115,248 @@ const AddProduct = () => {
     e.preventDefault();
     console.log("formd: ", formData)
 
-    // setLoading(true);
-    // try {
-    //   let data = new FormData();
-    //   data.append("email", formData.email);
-    //   data.append("first_name", formData.first_name);
-    //   data.append("last_name", formData.last_name);
-    //   data.append("phone", formData.phone);
-    //   data.append("account_type", formData.seller_type);
-    //   data.append("password", formData.password);
-    //   data.append("password_confirmation", formData.password_confirmation);
-    //   data.append("shop_name", formData.shop_name);
-    //   data.append("business_type", formData.account_type || "");
-    //   data.append("business_owner_first_name", formData.rep_first_name);
-    //   data.append("business_owner_middle_name", formData.rep_middle_name);
-    //   data.append("business_owner_last_name", formData.rep_last_name);
-    //   data.append("company_name", formData.company_name);
-    //   data.append("company_phone", formData.company_phone);
-    //   data.append("company_additional_phone", formData.other_phone);
-    //   data.append("company_address", formData.address);
-    //   data.append("company_poster_code", formData.postal_code);
-    //   data.append("company_country", formData.country);
-    //   data.append("company_state", formData.state);
-    //   data.append("company_city", formData.city);
-    //   data.append("country_shipping_from", formData.shipping_address);
-    //   data.append("cac_registration_number", formData.cac_number);
-    //   data.append("cac_certificate", formData.cac_document);
-    //   data.append("tin", formData.tax_number);
-    //   data.append("tin_certificate", formData.tax_document);
-    //   data.append("account_name", formData.account_name);
-    //   data.append("account_number", formData.account_number);
-    //   data.append("bank", formData.bank_name);
+    setLoading(true);
 
-    //   const response = await callAPI("auth/seller_register", "POST", data, {
-    //     "Content-Type": "multipart/form-data",
-    //   });
-    //   console.log(response);
-    //   localStorage.setItem("user_id", response.data.user.id);
-    //   toast.success("Success message", {
-    //     position: "top-center",
-    //     autoClose: 3000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //   });
-    //   navigate("/auth/otp-business");
-    // } catch (err: any) {
-    //   console.log(err);
-    //   setLoading(false);
-    //   toast.error(err?.response?.data?.data?.errors?.[0], {
-    //     position: "top-center",
-    //     autoClose: 3000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //   });
-    // }
+    try {
+      let data = new FormData();
+      data.append("category", formData.product_category);
+      data.append("product_name", formData.product_name);
+      data.append("stock", formData.stock);
+      data.append("quantity", formData.stock_quantity);
+      data.append("currency", formData.currency);
+      data.append("price", formData.price);
+      data.append("brand_id", formData.brand);
+      data.append("description", formData.product_description);
+      data.append("short_description", formData.short_description);
+      data.append("weight", formData.weight);
+      data.append("sales_price", formData.sale_price);
+      data.append("start_date", formData.sale_start_date);
+      data.append("end_date", formData.sale_end_date);
+
+      formData?.product_attributes?.forEach((attribute, index) => {
+        data.append(`attribute_text[${index}]`, attribute)
+      });
+
+      selectedImages?.forEach((image, index) => {
+        data.append(`image_1[${index}]`, image)
+      });
+
+      const response = await callAPI("auth/store/create_store_product", "POST", data, {
+        "Content-Type": "multipart/form-data",
+      });
+      console.log(response);
+
+      if (response.status && response.status_code === 200) {
+        setLoading(false);
+        toast.success("Product added successfully", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        navigate("/manufacturers-profile/product");
+      } else {
+        setLoading(false);
+        const errorMessage = response.data.data.errors[0];
+        toast.error(errorMessage, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+      navigate("/manufacturers-profile/product");
+    } catch (err: any) {
+      console.log(err);
+      setLoading(false);
+      toast.error(err?.response?.data?.data?.errors?.[0], {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
   };
 
-  const categs = [
-    {
-      "id": 14,
-      "title": "Appliances",
-      "business_type": "",
-      "parent_category_id": null,
-      "subcategories": [
-        {
-          "id": 15,
-          "title": "Dishwashers",
-          "business_type": "",
-          "parent_category_id": "14",
-          "subcategories": [
-            {
-              "id": 16,
-              "title": "Built-In Dishwashers",
-              "business_type": "",
-              "parent_category_id": "15",
-              "subcategories": []
-            },
-            {
-              "id": 17,
-              "title": "Portable Dishwashers",
-              "business_type": "",
-              "parent_category_id": "15",
-              "subcategories": []
-            },
-            {
-              "id": 18,
-              "title": "Countertop Dishwashers",
-              "business_type": "",
-              "parent_category_id": "15",
-              "subcategories": []
-            },
-            {
-              "id": 31,
-              "title": "dgwgwr",
-              "business_type": "",
-              "parent_category_id": "15",
-              "subcategories": []
-            },
-            {
-              "id": 32,
-              "title": "Test category",
-              "business_type": "",
-              "parent_category_id": "15",
-              "subcategories": []
-            },
-            {
-              "id": 33,
-              "title": "Test category",
-              "business_type": "",
-              "parent_category_id": "15",
-              "subcategories": []
-            },
-            {
-              "id": 37,
-              "title": "Test category",
-              "business_type": "",
-              "parent_category_id": "15",
-              "subcategories": []
-            }
-          ]
-        },
-        {
-          "id": 19,
-          "title": "Countertop Dishwashers",
-          "business_type": "",
-          "parent_category_id": "14",
-          "subcategories": [
-            {
-              "id": 20,
-              "title": "Washers & Dryers",
-              "business_type": "",
-              "parent_category_id": "19",
-              "subcategories": [
-                {
-                  "id": 21,
-                  "title": "Clothes Dryers",
-                  "business_type": "",
-                  "parent_category_id": "20",
-                  "subcategories": []
-                },
-                {
-                  "id": 22,
-                  "title": "Clothes Washing Machines",
-                  "business_type": "",
-                  "parent_category_id": "20",
-                  "subcategories": []
-                },
-                {
-                  "id": 23,
-                  "title": "Combination Washers & Dryers",
-                  "business_type": "",
-                  "parent_category_id": "20",
-                  "subcategories": []
-                }
-              ]
-            },
-            {
-              "id": 36,
-              "title": "cecec",
-              "business_type": "",
-              "parent_category_id": "19",
-              "subcategories": []
-            }
-          ]
-        },
-        {
-          "id": 34,
-          "title": "Test category 2",
-          "business_type": "",
-          "parent_category_id": "14",
-          "subcategories": []
-        }
-      ]
-    },
-    {
-      "id": 24,
-      "title": "Arts",
-      "business_type": "",
-      "parent_category_id": null,
-      "subcategories": [
-        {
-          "id": 25,
-          "title": "Crafts & Sewing",
-          "business_type": "",
-          "parent_category_id": "24",
-          "subcategories": [
-            {
-              "id": 26,
-              "title": "Storage",
-              "business_type": "",
-              "parent_category_id": "25",
-              "subcategories": [
-                {
-                  "id": 27,
-                  "title": "Art & Poster Transport Tubes",
-                  "business_type": "",
-                  "parent_category_id": "26",
-                  "subcategories": []
-                },
-                {
-                  "id": 28,
-                  "title": "Art Portfolios",
-                  "business_type": "",
-                  "parent_category_id": "26",
-                  "subcategories": []
-                },
-                {
-                  "id": 29,
-                  "title": "Art Storage Cabinets",
-                  "business_type": "",
-                  "parent_category_id": "26",
-                  "subcategories": []
-                },
-                {
-                  "id": 30,
-                  "title": "Art Tool & Sketch Storage Boxes",
-                  "business_type": "",
-                  "parent_category_id": "26",
-                  "subcategories": []
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  ]
+  // const categs = [
+  //   {
+  //     "id": 14,
+  //     "title": "Appliances",
+  //     "business_type": "",
+  //     "parent_category_id": null,
+  //     "subcategories": [
+  //       {
+  //         "id": 15,
+  //         "title": "Dishwashers",
+  //         "business_type": "",
+  //         "parent_category_id": "14",
+  //         "subcategories": [
+  //           {
+  //             "id": 16,
+  //             "title": "Built-In Dishwashers",
+  //             "business_type": "",
+  //             "parent_category_id": "15",
+  //             "subcategories": []
+  //           },
+  //           {
+  //             "id": 17,
+  //             "title": "Portable Dishwashers",
+  //             "business_type": "",
+  //             "parent_category_id": "15",
+  //             "subcategories": []
+  //           },
+  //           {
+  //             "id": 18,
+  //             "title": "Countertop Dishwashers",
+  //             "business_type": "",
+  //             "parent_category_id": "15",
+  //             "subcategories": []
+  //           },
+  //           {
+  //             "id": 31,
+  //             "title": "dgwgwr",
+  //             "business_type": "",
+  //             "parent_category_id": "15",
+  //             "subcategories": []
+  //           },
+  //           {
+  //             "id": 32,
+  //             "title": "Test category",
+  //             "business_type": "",
+  //             "parent_category_id": "15",
+  //             "subcategories": []
+  //           },
+  //           {
+  //             "id": 33,
+  //             "title": "Test category",
+  //             "business_type": "",
+  //             "parent_category_id": "15",
+  //             "subcategories": []
+  //           },
+  //           {
+  //             "id": 37,
+  //             "title": "Test category",
+  //             "business_type": "",
+  //             "parent_category_id": "15",
+  //             "subcategories": []
+  //           }
+  //         ]
+  //       },
+  //       {
+  //         "id": 19,
+  //         "title": "Countertop Dishwashers",
+  //         "business_type": "",
+  //         "parent_category_id": "14",
+  //         "subcategories": [
+  //           {
+  //             "id": 20,
+  //             "title": "Washers & Dryers",
+  //             "business_type": "",
+  //             "parent_category_id": "19",
+  //             "subcategories": [
+  //               {
+  //                 "id": 21,
+  //                 "title": "Clothes Dryers",
+  //                 "business_type": "",
+  //                 "parent_category_id": "20",
+  //                 "subcategories": []
+  //               },
+  //               {
+  //                 "id": 22,
+  //                 "title": "Clothes Washing Machines",
+  //                 "business_type": "",
+  //                 "parent_category_id": "20",
+  //                 "subcategories": []
+  //               },
+  //               {
+  //                 "id": 23,
+  //                 "title": "Combination Washers & Dryers",
+  //                 "business_type": "",
+  //                 "parent_category_id": "20",
+  //                 "subcategories": []
+  //               }
+  //             ]
+  //           },
+  //           {
+  //             "id": 36,
+  //             "title": "cecec",
+  //             "business_type": "",
+  //             "parent_category_id": "19",
+  //             "subcategories": []
+  //           }
+  //         ]
+  //       },
+  //       {
+  //         "id": 34,
+  //         "title": "Test category 2",
+  //         "business_type": "",
+  //         "parent_category_id": "14",
+  //         "subcategories": []
+  //       }
+  //     ]
+  //   },
+  //   {
+  //     "id": 24,
+  //     "title": "Arts",
+  //     "business_type": "",
+  //     "parent_category_id": null,
+  //     "subcategories": [
+  //       {
+  //         "id": 25,
+  //         "title": "Crafts & Sewing",
+  //         "business_type": "",
+  //         "parent_category_id": "24",
+  //         "subcategories": [
+  //           {
+  //             "id": 26,
+  //             "title": "Storage",
+  //             "business_type": "",
+  //             "parent_category_id": "25",
+  //             "subcategories": [
+  //               {
+  //                 "id": 27,
+  //                 "title": "Art & Poster Transport Tubes",
+  //                 "business_type": "",
+  //                 "parent_category_id": "26",
+  //                 "subcategories": []
+  //               },
+  //               {
+  //                 "id": 28,
+  //                 "title": "Art Portfolios",
+  //                 "business_type": "",
+  //                 "parent_category_id": "26",
+  //                 "subcategories": []
+  //               },
+  //               {
+  //                 "id": 29,
+  //                 "title": "Art Storage Cabinets",
+  //                 "business_type": "",
+  //                 "parent_category_id": "26",
+  //                 "subcategories": []
+  //               },
+  //               {
+  //                 "id": 30,
+  //                 "title": "Art Tool & Sketch Storage Boxes",
+  //                 "business_type": "",
+  //                 "parent_category_id": "26",
+  //                 "subcategories": []
+  //               }
+  //             ]
+  //           }
+  //         ]
+  //       }
+  //     ]
+  //   }
+  // ]
 
   const handleCategorySelect = async (category: string) => {
     setFormData({ ...formData, product_category: category });
@@ -786,7 +796,7 @@ const AddProduct = () => {
                 name="exampleName"
                 onColorizedTextsChange={handleColorizedTextsChange}
               />
-              <FormInput
+              {/* <FormInput
                 name=""
                 id="product_attributes"
                 value={formData?.product_attributes}
@@ -797,16 +807,34 @@ const AddProduct = () => {
                 placeholder=""
                 type="text"
                 labelStyle="block text-sm mb-2 font-normal general-font text-black uppercase"
-              />
+              /> */}
               <p className="text-[#515151] w-2/3 text-sm"><span className="text-black">Related Attributes: </span> Color,  Size,  Branding,  Depth,  Logo,  Color,  Size,  Branding,  Depth,  Logo,  Color,  Size,  Branding,  Depth,  Logo,</p>
             </div>
+            <div className="w-full col-span-2 mb-10">
+              <FormSelect
+                name="Currency*"
+                id="currency"
+                value={formData?.currency}
+                onChange={handleChange}
+                // onBlur={Formik.handleBlur}
+                // error={Formik?.errors?.brand as string}
+                // touched={Formik?.touched?.brand as boolean}
+                options={[
+                  { label: "Euro", value: "EUR" },
+                  { label: "Naira", value: "NGN" },
+                  { label: "US Dollars", value: "USD" }
+                ]}
+                optionsLabel="Select Currency"
+                labelStyle="font-semibold mb-[22px]"
+              />
+            </div>
             <div className="w-full mb-10">
-              <p className="block mb-[22px] text-base font-normal general-font uppercase text-black">
+              <p className="block mb-[22px] font-bold text-base general-font uppercase text-black">
                 Price*
               </p>
               <div className="w-full mb-5">
                 <FormInput
-                  name="Global Price (NGN)"
+                  name={`Global Price (${formData.currency})`}
                   id="price"
                   value={formData?.price}
                   onChange={handleChange}
@@ -821,7 +849,7 @@ const AddProduct = () => {
               <div className="w-full grid grid-cols-3 gap-x-5">
                 <div className="w-full col-span-1">
                   <FormInput
-                    name="Sale Price (NGN)"
+                    name={`Sale Price (${formData.currency})`}
                     id="sale_price"
                     value={formData?.sale_price}
                     onChange={handleChange}
@@ -864,7 +892,7 @@ const AddProduct = () => {
               </div>
             </div>
             <div className="w-full mb-[70px]">
-              <p className="block mb-[22px] text-base font-normal general-font uppercase text-black">
+              <p className="block font-bold mb-[22px] text-base general-font uppercase text-black">
                 Stock Management*
               </p>
               <div className="w-full mb-5">
@@ -924,7 +952,7 @@ const AddProduct = () => {
                 Electronics `{'>'}` TVs `{'>'}` Smart TVs
               </div>
               <div className="flex flex-col w-full overflow-y-scroll">
-                <ModalSelect categories={categs} handleCategorySelect={handleCategorySelect} />
+                <ModalSelect categories={categories} handleCategorySelect={handleCategorySelect} />
               </div>
             </div>
           </div>

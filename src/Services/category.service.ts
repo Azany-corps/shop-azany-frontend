@@ -9,12 +9,12 @@ const fetchCategories = async () => {
   const headers = { Authorization: getBearerToken() };
   try {
     const response = await callAPI(
-      `general/products/fetch_store_categories`,
+      `auth/store/nested_category`,
       "GET",
       null,
       headers
     );
-    return response.data.values;
+    return response.categories;
   } catch (err) {
     console.log(err);
   }
