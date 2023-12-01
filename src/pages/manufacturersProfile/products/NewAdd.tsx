@@ -108,7 +108,7 @@ const AddProduct = () => {
       stock_quantity: "",
     },
 
-    onSubmit: (values) => {
+    onSubmit: (values: any) => {
       console.log(values);
     },
   });
@@ -163,8 +163,8 @@ const AddProduct = () => {
                 name="Product name*"
                 value={Formik?.values?.product_name}
                 onChange={Formik.handleChange}
-                error={Formik?.errors?.product_name}
-                touched={Formik?.touched?.product_name}
+                error={Formik?.errors?.product_name as string}
+                touched={Formik?.touched?.product_name as boolean}
                 onBlur={Formik.handleBlur}
               />
             </div>
@@ -175,8 +175,8 @@ const AddProduct = () => {
                 value={Formik?.values?.currency}
                 onChange={Formik.handleChange}
                 onBlur={Formik.handleBlur}
-                error={Formik?.errors?.currency}
-                touched={Formik?.touched?.currency}
+                error={Formik?.errors?.currency as string}
+                touched={Formik?.touched?.currency as boolean}
                 options={[
                   { label: "Euro", value: "EUR" },
                   { label: "US Dollars", value: "USD" },
@@ -193,8 +193,8 @@ const AddProduct = () => {
                   value={Formik?.values?.brand}
                   onChange={Formik.handleChange}
                   onBlur={Formik.handleBlur}
-                  error={Formik?.errors?.brand}
-                  touched={Formik?.touched?.brand}
+                  error={Formik?.errors?.brand as string}
+                  touched={Formik?.touched?.brand as boolean}
                   options={[
                     { label: "Euro", value: "EUR" },
                     { label: "US Dollars", value: "USD" },
@@ -211,8 +211,8 @@ const AddProduct = () => {
                   name="Weight (kg)*"
                   value={Formik?.values?.weight}
                   onChange={Formik.handleChange}
-                  error={Formik?.errors?.weight}
-                  touched={Formik?.touched?.weight}
+                  error={Formik?.errors?.weight as string}
+                  touched={Formik?.touched?.weight as boolean}
                   onBlur={Formik.handleBlur}
                 />
               </div>
@@ -229,8 +229,8 @@ const AddProduct = () => {
                   name="short description"
                   value={Formik?.values?.short_description}
                   onChange={Formik.handleChange}
-                  error={Formik?.errors?.short_description}
-                  touched={Formik?.touched?.short_description}
+                  error={Formik?.errors?.short_description as string}
+                  touched={Formik?.touched?.short_description as boolean}
                 />
               </div>
               <div className="w-full">
@@ -241,8 +241,8 @@ const AddProduct = () => {
                   name="product description"
                   value={Formik?.values?.product_description}
                   onChange={Formik.handleChange}
-                  error={Formik?.errors?.product_description}
-                  touched={Formik?.touched?.product_description}
+                  error={Formik?.errors?.product_description as string}
+                  touched={Formik?.touched?.product_description as boolean}
                 />
               </div>
             </div>
@@ -267,8 +267,8 @@ const AddProduct = () => {
                     value={Formik?.values?.certification}
                     onChange={Formik.handleChange}
                     onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.certification}
-                    touched={Formik?.touched?.certification}
+                    error={Formik?.errors?.certification as string}
+                    touched={Formik?.touched?.certification as boolean}
                     options={[
                       { label: "Euro", value: "EUR" },
                       { label: "US Dollars", value: "USD" },
@@ -285,8 +285,8 @@ const AddProduct = () => {
                     name="Main material"
                     value={Formik?.values?.main_material}
                     onChange={Formik.handleChange}
-                    error={Formik?.errors?.main_material}
-                    touched={Formik?.touched?.main_material}
+                    error={Formik?.errors?.main_material as string}
+                    touched={Formik?.touched?.main_material as boolean}
                     onBlur={Formik.handleBlur}
                     placeholder="Material of the product"
                   />
@@ -299,8 +299,8 @@ const AddProduct = () => {
                     name="Material family"
                     value={Formik?.values?.material_family}
                     onChange={Formik.handleChange}
-                    error={Formik?.errors?.material_family}
-                    touched={Formik?.touched?.material_family}
+                    error={Formik?.errors?.material_family as string}
+                    touched={Formik?.touched?.material_family as boolean}
                     onBlur={Formik.handleBlur}
                     placeholder="Material family of the product"
                   />
@@ -314,8 +314,8 @@ const AddProduct = () => {
                     value={Formik?.values?.model}
                     onChange={Formik.handleChange}
                     onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.model}
-                    touched={Formik?.touched?.model}
+                    error={Formik?.errors?.model as string}
+                    touched={Formik?.touched?.model as boolean}
                     type="text"
                     labelStyle="block text-sm mb-2 font-normal general-font capitalize text-black"
                     placeholder="Model ID or Manufacturer part Number"
@@ -329,8 +329,8 @@ const AddProduct = () => {
                     name="Production country"
                     value={Formik?.values?.production_country}
                     onChange={Formik.handleChange}
-                    error={Formik?.errors?.production_country}
-                    touched={Formik?.touched?.production_country}
+                    error={Formik?.errors?.production_country as string}
+                    touched={Formik?.touched?.production_country as boolean}
                     onBlur={Formik.handleBlur}
                     placeholder="Material of the product"
                   />
@@ -343,8 +343,8 @@ const AddProduct = () => {
                     name="Production line"
                     value={Formik?.values?.production_line}
                     onChange={Formik.handleChange}
-                    error={Formik?.errors?.production_line}
-                    touched={Formik?.touched?.production_line}
+                    error={Formik?.errors?.production_line as string}
+                    touched={Formik?.touched?.production_line as boolean}
                     onBlur={Formik.handleBlur}
                     placeholder="Production line"
                   />
@@ -358,8 +358,8 @@ const AddProduct = () => {
                     value={Formik?.values?.size}
                     onChange={Formik.handleChange}
                     onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.size}
-                    touched={Formik?.touched?.size}
+                    error={Formik?.errors?.size as string}
+                    touched={Formik?.touched?.size as boolean}
                     placeholder="Input size"
                     type="text"
                     labelStyle="block text-sm mb-2 font-normal general-font text-black"
@@ -372,8 +372,8 @@ const AddProduct = () => {
                     value={Formik?.values?.warranty_duration}
                     onChange={Formik.handleChange}
                     onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.warranty_duration}
-                    touched={Formik?.touched?.warranty_duration}
+                    error={Formik?.errors?.warranty_duration as string}
+                    touched={Formik?.touched?.warranty_duration as boolean}
                     options={[
                       { label: "Euro", value: "EUR" },
                       { label: "US Dollars", value: "USD" },
@@ -389,8 +389,8 @@ const AddProduct = () => {
                     value={Formik?.values?.warranty_type}
                     onChange={Formik.handleChange}
                     onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.warranty_type}
-                    touched={Formik?.touched?.warranty_type}
+                    error={Formik?.errors?.warranty_type as string}
+                    touched={Formik?.touched?.warranty_type as boolean}
                     options={[
                       { label: "Euro", value: "EUR" },
                       { label: "US Dollars", value: "USD" },
@@ -408,8 +408,8 @@ const AddProduct = () => {
                     value={Formik?.values?.note}
                     onChange={Formik.handleChange}
                     onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.note}
-                    touched={Formik?.touched?.note}
+                    error={Formik?.errors?.note as string}
+                    touched={Formik?.touched?.note as boolean}
                     placeholder="Note/Comment"
                     type="text"
                     labelStyle="block text-sm mb-2 font-normal general-font text-black"
@@ -423,8 +423,8 @@ const AddProduct = () => {
                     value={Formik?.values?.color}
                     onChange={Formik.handleChange}
                     onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.color}
-                    touched={Formik?.touched?.color}
+                    error={Formik?.errors?.color as string}
+                    touched={Formik?.touched?.color as boolean}
                     placeholder="Input color"
                     type="text"
                     labelStyle="block text-sm mb-2 font-normal general-font text-black"
@@ -439,8 +439,8 @@ const AddProduct = () => {
                     value={Formik?.values?.ram_size}
                     onChange={Formik.handleChange}
                     onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.ram_size}
-                    touched={Formik?.touched?.ram_size}
+                    error={Formik?.errors?.ram_size as string}
+                    touched={Formik?.touched?.ram_size as boolean}
                     placeholder="RAM Size (GB)"
                     type="text"
                     labelStyle="block text-sm mb-2 font-normal general-font text-black"
@@ -454,8 +454,8 @@ const AddProduct = () => {
                     value={Formik?.values?.cpu_core}
                     onChange={Formik.handleChange}
                     onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.cpu_core}
-                    touched={Formik?.touched?.cpu_core}
+                    error={Formik?.errors?.cpu_core as string}
+                    touched={Formik?.touched?.cpu_core as boolean}
                     placeholder="CPU Cores"
                     type="text"
                     labelStyle="block text-sm mb-2 font-normal general-font text-black"
@@ -469,8 +469,8 @@ const AddProduct = () => {
                     value={Formik?.values?.operating_system}
                     onChange={Formik.handleChange}
                     onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.operating_system}
-                    touched={Formik?.touched?.operating_system}
+                    error={Formik?.errors?.operating_system as string}
+                    touched={Formik?.touched?.operating_system as boolean}
                     placeholder="Operating System"
                     type="text"
                     labelStyle="block text-sm mb-2 font-normal general-font text-black"
@@ -485,8 +485,8 @@ const AddProduct = () => {
                     value={Formik?.values?.screen_size}
                     onChange={Formik.handleChange}
                     onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.screen_size}
-                    touched={Formik?.touched?.screen_size}
+                    error={Formik?.errors?.screen_size as string}
+                    touched={Formik?.touched?.screen_size as boolean}
                     placeholder="Screen Size"
                     type="text"
                     labelStyle="block text-sm mb-2 font-normal general-font text-black"
@@ -500,8 +500,8 @@ const AddProduct = () => {
                     value={Formik?.values?.display_features}
                     onChange={Formik.handleChange}
                     onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.display_features}
-                    touched={Formik?.touched?.display_features}
+                    error={Formik?.errors?.display_features as string}
+                    touched={Formik?.touched?.display_features as boolean}
                     placeholder="Display Features"
                     type="text"
                     labelStyle="block text-sm mb-2 font-normal general-font text-black"
@@ -515,8 +515,8 @@ const AddProduct = () => {
                     value={Formik?.values?.battery_size}
                     onChange={Formik.handleChange}
                     onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.battery_size}
-                    touched={Formik?.touched?.battery_size}
+                    error={Formik?.errors?.battery_size as string}
+                    touched={Formik?.touched?.battery_size as boolean}
                     placeholder="Battery Size"
                     type="text"
                     labelStyle="block text-sm mb-2 font-normal general-font text-black"
@@ -531,8 +531,8 @@ const AddProduct = () => {
                 value={Formik?.values?.product_attributes}
                 onChange={Formik.handleChange}
                 onBlur={Formik.handleBlur}
-                error={Formik?.errors?.product_attributes}
-                touched={Formik?.touched?.product_attributes}
+                error={Formik?.errors?.product_attributes as string}
+                touched={Formik?.touched?.product_attributes as boolean}
                 placeholder=""
                 type="text"
                 labelStyle="block text-sm mb-2 font-normal general-font text-black uppercase"
@@ -549,8 +549,8 @@ const AddProduct = () => {
                   value={Formik?.values?.price}
                   onChange={Formik.handleChange}
                   onBlur={Formik.handleBlur}
-                  error={Formik?.errors?.price}
-                  touched={Formik?.touched?.price}
+                  error={Formik?.errors?.price as string}
+                  touched={Formik?.touched?.price as boolean}
                   placeholder=""
                   type="text"
                   labelStyle="block text-sm mb-2 font-normal general-font text-black capitalize"
@@ -564,8 +564,8 @@ const AddProduct = () => {
                     value={Formik?.values?.sale_price}
                     onChange={Formik.handleChange}
                     onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.sale_price}
-                    touched={Formik?.touched?.sale_price}
+                    error={Formik?.errors?.sale_price as string}
+                    touched={Formik?.touched?.sale_price as boolean}
                     placeholder="Input product description"
                     type="text"
                     labelStyle="block text-sm mb-2 font-normal general-font text-black capitalize"
@@ -578,8 +578,8 @@ const AddProduct = () => {
                     value={Formik?.values?.sale_start_date}
                     onChange={Formik.handleChange}
                     onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.sale_start_date}
-                    touched={Formik?.touched?.sale_start_date}
+                    error={Formik?.errors?.sale_start_date as string}
+                    touched={Formik?.touched?.sale_start_date as boolean}
                     placeholder="Select date"
                     type="date"
                     labelStyle="block text-sm mb-2 font-normal general-font text-black capitalize"
@@ -592,8 +592,8 @@ const AddProduct = () => {
                     value={Formik?.values?.sale_end_date}
                     onChange={Formik.handleChange}
                     onBlur={Formik.handleBlur}
-                    error={Formik?.errors?.sale_end_date}
-                    touched={Formik?.touched?.sale_end_date}
+                    error={Formik?.errors?.sale_end_date as string}
+                    touched={Formik?.touched?.sale_end_date as boolean}
                     placeholder="Select date"
                     type="date"
                     labelStyle="block text-sm mb-2 font-normal general-font text-black capitalize"
@@ -612,8 +612,8 @@ const AddProduct = () => {
                   value={Formik?.values?.stock_quantity}
                   onChange={Formik.handleChange}
                   onBlur={Formik.handleBlur}
-                  error={Formik?.errors?.stock_quantity}
-                  touched={Formik?.touched?.stock_quantity}
+                  error={Formik?.errors?.stock_quantity as string}
+                  touched={Formik?.touched?.stock_quantity as boolean}
                   placeholder="Select stock quantity"
                   type="text"
                   labelStyle="block text-sm mb-2 font-normal general-font text-black capitalize"

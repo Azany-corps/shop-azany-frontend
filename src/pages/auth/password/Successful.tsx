@@ -26,7 +26,7 @@ const AuthSuccessful = () => {
             </div>
             <div className="gap-4 flex flex-col w-full items-center">
               <p className="text-[#515151] flex items-center">Click below to log in.</p>
-              <Link to="/auth">
+              <Link to="/login">
                 <button disabled={loading ? true : false} className="py-2 px-20 bg-[#E51B48] hover:bg-red-700 rounded-md text-white">
                   {loading ? "Loading..." : "Proceed to Login"}
                 </button>

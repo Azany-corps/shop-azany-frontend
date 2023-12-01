@@ -117,25 +117,6 @@ const Header = ({ style }: HeaderProps) => {
               <p className="general-font">All</p>
             </div>
             <CategoryModal show={showModal} onClose={handleCloseModal} />
-            {/* <div
-              className={`cursor-pointer xs:hidden ${isItemSelected("All")}`}
-            >
-              <h2 onClick={() => handleItemClick("All")}>All</h2>
-            </div>
-            <div
-              className={`cursor-pointer ${isItemSelected("Manufacturers")}`}
-            >
-              <Link to="/manufacturers">
-                <h2 onClick={() => handleItemClick("Manufacturers")}>
-                  Manufacturers
-                </h2>
-              </Link>
-            </div>
-            <div className={`cursor-pointer ${isItemSelected("Merchants")}`}>
-              <Link to="/merchants">
-                <h2 onClick={() => handleItemClick("Merchants")}>Merchants</h2>
-              </Link>
-            </div> */}
             <div>
               <div
                 className="gap-2 flex-row flex items-center cursor-pointer"
@@ -159,7 +140,7 @@ const Header = ({ style }: HeaderProps) => {
                             Farmers
                           </h2>
                         </Link>
-                        
+
                       </div>
                     </div>
                   </div>
