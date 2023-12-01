@@ -4,15 +4,15 @@ import { Link, useNavigate } from "react-router-dom";
 
 type each = {
   image: React.ReactNode;
-  title?: string;
+  // title?: string;
 };
 
 const ManufacturersProfileLayoutComp = ({
   children,
-  title,
-}: {
+}: // title,
+{
   children: React.ReactNode | React.ReactNode[];
-  title: any;
+  // title: any;
 
   //children,
   //heading
@@ -180,7 +180,7 @@ const ManufacturersProfileLayoutComp = ({
                   />
                 </svg>
 
-                <span className="ml-3 text-[12.524px]">Overview</span>
+                <span className="ml-3 text-[12.524px]">Personal Details</span>
               </Link>
             </li>
             {data.map((each, index) => (
@@ -202,7 +202,7 @@ const ManufacturersProfileLayoutComp = ({
         </div>
       </aside>
 
-      <div className="px-4 md:ml-64 h-full mt-16">
+      <div className="px-4 md:ml-[276px] md:mr-[28px] h-full mt-16">
         <div className="rounded-lg h-full">{children}</div>
       </div>
     </>

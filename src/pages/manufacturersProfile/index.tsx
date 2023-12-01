@@ -15,6 +15,13 @@ const ManufacturersIndex = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
+  const name = localStorage.getItem("name");
+  const last_name = localStorage.getItem("last_name");
+  const phone = localStorage.getItem("phone");
+  const email = localStorage.getItem("email");
+
+  console.log(email);
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -81,10 +88,8 @@ const ManufacturersIndex = () => {
   ];
 
   return (
-    <div className="bg-[#F5F5F5]">
-      {/* <ManufacturersProfileLayout> */}
-      <ManufacturersProfileLayoutComp title="overview">
-        <Grid item xs={12} md={4} display={{ xs: "block", sm: "none" }}>
+    <ManufacturersProfileLayoutComp>
+      {/* <Grid item xs={12} md={4} display={{ xs: "block", sm: "none" }}>
           <div className="w-full bg-transparent mx-auto">
             <div className="flex-col flex gap-3">
               <div className="flex bg-white flex-col xs:flex-row xs:justify-between gap-4 p-2">
@@ -171,10 +176,87 @@ const ManufacturersIndex = () => {
               </div>
             </div>
           </div>
-        </Grid>
-      </ManufacturersProfileLayoutComp>
-      {/* </ManufacturersProfileLayout> */}
-    </div>
+        </Grid> */}
+      <div className="pt-[80px] ">
+        <p className="capitalize text-xl font-semibold font-baloo">
+          Personal details
+        </p>
+        <p className="text-xl font-baloo font-normal text-[#B3B7BB]">
+          Update your name, email, and account password at any time.
+        </p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-[61px] mb-4 px-4 md:px-[48px] mt-[43px] font-public-sans">
+          <div className="flex flex-col items-center rounded-[22px] bg-[#d0d0d059] h-[455px] py-[47px] px-[38px]">
+            <img src="/images/personIcon.svg" className="mb-[18px]" />
+
+            <p className="font-semibold text-[15px] text-black mb-[21px]">
+              Account management
+            </p>
+
+            <table className="w-full text-sm text-left rtl:text-right flex justify-center items-center">
+              <tbody>
+                <tr>
+                  <th className="whitespace-nowrap bg-transparent font-public-sans text-[#B3B7BB] text-sm font-normal pt-[13px] pr-12">
+                    First name
+                  </th>
+                  <td className="text-sm font-normal text-black pt-[13px] w-[50%] font-public-sans">
+                    {name || ""}
+                  </td>
+                </tr>
+                <tr>
+                  <th className="text-sm font-normalwhitespace-nowrap bg-transparent font-public-sans text-[#B3B7BB] pt-[13px]">
+                    Last name
+                  </th>
+                  <td className="text-sm font-normal text-black pt-[13px] w-[50%] font-public-sans">
+                    {last_name || ""}
+                  </td>
+                </tr>
+                <tr>
+                  <th className="whitespace-nowrap bg-transparent font-public-sans text-[#B3B7BB] text-sm font-normal pt-[13px]">
+                    Phone number
+                  </th>
+                  <td className="text-sm font-normal text-black pt-[13px] w-[50%] font-public-sans">
+                    {phone || ""}
+                  </td>
+                </tr>
+                <tr>
+                  <th className="whitespace-nowrap bg-transparent font-public-sans text-[#B3B7BB] text-sm font-normal pt-[13px]">
+                    Email
+                  </th>
+                  <td className="text-sm font-normal text-black pt-[13px] w-[50%] font-public-sans">
+                    {email || ""}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <button
+              type="button"
+              className="text-white bg-[#D65D5B] hover:bg-[#b53f3d] focus:ring-4 focus:ring-[#cf7372] font-medium rounded-[16px] text-sm px-2 py-2.5 me-2 mb-2 focus:outline-none item mt-auto max-w-[130px] w-[130px] cursor-pointer"
+            >
+              <p className="w-[114px] text-[12px] font-medium">Edit</p>
+            </button>
+          </div>
+
+          <div className="flex flex-col items-center rounded-[22px] bg-[#d0d0d059] h-[455px] py-[47px] px-[38px]">
+            <img src="/images/lockIcon.svg" className="mb-[30px]" />
+            <p className="font-medium text-[12px] text-[#8B909A] text-center">
+              Guard Your Account: Strong Passwords, Easy Changes. Keep your
+              Azany account secure by choosing a strong password. Change it
+              anytime in your account settings for added protection. Your safety
+              matters to us.
+            </p>
+            <button
+              type="button"
+              className="text-white bg-[#D65D5B] hover:bg-[#b53f3d] focus:ring-4 focus:ring-[#cf7372] font-medium rounded-[16px] text-sm px-2 py-2.5 me-2 mb-2 focus:outline-none item mt-auto max-w-[130px] w-[130px] cursor-pointer"
+            >
+              <p className="w-[114px] text-[12px] font-medium">
+                Change passowrd
+              </p>
+            </button>
+          </div>
+        </div>
+      </div>
+    </ManufacturersProfileLayoutComp>
   );
 };
 

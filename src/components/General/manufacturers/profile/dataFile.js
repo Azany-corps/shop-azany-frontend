@@ -3,21 +3,50 @@ export const data = [
     image: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="18"
-        height="18"
-        viewBox="0 0 18 18"
+        width="19"
+        height="20"
+        viewBox="0 0 19 20"
         fill="none"
         className="text-[#8B909A] group-hover:text-white"
       >
         <path
-          d="M16.0575 8.5575L9.435 1.935C9.1575 1.6575 8.775 1.5 8.3775 1.5H3C2.175 1.5 1.5 2.175 1.5 3V8.3775C1.5 8.775 1.6575 9.1575 1.9425 9.435L8.565 16.0575C9.15 16.6425 10.1025 16.6425 10.6875 16.0575L16.065 10.68C16.65 10.095 16.65 9.15 16.0575 8.5575ZM4.875 6C4.2525 6 3.75 5.4975 3.75 4.875C3.75 4.2525 4.2525 3.75 4.875 3.75C5.4975 3.75 6 4.2525 6 4.875C6 5.4975 5.4975 6 4.875 6Z"
-          fill="currentColor"
+          d="M14.589 7.49618L10.5074 4.32155C9.77055 3.74829 8.73858 3.74829 8.0017 4.32155L3.91937 7.49618C3.42221 7.88281 3.13154 8.47743 3.13184 9.10723V14.6177C3.13184 15.4631 3.81715 16.1484 4.66252 16.1484H13.8466C14.692 16.1484 15.3773 15.4631 15.3773 14.6177V9.10723C15.3773 8.47735 15.0865 7.88268 14.589 7.49618"
+          stroke="currentColor"
+          stroke-width="1.46111"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M12.2929 12.3106C10.6015 13.3308 7.86004 13.3308 6.17017 12.3106"
+          stroke="currentColor"
+          stroke-width="1.46111"
+          stroke-linecap="round"
+          stroke-linejoin="round"
         />
       </svg>
     ),
-    title: "Payment methods",
-    path: "/manufacturers-profile",
+    title: "Orders",
+    path: "/manufacturers-profile/orders",
   },
+  // {
+  //   image: (
+  //     <svg
+  //       xmlns="http://www.w3.org/2000/svg"
+  //       width="18"
+  //       height="18"
+  //       viewBox="0 0 18 18"
+  //       fill="none"
+  //       className="text-[#8B909A] group-hover:text-white"
+  //     >
+  //       <path
+  //         d="M16.0575 8.5575L9.435 1.935C9.1575 1.6575 8.775 1.5 8.3775 1.5H3C2.175 1.5 1.5 2.175 1.5 3V8.3775C1.5 8.775 1.6575 9.1575 1.9425 9.435L8.565 16.0575C9.15 16.6425 10.1025 16.6425 10.6875 16.0575L16.065 10.68C16.65 10.095 16.65 9.15 16.0575 8.5575ZM4.875 6C4.2525 6 3.75 5.4975 3.75 4.875C3.75 4.2525 4.2525 3.75 4.875 3.75C5.4975 3.75 6 4.2525 6 4.875C6 5.4975 5.4975 6 4.875 6Z"
+  //         fill="currentColor"
+  //       />
+  //     </svg>
+  //   ),
+  //   title: "Payment methods",
+  //   path: "/manufacturers-profile/add-card",
+  // },
   {
     image: (
       <svg
@@ -35,7 +64,7 @@ export const data = [
       </svg>
     ),
     title: "Addresses",
-    path: "/manufacturers-profile",
+    path: "/manufacturers-profile/address",
   },
   {
     image: (
@@ -54,7 +83,7 @@ export const data = [
       </svg>
     ),
     title: "Recently Viewed",
-    path: "/manufacturers-profile",
+    path: "/manufacturers-profile/recently-viewed",
   },
   {
     image: (
@@ -85,7 +114,7 @@ export const data = [
       </svg>
     ),
     title: "Saved Items",
-    path: "/manufacturers-profile",
+    path: "/manufacturers-profile/saved-items",
   },
 
   {
@@ -105,7 +134,7 @@ export const data = [
       </svg>
     ),
     title: "Reviews",
-    path: "/manufacturers-profile",
+    path: "/manufacturers-profile/reviews",
   },
   {
     image: (
@@ -151,6 +180,6 @@ export const data = [
       </svg>
     ),
     title: "Reward(coming soon)",
-    path: "/manufacturers-profile",
+    path: "/manufacturers-profile/rewards",
   },
 ];

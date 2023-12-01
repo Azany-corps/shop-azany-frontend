@@ -87,6 +87,15 @@ import AzanyFarmers from "./pages/landing/AzanyFarmers";
 import ManufacturerHomePage from "./pages/landing/ManufacturerHomePage";
 import SignupCustomer from "./pages/auth/signup/SignupCustomer";
 import Callback from "./pages/checkout/Callback";
+import RewardsComponent from "./pages/manufacturersProfile/Reward";
+import AddressComponent from "./pages/manufacturersProfile/Address";
+import EditAddressComponent from "./pages/manufacturersProfile/EditAddress";
+import PaymentMethodsComponent from "./pages/manufacturersProfile/payment/PaymentMethods";
+import OrderDetailsComponent from "./pages/manufacturersProfile/orders/OrderDetails";
+import ReviewsComponent from "./pages/manufacturersProfile/reviews/Review";
+import RecentlyViewedComponent from "./pages/manufacturersProfile/products/RecentlyViewed";
+import SavedItemsComponent from "./pages/manufacturersProfile/products/SavedItems";
+import TrackOrdersComponent from "./pages/manufacturersProfile/orders/TrackOrders";
 
 function App() {
   return (
@@ -212,7 +221,8 @@ function App() {
           <Route path="edit" element={<EditStore />} />
           <Route path="payment" element={<MPayment />} />
           <Route path="add-bank" element={<AddBank />} />
-          <Route path="add-card" element={<AddCard />} />
+          {/* <Route path="add-card" element={<AddCard />} /> */}
+          <Route path="add-card" element={<PaymentMethodsComponent />} />
           <Route path="withdraw" element={<Withdraw />} />
           <Route path="wallet-history" element={<WalletHistory />} />
           <Route path="create-pin" element={<CreatePin />} />
@@ -227,6 +237,14 @@ function App() {
           <Route path="create-user" element={<CreateUser />} />
           <Route path="subscription" element={<Subscription />} />
           <Route path="security-question" element={<SecurityQuestion />} />
+          <Route path="rewards" element={<RewardsComponent />} />
+          <Route path="address" element={<AddressComponent />} />
+          <Route path="address/edit" element={<EditAddressComponent />} />
+          <Route path="order-details" element={<OrderDetailsComponent />} />
+          <Route path="reviews" element={<ReviewsComponent />} />
+          <Route path="recently-viewed" element={<RecentlyViewedComponent />} />
+          <Route path="saved-items" element={<SavedItemsComponent />} />
+          <Route path="track-order" element={<TrackOrdersComponent />} />
         </Route>
         <Route path="/checkout">
           <Route index element={<CustomerInfo />} />
