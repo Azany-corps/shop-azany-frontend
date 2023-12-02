@@ -173,11 +173,13 @@ const MOrders = () => {
   );
 };
 
-{/* <div className="bg-white smm:ml-0 -ml-2 smm:w-full w-[calc(100%+16px)] smm:px-0 px-2 smm:hidden flex items-center">
+{
+  /* <div className="bg-white smm:ml-0 -ml-2 smm:w-full w-[calc(100%+16px)] smm:px-0 px-2 smm:hidden flex items-center">
                 <label htmlFor="sort" className="text-sm font-light">
                   Sort:
                 </label>
                 <p onClick={() => setIsVisible(true)}>{selectedSorting}</p>
-              </div> */}
+              </div> */
+}
 
 export default MOrders;
