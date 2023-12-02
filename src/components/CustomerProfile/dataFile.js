@@ -1,3 +1,54 @@
+const data2 = [
+  {
+    image: "",
+    title: "Personal Details",
+    subheading: "Edit Name, Email, Phone, 2FA",
+    path: "/login",
+  },
+  {
+    image: "/images/Order.png",
+    title: "Orders",
+    subheading: "Edit Name, Email, Phone, 2FA",
+    path: "/order",
+  },
+  {
+    image: "/images/Cards.png",
+    title: "Cards",
+    subheading: "Manage payment cards",
+    path: "/cards",
+  },
+  {
+    image: "/images/Message.png",
+    title: "Inbox",
+    subheading: "View messages from Azany",
+    path: "/messages",
+  },
+  {
+    image: "/images/Watchlist.png",
+    title: "Watchlist",
+    subheading: "View, modify your list",
+    path: "/watchlist",
+  },
+  {
+    image: "/images/Ratings.png",
+    title: "Ratings & Review",
+    subheading: "Edit ratings & reviews on products",
+    path: "/rating",
+  },
+  {
+    image: "/images/Track.png",
+    title: "Address",
+    subheading: "Edit your address",
+    path: "/address",
+  },
+  {
+    image: "/images/Book (2).png",
+    title: "Track Orders",
+    subheading: "Track your orders",
+    path: "/track_orders",
+  },
+];
+
 export const data = [
   {
     image: (
@@ -26,27 +77,8 @@ export const data = [
       </svg>
     ),
     title: "Orders",
-    path: "/manufacturers-profile/orders",
+    path: "/order",
   },
-  // {
-  //   image: (
-  //     <svg
-  //       xmlns="http://www.w3.org/2000/svg"
-  //       width="18"
-  //       height="18"
-  //       viewBox="0 0 18 18"
-  //       fill="none"
-  //       className="text-[#8B909A] group-hover:text-white"
-  //     >
-  //       <path
-  //         d="M16.0575 8.5575L9.435 1.935C9.1575 1.6575 8.775 1.5 8.3775 1.5H3C2.175 1.5 1.5 2.175 1.5 3V8.3775C1.5 8.775 1.6575 9.1575 1.9425 9.435L8.565 16.0575C9.15 16.6425 10.1025 16.6425 10.6875 16.0575L16.065 10.68C16.65 10.095 16.65 9.15 16.0575 8.5575ZM4.875 6C4.2525 6 3.75 5.4975 3.75 4.875C3.75 4.2525 4.2525 3.75 4.875 3.75C5.4975 3.75 6 4.2525 6 4.875C6 5.4975 5.4975 6 4.875 6Z"
-  //         fill="currentColor"
-  //       />
-  //     </svg>
-  //   ),
-  //   title: "Payment methods",
-  //   path: "/manufacturers-profile/add-card",
-  // },
   {
     image: (
       <svg
@@ -64,7 +96,7 @@ export const data = [
       </svg>
     ),
     title: "Addresses",
-    path: "/manufacturers-profile/address",
+    path: "/address",
   },
   {
     image: (
@@ -83,7 +115,7 @@ export const data = [
       </svg>
     ),
     title: "Recently Viewed",
-    path: "/manufacturers-profile/recently-viewed",
+    path: "/recently-viewed",
   },
   {
     image: (
@@ -114,7 +146,7 @@ export const data = [
       </svg>
     ),
     title: "Saved Items",
-    path: "/manufacturers-profile/saved-items",
+    path: "/saved-items",
   },
 
   {
@@ -134,7 +166,7 @@ export const data = [
       </svg>
     ),
     title: "Reviews",
-    path: "/manufacturers-profile/reviews",
+    path: "/reviews",
   },
   {
     image: (
@@ -153,7 +185,7 @@ export const data = [
       </svg>
     ),
     title: "Messages",
-    path: "/manufacturers-profile",
+    path: "/messages",
   },
   {
     image: (
@@ -180,6 +212,6 @@ export const data = [
       </svg>
     ),
     title: "Reward(coming soon)",
-    path: "/manufacturers-profile/rewards",
+    path: "/rewards",
   },
 ];

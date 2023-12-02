@@ -1,19 +1,16 @@
 import { toast } from "react-toastify";
-import qs from 'qs';
+import qs from "qs";
 import callAPI from "../api/callApi";
 
 const token = localStorage.getItem("token");
 
-const updateProductOrderStatus = async (
-  orderID: number,
-  status: number
-) => {
+const updateProductOrderStatus = async (orderID: number, status: number) => {
   const headers = {
     Authorization: `Bearer ${token}`,
-    'content-type': 'application/x-www-form-urlencoded'
+    "content-type": "application/x-www-form-urlencoded",
   };
   try {
-    const data = { 'status': status };
+    const data = { status: status };
     const response = await callAPI(
       `product/update_product_order_status/${orderID}`,
       "PUT",
@@ -53,10 +50,10 @@ const updateCustomerProductOrderStatus = async (
 ) => {
   const headers = {
     Authorization: `Bearer ${token}`,
-    'content-type': 'application/x-www-form-urlencoded'
+    "content-type": "application/x-www-form-urlencoded",
   };
   try {
-    const data = { 'status': status };
+    const data = { status: status };
     const response = await callAPI(
       `product/update_product_order_status/${orderID}`,
       "PUT",
@@ -150,13 +147,11 @@ const getCustomerProductOrder = async (productID: number) => {
   }
 };
 
-
 export {
   updateProductOrderStatus,
   updateCustomerProductOrderStatus,
   getProductOrders,
   getCustomerProductOrders,
   getProductOrder,
-  getCustomerProductOrder
-
+  getCustomerProductOrder,
 };

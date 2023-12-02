@@ -7,7 +7,7 @@ type each = {
   // title?: string;
 };
 
-const ManufacturersProfileLayoutComp = ({
+const CustomerProfileLayout = ({
   children,
 }: // title,
 {
@@ -30,6 +30,8 @@ const ManufacturersProfileLayoutComp = ({
     localStorage.clear();
     navigate("/login");
   };
+
+  const name = localStorage.getItem("name");
 
   return (
     <>
@@ -96,7 +98,7 @@ const ManufacturersProfileLayoutComp = ({
               </p> */}
             </div>
 
-            <form className="w-full max-w-[500px] hidden md:block">
+            <form className="w-full max-w-[500px] hidden lg:block">
               <div className="relative">
                 <button
                   type="submit"
@@ -117,7 +119,7 @@ const ManufacturersProfileLayoutComp = ({
             <div className="flex-row items-center cursor-pointer hidden md:flex">
               <img src="/images/userIcon.svg" />
               <p className="font-public-sans text-[13.79px] font-semibold text-white">
-                Emmanuel
+                {name}
               </p>
             </div>
 
@@ -153,7 +155,7 @@ const ManufacturersProfileLayoutComp = ({
           <ul className="space-y-[17px] mt-[20px] font-medium">
             <li>
               <Link
-                to="/manufacturers-profile"
+                to="/customer-profile"
                 className="flex items-center p-2 text-[#8B909A] hover:text-white  rounded-lg hover:bg-[#231F20] group"
               >
                 <svg
@@ -185,7 +187,7 @@ const ManufacturersProfileLayoutComp = ({
             </li>
             {data.map((each, index) => (
               <li key={index}>
-                <Link to={each.path}>
+                <Link to={`/customer-profile${each.path}`}>
                   <a
                     href="#"
                     className="flex items-center p-[7.51px] text-[#8B909A] hover:text-white  rounded-lg hover:bg-[#231F20] group"
@@ -209,4 +211,4 @@ const ManufacturersProfileLayoutComp = ({
   );
 };
 
-export default ManufacturersProfileLayoutComp;
+export default CustomerProfileLayout;

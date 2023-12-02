@@ -65,7 +65,6 @@ const MOrders = () => {
                     </div>
                     <div className="flex flex-row gap-2 xs:hidden">
                       <p>
-                        {" "}
                         <span className="text-[#515151]">Sort:</span> Show All
                       </p>
                       <KeyboardArrowDownIcon />

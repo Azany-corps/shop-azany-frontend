@@ -21,6 +21,8 @@
     "@types/slick-carousel": "^1.6.37",
     "autoprefixer": "^10.4.13",
     "axios": "^1.5.1",
+    "currency-formatter": "^1.5.9",
+    "dateformat": "^5.0.3",
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
     "form-data": "^4.0.0",
