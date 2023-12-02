@@ -8,6 +8,8 @@ import Manufacturers from "./pages/manufacturers/Manufacturers";
 import Search from "./pages/search/Search";
 
 import MLogin from "./pages/manufacturersProfile/Login";
+// import MLogin from "./pages/manufacturersProfile/Login";
+
 import LoginCustomer from "./pages/auth/login/LoginCustomer";
 import MBusiness from "./pages/manufacturersProfile/BusinessInfo";
 import EditStore from "./pages/manufacturersProfile/Edit";
@@ -21,7 +23,7 @@ import PaymentInfo from "./pages/checkout/Payment";
 import Confirmation from "./pages/checkout/Confirmation";
 import AddCard from "./pages/manufacturersProfile/payment/Card";
 import AddBank from "./pages/manufacturersProfile/payment/Bank";
-import AddProduct from "./pages/manufacturersProfile/products/NewAdd";
+import AddProduct from "./pages/manufacturersProfile/products/Add";
 import EditProduct from "./pages/manufacturersProfile/products/Edit";
 import SecurityQuestion from "./pages/manufacturersProfile/Security";
 import Withdraw from "./pages/manufacturersProfile/payment/Withdraw";
