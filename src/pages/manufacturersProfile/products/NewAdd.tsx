@@ -36,29 +36,53 @@ import { useFormik } from "formik";
 import AddImageComp from "../../../components/Core/AddImageComp";
 import TextColorizer from "./ColorText";
 import { IProduct } from "./product.type";
-import { fetchCategories } from "../../../Services/category.service";
+import { fetchCategories, fetchCategory } from "../../../Services/category.service";
+import { fetchBrands } from "../../../Services/brand.service";
 
 interface DiscountOption {
   quantity: string;
   percentage: string;
 }
 interface ColorizedText {
-  text: string;
+  id: string;
+  text: string[];
+}
+
+interface Attribute {
+  id: number;
+  name: string;
+  items: string[];
+}
+
+interface Category {
+  id: number;
+  title: string;
+  business_type: string;
+  parent_category_id?: string | null;
+  subcategories: Category[];
+}
+
+interface Brand {
+  id: number;
+  name: string;
 }
 
 const AddProduct = () => {
   const navigate = useNavigate();
 
   const [selectedImages, setSelectedImages] = useState<FileWithPath[]>([]);
+  const [attributes, setAttributes] = useState<Attribute[]>([])
   const [loading, setLoading] = useState<boolean>(false);
-  // const [status, setStatus] = useState("status");
+  const [authToken] = useAuthToken();
   const [parentColorizedTexts, setParentColorizedTexts] = useState<
     ColorizedText[]
   >([]);
-  const [categories, setCategories] = useState<any>([])
+  const [categories, setCategories] = useState<Category[]>([])
+  const [brands, setBrands] = useState<Brand[]>([])
+
   const [isCategoryModal, setIsCategoryModal] = useState<boolean>(false)
 
-  const [formData, setFormData] = useState<IProduct>({
+  const initialFormData: IProduct = {
     product_name: "",
     product_category: "",
     stock: "",
@@ -90,13 +114,30 @@ const AddProduct = () => {
     sale_start_date: "",
     sale_end_date: "",
     stock_quantity: "",
-  });
+  }
+  const [formData, setFormData] = useState<IProduct>(initialFormData);
 
-  const handleColorizedTextsChange = (colorizedTexts: ColorizedText[]) => {
+  const handleColorizedTextsChange = (colorizedTexts: ColorizedText) => {
     // Access the colorizedTexts value in the parent component
-    console.log("Colorized Texts in Parent Component:", colorizedTexts);
-    setParentColorizedTexts(colorizedTexts);
+
+    // Create a new array with updated colorizedTexts
+    const newColorizedTexts: ColorizedText[] = parentColorizedTexts?.map((parentT: ColorizedText) => {
+      if (parentT.id === colorizedTexts.id) {
+        // If IDs match, update the text property
+        return {
+          id: colorizedTexts.id,
+          text: [...colorizedTexts.text],
+        };
+      } else {
+        // Otherwise, keep the existing colorizedText
+        return { ...parentT };
+      }
+    });
+
+    // Update the state with the new array
+    setParentColorizedTexts(newColorizedTexts || []);
   };
+
 
   const handleStockStatusChange = (status: string) => {
     setFormData({ ...formData, stock: status });
@@ -116,6 +157,7 @@ const AddProduct = () => {
     console.log("formd: ", formData)
 
     setLoading(true);
+    console.log('parent: ', parentColorizedTexts)
 
     try {
       let data = new FormData();
@@ -133,8 +175,15 @@ const AddProduct = () => {
       data.append("start_date", formData.sale_start_date);
       data.append("end_date", formData.sale_end_date);
 
-      formData?.product_attributes?.forEach((attribute, index) => {
-        data.append(`attribute_text[${index}]`, attribute)
+      parentColorizedTexts.forEach((attribute: ColorizedText, index: number) => {
+        data.append(`attribute_id[${index}]`, attribute.id)
+
+        const texts = parentColorizedTexts[index].text.join(',');
+        data.append(`attribute_value[${index}]`, texts)
+      });
+
+      attributes.forEach((attribute: Attribute, index: number) => {
+        data.append(`attribute_key[${index}]`, attribute.name)
       });
 
       selectedImages?.forEach((image, index) => {
@@ -143,11 +192,16 @@ const AddProduct = () => {
 
       const response = await callAPI("auth/store/create_store_product", "POST", data, {
         "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${authToken}`,
       });
       console.log(response);
 
       if (response.status && response.status_code === 200) {
         setLoading(false);
+        setAttributes([]);
+        setParentColorizedTexts([]);
+        setFormData(initialFormData);
+
         toast.success("Product added successfully", {
           position: "top-center",
           autoClose: 3000,
@@ -187,179 +241,34 @@ const AddProduct = () => {
     }
   };
 
-  // const categs = [
-  //   {
-  //     "id": 14,
-  //     "title": "Appliances",
-  //     "business_type": "",
-  //     "parent_category_id": null,
-  //     "subcategories": [
-  //       {
-  //         "id": 15,
-  //         "title": "Dishwashers",
-  //         "business_type": "",
-  //         "parent_category_id": "14",
-  //         "subcategories": [
-  //           {
-  //             "id": 16,
-  //             "title": "Built-In Dishwashers",
-  //             "business_type": "",
-  //             "parent_category_id": "15",
-  //             "subcategories": []
-  //           },
-  //           {
-  //             "id": 17,
-  //             "title": "Portable Dishwashers",
-  //             "business_type": "",
-  //             "parent_category_id": "15",
-  //             "subcategories": []
-  //           },
-  //           {
-  //             "id": 18,
-  //             "title": "Countertop Dishwashers",
-  //             "business_type": "",
-  //             "parent_category_id": "15",
-  //             "subcategories": []
-  //           },
-  //           {
-  //             "id": 31,
-  //             "title": "dgwgwr",
-  //             "business_type": "",
-  //             "parent_category_id": "15",
-  //             "subcategories": []
-  //           },
-  //           {
-  //             "id": 32,
-  //             "title": "Test category",
-  //             "business_type": "",
-  //             "parent_category_id": "15",
-  //             "subcategories": []
-  //           },
-  //           {
-  //             "id": 33,
-  //             "title": "Test category",
-  //             "business_type": "",
-  //             "parent_category_id": "15",
-  //             "subcategories": []
-  //           },
-  //           {
-  //             "id": 37,
-  //             "title": "Test category",
-  //             "business_type": "",
-  //             "parent_category_id": "15",
-  //             "subcategories": []
-  //           }
-  //         ]
-  //       },
-  //       {
-  //         "id": 19,
-  //         "title": "Countertop Dishwashers",
-  //         "business_type": "",
-  //         "parent_category_id": "14",
-  //         "subcategories": [
-  //           {
-  //             "id": 20,
-  //             "title": "Washers & Dryers",
-  //             "business_type": "",
-  //             "parent_category_id": "19",
-  //             "subcategories": [
-  //               {
-  //                 "id": 21,
-  //                 "title": "Clothes Dryers",
-  //                 "business_type": "",
-  //                 "parent_category_id": "20",
-  //                 "subcategories": []
-  //               },
-  //               {
-  //                 "id": 22,
-  //                 "title": "Clothes Washing Machines",
-  //                 "business_type": "",
-  //                 "parent_category_id": "20",
-  //                 "subcategories": []
-  //               },
-  //               {
-  //                 "id": 23,
-  //                 "title": "Combination Washers & Dryers",
-  //                 "business_type": "",
-  //                 "parent_category_id": "20",
-  //                 "subcategories": []
-  //               }
-  //             ]
-  //           },
-  //           {
-  //             "id": 36,
-  //             "title": "cecec",
-  //             "business_type": "",
-  //             "parent_category_id": "19",
-  //             "subcategories": []
-  //           }
-  //         ]
-  //       },
-  //       {
-  //         "id": 34,
-  //         "title": "Test category 2",
-  //         "business_type": "",
-  //         "parent_category_id": "14",
-  //         "subcategories": []
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     "id": 24,
-  //     "title": "Arts",
-  //     "business_type": "",
-  //     "parent_category_id": null,
-  //     "subcategories": [
-  //       {
-  //         "id": 25,
-  //         "title": "Crafts & Sewing",
-  //         "business_type": "",
-  //         "parent_category_id": "24",
-  //         "subcategories": [
-  //           {
-  //             "id": 26,
-  //             "title": "Storage",
-  //             "business_type": "",
-  //             "parent_category_id": "25",
-  //             "subcategories": [
-  //               {
-  //                 "id": 27,
-  //                 "title": "Art & Poster Transport Tubes",
-  //                 "business_type": "",
-  //                 "parent_category_id": "26",
-  //                 "subcategories": []
-  //               },
-  //               {
-  //                 "id": 28,
-  //                 "title": "Art Portfolios",
-  //                 "business_type": "",
-  //                 "parent_category_id": "26",
-  //                 "subcategories": []
-  //               },
-  //               {
-  //                 "id": 29,
-  //                 "title": "Art Storage Cabinets",
-  //                 "business_type": "",
-  //                 "parent_category_id": "26",
-  //                 "subcategories": []
-  //               },
-  //               {
-  //                 "id": 30,
-  //                 "title": "Art Tool & Sketch Storage Boxes",
-  //                 "business_type": "",
-  //                 "parent_category_id": "26",
-  //                 "subcategories": []
-  //               }
-  //             ]
-  //           }
-  //         ]
-  //       }
-  //     ]
-  //   }
-  // ]
-
-  const handleCategorySelect = async (category: string) => {
+  const handleCategorySelect = async (category: string, id: number) => {
     setFormData({ ...formData, product_category: category });
+    fetchCategory(id)
+      .then((res: any) => {
+        const attributes: Attribute[] = res.category_attributes?.map((attribute: any, index: number) => {
+          return {
+            id: attribute.attribute.id,
+            name: attribute.attribute.attribute_name,
+            items: [...attribute.attribute.items]
+          }
+        })
+
+        const attributeText: ColorizedText[] = res.category_attributes?.map((attribute: any, index: number) => {
+          return {
+            id: attribute.attribute.id.toString(),
+            text: []
+          }
+        })
+
+        setParentColorizedTexts(attributeText);
+
+        console.log("attr: ", attributes);
+
+        setAttributes(attributes);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     closeCategoryModal();
   }
 
@@ -375,6 +284,14 @@ const AddProduct = () => {
     fetchCategories()
       .then((res) => {
         setCategories(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    fetchBrands()
+      .then((res) => {
+        setBrands(res);
       })
       .catch((error) => {
         console.log(error);
@@ -460,10 +377,14 @@ const AddProduct = () => {
                   // onBlur={Formik.handleBlur}
                   // error={Formik?.errors?.brand as string}
                   // touched={Formik?.touched?.brand as boolean}
-                  options={[
-                    { label: "Euro", value: "EUR" },
-                    { label: "US Dollars", value: "USD" },
-                  ]}
+                  options={brands ? brands?.map((brand: Brand, index: number) => {
+                    return {
+                      label: brand.name,
+                      value: brand.id.toString()
+                    }
+                  }) :
+                    []
+                  }
                   optionsLabel="Select brand"
                   labelStyle="font-semibold mb-[22px]"
                 />
@@ -522,9 +443,23 @@ const AddProduct = () => {
             </div>
             <div className="w-full mb-10">
               <p className="block mb-[22px] text-base font-semibold general-font uppercase text-black">
-                Specification*
+                Specifications*
               </p>
-              <p className="text-[#515151] text-xl">Select Category to specifications</p>
+              <div className="flex flex-col gap-4">
+                {attributes.length !== 0 ?
+                  attributes?.map((attribute: Attribute, index: number) => (
+                    <TextColorizer
+                      key={index}
+                      id={attribute.id.toString()}
+                      attributeText={attribute.items}
+                      name={attribute.name}
+                      onColorizedTextsChange={handleColorizedTextsChange}
+                    />
+                  )) : (
+                    <p className="text-[#515151] text-lg">Select Category to specifications</p>
+                  )
+                }
+              </div>
               {/* <div className="grid grid-cols-3 w-full gap-x-5 mb-5">
                 <div className="w-full col-span-1">
                   <FormSelect
@@ -790,13 +725,13 @@ const AddProduct = () => {
                 </div>
               </div> */}
             </div>
-            <div className="flex flex-col gap-3 w-full mb-10">
+            {/* <div className="flex flex-col gap-3 w-full mb-10">
               <TextColorizer
                 attributeText={["lorem", "ipsum", "jeje", "glow", "wine"]}
                 name="exampleName"
                 onColorizedTextsChange={handleColorizedTextsChange}
               />
-              {/* <FormInput
+              <FormInput
                 name=""
                 id="product_attributes"
                 value={formData?.product_attributes}
@@ -807,9 +742,9 @@ const AddProduct = () => {
                 placeholder=""
                 type="text"
                 labelStyle="block text-sm mb-2 font-normal general-font text-black uppercase"
-              /> */}
+              />
               <p className="text-[#515151] w-2/3 text-sm"><span className="text-black">Related Attributes: </span> Color,  Size,  Branding,  Depth,  Logo,  Color,  Size,  Branding,  Depth,  Logo,  Color,  Size,  Branding,  Depth,  Logo,</p>
-            </div>
+            </div> */}
             <div className="w-full col-span-2 mb-10">
               <FormSelect
                 name="Currency*"
@@ -913,9 +848,10 @@ const AddProduct = () => {
 
             <button
               type="submit"
+              disabled={loading}
               className="w-full focus:outline-none text-white bg-[#E51B48] hover:bg-[#E51B48] focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-5 "
             >
-              Add Product
+              {loading ? "loading..." : "Add Product"}
             </button>
             <div className="max-w-[808px]">
               <p className=" text-sm font-normal general-font text-[#515151]">

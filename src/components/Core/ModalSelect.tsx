@@ -6,9 +6,10 @@ interface AccordionProps {
     subcategories: Category[];
     handleCategorySelect: Function;
     setCategs: Function;
+    id: number
 }
 
-const Accordion: React.FC<AccordionProps> = ({ title, subcategories, handleCategorySelect, setCategs }) => {
+const Accordion: React.FC<AccordionProps> = ({ title, subcategories, id, handleCategorySelect, setCategs }) => {
     const handleClick = () => {
         setCategs([...subcategories])
     }
@@ -16,7 +17,7 @@ const Accordion: React.FC<AccordionProps> = ({ title, subcategories, handleCateg
         <div className="mb-2">
             <div
                 className="flex justify-between items-center hover:cursor-pointer hover:bg-slate-200 w-full bg-white text-black text-sm px-8 py-4 font-bold"
-                onClick={() => { subcategories.length === 0 ? handleCategorySelect(title) : handleClick() }}
+                onClick={() => { subcategories.length === 0 ? handleCategorySelect(title, id) : handleClick() }}
             >
                 <span>{title}</span>
                 {subcategories.length > 0 && (<Icon icon="ic:twotone-greater-than" height="20" width="20" />)}
@@ -44,7 +45,7 @@ const ModalSelect: React.FC<ModalSelectProps> = ({ categories, level = 0, handle
     return (
         <>
             {categs.map(category => (
-                <Accordion key={category.id} title={category.title} subcategories={category.subcategories} handleCategorySelect={handleCategorySelect} setCategs={setCategs} />
+                <Accordion key={category.id} id={category.id} title={category.title} subcategories={category.subcategories} handleCategorySelect={handleCategorySelect} setCategs={setCategs} />
             ))}
         </>
     );
