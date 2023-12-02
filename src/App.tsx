@@ -23,7 +23,7 @@ import PaymentInfo from "./pages/checkout/Payment";
 import Confirmation from "./pages/checkout/Confirmation";
 import AddCard from "./pages/manufacturersProfile/payment/Card";
 import AddBank from "./pages/manufacturersProfile/payment/Bank";
-import AddProduct from "./pages/manufacturersProfile/products/Add";
+import AddProduct from "./pages/manufacturersProfile/products/NewAdd";
 import EditProduct from "./pages/manufacturersProfile/products/Edit";
 import SecurityQuestion from "./pages/manufacturersProfile/Security";
 import Withdraw from "./pages/manufacturersProfile/payment/Withdraw";
