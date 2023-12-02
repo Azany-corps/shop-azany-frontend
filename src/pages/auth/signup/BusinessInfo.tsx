@@ -7,10 +7,16 @@ interface Props {
     handleChange: ChangeEventHandler<HTMLInputElement>,
     handleSubmit: FormEventHandler<HTMLFormElement>
     previous: MouseEventHandler<HTMLButtonElement>;
-    formData: ISignUp
+    handleSelectChange: ChangeEventHandler<HTMLSelectElement>;
+    formData: ISignUp;
+    previewUrls: any;
+    handleFileChange: any;
+    countries: any;
+    states: any;
+    cities: any;
 }
 
-const BusinessInfo = ({ handleChange, handleSubmit, previous, formData }: Props) => {
+const BusinessInfo = ({ handleChange, handleSubmit, previous, formData, previewUrls, handleFileChange, handleSelectChange, countries, states, cities }: Props) => {
     return (
         <>
             <form className="md:w-[60%] w-[90%] flex flex-col items-center md:gap-8 gap-4" onSubmit={handleSubmit} action="">
@@ -59,7 +65,27 @@ const BusinessInfo = ({ handleChange, handleSubmit, previous, formData }: Props)
                         className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none md:py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] py-[9px]"
                         required
                         onChange={handleChange}
-                        placeholder="Company address - country  state,  city,  address"
+                        placeholder="Company phone number"
+                        type="text"
+                        name="company_phone"
+                        value={formData.company_phone}
+                    />
+                    <input
+                        className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none md:py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] py-[9px]"
+                        required
+                        onChange={handleChange}
+                        placeholder="Additional phone number"
+                        type="text"
+                        name="other_phone"
+                        value={formData.other_phone}
+                    />
+                </div>
+                <div className="flex w-full flex-col md:flex-row justify-between md:gap-8 gap-4">
+                    <input
+                        className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none md:py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] py-[9px]"
+                        required
+                        onChange={handleChange}
+                        placeholder="Company address"
                         type="text"
                         name="address"
                         value={formData.address}
@@ -79,19 +105,74 @@ const BusinessInfo = ({ handleChange, handleSubmit, previous, formData }: Props)
                         className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none md:py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] py-[9px]"
                         required
                         onChange={handleChange}
-                        placeholder="Company phone number"
+                        placeholder="Company address"
                         type="text"
-                        name="company_phone"
-                        value={formData.company_phone}
+                        name="address"
+                        value={formData.address}
                     />
                     <input
                         className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none md:py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] py-[9px]"
                         required
                         onChange={handleChange}
-                        placeholder="Additional phone number"
+                        placeholder="Postal Code"
                         type="text"
-                        name="other_phone"
-                        value={formData.other_phone}
+                        name="postal_code"
+                        value={formData.postal_code}
+                    />
+                </div>
+                <div className="flex w-full flex-col md:flex-row justify-between md:gap-8 gap-4">
+                    <select
+                        className="bg-transparent text-xs w-full px-3 outline-none md:py-[15px] py-[9px] text-[#B3B7BB] text-center border rounded-2xl border-[#B3B7BB]"
+                        name="country"
+                        id="country"
+                        value={formData.country}
+                        onChange={handleSelectChange}
+                    >
+                        <option disabled selected>Select Country</option>
+                        {
+                            countries?.map((country: any) => (
+                                <option key={country.id} value={country?.name}>{country?.name}</option>
+                            ))
+                        }
+                    </select>
+                    <select
+                        className="bg-transparent text-xs w-full px-3 outline-none md:py-[15px] py-[9px] text-[#B3B7BB] text-center border rounded-2xl border-[#B3B7BB]"
+                        name="state"
+                        value={formData.state}
+                        id="state"
+                        onChange={handleSelectChange}
+                    >
+                        <option disabled selected>Select State</option>
+                        {
+                            states?.map((state: any) => (
+                                <option key={state.id} value={state?.name}>{state?.name}</option>
+                            ))
+                        }
+                    </select>
+                </div>
+                <div className="flex w-full flex-col md:flex-row justify-between md:gap-8 gap-4">
+                    <select
+                        className="bg-transparent text-xs w-full px-3 outline-none md:py-[15px] py-[9px] text-[#B3B7BB] text-center border rounded-2xl border-[#B3B7BB]"
+                        name="city"
+                        id="city"
+                        value={formData.city}
+                        onChange={handleSelectChange}
+                    >
+                        <option disabled selected>Select City</option>
+                        {
+                            cities?.map((city: any) => (
+                                <option key={city.id} value={city?.name}>{city?.name}</option>
+                            ))
+                        }
+                    </select>
+                    <input
+                        className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none md:py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] py-[9px]"
+                        required
+                        onChange={handleChange}
+                        placeholder="Country shipping from"
+                        type="text"
+                        name="shipping_address"
+                        value={formData.shipping_address}
                     />
                 </div>
                 <div className="flex w-full flex-col md:flex-row justify-between md:gap-8 gap-4">
@@ -127,10 +208,10 @@ const BusinessInfo = ({ handleChange, handleSubmit, previous, formData }: Props)
                 </div>
                 <div className="flex flex-col gap-5 w-full">
                     <div className="flex relative justify-center items-center py-7 gap-2 bg-[#efefef] rounded-[20px]">
-                        <input type="file" onChange={handleChange} className="w-full absolute h-full opacity-0 cursor-pointer bg-transparent border-none outline-none focus:outline-none" name="cac_document" id="" />
+                        <input type="file" onChange={handleFileChange} className="w-full absolute h-full opacity-0 cursor-pointer bg-transparent border-none outline-none focus:outline-none" name="cac_document" id="" />
                         {
-                            formData.cac_document ? (
-                                <p className="text-xs text-[#B3B7BB] overflow-hidden whitespace-normal">{formData.cac_document}</p>
+                            previewUrls.cac_document ? (
+                                <p className="text-xs text-[#B3B7BB] overflow-hidden whitespace-normal">{previewUrls.cac_document}</p>
                             ) : (
                                 <p className="text-xs text-[#B3B7BB]">Click here to upload CAC  a file</p>
                             )
@@ -138,10 +219,10 @@ const BusinessInfo = ({ handleChange, handleSubmit, previous, formData }: Props)
                         <Icon icon="basil:file-solid" width="24" height="24" />
                     </div>
                     <div className="flex relative justify-center items-center py-7 gap-2 bg-[#efefef] rounded-[20px]">
-                        <input type="file" onChange={handleChange} className="w-full absolute h-full opacity-0 cursor-pointer bg-transparent border-none outline-none focus:outline-none" name="tax_document" id="" />
+                        <input type="file" onChange={handleFileChange} className="w-full absolute h-full opacity-0 cursor-pointer bg-transparent border-none outline-none focus:outline-none" name="tax_document" id="" />
                         {
-                            formData.tax_document ? (
-                                <p className="text-xs text-[#B3B7BB] overflow-hidden whitespace-normal">{formData.tax_document}</p>
+                            previewUrls.tax_document ? (
+                                <p className="text-xs text-[#B3B7BB] overflow-hidden whitespace-normal">{previewUrls.tax_document}</p>
                             ) : (
                                 <p className="text-xs text-[#B3B7BB]">Click here to upload Tax Identification  file</p>
                             )
@@ -149,10 +230,10 @@ const BusinessInfo = ({ handleChange, handleSubmit, previous, formData }: Props)
                         <Icon icon="basil:file-solid" width="24" height="24" />
                     </div>
                     <div className="flex relative justify-center items-center py-7 gap-2 bg-[#efefef] rounded-[20px]">
-                        <input type="file" onChange={handleChange} className="w-full absolute h-full opacity-0 cursor-pointer bg-transparent border-none outline-none focus:outline-none" name="id_document" id="" />
+                        <input type="file" onChange={handleFileChange} className="w-full absolute h-full opacity-0 cursor-pointer bg-transparent border-none outline-none focus:outline-none" name="id_document" id="" />
                         {
-                            formData.id_document ? (
-                                <p className="text-xs text-[#B3B7BB] overflow-hidden whitespace-normal">{formData.id_document}</p>
+                            previewUrls.id_document ? (
+                                <p className="text-xs text-[#B3B7BB] overflow-hidden whitespace-normal">{previewUrls.id_document}</p>
                             ) : (
                                 <p className="text-xs text-[#B3B7BB]">Click here to upload CAC  a file</p>
                             )
@@ -164,7 +245,7 @@ const BusinessInfo = ({ handleChange, handleSubmit, previous, formData }: Props)
                     <button onClick={previous} className="border-[#D65D5B] border bg-transparent font-bold text-black rounded-2xl md:text-base text-xs py-2 w-[40%] md:py-3 md:w-[40%]">Previous</button>
                     <button className="bg-[#D65D5B] font-bold text-white rounded-2xl md:text-base text-xs py-2 w-[40%] md:py-3 md:w-[40%]">Next</button>
                 </div>
-            </form>
+            </form >
         </>
     )
 }
