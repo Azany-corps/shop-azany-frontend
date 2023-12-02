@@ -15,6 +15,7 @@ const AddressComponent: React.FC<AddressProps> = () => {
     "last_name"
   )}`;
 
+  // const country = localStorage.getItem("country");
   const country = localStorage.getItem("country");
   const state = localStorage.getItem("state");
 
