@@ -25,7 +25,7 @@ export interface IProduct {
     screen_size: string;
     display_features: string;
     battery_size: string;
-    product_attributes: string;
+    product_attributes: string[];
     sale_price: string;
     sale_start_date: string;
     sale_end_date: string;
