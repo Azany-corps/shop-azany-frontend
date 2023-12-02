@@ -1,4 +1,5 @@
 // import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React from "react";
 import Categories from "./pages/categories/Category";
 import { Route, Routes } from "react-router-dom";
 import SellersProfile from "./pages/SellersProfile";
