@@ -2,12 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import ManufacturersProfileLayoutComp from "../../../components/General/manufacturers/profile/LayoutComp";
+import CustomerProfileLayout from "../../../components/CustomerProfile/NewCustomerProfileLayout";
 import CustomButton from "../../../components/Inputs/button";
-import {
-  getProductOrder,
-  getProductOrders,
-} from "../../../Services/order.service";
+import { getCustomerProductOrders } from "../../../Services/order.service";
 import {
   DateFormatter,
   CurrencyFormatter,
@@ -46,7 +43,8 @@ const OrderDetailsComponent: React.FC<OrderDetailsProps> = () => {
 
   useEffect(() => {
     const getOrders = async () => {
-      const orders = await getProductOrders();
+      const orders = await getCustomerProductOrders();
+      console.log(orders);
       const order = orders?.filter((order: any) => order.id === id);
       setOrder(order);
     };
@@ -56,7 +54,7 @@ const OrderDetailsComponent: React.FC<OrderDetailsProps> = () => {
   console.log(order);
 
   return (
-    <ManufacturersProfileLayoutComp>
+    <CustomerProfileLayout>
       <div className="pt-[80px] font-public-sans">
         <div className="flex justify-between items-center w-full">
           <div
@@ -68,7 +66,7 @@ const OrderDetailsComponent: React.FC<OrderDetailsProps> = () => {
               Order details
             </p>
           </div>
-          <Link to="/manufacturers-profile/track-order" state={{ id: id }}>
+          <Link to="/customer-profile/track-order" state={{ id: id }}>
             <CustomButton styles="mb-[26px]" name="Track order" type="button" />
           </Link>
         </div>
@@ -272,7 +270,7 @@ const OrderDetailsComponent: React.FC<OrderDetailsProps> = () => {
           </div>
         </div>
       </div>
-    </ManufacturersProfileLayoutComp>
+    </CustomerProfileLayout>
   );
 };
 

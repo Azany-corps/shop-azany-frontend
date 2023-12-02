@@ -44,6 +44,13 @@ const AuthLoginCustomer = () => {
         let token: any = response.token;
         saveAuthToken(token);
         localStorage.setItem("name", response.data?.values?.first_name);
+        localStorage.setItem("last_name", response.data?.values?.last_name);
+        localStorage.setItem("phone", response.data?.values?.phone);
+        localStorage.setItem("email", response.data?.values?.email);
+        localStorage.setItem("state", response.data?.values?.state);
+        localStorage.setItem("country", response.data?.values?.country);
+        localStorage.setItem("address", response.data?.values?.address);
+        localStorage.setItem("city", response.data?.values?.city);
         localStorage.setItem("main_id", response.data?.values?.id);
         localStorage.setItem(
           "account_type",

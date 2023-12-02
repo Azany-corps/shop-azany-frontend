@@ -1,5 +1,5 @@
 import React from "react";
-import ManufacturersProfileLayoutComp from "../../components/General/manufacturers/profile/LayoutComp";
+import CustomerProfileLayout from "../../../components/CustomerProfile/NewCustomerProfileLayout";
 import { useNavigate } from "react-router-dom";
 
 interface AddressProps {}
@@ -8,7 +8,7 @@ const AddressComponent: React.FC<AddressProps> = () => {
   const navigate = useNavigate();
 
   const addAddressHandler = () => {
-    navigate("/manufacturers-profile/address/edit");
+    navigate("/customer-profile/add-address");
   };
 
   const name = `${localStorage.getItem("name")} ${localStorage.getItem(
@@ -19,7 +19,7 @@ const AddressComponent: React.FC<AddressProps> = () => {
   const state = localStorage.getItem("state");
 
   return (
-    <ManufacturersProfileLayoutComp>
+    <CustomerProfileLayout>
       <div className="pt-[80px] font-public-sans">
         <p className="capitalize text-xl font-semibold font-baloo">Address</p>
         <p className="text-xl font-baloo font-normal text-[#B3B7BB]">
@@ -78,7 +78,7 @@ const AddressComponent: React.FC<AddressProps> = () => {
           <p className="text-[25.8px] text-[#B8BACC]">Add new address</p>
         </div>
       </div>
-    </ManufacturersProfileLayoutComp>
+    </CustomerProfileLayout>
   );
 };
 

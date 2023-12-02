@@ -27,7 +27,6 @@ import Withdraw from "./pages/manufacturersProfile/payment/Withdraw";
 import WalletHistory from "./pages/manufacturersProfile/payment/Wallet";
 import CreatePin from "./pages/manufacturersProfile/payment/pin/Create";
 import ChangePin from "./pages/manufacturersProfile/payment/pin/Change";
-import MOrders from "./pages/manufacturersProfile/orders/Orders";
 import MChat from "./pages/manufacturersProfile/messages/Chat";
 import TrackingProgress from "./pages/manufacturersProfile/tracking/TrackingProgress";
 import ConfirmOrder from "./pages/manufacturersProfile/orders/Confirm";
@@ -82,20 +81,22 @@ import ManufacturersIndex from "./pages/manufacturersProfile";
 import Login from "./pages/CustomerProfile/Login";
 import Inbox from "./pages/CustomerProfile/Inbox";
 import Order from "./pages/CustomerProfile/Order";
+import COrdersComponent from "./pages/CustomerProfile/orders/Orders";
 import Email from "./pages/email/Email";
 import AzanyFarmers from "./pages/landing/AzanyFarmers";
 import ManufacturerHomePage from "./pages/landing/ManufacturerHomePage";
 import SignupCustomer from "./pages/auth/signup/SignupCustomer";
 import Callback from "./pages/checkout/Callback";
-import RewardsComponent from "./pages/manufacturersProfile/Reward";
-import AddressComponent from "./pages/manufacturersProfile/Address";
-import EditAddressComponent from "./pages/manufacturersProfile/EditAddress";
-import PaymentMethodsComponent from "./pages/manufacturersProfile/payment/PaymentMethods";
-import OrderDetailsComponent from "./pages/manufacturersProfile/orders/OrderDetails";
-import ReviewsComponent from "./pages/manufacturersProfile/reviews/Review";
-import RecentlyViewedComponent from "./pages/manufacturersProfile/products/RecentlyViewed";
-import SavedItemsComponent from "./pages/manufacturersProfile/products/SavedItems";
-import TrackOrdersComponent from "./pages/manufacturersProfile/orders/TrackOrders";
+import MOrders from "./pages/manufacturersProfile/orders/Orders";
+import AddressComponent from "./pages/CustomerProfile/address/Address";
+import EditAddressComponent from "./pages/CustomerProfile/address/EditAddress";
+import TrackOrdersComponent from "./pages/CustomerProfile/orders/TrackOrders";
+import OrderDetailsComponent from "./pages/CustomerProfile/orders/OrderDetails";
+import RecentlyViewedComponent from "./pages/CustomerProfile/RecentlyViewed";
+import SavedItemsComponent from "./pages/CustomerProfile/SavedItems";
+import ReviewsComponent from "./pages/CustomerProfile/Reviews";
+import MessagesComponent from "./pages/CustomerProfile/Messages";
+import RewardsComponent from "./pages/CustomerProfile/Reward";
 
 function App() {
   return (
@@ -177,7 +178,10 @@ function App() {
           />
         </Route>
         <Route path="/auth">
-          <Route path="signup-business-information" element={<SignupBusiness />} />
+          <Route
+            path="signup-business-information"
+            element={<SignupBusiness />}
+          />
           <Route path="otp" element={<AuthOTP />} />
           <Route path="otp-business" element={<AuthOTPBusiness />} />
           <Route path="reset-password" element={<AuthReset />} />
@@ -205,14 +209,23 @@ function App() {
         <Route path="/customer-profile">
           <Route index element={<IndexPage />} />
           <Route path="login" element={<Login />} />
-          <Route path="order" element={<Order />} />
+          Index
+          {/* <Route path="order" element={<Order />} /> */}
+          <Route path="order" element={<COrdersComponent />} />
+          <Route path="order-details" element={<OrderDetailsComponent />} />
+          <Route path="track-order" element={<TrackOrdersComponent />} />
           <Route path="cards" element={<Cards />} />
-          <Route path="messages" element={<Inbox />} />
+          <Route path="messages" element={<MessagesComponent />} />
           <Route path="watchlist" element={<WatchList />} />
           <Route path="saved" element={<Saved />} />
           <Route path="rating" element={<Ratings />} />
-          <Route path="address" element={<Address />} />
-          <Route path="track_orders" element={<TrackOrder />} />
+          <Route path="address" element={<AddressComponent />} />
+          <Route path="add-address" element={<EditAddressComponent />} />
+          <Route path="track_order" element={<TrackOrdersComponent />} />
+          <Route path="recently-viewed" element={<RecentlyViewedComponent />} />
+          <Route path="saved-items" element={<SavedItemsComponent />} />
+          <Route path="reviews" element={<ReviewsComponent />} />
+          <Route path="rewards" element={<RewardsComponent />} />
         </Route>
         <Route path="/manufacturers-profile">
           <Route index element={<ManufacturersIndex />} />
@@ -226,8 +239,7 @@ function App() {
           <Route path="edit" element={<EditStore />} />
           <Route path="payment" element={<MPayment />} />
           <Route path="add-bank" element={<AddBank />} />
-          {/* <Route path="add-card" element={<AddCard />} /> */}
-          <Route path="add-card" element={<PaymentMethodsComponent />} />
+          <Route path="add-card" element={<AddCard />} />
           <Route path="withdraw" element={<Withdraw />} />
           <Route path="wallet-history" element={<WalletHistory />} />
           <Route path="create-pin" element={<CreatePin />} />
@@ -242,14 +254,6 @@ function App() {
           <Route path="create-user" element={<CreateUser />} />
           <Route path="subscription" element={<Subscription />} />
           <Route path="security-question" element={<SecurityQuestion />} />
-          <Route path="rewards" element={<RewardsComponent />} />
-          <Route path="address" element={<AddressComponent />} />
-          <Route path="address/edit" element={<EditAddressComponent />} />
-          <Route path="order-details" element={<OrderDetailsComponent />} />
-          <Route path="reviews" element={<ReviewsComponent />} />
-          <Route path="recently-viewed" element={<RecentlyViewedComponent />} />
-          <Route path="saved-items" element={<SavedItemsComponent />} />
-          <Route path="track-order" element={<TrackOrdersComponent />} />
         </Route>
         <Route path="/checkout">
           <Route index element={<CustomerInfo />} />

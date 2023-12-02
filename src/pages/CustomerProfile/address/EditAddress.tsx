@@ -1,9 +1,10 @@
 import React from "react";
-import ManufacturersProfileLayoutComp from "../../components/General/manufacturers/profile/LayoutComp";
+import CustomerProfileLayout from "../../../components/CustomerProfile/NewCustomerProfileLayout";
+
 import { useNavigate } from "react-router-dom";
-import { FormInput } from "../../components/Inputs";
+import { FormInput } from "../../../components/Inputs";
 import { useFormik } from "formik";
-import CustomButton from "../../components/Inputs/button";
+import CustomButton from "../../../components/Inputs/button";
 
 interface EditAddressProps {}
 
@@ -34,7 +35,7 @@ const EditAddressComponent: React.FC<EditAddressProps> = () => {
   });
 
   return (
-    <ManufacturersProfileLayoutComp>
+    <CustomerProfileLayout>
       <div className="pt-[80px] font-public-sans">
         <div
           className="flex items-center cursor-pointer"
@@ -144,7 +145,7 @@ const EditAddressComponent: React.FC<EditAddressProps> = () => {
           <CustomButton styles="mb-[26px]" name="Save" type="submit" />
         </form>
       </div>
-    </ManufacturersProfileLayoutComp>
+    </CustomerProfileLayout>
   );
 };
 

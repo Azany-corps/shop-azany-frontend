@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import ManufacturersProfileLayoutComp from "../../../components/General/manufacturers/profile/LayoutComp";
+import CustomerProfileLayout from "../../../components/CustomerProfile/NewCustomerProfileLayout";
 import { getProductOrders } from "../../../Services/order.service";
 import callAPI from "../../../api/callApi";
 import {
@@ -77,7 +77,7 @@ const TrackOrdersComponent: React.FC<TrackOrdersProps> = () => {
   console.log(activeStep);
 
   return (
-    <ManufacturersProfileLayoutComp>
+    <CustomerProfileLayout>
       <div className="w-full">
         <div className="pt-[80px] font-public-sans">
           <div className="flex justify-between items-center w-full">
@@ -257,7 +257,7 @@ const TrackOrdersComponent: React.FC<TrackOrdersProps> = () => {
           </div>
         ))}
       </div>
-    </ManufacturersProfileLayoutComp>
+    </CustomerProfileLayout>
   );
 };
 
