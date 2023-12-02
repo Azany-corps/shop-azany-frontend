@@ -5,7 +5,7 @@ import callAPI from "../../api/callApi";
 interface ReviewsProps {}
 
 interface IReviews {
-  // order_code: string;
+  order_code: string;
   // created_at: string;
   // address: string;
   // order_status: string;
