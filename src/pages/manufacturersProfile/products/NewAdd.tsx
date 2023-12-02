@@ -23,7 +23,7 @@ import MobileHeader from "../../../components/General/MobileHeader";
 import MobileFooter from "../../../components/General/MobileFooter";
 import * as countryList from "../../../newCountries";
 import StockCheckbox from "./StockCheck";
-import { Icon } from '@iconify/react';
+import { Icon } from "@iconify/react";
 import { NestedAccordion } from "../../../components/Core/NestedAccordion";
 import { ModalSelect } from "../../../components/Core/ModalSelect";
 
@@ -36,7 +36,10 @@ import { useFormik } from "formik";
 import AddImageComp from "../../../components/Core/AddImageComp";
 import TextColorizer from "./ColorText";
 import { IProduct } from "./product.type";
-import { fetchCategories, fetchCategory } from "../../../Services/category.service";
+import {
+  fetchCategories,
+  fetchCategory,
+} from "../../../Services/category.service";
 import { fetchBrands } from "../../../Services/brand.service";
 
 interface DiscountOption {
@@ -71,16 +74,16 @@ const AddProduct = () => {
   const navigate = useNavigate();
 
   const [selectedImages, setSelectedImages] = useState<FileWithPath[]>([]);
-  const [attributes, setAttributes] = useState<Attribute[]>([])
+  const [attributes, setAttributes] = useState<Attribute[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [authToken] = useAuthToken();
   const [parentColorizedTexts, setParentColorizedTexts] = useState<
     ColorizedText[]
   >([]);
-  const [categories, setCategories] = useState<Category[]>([])
-  const [brands, setBrands] = useState<Brand[]>([])
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [brands, setBrands] = useState<Brand[]>([]);
 
-  const [isCategoryModal, setIsCategoryModal] = useState<boolean>(false)
+  const [isCategoryModal, setIsCategoryModal] = useState<boolean>(false);
 
   const initialFormData: IProduct = {
     product_name: "",
@@ -114,50 +117,55 @@ const AddProduct = () => {
     sale_start_date: "",
     sale_end_date: "",
     stock_quantity: "",
-  }
+  };
   const [formData, setFormData] = useState<IProduct>(initialFormData);
 
   const handleColorizedTextsChange = (colorizedTexts: ColorizedText) => {
     // Access the colorizedTexts value in the parent component
 
     // Create a new array with updated colorizedTexts
-    const newColorizedTexts: ColorizedText[] = parentColorizedTexts?.map((parentT: ColorizedText) => {
-      if (parentT.id === colorizedTexts.id) {
-        // If IDs match, update the text property
-        return {
-          id: colorizedTexts.id,
-          text: [...colorizedTexts.text],
-        };
-      } else {
-        // Otherwise, keep the existing colorizedText
-        return { ...parentT };
+    const newColorizedTexts: ColorizedText[] = parentColorizedTexts?.map(
+      (parentT: ColorizedText) => {
+        if (parentT.id === colorizedTexts.id) {
+          // If IDs match, update the text property
+          return {
+            id: colorizedTexts.id,
+            text: [...colorizedTexts.text],
+          };
+        } else {
+          // Otherwise, keep the existing colorizedText
+          return { ...parentT };
+        }
       }
-    });
+    );
 
     // Update the state with the new array
     setParentColorizedTexts(newColorizedTexts || []);
   };
 
-
   const handleStockStatusChange = (status: string) => {
     setFormData({ ...formData, stock: status });
-  }
+  };
 
   const handleImageSelect = (images: FileWithPath[]) => {
     setSelectedImages(images);
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChange = (
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => {
     const { name, value } = event?.target;
     setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log("formd: ", formData)
+    console.log("formd: ", formData);
 
     setLoading(true);
-    console.log('parent: ', parentColorizedTexts)
+    console.log("parent: ", parentColorizedTexts);
 
     try {
       let data = new FormData();
@@ -175,25 +183,32 @@ const AddProduct = () => {
       data.append("start_date", formData.sale_start_date);
       data.append("end_date", formData.sale_end_date);
 
-      parentColorizedTexts.forEach((attribute: ColorizedText, index: number) => {
-        data.append(`attribute_id[${index}]`, attribute.id)
+      parentColorizedTexts.forEach(
+        (attribute: ColorizedText, index: number) => {
+          data.append(`attribute_id[${index}]`, attribute.id);
 
-        const texts = parentColorizedTexts[index].text.join(',');
-        data.append(`attribute_value[${index}]`, texts)
-      });
+          const texts = parentColorizedTexts[index].text.join(",");
+          data.append(`attribute_value[${index}]`, texts);
+        }
+      );
 
       attributes.forEach((attribute: Attribute, index: number) => {
-        data.append(`attribute_key[${index}]`, attribute.name)
+        data.append(`attribute_key[${index}]`, attribute.name);
       });
 
       selectedImages?.forEach((image, index) => {
-        data.append(`image_1[${index}]`, image)
+        data.append(`image_1[${index}]`, image);
       });
 
-      const response = await callAPI("auth/store/create_store_product", "POST", data, {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${authToken}`,
-      });
+      const response = await callAPI(
+        "auth/store/create_store_product",
+        "POST",
+        data,
+        {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${authToken}`,
+        }
+      );
       console.log(response);
 
       if (response.status && response.status_code === 200) {
@@ -245,20 +260,24 @@ const AddProduct = () => {
     setFormData({ ...formData, product_category: category });
     fetchCategory(id)
       .then((res: any) => {
-        const attributes: Attribute[] = res.category_attributes?.map((attribute: any, index: number) => {
-          return {
-            id: attribute.attribute.id,
-            name: attribute.attribute.attribute_name,
-            items: [...attribute.attribute.items]
+        const attributes: Attribute[] = res.category_attributes?.map(
+          (attribute: any, index: number) => {
+            return {
+              id: attribute.attribute.id,
+              name: attribute.attribute.attribute_name,
+              items: [...attribute.attribute.items],
+            };
           }
-        })
+        );
 
-        const attributeText: ColorizedText[] = res.category_attributes?.map((attribute: any, index: number) => {
-          return {
-            id: attribute.attribute.id.toString(),
-            text: []
+        const attributeText: ColorizedText[] = res.category_attributes?.map(
+          (attribute: any, index: number) => {
+            return {
+              id: attribute.attribute.id.toString(),
+              text: [],
+            };
           }
-        })
+        );
 
         setParentColorizedTexts(attributeText);
 
@@ -270,15 +289,15 @@ const AddProduct = () => {
         console.log(error);
       });
     closeCategoryModal();
-  }
+  };
 
   const closeCategoryModal = () => {
     setIsCategoryModal(false);
-  }
+  };
 
   const openCategoryModal = () => {
     setIsCategoryModal(true);
-  }
+  };
 
   useEffect(() => {
     fetchCategories()
@@ -297,7 +316,6 @@ const AddProduct = () => {
         console.log(error);
       });
   }, []);
-
 
   return (
     <div className="bg-[#F5F5F5] relative w-full h-full xs:overflow-x-hidden">
@@ -349,9 +367,9 @@ const AddProduct = () => {
                 name="Product name*"
                 value={formData?.product_name}
                 onChange={handleChange}
-              // error={Formik?.errors?.product_name as string}
-              // touched={Formik?.touched?.product_name as boolean}
-              // onBlur={Formik.handleBlur}
+                // error={Formik?.errors?.product_name as string}
+                // touched={Formik?.touched?.product_name as boolean}
+                // onBlur={Formik.handleBlur}
               />
             </div>
             <div className="w-full mb-10">
@@ -363,7 +381,9 @@ const AddProduct = () => {
                   className="bg-[#F5F5F5] hover:cursor-pointer border general-font border-[#C1C1C1] text-[black] text-sm rounded-[10px] focus:ring-[#D65D5B] focus:border-[#D65D5B] block w-full py-5 pl-6"
                   onClick={openCategoryModal}
                 >
-                  {formData.product_category ? formData.product_category : 'Select Product category'}
+                  {formData.product_category
+                    ? formData.product_category
+                    : "Select Product category"}
                 </div>
               </div>
             </div>
@@ -377,13 +397,15 @@ const AddProduct = () => {
                   // onBlur={Formik.handleBlur}
                   // error={Formik?.errors?.brand as string}
                   // touched={Formik?.touched?.brand as boolean}
-                  options={brands ? brands?.map((brand: Brand, index: number) => {
-                    return {
-                      label: brand.name,
-                      value: brand.id.toString()
-                    }
-                  }) :
-                    []
+                  options={
+                    brands
+                      ? brands?.map((brand: Brand, index: number) => {
+                          return {
+                            label: brand.name,
+                            value: brand.id.toString(),
+                          };
+                        })
+                      : []
                   }
                   optionsLabel="Select brand"
                   labelStyle="font-semibold mb-[22px]"
@@ -397,9 +419,9 @@ const AddProduct = () => {
                   name="Weight (kg)*"
                   value={formData?.weight}
                   onChange={handleChange}
-                // error={Formik?.errors?.weight as string}
-                // touched={Formik?.touched?.weight as boolean}
-                // onBlur={Formik.handleBlur}
+                  // error={Formik?.errors?.weight as string}
+                  // touched={Formik?.touched?.weight as boolean}
+                  // onBlur={Formik.handleBlur}
                 />
               </div>
             </div>
@@ -415,8 +437,8 @@ const AddProduct = () => {
                   name="short description"
                   value={formData?.short_description}
                   onChange={handleChange}
-                // error={Formik?.errors?.short_description as string}
-                // touched={Formik?.touched?.short_description as boolean}
+                  // error={Formik?.errors?.short_description as string}
+                  // touched={Formik?.touched?.short_description as boolean}
                 />
               </div>
               <div className="w-full">
@@ -427,8 +449,8 @@ const AddProduct = () => {
                   name="product description"
                   value={formData?.product_description}
                   onChange={handleChange}
-                // error={Formik?.errors?.product_description as string}
-                // touched={Formik?.touched?.product_description as boolean}
+                  // error={Formik?.errors?.product_description as string}
+                  // touched={Formik?.touched?.product_description as boolean}
                 />
               </div>
             </div>
@@ -446,7 +468,7 @@ const AddProduct = () => {
                 Specifications*
               </p>
               <div className="flex flex-col gap-4">
-                {attributes.length !== 0 ?
+                {attributes.length !== 0 ? (
                   attributes?.map((attribute: Attribute, index: number) => (
                     <TextColorizer
                       key={index}
@@ -455,10 +477,12 @@ const AddProduct = () => {
                       name={attribute.name}
                       onColorizedTextsChange={handleColorizedTextsChange}
                     />
-                  )) : (
-                    <p className="text-[#515151] text-lg">Select Category to specifications</p>
-                  )
-                }
+                  ))
+                ) : (
+                  <p className="text-[#515151] text-lg">
+                    Select Category to specifications
+                  </p>
+                )}
               </div>
               {/* <div className="grid grid-cols-3 w-full gap-x-5 mb-5">
                 <div className="w-full col-span-1">
@@ -757,7 +781,7 @@ const AddProduct = () => {
                 options={[
                   { label: "Euro", value: "EUR" },
                   { label: "Naira", value: "NGN" },
-                  { label: "US Dollars", value: "USD" }
+                  { label: "US Dollars", value: "USD" },
                 ]}
                 optionsLabel="Select Currency"
                 labelStyle="font-semibold mb-[22px]"
@@ -864,36 +888,37 @@ const AddProduct = () => {
         </div>
       </div>
       <Footer style={"bg-[#1B7CFC] py-10 px-10 hidden"} />
-      <MobileFooter
-        style={
-          "bg-[#1B7CFC] md:hidden"
-        }
-      />
-      {
-        isCategoryModal && (
-          <div className="flex justify-end z-40 fixed top-0 w-full h-screen bg-black/50  backdrop-blur-[1px]">
-            <div onClick={closeCategoryModal} className="w-1/2 h-full">
+      <MobileFooter style={"bg-[#1B7CFC] md:hidden"} />
+      {isCategoryModal && (
+        <div className="flex justify-end z-40 fixed top-0 w-full h-screen bg-black/50  backdrop-blur-[1px]">
+          <div onClick={closeCategoryModal} className="w-1/2 h-full"></div>
+          <div className="flex justify-start items-center flex-col h-full bg-white w-1/2">
+            <div className="flex px-8 w-full py-4 bg-[#221E22] justify-between items-center">
+              <p className="font-bold text-lg  text-white">Select Category</p>
+              <span
+                className="hover:cursor-pointer"
+                onClick={closeCategoryModal}
+              >
+                <Icon
+                  icon="ic:outline-cancel"
+                  color="white"
+                  width="24"
+                  height="24"
+                />
+              </span>
             </div>
-            <div className="flex justify-start items-center flex-col h-full bg-white w-1/2">
-              <div className="flex px-8 w-full py-4 bg-[#221E22] justify-between items-center">
-                <p className="font-bold text-lg  text-white">Select Category</p>
-                <span
-                  className="hover:cursor-pointer"
-                  onClick={closeCategoryModal}
-                >
-                  <Icon icon="ic:outline-cancel" color="white" width="24" height="24" />
-                </span>
-              </div>
-              <div className="flex w-full bg-[#44444C] text-white text-sm px-8 py-2 font-bold">
-                Electronics `{'>'}` TVs `{'>'}` Smart TVs
-              </div>
-              <div className="flex flex-col w-full overflow-y-scroll">
-                <ModalSelect categories={categories} handleCategorySelect={handleCategorySelect} />
-              </div>
+            <div className="flex w-full bg-[#44444C] text-white text-sm px-8 py-2 font-bold">
+              Electronics `{">"}` TVs `{">"}` Smart TVs
+            </div>
+            <div className="flex flex-col w-full overflow-y-scroll">
+              <ModalSelect
+                categories={categories}
+                handleCategorySelect={handleCategorySelect}
+              />
             </div>
           </div>
-        )
-      }
+        </div>
+      )}
     </div>
   );
 };
