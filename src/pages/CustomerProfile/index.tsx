@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import callAPI from "../../api/callApi";
 import { getBearerToken } from "../../Services/auth.service";
 import { APP_ROUTE } from "../../helpers/constant";
+
 type each = {
   image: string;
   title: string;
