@@ -40,7 +40,7 @@ const AuthLoginCustomer = () => {
 
       if (response.status && response.status_code === 200) {
         // localStorage.setItem("token", response.token);
-        console.log(response.data?.values);
+        // console.log(response.data?.values);
         let token: any = response.token;
         saveAuthToken(token);
         localStorage.setItem("name", response.data?.values?.first_name);
@@ -57,7 +57,7 @@ const AuthLoginCustomer = () => {
           response.data?.values?.account_type
         );
 
-        console.log(response.data?.values);
+        // console.log(response.data?.values);
 
         toast.success(response.message, {
           position: "top-center",

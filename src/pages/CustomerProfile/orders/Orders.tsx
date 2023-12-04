@@ -46,8 +46,6 @@ const COrdersComponent: React.FC<COrdersProps> = () => {
     getOrders();
   }, []);
 
-  console.log(orders);
-
   return (
     <CustomerProfileLayout>
       <div className="pt-[80px]">

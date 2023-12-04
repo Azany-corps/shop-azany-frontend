@@ -262,6 +262,7 @@ const AddProduct = () => {
       .then((res: any) => {
         const attributes: Attribute[] = res.category_attributes?.map(
           (attribute: any, index: number) => {
+            console.log(attribute);
             return {
               id: attribute.attribute.id,
               name: attribute.attribute.attribute_name,
@@ -302,6 +303,7 @@ const AddProduct = () => {
   useEffect(() => {
     fetchCategories()
       .then((res) => {
+        console.log(res);
         setCategories(res);
       })
       .catch((error) => {
