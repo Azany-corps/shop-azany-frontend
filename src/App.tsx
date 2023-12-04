@@ -100,6 +100,8 @@ import SavedItemsComponent from "./pages/CustomerProfile/SavedItems";
 import ReviewsComponent from "./pages/CustomerProfile/Reviews";
 import MessagesComponent from "./pages/CustomerProfile/Messages";
 import RewardsComponent from "./pages/CustomerProfile/Reward";
+import EditPersonalDetailsComp from "./pages/CustomerProfile/EditPersonnalDetails";
+import { APP_ROUTE } from "./helpers/constant";
 
 function App() {
   return (
@@ -229,6 +231,10 @@ function App() {
           <Route path="saved-items" element={<SavedItemsComponent />} />
           <Route path="reviews" element={<ReviewsComponent />} />
           <Route path="rewards" element={<RewardsComponent />} />
+          <Route
+            path={APP_ROUTE?.editCustomerPersonnalDetails}
+            element={<EditPersonalDetailsComp />}
+          />
         </Route>
         <Route path="/manufacturers-profile">
           <Route index element={<ManufacturersIndex />} />
