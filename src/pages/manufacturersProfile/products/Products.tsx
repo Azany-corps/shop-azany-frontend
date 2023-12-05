@@ -83,11 +83,11 @@ const MProduct = () => {
   return (
     <div className="bg-[#]">
       <ManufacturersProfileLayout>
-        <div className="smm:p-8 p-1 w-full mx-auto">
+        <div className="md:p-8 p-1 w-full mx-auto">
           <div className="w-full">
             <div className="flex flex-col gap-4 w-full">
               <div className="bg-white flex flex-col pt-6 w-full md:px-12 px-2">
-                <h1 className="text-[40px] font-[500] xs:text-[26px]">
+                <h1 className="md:text-[40px] font-[500] text-[26px]">
                   My Products
                 </h1>
                 {!searchBarVisible && (
