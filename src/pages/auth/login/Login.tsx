@@ -73,7 +73,8 @@ const AuthLogin = () => {
         });
         navigate("/manufacturers-profile");
       } else {
-        toast.error(response.message, {
+        console.log("Respose: ", response);
+        toast.error(response.response.data.message, {
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
@@ -83,10 +84,10 @@ const AuthLogin = () => {
           progress: undefined,
         });
       }
-    } catch (error: unknown) {
+    } catch (error: any) {
       console.log(error);
       setLoading(false);
-      toast.error((error as Error).message || "Error: unable to login", {
+      toast.error(error.response.data.message || (error as Error).message || "Error: unable to login", {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
