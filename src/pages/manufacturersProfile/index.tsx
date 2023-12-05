@@ -150,19 +150,19 @@ const ManufacturersIndex = () => {
                       </div>
                       <p> &gt;</p>
                     </div>
-                  </div>
-                ))}
-                <div className="flex flex-col gap-4">
-                  <Link to="/manufacturers-profile/subscription">
-                    <div className="bg-red-600 p-4 text-white rounded-lg">
-                      <p>Subscription</p>
+                  ))}
+                  <div className="flex flex-col gap-4">
+                    <Link to="/manufacturers-profile/subscription">
+                      <div className="bg-red-600 p-4 text-white rounded-lg">
+                        <p>Subscription</p>
+                      </div>
+                    </Link>
+                    <div
+                      className="text-red-600 p-4 hover:bg-red-600 hover:text-white rounded-lg"
+                      onClick={openModal}
+                    >
+                      <p>Close Account</p>
                     </div>
-                  </Link>
-                  <div
-                    className="text-red-600 p-4 hover:bg-red-600 hover:text-white rounded-lg"
-                    onClick={openModal}
-                  >
-                    <p>Close Account</p>
                   </div>
                 </div>
               </div>
