@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import { getBearerToken } from "./auth.service";
 import callAPI from "../api/callApi";
 
-
 const fetchBrands = async () => {
   const headers = { Authorization: getBearerToken() };
   try {
@@ -19,7 +18,5 @@ const fetchBrands = async () => {
     console.log(err);
   }
 };
-
-
 
 export { fetchBrands };
