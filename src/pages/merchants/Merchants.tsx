@@ -14,7 +14,7 @@ import MerchantsBody from "../../components/General/manufacturers/erchantsBody";
 const Merchants = () => {
   return (
     <div className="bg-[#F5F5F5] xs:overflow-x-hidden">
-      <BottomHeader style={"bg-[#221E22] py-2 xs:hidden"} />
+      <BottomHeader style={"bg-[#221E22] py-2 hidden md:block"} />
       <MobileHeader />
       <Header style={"bg-[#44444C] hidden md:block"} />
       <MerchantsBanner />

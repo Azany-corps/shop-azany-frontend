@@ -147,7 +147,7 @@ const MobileHeader = ({ isFarmer, style, hideScrollMenu }: Props) => {
         </div>
         <CategoryModal show={showModal} onClose={handleCloseModal} />
         <Link to="/">
-          <div className="xs:w-20">
+          <div className="w-20">
             <img src="/images/azanylogofinal.png" />
           </div>
         </Link>
@@ -159,7 +159,7 @@ const MobileHeader = ({ isFarmer, style, hideScrollMenu }: Props) => {
                   <h2 className="text-white text-md" onClick={handleOpenMobileModal}>
                     Hi {username}
                   </h2>
-                  <h2 className="text-white font-medium text-xl xs:hidden">Account</h2>
+                  <h2 className="text-white font-medium text-xl hidden sm:flex">Account</h2>
                   <Icon icon="icon-park-solid:down-one" color="white" />
                 </div>
               </>

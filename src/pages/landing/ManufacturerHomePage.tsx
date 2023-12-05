@@ -15,7 +15,7 @@ import TestimonialSOA from "../../components/General/sell-on-azany/TestimonialSO
 const ManufacturerHomePage = () => {
   return (
     <div className="xs:overflow-x-hidden">
-      <BottomHeader style={"bg-[#221E22] py-2 xs:hidden"} />
+      <BottomHeader style={"bg-[#221E22] py-2 hidden md:block"} />
       <MobileHeader />
       <Header style={"bg-[#44444C] hidden md:block"} />
       <div className="flex flex-col gap-20">

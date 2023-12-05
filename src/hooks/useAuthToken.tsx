@@ -28,6 +28,8 @@ const useAuthToken = (): [string | null, (token: string) => void, (token: string
       !window.location.pathname.startsWith("/farmers") &&
       !window.location.pathname.startsWith("/sell-on-azany") &&
       window.location.pathname !== "/manufacturers" &&
+      // window.location.pathname.startsWith("/manufacturers-profile") &&
+      // window.location.pathname.startsWith("/customers-profile") &&
       !window.location.pathname.startsWith("/categories") && window.location.pathname !== "/merchants"
     ) {
       console.log("no token");
