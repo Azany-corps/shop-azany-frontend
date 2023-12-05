@@ -49,7 +49,7 @@ const Home = () => {
   const [country, setCountry] = useState<any>("");
   const [longitude, setLongitude] = useState("");
   const [latitude, setLatitude] = useState("");
-  const handleCountryChange = (country: string) => {};
+  const handleCountryChange = (country: string) => { };
   const center = { lat: -34.397, lng: 150.644 };
   const zoom = 11;
   useEffect(() => {
@@ -88,11 +88,11 @@ const Home = () => {
     return <p>loading</p>;
   };
   return (
-    <div className="bg-[#F5F5F5] xs:overflow-x-hidden">
+    <div className="bg-[#F5F5F5] overflow-x-hidden md:overflow-x-none">
       {/*<TopHeader />*/}
       <BottomHeader style={"bg-[#221E22] py-2 xs:hidden"} />
       <MobileHeader />
-      <Header style={"bg-[#44444C] xs:hidden"} />
+      <Header style={"bg-[#44444C] hidden md:block"} />
       <div className="h-[3px] w-full bg-[#E51B48]" />
       {/* <Slider /> */}
       {/* <Hero onCountryChange={handleCountryChange} /> */}

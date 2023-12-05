@@ -6,13 +6,9 @@ import TopHeader from "../General/TopHeader";
 const ReturnTop = () => {
   return (
     <>
-      {/* <TopHeader /> */}
-      <BottomHeader
-        style={"bg-[#132A13] py-2 py-2 xs:hidden"}
-        isFarmer={true}
-      />
-      <MobileHeader isFarmer={true} style={"bg-[#132A13]"} />
-      <Header style={"bg-[#90A955] xs:hidden"} />
+      <BottomHeader style={"bg-[#221E22] py-2 xs:hidden"} />
+      <MobileHeader />
+      <Header style={"bg-[#44444C] hidden md:block"} />
     </>
   );
 };

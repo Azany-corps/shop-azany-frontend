@@ -323,8 +323,8 @@ const AddProduct = () => {
     <div className="bg-[#F5F5F5] relative w-full h-full xs:overflow-x-hidden">
       {/* <TopHeader /> */}
       <BottomHeader style={"bg-[#1B7CFC] py-2 xs:hidden"} />
-      <MobileHeader />
-      <Header style={"bg-[#70ADFF] xs:hidden"} />
+      <MobileHeader style={"bg-[#70ADFF]"} />
+      <Header style={"bg-[#70ADFF] md:"} />
       <div className="flex-row gap-2 p-2 w-[90%] flex mx-auto items-center xs:hidden">
         <p>Home</p>
         <ArrowForwardIosIcon fontSize="small" />
