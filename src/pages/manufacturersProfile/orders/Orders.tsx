@@ -27,8 +27,8 @@ const MOrders = () => {
       <ManufacturersProfileLayout>
         <div className="w-full">
           <div className="flex bg-[#F5F5F5] flex-col gap-8 w-full">
-            <div className="bg-white pt-5 smm:ml-0 -ml-2 smm:w-full w-[calc(100%+16px)] px-6">
-              <h1 className="text-[36px] xs:text-[22px] font-[500]">
+            <div className="bg-white pt-5 md:ml-0 -ml-2 md:w-full w-[calc(100%+16px)] px-6">
+              <h1 className="md:text-[36px] text-[22px] font-[500]">
                 Product Orders
               </h1>
               {!searchBarVisible && (
@@ -37,7 +37,7 @@ const MOrders = () => {
                     <h1
                       className={
                         active
-                          ? "font-bold xs:font-medium cursor-pointer border-b-4 border-[#E51B48]"
+                          ? "md:font-bold font-medium cursor-pointer border-b-4 border-[#E51B48]"
                           : "text-[#515151] cursor-pointer"
                       }
                       onClick={() => handleActive()}
@@ -47,7 +47,7 @@ const MOrders = () => {
                     <h1
                       className={
                         fulfilled
-                          ? "font-bold xs:font-medium cursor-pointer border-b-4 border-[#E51B48]"
+                          ? "md:font-bold font-medium cursor-pointer border-b-4 border-[#E51B48]"
                           : "text-[#515151] cursor-pointer"
                       }
                       onClick={() => handleFulfilled()}
@@ -57,13 +57,13 @@ const MOrders = () => {
                   </div>
 
                   <div className="flex flex-row gap-4 items-center">
-                    <div className="xs:hidden">
+                    <div className="hidden md:block">
                       <input
                         className="py-2 px-4 rounded-md border border-[#C4C4C4]"
                         placeholder="Search Orders"
                       />
                     </div>
-                    <div className="flex flex-row gap-2 xs:hidden">
+                    <div className="flex-row gap-2 hidden md:flex">
                       <p>
                         {" "}
                         <span className="text-[#515151]">Sort:</span> Show All
@@ -73,7 +73,7 @@ const MOrders = () => {
                   </div>
 
                   <div
-                    className="xsm:hidden block cursor-pointer"
+                    className="md:hidden block cursor-pointer"
                     onClick={() => setSearchBarVisible(true)}
                   >
                     <svg
@@ -132,42 +132,7 @@ const MOrders = () => {
             </div>
           </div>
         </div>
-        {/* <div className="block smm:hidden">
-          <Drawer isVisible={isVisible} onClose={onClose}>
-            <div className="pb-5">
-              <h1 className="font-semibold text-lg p-2">Sort</h1>
-              <div className="flex flex-col">
-                <p
-                  className="p-2"
-                  onClick={() => {
-                    setSelectedSorting("Show all");
-                    onClose();
-                  }}
-                >
-                  {"Show all"}
-                </p>
-                <p
-                  className="p-2"
-                  onClick={() => {
-                    setSelectedSorting("Shipped");
-                    onClose();
-                  }}
-                >
-                  {"Shipped"}
-                </p>
-                <p
-                  className="p-2"
-                  onClick={() => {
-                    setSelectedSorting("Pending");
-                    onClose();
-                  }}
-                >
-                  {"Pending"}
-                </p>
-              </div>
-            </div>
-          </Drawer>
-        </div> */}
+
       </ManufacturersProfileLayout>
     </div>
   );

@@ -83,16 +83,16 @@ const MProduct = () => {
   return (
     <div className="bg-[#]">
       <ManufacturersProfileLayout>
-        <div className="smm:p-8 p-1 smm:w-full w-[calc(100%)] mx-auto">
-          <div className="smm:w-full ">
-            <div className="">
-              <div className="bg-white smm:ml-0 -ml-2 smm:w-full w-[calc(100%+16px)] smm:px-0 px-2">
+        <div className="smm:p-8 p-1 w-full mx-auto">
+          <div className="w-full">
+            <div className="flex flex-col gap-4 w-full">
+              <div className="bg-white flex flex-col pt-6 w-full md:px-12 px-2">
                 <h1 className="text-[40px] font-[500] xs:text-[26px]">
                   My Products
                 </h1>
                 {!searchBarVisible && (
-                  <div className="pt-6 w-full justify-between items-center flex">
-                    <div className="flex  items-center space-x-5">
+                  <div className="pt-3 w-full justify-between items-center flex">
+                    <div className="flex items-center text-center gap-3">
                       <h1
                         className={
                           active
@@ -124,22 +124,21 @@ const MProduct = () => {
                         Closed
                       </h1>
                     </div>
-
-                    <div className="flex pb-2 flex-row gap-4 xs:hidden">
-                      <div className="xs:hidden">
+                    <div className="flex-row gap-4 hidden md:flex">
+                      <div className="hidden md:flex justify-center items-center">
                         <input
                           className="py-2 px-4 rounded-md border border-[#C4C4C4]"
                           placeholder="Search my Products"
                         />
                       </div>
                       <a href="/manufacturers-profile/add-product">
-                        <button className="bg-[#1B7CFC] text-white py-2 px-4 rounded-md xs:hidden">
+                        <button className="bg-[#1B7CFC] text-white text-sm py-2 px-4 rounded-md xs:hidden">
                           Add Product
                         </button>
                       </a>
                     </div>
                     <div
-                      className="xsm:hidden pb-2 block cursor-pointer"
+                      className="md:hidden block pb-2 cursor-pointer"
                       onClick={() => setSearchBarVisible(true)}
                     >
                       <svg
@@ -162,14 +161,14 @@ const MProduct = () => {
                 )}
 
                 {searchBarVisible && (
-                  <div className="py-6 -ml-4 w-[calc(100%+32px)] relative">
+                  <div className="flex justify-center items-center py-3 w-full relative">
                     <input
                       type="text"
                       placeholder="Search"
                       className="py-3 w-full border-x-0 border border-gray-200 px-3"
                     />
                     <div
-                      className="absolute top-1/2 -translate-y-1/2 right-4"
+                      className=""
                       onClick={() => setSearchBarVisible(false)}
                     >
                       <span className="text-xl p-2">
@@ -194,7 +193,7 @@ const MProduct = () => {
                 )}
               </div>
 
-              <div className="py-3 ">
+              <div className="py-4 px-4 bg-white">
                 {active && (
                   <div className="space-y-3">
                     {products.length > 0 ? (
@@ -202,7 +201,7 @@ const MProduct = () => {
                         <ProductActive key={product.id} data={product} />
                       ))
                     ) : (
-                      <p> Fetching products ... No Products found</p>
+                      <p> Fetching products ...</p>
                     )}
                   </div>
                 )}

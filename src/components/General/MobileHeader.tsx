@@ -138,7 +138,7 @@ const MobileHeader = ({ isFarmer, style, hideScrollMenu }: Props) => {
     deleteAuthToken("");
   };
   return (
-    <div className={`${style ? style : " bg-[#221E22]"} lg:hidden md:hidden 2xl:hidden xl:hidden sm:hidden flex flex-col w-screen gap-4`}>
+    <div className={`${style ? style : " bg-[#221E22]"} md:hidden flex flex-col w-screen gap-4`}>
       <div className="flex justify-between items-center mx-2 mt-4">
         <div>
           <IconButton onClick={handleOpenModal} className="">
