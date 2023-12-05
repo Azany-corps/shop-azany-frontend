@@ -90,7 +90,7 @@ const Home = () => {
   return (
     <div className="bg-[#F5F5F5] overflow-x-hidden md:overflow-x-none">
       {/*<TopHeader />*/}
-      <BottomHeader style={"bg-[#221E22] py-2 xs:hidden"} />
+      <BottomHeader style={"bg-[#221E22] py-2 hidden md:block"} />
       <MobileHeader />
       <Header style={"bg-[#44444C] hidden md:block"} />
       <div className="h-[3px] w-full bg-[#E51B48]" />
