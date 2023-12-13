@@ -102,6 +102,7 @@ import MessagesComponent from "./pages/CustomerProfile/Messages";
 import RewardsComponent from "./pages/CustomerProfile/Reward";
 import EditPersonalDetailsComp from "./pages/CustomerProfile/EditPersonnalDetails";
 import { APP_ROUTE } from "./helpers/constant";
+import UpdateAddressComponent from "./pages/CustomerProfile/address/UpdateAddress";
 
 function App() {
   return (
@@ -235,6 +236,7 @@ function App() {
             path={APP_ROUTE?.editCustomerPersonnalDetails}
             element={<EditPersonalDetailsComp />}
           />
+          <Route path="edit-address" element={<UpdateAddressComponent />} />
         </Route>
         <Route path="/manufacturers-profile">
           <Route index element={<ManufacturersIndex />} />
