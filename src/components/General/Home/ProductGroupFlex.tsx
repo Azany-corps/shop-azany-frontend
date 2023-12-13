@@ -19,7 +19,7 @@ const ProductGroupFlex = ({ title }: Props) => {
                     </span>
                 </div>
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between gap-4 overflow-hidden">
                 <ProductCard />
                 <ProductCard />
                 <ProductCard />
