@@ -5,7 +5,7 @@ import { Icon } from '@iconify/react';
 const Footer = () => {
     return (
         <div className="flex flex-col w-full">
-            <div className='bg-black gap-28 text-white w-full flex px-32 py-20 pb-14 items-start justify-between'>
+            <div className='bg-black gap-8 md:gap-28 text-white w-full flex flex-col md:flex-row px-12 py-8 md:px-32 md:py-20 pb-14 items-start justify-between'>
                 <div className="flex w-full flex-col items-start gap-6">
                     <img className='' src={Logo} alt="azany logo" />
                     <div className="flex flex-col items-start gap-[6px]">
