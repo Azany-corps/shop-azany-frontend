@@ -331,15 +331,15 @@ const AddProduct = () => {
             <ArrowForwardIosIcon fontSize="small" />
             <p className="text-gray-700">Add Product</p>
           </div>
-          <div className="sm:hidden lg:hidden md:hidden 2xl:hidden xl:hidden p-2">
+          <div className="p-2 sm:hidden lg:hidden md:hidden 2xl:hidden xl:hidden">
             <BackButton />
           </div>
           <div className="p-10 xs:p-4 w-[90%] xs:w-[94%] mx-auto mb-10 bg-white rounded-lg">
             <div className="flex justify-between xs:hidden">
               <BackButton />
             </div>
-            <div className="pl-0 md:pl-40 w-full mx-auto">
-              <div className="flex justify-between items-start">
+            <div className="w-full pl-0 mx-auto md:pl-40">
+              <div className="flex items-start justify-between">
                 <h1 className="md:text-[36px] text-[26px] font-medium general-font">
                   Add Product
                 </h1>
@@ -375,7 +375,7 @@ const AddProduct = () => {
                 </div>
                 <div className="w-full mb-10">
                   <div className="flex flex-col gap-4 ">
-                    <p className="block text-base general-font uppercase font-bold text-black">
+                    <p className="block text-base font-bold text-black uppercase general-font">
                       Product Category*
                     </p>
                     <div
@@ -485,7 +485,7 @@ const AddProduct = () => {
                       </p>
                     )}
                   </div>
-                  {/* <div className="grid grid-cols-3 w-full gap-x-5 mb-5">
+                  {/* <div className="grid w-full grid-cols-3 mb-5 gap-x-5">
                     <div className="w-full col-span-1">
                       <FormSelect
                         name="Certification"
@@ -532,7 +532,7 @@ const AddProduct = () => {
                       />
                     </div>
                   </div>
-                  <div className="grid grid-cols-3 w-full gap-x-5 mb-5">
+                  <div className="grid w-full grid-cols-3 mb-5 gap-x-5">
                     <div className="w-full col-span-1">
                       <FormInput
                         name="Model"
@@ -576,7 +576,7 @@ const AddProduct = () => {
                       />
                     </div>
                   </div>
-                  <div className="grid grid-cols-3 w-full gap-x-5 mb-5">
+                  <div className="grid w-full grid-cols-3 mb-5 gap-x-5">
                     <div className="w-full col-span-1">
                       <FormInput
                         name="Size (L x X x H cm)"
@@ -626,7 +626,7 @@ const AddProduct = () => {
                       />
                     </div>
                   </div>
-                  <div className="grid grid-cols-3 w-full gap-x-5 mb-5">
+                  <div className="grid w-full grid-cols-3 mb-5 gap-x-5">
                     <div className="w-full col-span-2">
                       <FormInput
                         name="note"
@@ -657,7 +657,7 @@ const AddProduct = () => {
                       />
                     </div>
                   </div>
-                  <div className="grid grid-cols-3 w-full gap-x-5 mb-5">
+                  <div className="grid w-full grid-cols-3 mb-5 gap-x-5">
                     <div className="w-full col-span-1">
                       <FormInput
                         name="RAM Size (GB)"
@@ -703,7 +703,7 @@ const AddProduct = () => {
                       />
                     </div>
                   </div>
-                  <div className="grid grid-cols-3 w-full gap-x-5 mb-5">
+                  <div className="grid w-full grid-cols-3 mb-5 gap-x-5">
                     <div className="w-full col-span-1">
                       <FormInput
                         name="Screen Size"
@@ -750,7 +750,7 @@ const AddProduct = () => {
                     </div>
                   </div> */}
                 </div>
-                {/* <div className="flex flex-col gap-3 w-full mb-10">
+                {/* <div className="flex flex-col w-full gap-3 mb-10">
                   <TextColorizer
                     attributeText={["lorem", "ipsum", "jeje", "glow", "wine"]}
                     name="exampleName"
@@ -806,7 +806,7 @@ const AddProduct = () => {
                       labelStyle="block text-sm mb-2 font-normal general-font text-black capitalize"
                     />
                   </div>
-                  <div className="w-full grid grid-cols-3 gap-x-5">
+                  <div className="grid w-full grid-cols-3 gap-x-5">
                     <div className="w-full col-span-1">
                       <FormInput
                         name={`Sale Price (${formData.currency})`}
@@ -893,9 +893,9 @@ const AddProduct = () => {
           {isCategoryModal && (
             <div className="flex justify-end z-40 fixed top-0 w-full h-screen bg-black/50  backdrop-blur-[1px]">
               <div onClick={closeCategoryModal} className="w-1/2 h-full"></div>
-              <div className="flex justify-start items-center flex-col h-full bg-white w-1/2">
+              <div className="flex flex-col items-center justify-start w-1/2 h-full bg-white">
                 <div className="flex px-8 w-full py-4 bg-[#221E22] justify-between items-center">
-                  <p className="font-bold text-lg  text-white">Select Category</p>
+                  <p className="text-lg font-bold text-white">Select Category</p>
                   <span
                     className="hover:cursor-pointer"
                     onClick={closeCategoryModal}
