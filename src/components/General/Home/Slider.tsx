@@ -1,46 +1,32 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Icon } from '@iconify/react';
 
+interface Props {
+    items: any
+    prev: Function;
+    next: Function;
+}
 
-const CategorySlider = () => {
+const CategorySlider = ({ items }: Props) => {
     const [currentIndex, setCurrentIndex] = useState<number>(0);
     const myDivRef = useRef<HTMLDivElement | null>(null);
     const [divWidth, setDivWidth] = useState<number>(0)
 
-    const images = [
-        'Electronic',
-        'Clothing',
-        'Housing',
-        'Educational',
-        'Electronic',
-        'Clothing',
-        'Housing',
-        'Educational',
-        'Electronic',
-        'Clothing',
-        'Housing',
-        'Educational',
-        'Electronic',
-        'Clothing',
-        'Housing',
-        'Educational',
-    ]
-
 
     const handlePrev = () => {
         console.log(currentIndex)
-        setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : images.length - 2));
+        setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : items.length - 2));
     };
 
     const handleNext = () => {
         console.log(currentIndex)
-        setCurrentIndex((prevIndex) => (prevIndex < images.length - 2 ? prevIndex + 1 : 0));
+        setCurrentIndex((prevIndex) => (prevIndex < items.length - 2 ? prevIndex + 1 : 0));
     };
 
     const slideStyle = {
-        transform: `translateX(-${currentIndex * (100 / images.length)}%)`,
+        transform: `translateX(-${currentIndex * (100 / items.length)}%)`,
         transition: 'transform 0.5s ease-in-out',
-        width: `${images.length * (100)}%`,
+        width: `${items.length * (100 / 6)}%`,
     };
 
     return (
@@ -52,7 +38,7 @@ const CategorySlider = () => {
                 <div className="w-full flex gap-6">
                     <div className={`flex gap-6 justify-start items-center`} style={slideStyle}>
                         {
-                            images.map((text: string, index: number) => (
+                            items.map((text: string, index: number) => (
                                 <div key={index} className="flex flex-col items-center gap-5 justify-between">
                                     <div className="rounded-full border border-[#DB4444] bg-white w-[74px] h-[74px]"></div>
                                     <span>{text}</span>
@@ -62,7 +48,7 @@ const CategorySlider = () => {
                     </div>
                     <div className={`flex gap-6 justify-start items-center`} style={slideStyle}>
                         {
-                            images.map((text: string, index: number) => (
+                            items.map((text: string, index: number) => (
                                 <div key={index} className="flex flex-col items-center gap-5 justify-between">
                                     <div className="rounded-full border border-[#DB4444] bg-white w-[74px] h-[74px]"></div>
                                     <span>{text}</span>
