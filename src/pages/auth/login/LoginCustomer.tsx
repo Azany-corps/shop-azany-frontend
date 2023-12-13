@@ -57,6 +57,8 @@ const AuthLoginCustomer = () => {
           response.data?.values?.account_type
         );
 
+        console.log(response?.token);
+
         // console.log(response.data?.values);
 
         toast.success(response.message, {

@@ -12,7 +12,7 @@ import SuccessModal from "../../../components/Core/SuccessModal";
 
 interface EditAddressProps {}
 
-const EditAddressComponent: React.FC<EditAddressProps> = () => {
+const UpdateAddressComponent: React.FC<EditAddressProps> = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -21,8 +21,16 @@ const EditAddressComponent: React.FC<EditAddressProps> = () => {
   };
   const location = useLocation();
 
-  const first_name = location?.state?.first_name;
-  const last_name = location?.state?.last_name;
+  const first_name = location.state.first_name;
+  const last_name = location.state.last_name;
+  const country = location.state.country;
+  const state = location.state.state;
+  const address = location.state.address;
+  const city = location.state.city;
+  const postal_code = location.state.postal_code;
+  const delivery_options = location.state.delivery_options;
+
+  console.log(location.state);
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -59,22 +67,24 @@ const EditAddressComponent: React.FC<EditAddressProps> = () => {
       first_name: first_name,
       last_name: last_name,
       phone: "",
-      address: "",
-      country: "",
-      state: "",
-      city: "",
-      postal_code: "",
+      address: address,
+      country: country,
+      state: state,
+      city: city,
+      postal_code: postal_code,
       additionalInfo: "",
-      delivery_options: "",
+      delivery_options: delivery_options,
     },
     onSubmit: (values, { resetForm }) => {
-      try {
-        handleSubmit(values);
-        // resetForm();
-      } catch (err) {
-        alert(err);
-        console.error(err);
-      }
+      alert("Still in progress");
+
+      //   try {
+      //     handleSubmit(values);
+      //     // resetForm();
+      //   } catch (err) {
+      //     alert(err);
+      //     console.error(err);
+      //   }
     },
   });
 
@@ -237,4 +247,4 @@ const EditAddressComponent: React.FC<EditAddressProps> = () => {
   );
 };
 
-export default EditAddressComponent;
+export default UpdateAddressComponent;
