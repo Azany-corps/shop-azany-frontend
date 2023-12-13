@@ -26,9 +26,6 @@ const Home = () => {
         <Hero />
       </div>
       <div className="flex py-[14px] px-7 w-full">
-        <Hero />
-      </div>
-      <div className="flex py-[14px] px-7 w-full">
         <CategorySlider />
       </div>
       <div className="flex py-[14px] px-7 w-full">
