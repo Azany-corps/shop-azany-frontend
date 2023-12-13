@@ -46,7 +46,6 @@ const Home = () => {
         <ProductGroupGrid title={"Today Deal "} />
         <ProductGroupGrid title={"Shop deaps in Fashion"} />
         <div className="flex h-full w-full bg-green-700 rounded-[20px]">
-
         </div>
       </div>
       <div className="flex py-[14px] px-7 w-full">
