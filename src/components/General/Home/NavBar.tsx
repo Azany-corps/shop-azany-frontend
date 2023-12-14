@@ -3,7 +3,7 @@ import { Icon } from '@iconify/react';
 
 const NavBar = () => {
     return (
-        <div className='flex bg-white relative justify-between px-12 py-2 items-center'>
+        <div className='md:flex hidden bg-white relative justify-between px-12 py-2 items-center'>
             <div className="flex items-center gap-2 font-semibold">
                 <Icon icon="ion:menu" width="24" color='black' />
                 <span>Categories</span>

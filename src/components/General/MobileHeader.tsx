@@ -8,6 +8,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { CategoryModal } from "../Core/CategoryModal";
 import { Icon } from "@iconify/react";
 import { MobileModal } from "../Core/MobileModal";
+import Logo from '../../assets/Logo.svg'
 
 interface Props {
   isFarmer?: boolean;
@@ -148,7 +149,7 @@ const MobileHeader = ({ isFarmer, style, hideScrollMenu }: Props) => {
         <CategoryModal show={showModal} onClose={handleCloseModal} />
         <Link to="/">
           <div className="w-20">
-            <img src="/images/azanylogofinal.png" />
+            <img className="scale-[1.2]" src={Logo} />
           </div>
         </Link>
         <div className="flex justify-end items-center gap-4 flex-[30%]">

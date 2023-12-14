@@ -13,43 +13,103 @@ import Footer from '../../components/General/Home/Footer'
 import PsImg from '../../assets/ps5-slim-goedkope-playstation_large 1.png'
 import SpecialGroup from '../../components/General/Home/SpecialGroup'
 import CategorySlider from '../../components/General/Home/CategorySlider'
+import CountryCard from '../../components/General/Home/CountryCard'
+import usa from '../../assets/usa.png'
+import nigeria from '../../assets/nigeria.png'
+import kenya from '../../assets/kenya.png'
+import canada from '../../assets/canada.png'
+import uk from '../../assets/uk.png'
+import denmark from '../../assets/denmark.png'
+import southAfrica from '../../assets/south africa.png'
+import ghana from '../../assets/ghana.png'
+import MobileHeader from "../../components/General/MobileHeader";
+
+
 
 const Home = () => {
   const gradientStyle = {
     backgroundImage: 'linear-gradient(94.99deg, #000000 7.19%, rgba(255, 0, 0, 0.5) 89.49%)',
   };
+  const Countries = [
+    {
+      logo: usa,
+      name: 'Usa'
+    },
+    {
+      logo: nigeria,
+      name: 'Nigeria'
+    },
+    {
+      logo: kenya,
+      name: 'Kenya'
+    },
+    {
+      logo: canada,
+      name: 'Canada'
+    },
+    {
+      logo: uk,
+      name: 'Uk'
+    },
+    {
+      logo: denmark,
+      name: 'Denmark'
+    },
+    {
+      logo: southAfrica,
+      name: 'South Africa'
+    },
+    {
+      logo: ghana,
+      name: 'Ghana'
+    },
+  ]
+
   return (
     <div className='bg-[#eeeeee]'>
       <Header />
       <NavBar />
-      <div className="flex py-[14px] px-7 w-full">
+      <MobileHeader />
+      <div className="flex flex-wrap gap-4 items-center justify-center py-[14px] px-4 md:px-7 w-full">
+        {
+          Countries.map((country: any, index: number) => (
+            <CountryCard logo={country.logo} name={country.name} />
+          ))
+        }
+
+        <div className='flex items-center bg-white shadow-md rounded-[10px] gap-2 px-3 py-[6px]'>
+          <span className='text-sm font-medium'>More</span>
+          <Icon icon="uiw:down" width={20} />
+        </div>
+      </div>
+      <div className="flex py-[14px] px-4 md:px-7 w-full">
         <Hero />
       </div>
-      <div className="flex py-[14px] px-7 w-full">
+      <div className="flex py-[14px] px-4 md:px-7 w-full">
         <CategorySlider />
       </div>
-      <div className="flex py-[14px] px-7 w-full">
+      <div className="flex py-[14px] px-4 md:px-7 w-full">
         <ProductGroupFlex title={"Bestselling Products"} />
       </div>
-      <div className="flex flex-col md:flex-row gap-6 py-[14px] px-7 w-full">
+      <div className="flex flex-col md:flex-row gap-6 py-[14px] px-4 md:px-7 w-full">
         <ProductGroupGrid title={"Bestsellers "} />
         <ProductGroupGrid title={"Customers’ Most-Loved Fashion for you"} />
         <ProductGroupGrid title={"Under $99 | Pocket-friendly fashion"} />
       </div>
-      <div className="flex py-[14px] px-7 w-full">
+      <div className="flex py-[14px] px-4 md:px-7 w-full">
         <ProductGroupFlex title={"Todays Deals"} />
       </div>
-      <div className="flex gap-6 flex-col md:flex-row py-[14px] px-7 w-full">
+      <div className="flex gap-6 flex-col md:flex-row py-[14px] px-4 md:px-7 w-full">
         <ProductGroupGrid title={"Today Deal "} />
         <ProductGroupGrid title={"Shop deaps in Fashion"} />
         <div className="flex h-full w-full bg-green-700 rounded-[20px]">
         </div>
       </div>
-      <div className="flex py-[14px] px-7 w-full">
+      <div className="flex py-[14px] px-4 md:px-7 w-full">
         <ProductGroup />
       </div>
 
-      <div className="flex py-[14px] px-7 w-full">
+      <div className="flex py-[14px] px-4 md:px-7 w-full">
         <div className="flex w-full relative rounded-[20px] overflow-hidden">
           <img className='h-full w-full object-cover' src={AdBanner} alt="ad banner" />
           <span className="bg-[#0056FF] rounded-sm px-2 py-1 text-white absolute bottom-4 left-4 md:bottom-24 md:left-24 text-xs">Ads Banner 2</span>
@@ -72,7 +132,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-6 py-[14px] px-7 w-full">
+      <div className="flex flex-col md:flex-row gap-6 py-[14px] px-4 md:px-7 w-full">
         <ProductGroupGrid title={"Gifts for everyone"} />
         <ProductGroupGrid title={"Gift by Recipient"} />
         <ProductGroupGrid title={"Top gift"} />
