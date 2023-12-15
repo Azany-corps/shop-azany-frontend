@@ -4,8 +4,9 @@ import ProductCard from './ProductCard'
 
 interface Props {
     title: string
+    products: any
 }
-const SpecialGroup = ({ title }: Props) => {
+const SpecialGroup = ({ title, products }: Props) => {
     return (
         <div className='bg-white w-full flex justify-between gap-2 flex-col p-6 pb-8 rounded-[20px]'>
             <div className="flex justify-between items-center px-1">
@@ -20,7 +21,7 @@ const SpecialGroup = ({ title }: Props) => {
                 <span className='rounded-full shadow-sm p-2 bg-[#F5F5F5]'>
                     <Icon icon="tabler:arrow-left" width="24" />
                 </span>
-                <ProductCard />
+                <ProductCard product={products[2]} />
                 <span className='p-2 rounded-full shadow-sm bg-[#F5F5F5]'>
                     <Icon icon="tabler:arrow-right" width="24" />
                 </span>
