@@ -4,25 +4,10 @@ import ProductCard from './ProductCard'
 
 interface Props {
     title: string
+    products: any
 }
-const ProductGroupFlex = ({ title }: Props) => {
+const ProductGroupFlex = ({ title, products }: Props) => {
     const [currentIndex, setCurrentIndex] = useState<number>(0);
-
-    const products = [
-        'Electronic',
-        'Clothing',
-        'Housing',
-        'Educational',
-        'Electronic',
-        'Clothing',
-        'Housing',
-        'Educational',
-        'Electronic',
-        'Clothing',
-        'Housing',
-        'Educational',
-        'Electronic',
-    ]
 
 
     const handlePrev = () => {
@@ -57,14 +42,14 @@ const ProductGroupFlex = ({ title }: Props) => {
                 <div style={slideStyle} className="flex justify-between gap-4">
                     {
                         products.map((product: any, index: number) => (
-                            <ProductCard key={index} />
+                            <ProductCard product={product} key={index} />
                         ))
                     }
                 </div>
                 <div style={slideStyle} className="flex justify-between gap-4">
                     {
                         products.map((product: any, index: number) => (
-                            <ProductCard key={index} />
+                            <ProductCard product={product} key={index} />
                         ))
                     }
                 </div>

@@ -3,9 +3,10 @@ import { Icon } from '@iconify/react';
 import ProductCard from './ProductCard'
 
 interface Props {
-    title: string
+    title: string;
+    products: any;
 }
-const ProductGroupGrid = ({ title }: Props) => {
+const ProductGroupGrid = ({ title, products }: Props) => {
     return (
         <div className='bg-white w-full flex justify-between gap-4 flex-col p-6 pb-8 rounded-[20px]'>
             <div className="flex justify-between items-center px-1">
@@ -17,10 +18,11 @@ const ProductGroupGrid = ({ title }: Props) => {
                 </div>
             </div>
             <div className="grid grid-cols-2 gap-4 justify-between">
-                <ProductCard grid={true} />
-                <ProductCard grid={true} />
-                <ProductCard grid={true} />
-                <ProductCard grid={true} />
+                {
+                    products.map((product: any, index: number) => (
+                        <ProductCard product={product} grid={true} />
+                    ))
+                }
             </div>
         </div>
     )

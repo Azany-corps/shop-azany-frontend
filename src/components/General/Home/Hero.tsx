@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { Icon } from '@iconify/react';
 import ImgUrl1 from '../../../assets/katie-goertzen-6oAWnDGR4JY-unsplash.jpg'
 import ImgUrl2 from '../../../assets/Rectangle 4275.png'
+import ImgUrl3 from '../../../assets/Reward.png'
+
 
 
 const Hero = () => {
@@ -10,7 +12,8 @@ const Hero = () => {
 
     const images = [
         ImgUrl1,
-        ImgUrl2
+        ImgUrl2,
+        ImgUrl3
     ]
 
     useEffect(() => {
