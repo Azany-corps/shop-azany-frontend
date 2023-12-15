@@ -23,6 +23,7 @@ import denmark from '../../assets/denmark.png'
 import southAfrica from '../../assets/south africa.png'
 import ghana from '../../assets/ghana.png'
 import MobileHeader from "../../components/General/MobileHeader";
+import BBBLogo from '../../assets/Group.png'
 
 
 
@@ -167,11 +168,16 @@ const Home = () => {
               </div>
             </div>
             <div className="flex flex-col md:flex-row justify-center items-center gap-6">
-              <span className="p-4 rounded-[20px] bg-white">
-                <Icon icon="ant-design:shop-twotone" color="rgba(3, 42, 69, 0.14901960784313725)" width="24" />
-              </span>
+              <a
+                href='https://www.bbb.org/us/ga/fayetteville/profile/online-shopping/azany-0443-91827400/#sealclick'
+                className="p-2 rounded-[20px] bg-white"
+              >
+                <div className="w-10 grid place-items-center h-10">
+                  <img className='object-cover' src={BBBLogo} alt="" />
+                </div>
+              </a>
               <div className="flex flex-col">
-                <h2 className='text-2xl font-bold'>Leadership</h2>
+                <h2 className='text-2xl font-bold'>BBB Accredited</h2>
                 <p className='w-full md:w-2/3'>Our Leadership Principles are more than inspirational wall hangings.</p>
               </div>
             </div>
