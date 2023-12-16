@@ -8,7 +8,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { CategoryModal } from "../Core/CategoryModal";
 import { Icon } from "@iconify/react";
 import { MobileModal } from "../Core/MobileModal";
-import Logo from '../../assets/azanylogofinal 3.svg'
+import Logo from '../../assets/Logo.svg'
 
 interface Props {
   isFarmer?: boolean;
@@ -190,26 +190,50 @@ const MobileHeader = ({ isFarmer, style, hideScrollMenu }: Props) => {
           </IconButton>
         </div>
       </div>
-      <div className="flex bg-white px-4 pb-4 flex-col">
-        {!isNotScrollabe && (
-          <div className="text-black bg-white text-sm py-4 font-medium gap-8 flex overflow-x-scroll flex-row no-scrollbar">
-            {currentMenu &&
-              currentMenu.map((menuItem) => (
-                <Link to={`${menuItem.link}`} key={menuItem.label}>
-                  <div className={`cursor-pointer ${isItemSelected(`${menuItem.label}`)}`}>
-                    <h2 onClick={() => handleItemClick(menuItem.label)} className="whitespace-nowrap">
-                      {menuItem.label}
-                    </h2>
-                  </div>
-                </Link>
-              ))}
+      {!isNotScrollabe && (
+        <div className="text-white text-xs gap-8 mx-4 flex overflow-x-scroll flex-row no-scrollbar">
+          {/* <div className="cursor-pointer">
+            <Link to="/manufacturers">
+              <h2>Manufacturers</h2>
+            </Link>
           </div>
-        )}
-
-        <div className="flex">
-          <Icon icon="mingcute:location-3-line" color="#db4444" width="24" />
-          <span className='text-[#db4444]'>Eti-Osa</span>
+          <div className="cursor-pointer">
+            <Link to="/merchants">
+              <h2>Merchants</h2>
+            </Link>
+          </div>
+          <Link to="/farmers">
+            <div className="cursor-pointer">
+              <h2>Farmers</h2>
+            </div>
+          </Link>
+          <div className="flex gap-1">
+            <h2>Buy</h2>
+            <h2>Again</h2>
+          </div>
+          <div className="flex gap-1">
+            <h2>Customer</h2>
+            <h2>Service</h2>
+          </div>
+          <div className="cursor-pointer">
+            <h2>Cards</h2>
+          </div> */}
+          {currentMenu &&
+            currentMenu.map((menuItem) => (
+              <Link to={`${menuItem.link}`} key={menuItem.label}>
+                <div className={`cursor-pointer ${isItemSelected(`${menuItem.label}`)}`}>
+                  <h2 onClick={() => handleItemClick(menuItem.label)} className="whitespace-nowrap">
+                    {menuItem.label}
+                  </h2>
+                </div>
+              </Link>
+            ))}
         </div>
+      )}
+
+      <div className={`flex flex-row gap-2 ${isFarmer ? "bg-[#95A179]" : "bg-[#44444C)]"} p-3 text-white text-xs`}>
+        <Icon icon="material-symbols:location-on-rounded" width="16" height="16" />
+        <p>Shopping from Kenya</p>
       </div>
     </div>
   );
