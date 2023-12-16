@@ -24,6 +24,7 @@ import southAfrica from '../../assets/south africa.png'
 import ghana from '../../assets/ghana.png'
 import MobileHeader from "../../components/General/MobileHeader";
 import BBBLogo from '../../assets/Group.png'
+import Banner from '../../assets/VERTICAL (1).gif'
 import { BestSellingProduct, BestSellers, mostLoveFashion } from './resource'
 
 const Home = () => {
@@ -99,10 +100,11 @@ const Home = () => {
       <div className="flex py-[14px] px-4 md:px-7 w-full">
         <ProductGroupFlex products={BestSellingProduct} title={"Todays Deals"} />
       </div>
-      <div className="flex gap-6 relative items-center flex-col md:flex-row py-[14px] px-4 md:px-7 w-full">
+      <div className="flex gap-6  justify-center items-center flex-col md:flex-row py-[14px] px-4 md:px-7 w-full">
         <ProductGroupGrid products={BestSellers} title={"Today Deal "} />
         <ProductGroupGrid products={mostLoveFashion} title={"Shop deaps in Fashion"} />
-        <div className="flex h-full w-full bg-green-700 rounded-[20px]">
+        <div className="flex h-[514px] w-full  overflow-hidden rounded-[20px]">
+          <img className='h-full w-full object-cover' src={Banner} alt="" />
         </div>
       </div>
       <div className="flex py-[14px] px-4 md:px-7 w-full">

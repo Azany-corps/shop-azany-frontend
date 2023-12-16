@@ -1,11 +1,14 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import Logo from '../../../assets/azanylogofinal 3.svg'
 import { Icon } from '@iconify/react';
 
 const Header = () => {
     return (
         <div className='md:flex hidden items-center justify-between px-12 py-2 bg-[#470505]'>
-            <img src={Logo} alt="Logo" />
+            <Link to="/">
+                <img src={Logo} alt="Logo" />
+            </Link>
             <div className="flex h-9 rounded-md w-1/3 overflow-hidden">
                 <input
                     className='h-full w-full text-[#8B96A5] text-sm'

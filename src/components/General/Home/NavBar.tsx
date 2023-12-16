@@ -25,7 +25,6 @@ const NavBar = () => {
                 <div className="flex">
                     <Icon icon="mingcute:location-3-line" color="#db4444" width="24" />
                     <span className='text-[#db4444]'>Eti-Osa</span>
-
                 </div>
             </div>
         </div>

@@ -1,8 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import { Icon } from '@iconify/react';
-import ImgUrl1 from '../../../assets/katie-goertzen-6oAWnDGR4JY-unsplash.jpg'
-import ImgUrl2 from '../../../assets/Rectangle 4275.png'
-import ImgUrl3 from '../../../assets/Reward.png'
+import ImgUrl1 from '../../../assets/TOP LEFT (1).png'
+import ImgUrl2 from '../../../assets/TOP LEFT (2).png'
+import ImgUrl4 from '../../../assets/TOP LEFT (4).png'
+import ImgUrl3 from '../../../assets/TOP LEFT (3).png'
+import ImgUrl5 from '../../../assets/TOP LEFT (5).png'
+import ImgUrl6 from '../../../assets/TOP LEFT (6).png'
+import ImgUrl7 from '../../../assets/TOP LEFT (7).png'
+import ImgUrl8 from '../../../assets/TOP RIGHT (1).png'
+import ImgUrl9 from '../../../assets/TOP RIGHT (2).png'
+import ImgUrl10 from '../../../assets/TOP RIGHT (4).png'
+import ImgUrl11 from '../../../assets/TOP RIGHT (3).png'
+import ImgUrl12 from '../../../assets/TOP RIGHT (5).png'
+import ImgUrl13 from '../../../assets/TOP RIGHT (6).png'
+import ImgUrl14 from '../../../assets/TOP RIGHT (7).png'
+
 
 
 
@@ -13,7 +25,18 @@ const Hero = () => {
     const images = [
         ImgUrl1,
         ImgUrl2,
-        ImgUrl3
+        ImgUrl4,
+        ImgUrl3,
+        ImgUrl5,
+        ImgUrl6,
+        ImgUrl7,
+        ImgUrl8,
+        ImgUrl9,
+        ImgUrl10,
+        ImgUrl11,
+        ImgUrl12,
+        ImgUrl13,
+        ImgUrl14
     ]
 
     useEffect(() => {
@@ -41,8 +64,7 @@ const Hero = () => {
     };
 
     return (
-        <div className='h-[380px] w-full relative overflow-hidden rounded-[20px]'>
-            { }
+        <div className='h-[500px] w-full relative overflow-hidden rounded-[20px]'>
             <img className='object-cover w-full h-full' src={images[currentIndex]} alt="" />
             <div className="flex absolute items-center gap-4 justify-end px-10 bottom-0 w-full h-24 backdrop-blur-lg">
                 <div className="flex items-center gap-3 px-1 py-1 rounded-full bg-black/40">
