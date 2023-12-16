@@ -24,19 +24,7 @@ import southAfrica from '../../assets/south africa.png'
 import ghana from '../../assets/ghana.png'
 import MobileHeader from "../../components/General/MobileHeader";
 import BBBLogo from '../../assets/Group.png'
-import Img1 from '../../assets/image1.jpg'
-import Img2 from '../../assets/image2.jpg'
-import Img3 from '../../assets/image3.jpg'
-import Img4 from '../../assets/image4.jpg'
-import Img5 from '../../assets/image5.jpg'
-import Img6 from '../../assets/image6.jpg'
-import Img7 from '../../assets/image7.jpg'
-import Img8 from '../../assets/image8.jpg'
-import Img9 from '../../assets/image9.jpg'
-import Img10 from '../../assets/image10.jpg'
-import Img11 from '../../assets/image11.jpg'
-import Img12 from '../../assets/image12.jpg'
-import Img13 from '../../assets/image3.jpg'
+import { BestSellingProduct, BestSellers, mostLoveFashion } from './resource'
 
 const Home = () => {
   const gradientStyle = {
@@ -77,55 +65,6 @@ const Home = () => {
     },
   ]
 
-  const products = [
-    {
-      img: Img1
-    },
-    {
-      img: Img2
-    },
-    {
-      img: Img11
-    },
-    {
-      img: Img3
-    },
-    {
-      img: Img4
-    },
-    {
-      img: Img5
-    },
-    {
-      img: Img6
-    },
-    {
-      img: Img7
-    },
-    {
-      img: Img8
-    },
-    {
-      img: Img9
-    },
-    {
-      img: Img9
-    },
-    {
-      img: Img10
-    },
-    {
-      img: Img11
-    },
-    {
-      img: Img12
-    },
-    {
-      img: Img13
-    },
-  ]
-
-
   return (
     <div className='bg-[#eeeeee]'>
       <Header />
@@ -150,24 +89,24 @@ const Home = () => {
         <CategorySlider />
       </div>
       <div className="flex py-[14px] px-4 md:px-7 w-full">
-        <ProductGroupFlex products={products} title={"Bestselling Products"} />
+        <ProductGroupFlex products={BestSellingProduct} title={"Bestselling Products"} />
       </div>
       <div className="flex flex-col md:flex-row gap-6 py-[14px] px-4 md:px-7 w-full">
-        <ProductGroupGrid products={products.slice(0, 4)} title={"Bestsellers "} />
-        <ProductGroupGrid products={products.slice(0, 4)} title={"Customers’ Most-Loved Fashion for you"} />
-        <ProductGroupGrid products={products.slice(0, 4)} title={"Under $99 | Pocket-friendly fashion"} />
+        <ProductGroupGrid products={BestSellers} title={"Bestsellers "} />
+        <ProductGroupGrid products={mostLoveFashion} title={"Customers’ Most-Loved Fashion for you"} />
+        <ProductGroupGrid products={BestSellers} title={"Under $99 | Pocket-friendly fashion"} />
       </div>
       <div className="flex py-[14px] px-4 md:px-7 w-full">
-        <ProductGroupFlex products={products} title={"Todays Deals"} />
+        <ProductGroupFlex products={BestSellingProduct} title={"Todays Deals"} />
       </div>
-      <div className="flex gap-6 flex-col md:flex-row py-[14px] px-4 md:px-7 w-full">
-        <ProductGroupGrid products={products.slice(0, 4)} title={"Today Deal "} />
-        <ProductGroupGrid products={products.slice(0, 4)} title={"Shop deaps in Fashion"} />
+      <div className="flex gap-6 relative items-center flex-col md:flex-row py-[14px] px-4 md:px-7 w-full">
+        <ProductGroupGrid products={BestSellers} title={"Today Deal "} />
+        <ProductGroupGrid products={mostLoveFashion} title={"Shop deaps in Fashion"} />
         <div className="flex h-full w-full bg-green-700 rounded-[20px]">
         </div>
       </div>
       <div className="flex py-[14px] px-4 md:px-7 w-full">
-        <ProductGroup products={products.slice(0, 8)} />
+        <ProductGroup products={BestSellingProduct.slice(0, 8)} />
       </div>
 
       <div className="flex py-[14px] px-4 md:px-7 w-full">
@@ -189,14 +128,14 @@ const Home = () => {
           <img className='absolute bottom-0 md:relative' src={PsImg} alt="ps5" />
         </div>
         <div className="flex w-full md:w-1/2">
-          <SpecialGroup products={products} title={'Specials'} />
+          <SpecialGroup products={BestSellingProduct} title={'Specials'} />
         </div>
       </div>
 
       <div className="flex flex-col md:flex-row gap-6 py-[14px] px-4 md:px-7 w-full">
-        <ProductGroupGrid products={products.slice(0, 4)} title={"Gifts for everyone"} />
-        <ProductGroupGrid products={products.slice(0, 4)} title={"Gift by Recipient"} />
-        <ProductGroupGrid products={products.slice(0, 4)} title={"Top gift"} />
+        <ProductGroupGrid products={mostLoveFashion.slice(0, 4)} title={"Gifts for everyone"} />
+        <ProductGroupGrid products={BestSellers.slice(0, 4)} title={"Gift by Recipient"} />
+        <ProductGroupGrid products={mostLoveFashion.slice(0, 4)} title={"Top gift"} />
       </div>
 
       <div className="flex relative overflow-hidden w-full">
