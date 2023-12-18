@@ -3,7 +3,8 @@ import React from "react";
 import Categories from "./pages/categories/Category";
 import { Route, Routes } from "react-router-dom";
 import SellersProfile from "./pages/SellersProfile";
-import Home from "./pages/landing/Home";
+// import Home from "./pages/landing/Home";
+import Home from "./pages/landing/Home copy";
 import Manufacturers from "./pages/manufacturers/Manufacturers";
 import Search from "./pages/search/Search";
 
