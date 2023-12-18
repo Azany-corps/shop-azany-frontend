@@ -43,7 +43,7 @@ const RewardGloPoint = () => {
             <MobileHeader />
             <div className="flex p-7">
                 <Hero />
-                M</div>
+            </div>
             <div className="px-4">
                 <div className="flex flex-col-reverse md:flex-row justify-between gap-6 px-6 py-5 md:px-24 md:py-20 item-center md:items-start bg-black text-white">
                     <div className="flex flex-col gap-5 text-left items-start md:w-1/3">
