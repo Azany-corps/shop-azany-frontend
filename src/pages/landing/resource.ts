@@ -106,3 +106,189 @@ export const mostLoveFashion = [
         oldPrice: ""
     },
 ]
+
+export const BestSelling = [
+    {
+        img: img1,
+        name: "The north coat",
+        price: "260",
+        oldPrice: "360"
+    },
+    {
+        img: img2,
+        name: "Gucci duffle bag",
+        price: "560",
+        oldPrice: "760"
+    },
+    {
+        img: img3,
+        name: "RGB liquid CPU Cooler",
+        price: "440",
+        oldPrice: "860"
+    },
+    {
+        img: img4,
+        name: "Small BookSelf",
+        price: "670",
+        oldPrice: "880"
+    },
+    {
+        img: img5,
+        name: "The north coat",
+        price: "560",
+        oldPrice: ""
+    },
+    {
+        img: img6,
+        name: "Small BookSelf",
+        price: "460",
+        oldPrice: ""
+    },
+]
+
+export const BestSellings = [
+    {
+        img: img1,
+        name: "The north coat",
+        price: "260",
+        oldPrice: "360"
+    },
+    {
+        img: img2,
+        name: "Gucci duffle bag",
+        price: "560",
+        oldPrice: "760"
+    },
+    {
+        img: img3,
+        name: "RGB liquid CPU Cooler",
+        price: "440",
+        oldPrice: "860"
+    },
+    {
+        img: img4,
+        name: "Small BookSelf",
+        price: "670",
+        oldPrice: "880"
+    },
+    {
+        img: img5,
+        name: "The north coat",
+        price: "560",
+        oldPrice: ""
+    },
+    {
+        img: img6,
+        name: "Small BookSelf",
+        price: "460",
+        oldPrice: ""
+    },
+    {
+        img: img1,
+        name: "The north coat",
+        price: "260",
+        oldPrice: "360"
+    },
+    {
+        img: img2,
+        name: "Gucci duffle bag",
+        price: "560",
+        oldPrice: "760"
+    },
+    {
+        img: img3,
+        name: "RGB liquid CPU Cooler",
+        price: "440",
+        oldPrice: "860"
+    },
+    {
+        img: img4,
+        name: "Small BookSelf",
+        price: "670",
+        oldPrice: "880"
+    },
+    {
+        img: img5,
+        name: "The north coat",
+        price: "560",
+        oldPrice: ""
+    },
+    {
+        img: img6,
+        name: "Small BookSelf",
+        price: "460",
+        oldPrice: ""
+    },
+    {
+        img: img1,
+        name: "The north coat",
+        price: "260",
+        oldPrice: "360"
+    },
+    {
+        img: img2,
+        name: "Gucci duffle bag",
+        price: "560",
+        oldPrice: "760"
+    },
+    {
+        img: img3,
+        name: "RGB liquid CPU Cooler",
+        price: "440",
+        oldPrice: "860"
+    },
+    {
+        img: img4,
+        name: "Small BookSelf",
+        price: "670",
+        oldPrice: "880"
+    },
+    {
+        img: img5,
+        name: "The north coat",
+        price: "560",
+        oldPrice: ""
+    },
+    {
+        img: img6,
+        name: "Small BookSelf",
+        price: "460",
+        oldPrice: ""
+    },
+    {
+        img: img1,
+        name: "The north coat",
+        price: "260",
+        oldPrice: "360"
+    },
+    {
+        img: img2,
+        name: "Gucci duffle bag",
+        price: "560",
+        oldPrice: "760"
+    },
+    {
+        img: img3,
+        name: "RGB liquid CPU Cooler",
+        price: "440",
+        oldPrice: "860"
+    },
+    {
+        img: img4,
+        name: "Small BookSelf",
+        price: "670",
+        oldPrice: "880"
+    },
+    {
+        img: img5,
+        name: "The north coat",
+        price: "560",
+        oldPrice: ""
+    },
+    {
+        img: img6,
+        name: "Small BookSelf",
+        price: "460",
+        oldPrice: ""
+    },
+]

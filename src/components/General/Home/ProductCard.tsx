@@ -16,7 +16,7 @@ const ProductCard = ({ grid = false, textColor, height, product }: ProductCardPr
             <p className={`font-medium ${textColor ? `text-${textColor}` : ''} `}>{product.name}</p>
             {!grid && (
                 <p className='flex gap-2 items-center font-medium'>
-                    <span className='text-[#DB4444]'>${product.price}</span>
+                    <span className='text-[#DB4444]'>{product.price}</span>
                     <span className='text-gray-400 line-through'>{product.oldPrice}</span>
                 </p>
             )}

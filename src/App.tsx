@@ -110,6 +110,7 @@ import UpdateAddressComponent from "./pages/CustomerProfile/address/UpdateAddres
 import Home from "./pages/landing/Home";
 import RewardGloPoint from "./pages/landing/RewardGloPoint";
 import AboutUs from "./pages/landing/AboutUs";
+import StoreFront from "./pages/landing/StoreFront";
 
 function App() {
   return (
@@ -130,6 +131,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/reward-glo-point" element={<RewardGloPoint />} />
           <Route path="/about" element={<AboutUs />} />
+          <Route path="/store-front" element={<StoreFront />} />
 
 
 

@@ -3,7 +3,7 @@ import Header from '../../components/General/Home/Header'
 import NavBar from '../../components/General/Home/NavBar'
 // import CategorySlider from '../../components/General/Home/CategorySlider'
 import Hero from '../../components/General/Home/Hero'
-import ProductGroupFlex from '../../components/General/Home/ProductGroupFlex'
+import ProductGroupCard from '../../components/General/Home/ProductGroupCard'
 import ProductGroupGrid from '../../components/General/Home/ProductGroupGrid'
 import ProductGroup from '../../components/General/Home/ProductGroup'
 import AdBanner from '../../assets/Rectangle 4275 (1).png'
@@ -90,7 +90,7 @@ const Home = () => {
         <CategorySlider />
       </div>
       <div className="flex py-[14px] px-4 md:px-7 w-full">
-        <ProductGroupFlex products={BestSellingProduct} title={"Bestselling Products"} />
+        <ProductGroupCard products={BestSellingProduct} title={"Bestselling Products"} />
       </div>
       <div className="flex flex-col md:flex-row gap-6 py-[14px] px-4 md:px-7 w-full">
         <ProductGroupGrid products={BestSellers} title={"Bestsellers "} />
@@ -98,7 +98,7 @@ const Home = () => {
         <ProductGroupGrid products={BestSellers} title={"Under $99 | Pocket-friendly fashion"} />
       </div>
       <div className="flex py-[14px] px-4 md:px-7 w-full">
-        <ProductGroupFlex products={BestSellingProduct} title={"Todays Deals"} />
+        <ProductGroupCard products={BestSellingProduct} title={"Todays Deals"} />
       </div>
       <div className="flex gap-6  justify-center items-center flex-col md:flex-row py-[14px] px-4 md:px-7 w-full">
         <ProductGroupGrid products={BestSellers} title={"Today Deal "} />
