@@ -115,7 +115,7 @@ const AuthForgotBusiness = () => {
             </div>
             <p className="text-center z-20  font-semibold mt-5">
               Please enter the OTP verification code has been sent to this email
-              jo**********@.com
+              {localStorage.getItem("email")}
             </p>
             <button
               disabled={loading ? true : false}

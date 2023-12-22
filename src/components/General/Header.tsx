@@ -52,33 +52,10 @@ const Header = ({ style }: HeaderProps) => {
       label: "Farmers",
       link: "/farmers",
     },
-    // {
-    //   label: "Product orders",
-    //   link: "/manufacturers-profile/orders",
-    // },
-    // {
-    //   label: "Customer Service",
-    //   link: "/Customer Service",
-    // },
-    // {
-    //   label: "Payments",
-    //   link: "/manufacturers-profile/payment",
-    // },
+
   ];
 
   const customerMenu = [
-    //{
-    //  label: "Manufacturers",
-    //  link: "/manufacturers",
-    //},
-    //{
-    //  label: "Merchants",
-    //  link: "/merchants",
-    //},
-    //{
-    //  label: "Farmers",
-    //  link: "/farmers",
-    //},
     {
       label: "Buy Again",
       link: "/buy-again",
@@ -125,17 +102,17 @@ const Header = ({ style }: HeaderProps) => {
                   <div className="absolute top-[8rem] w-[200px] h-600 right-30 mr-2 p-4 z-20 rounded-md bg-white shadow">
                     <div className="flex flex-col gap-2 text-black">
                       <div className="flex flex-col gap-4">
-                        <Link to="/manufacturers-profile/">
+                        <Link to="/sell-on-azany/manufacturers-merchant/">
                           <h2 className="general-font text-md hover:text-[#1B7CFC]">
                             Manufacturers
                           </h2>
                         </Link>
-                        <Link to="/manufacturers-profile/">
+                        <Link to="sell-on-azany/manufacturers-merchant/">
                           <h2 className="general-font text-md hover:text-[#1B7CFC]">
                             Merchants
                           </h2>
                         </Link>
-                        <Link to="/manufacturers-profile/">
+                        <Link to="/sell-on-azany/farmers/">
                           <h2 className="general-font text-md hover:text-[#1B7CFC]">
                             Farmers
                           </h2>

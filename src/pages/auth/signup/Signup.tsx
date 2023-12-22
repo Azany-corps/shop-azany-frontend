@@ -235,6 +235,7 @@ const AuthSignup = () => {
       });
       console.log(response);
       localStorage.setItem("user_id", response.data.user.id);
+      localStorage.setItem("email", response.data.user.email);
       toast.success("Success message", {
         position: "top-center",
         autoClose: 3000,

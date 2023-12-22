@@ -3,7 +3,7 @@ import React from "react";
 import Categories from "./pages/categories/Category";
 import { Route, Routes } from "react-router-dom";
 import SellersProfile from "./pages/SellersProfile";
-import Home from "./pages/landing/Home";
+// import Home from "./pages/landing/Home copy";
 import Manufacturers from "./pages/manufacturers/Manufacturers";
 import Search from "./pages/search/Search";
 
@@ -104,6 +104,14 @@ import EditPersonalDetailsComp from "./pages/CustomerProfile/EditPersonnalDetail
 import { APP_ROUTE } from "./helpers/constant";
 import UpdateAddressComponent from "./pages/CustomerProfile/address/UpdateAddress";
 
+
+
+
+import Home from "./pages/landing/Home";
+import RewardGloPoint from "./pages/landing/RewardGloPoint";
+import AboutUs from "./pages/landing/AboutUs";
+import StoreFront from "./pages/landing/StoreFront";
+
 function App() {
   return (
     <div className="">
@@ -121,6 +129,16 @@ function App() {
         />
         <Route path="/">
           <Route index element={<Home />} />
+          <Route path="/reward-glo-point" element={<RewardGloPoint />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/store-front" element={<StoreFront />} />
+
+
+
+
+
+
+
           <Route path="login" element={<LoginCustomer />} />
           <Route path="signup" element={<SignupCustomer />} />
           <Route path="manufacturers" element={<Manufacturers />} />
@@ -176,6 +194,7 @@ function App() {
           <Route path="search" element={<Search />} />
           <Route path="plans" element={<Plans />} />
         </Route>
+
         <Route path="/sell-on-azany">
           <Route path="farmers" element={<AzanyFarmers />} />
           <Route
@@ -183,6 +202,7 @@ function App() {
             element={<ManufacturerHomePage />}
           />
         </Route>
+
         <Route path="/auth">
           <Route
             path="signup-business-information"
@@ -238,6 +258,7 @@ function App() {
           />
           <Route path="edit-address" element={<UpdateAddressComponent />} />
         </Route>
+
         <Route path="/manufacturers-profile">
           <Route index element={<ManufacturersIndex />} />
           <Route path="login" element={<MLogin />} />
@@ -266,6 +287,7 @@ function App() {
           <Route path="subscription" element={<Subscription />} />
           <Route path="security-question" element={<SecurityQuestion />} />
         </Route>
+
         <Route path="/checkout">
           <Route index element={<CustomerInfo />} />
           <Route path="shipment" element={<ShipmentInfo />} />
@@ -273,6 +295,7 @@ function App() {
           <Route path="confirmation" element={<Confirmation />} />
           <Route path="callback" element={<Callback />} />
         </Route>
+
         <Route path="/farmers">
           <Route index element={<Farmers />} />
           <Route path="category" element={<FCategories />} />
@@ -284,7 +307,9 @@ function App() {
           <Route path="find" element={<FarmersFind />} />
           <Route path="products/cart" element={<FarmersCart />} />
         </Route>
+
         <Route path="products/:storeID/:productID" element={<PProduct />} />
+
         <Route path="/products">
           <Route path="cart" element={<ProductCart />} />
         </Route>

@@ -106,8 +106,8 @@ const ManufacturersProfileLayout = ({
   return (
     <div className="xs:overflow-x-hidden smm:bg-[#F5F5F5] bg-white">
       {/* <TopHeader /> */}
-      <BottomHeader style={"bg-[#1B7CFC] py-2 xs:hidden"} />
-      <Header style={"bg-[#70ADFF] xs:hidden"} />
+      <BottomHeader style={"bg-[#221E22] py-2 hidden md:block"} />
+      <Header style={"bg-[#44444C] hidden md:block"} />
       <MobileHeader hideScrollMenu={false} />
       <div className="flex-row gap-2 p-2 w-[90%] flex mx-auto items-center bg-[#F5F5F5] xs:hidden">
         <p>Home</p>
@@ -155,9 +155,8 @@ const ManufacturersProfileLayout = ({
                     <div className="px-2 space-y-2">
                       {data.map((each, index) => (
                         <div
-                          className={`list-itemed xs:shadow-md text-black ${
-                            active === each ? "bg-[#E51B48]" : ""
-                          } hover:bg-[#E51B48] hover:text-white focus:bg-[#E51B48]`}
+                          className={`list-itemed xs:shadow-md text-black ${active === each ? "bg-[#E51B48]" : ""
+                            } hover:bg-[#E51B48] hover:text-white focus:bg-[#E51B48]`}
                           key={index}
                           onClick={() => {
                             setActive(each);

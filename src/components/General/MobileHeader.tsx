@@ -8,6 +8,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { CategoryModal } from "../Core/CategoryModal";
 import { Icon } from "@iconify/react";
 import { MobileModal } from "../Core/MobileModal";
+import Logo from '../../assets/azanylogofinal 3.svg'
 
 interface Props {
   isFarmer?: boolean;
@@ -53,28 +54,24 @@ const MobileHeader = ({ isFarmer, style, hideScrollMenu }: Props) => {
   const navigate = useNavigate();
   let otherMenu = [
     {
-      label: "Manufacturers",
+      label: "Worldwide flex card",
       link: "/manufacturers",
     },
     {
-      label: "Merchants",
+      label: "RewardGlo",
       link: "/merchants",
     },
     {
-      label: "Farmers",
+      label: "Multicurrency",
       link: "/farmers",
     },
     {
-      label: "Product orders",
+      label: "Help",
       link: "/manufacturers-profile/orders",
     },
     {
-      label: "Customer Service",
+      label: "Become a Seller",
       link: "/Customer Service",
-    },
-    {
-      label: "Payments",
-      link: "/manufacturers-profile/payment",
     },
   ];
 
@@ -138,7 +135,7 @@ const MobileHeader = ({ isFarmer, style, hideScrollMenu }: Props) => {
     deleteAuthToken("");
   };
   return (
-    <div className={`${style ? style : " bg-[#221E22]"} lg:hidden md:hidden 2xl:hidden xl:hidden sm:hidden flex flex-col w-screen gap-4`}>
+    <div className={`${style ? style : " bg-[#470505]"} md:hidden flex flex-col w-screen gap-4`}>
       <div className="flex justify-between items-center mx-2 mt-4">
         <div>
           <IconButton onClick={handleOpenModal} className="">
@@ -147,8 +144,8 @@ const MobileHeader = ({ isFarmer, style, hideScrollMenu }: Props) => {
         </div>
         <CategoryModal show={showModal} onClose={handleCloseModal} />
         <Link to="/">
-          <div className="xs:w-20">
-            <img src="/images/azanylogofinal.png" />
+          <div className="w-20">
+            <img className="scale-[1.2]" src={Logo} />
           </div>
         </Link>
         <div className="flex justify-end items-center gap-4 flex-[30%]">
@@ -159,7 +156,7 @@ const MobileHeader = ({ isFarmer, style, hideScrollMenu }: Props) => {
                   <h2 className="text-white text-md" onClick={handleOpenMobileModal}>
                     Hi {username}
                   </h2>
-                  <h2 className="text-white font-medium text-xl xs:hidden">Account</h2>
+                  <h2 className="text-white font-medium text-xl hidden sm:flex">Account</h2>
                   <Icon icon="icon-park-solid:down-one" color="white" />
                 </div>
               </>
@@ -193,50 +190,26 @@ const MobileHeader = ({ isFarmer, style, hideScrollMenu }: Props) => {
           </IconButton>
         </div>
       </div>
-      {!isNotScrollabe && (
-        <div className="text-white text-xs gap-8 mx-4 flex overflow-x-scroll flex-row no-scrollbar">
-          {/* <div className="cursor-pointer">
-            <Link to="/manufacturers">
-              <h2>Manufacturers</h2>
-            </Link>
+      <div className="flex bg-white px-4 pb-4 flex-col">
+        {!isNotScrollabe && (
+          <div className="text-black bg-white text-sm py-4 font-medium gap-8 flex overflow-x-scroll flex-row no-scrollbar">
+            {currentMenu &&
+              currentMenu.map((menuItem) => (
+                <Link to={`${menuItem.link}`} key={menuItem.label}>
+                  <div className={`cursor-pointer ${isItemSelected(`${menuItem.label}`)}`}>
+                    <h2 onClick={() => handleItemClick(menuItem.label)} className="whitespace-nowrap">
+                      {menuItem.label}
+                    </h2>
+                  </div>
+                </Link>
+              ))}
           </div>
-          <div className="cursor-pointer">
-            <Link to="/merchants">
-              <h2>Merchants</h2>
-            </Link>
-          </div>
-          <Link to="/farmers">
-            <div className="cursor-pointer">
-              <h2>Farmers</h2>
-            </div>
-          </Link>
-          <div className="flex gap-1">
-            <h2>Buy</h2>
-            <h2>Again</h2>
-          </div>
-          <div className="flex gap-1">
-            <h2>Customer</h2>
-            <h2>Service</h2>
-          </div>
-          <div className="cursor-pointer">
-            <h2>Cards</h2>
-          </div> */}
-          {currentMenu &&
-            currentMenu.map((menuItem) => (
-              <Link to={`${menuItem.link}`} key={menuItem.label}>
-                <div className={`cursor-pointer ${isItemSelected(`${menuItem.label}`)}`}>
-                  <h2 onClick={() => handleItemClick(menuItem.label)} className="whitespace-nowrap">
-                    {menuItem.label}
-                  </h2>
-                </div>
-              </Link>
-            ))}
-        </div>
-      )}
+        )}
 
-      <div className={`flex flex-row gap-2 ${isFarmer ? "bg-[#95A179]" : "bg-[#44444C)]"} p-3 text-white text-xs`}>
-        <Icon icon="material-symbols:location-on-rounded" width="16" height="16" />
-        <p>Shopping from Kenya</p>
+        <div className="flex">
+          <Icon icon="mingcute:location-3-line" color="#db4444" width="24" />
+          <span className='text-[#db4444]'>Eti-Osa</span>
+        </div>
       </div>
     </div>
   );
