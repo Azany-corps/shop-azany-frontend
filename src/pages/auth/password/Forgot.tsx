@@ -34,7 +34,7 @@ const AuthForgot = () => {
         "Content-Type": "multipart/form-data",
       });
       console.log(response.data);
-      localStorage.setItem("customer_id", response.data.user[0].id) 
+      localStorage.setItem("customer_id", response.data.user[0].id)
       localStorage.setItem("eMail", response.data.user[0].email);
       console.log(localStorage.getItem("customer_id"));
       toast.success("OTP has been sent to your email", {
@@ -89,6 +89,10 @@ const AuthForgot = () => {
                   required
                 />
               </div>
+              <p className="text-center z-20  font-semibold mt-5">
+                Please enter the OTP verification code has been sent to this email
+                {localStorage.getItem("email")}
+              </p>
               <button disabled={loading ? true : false} className="py-2 px-20 bg-[#E51B48] hover:bg-red-700 rounded-md text-white">
                 {loading ? "Loading..." : "Reset Password"}
               </button>

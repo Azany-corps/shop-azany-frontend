@@ -328,6 +328,7 @@ const MOrders = () => {
   ];
 
   return (
+
     <ManufacturersProfileLayout>
       <div className="px-[30px] font-DM-sans">
         <div className="mb-[30px] flex justify-between">
@@ -347,6 +348,7 @@ const MOrders = () => {
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 20 20"
+
                   >
                     <path
                       stroke="currentColor"
@@ -444,6 +446,7 @@ const MOrders = () => {
             </div>
           </div>
         </div>
+
         <div className="bg-white w-full rounded-[20px] mt-[22px] px-[31px] py-[19px]">
           <div className="w-full grid lg:grid-cols-2 gap-12 pb-[23px]">
             <div className="col-span-1 flex justify-between items-center">
@@ -486,6 +489,7 @@ const MOrders = () => {
         </div>
       </div>
     </ManufacturersProfileLayout>
+
   );
 };
 

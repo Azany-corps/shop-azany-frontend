@@ -15,10 +15,9 @@ import TestimonialSOA from "../../components/General/sell-on-azany/TestimonialSO
 const ManufacturerHomePage = () => {
   return (
     <div className="xs:overflow-x-hidden">
-      <TopHeader />
-      <BottomHeader style={"bg-[#1B7CFC] py-2 xs:hidden"} />
-      <Header style={"bg-[#70ADFF] xs:hidden"} />
+      <BottomHeader style={"bg-[#221E22] py-2 hidden md:block"} />
       <MobileHeader />
+      <Header style={"bg-[#44444C] hidden md:block"} />
       <div className="flex flex-col gap-20">
         <div className="flex flex-row items-center justify-between pt-6 md:flex-col  bg-[#DBEAFF] pl-6 mt-6 w-[90%] rounded-2xl mx-auto">
           <div className="right-text w-full  mr-3 max-w-[450px]">
@@ -29,7 +28,7 @@ const ManufacturerHomePage = () => {
               Gaining entry to international trade with merchants spread across
               the globe.
             </p>
-            <Link to={"/"}>
+            <Link to={"/sellers/signup"}>
               <div className="text-[#FFFFFF] bg-[#E51B48] py-3 w-[250px] text-center rounded-lg">
                 Get Started
               </div>
@@ -280,21 +279,21 @@ const ManufacturerHomePage = () => {
               <PlansCard
                 price={"$44"}
                 module={"Basic Plan"}
-                // onClick={() => handleCardClick("basic")}
-                // selected={selectedPlan === "basic"}
+              // onClick={() => handleCardClick("basic")}
+              // selected={selectedPlan === "basic"}
               />
               <PlansCard
                 price={"$79"}
                 module={"Standard Plan"}
                 // onClick={() => handleCardClick("standard")}
                 recommended
-                // selected={selectedPlan === "standard"}
+              // selected={selectedPlan === "standard"}
               />
               <PlansCard
                 price={"$99"}
                 module={"Premium Plan"}
-                // onClick={() => handleCardClick("premium")}
-                // selected={selectedPlan === "premium"}
+              // onClick={() => handleCardClick("premium")}
+              // selected={selectedPlan === "premium"}
               />
             </div>
             <Link to={"/"}>

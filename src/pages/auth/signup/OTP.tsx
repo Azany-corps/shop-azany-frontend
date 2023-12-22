@@ -98,7 +98,7 @@ const AuthOTPBusiness = () => {
                 value={value}
                 type="text"
               />
-              <p className="text-sm text-center">Enter the OTP sent to this email johndoe@gmail.com</p>
+              <p className="text-sm text-center">Enter the OTP sent to this email {localStorage.getItem("email")}</p>
             </div>
             <button disabled={loading ? true : false} className="bg-black mt-4 font-bold text-white rounded-2xl text-sm py-3 px-16">
               {loading ? "Loading..." : "Verify"}
