@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ManufacturersProfileLayout from "../../components/General/manufacturers/profile/Layout";
 import { Grid } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import ManufacturersProfileLayoutComp from "../../components/General/manufacturers/profile/Layout";
+import ManufacturersProfileLayoutComp from "../../components/General/manufacturers/profile/LayoutComp";
 type each = {
   image: string;
   title: string;

@@ -3,6 +3,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Asap:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 .font-baloo {
   font-family: "Baloo 2", sans-serif;
@@ -24,6 +25,10 @@
   font-family: "Inter", sans-serif;
 }
 
+.font-DM-sans {
+  font-family: "DM Sans", sans-serif;
+}
+
 body {
   background-color: #fafafa;
 }
@@ -33,7 +38,7 @@ body {
 }
 .azany_secondary {
   color: "#E51B48";
-  /* color: #d0d0d059; */
+  /* color: #29020266; */
 }
 
 .bx_shadow {
@@ -115,6 +120,14 @@ hr {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+#custom-select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: "";
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

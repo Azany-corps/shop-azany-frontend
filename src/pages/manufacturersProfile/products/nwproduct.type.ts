@@ -31,6 +31,23 @@ export interface IProduct {
   sale_end_date: string;
   stock_quantity: string;
   sku: string;
+  quantity: string;
+  manufacturer: string;
+  length: string;
+  length_unit: string;
+  width: string;
+  width_unit: string;
+  height: string;
+  height_unit: string;
+  product_weight: string;
+  weight_unit: string;
+  package_weight: string;
+  package_weight_unit: string;
+  external_product_id: string;
+  product_discount: Array<any>;
+  manage_stock_quantity: string;
+  product_local_delivery: Array<any>;
+  no_product_id: number;
 }
 
 export {};

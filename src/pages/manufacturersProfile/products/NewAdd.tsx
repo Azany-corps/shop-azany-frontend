@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import BottomHeader from "../../../components/General/BottomHeader";
 import Footer from "../../../components/General/Footer";
 import Header from "../../../components/General/Header";
+import ManufacturersProfileLayout from "../../../components/General/manufacturers/profile/LayoutComp";
+
 import TopHeader from "../../../components/General/TopHeader";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import DiscountComponent from "../../../components/Core/Discount";
@@ -25,7 +27,7 @@ import * as countryList from "../../../newCountries";
 import StockCheckbox from "./StockCheck";
 import { Icon } from "@iconify/react";
 import { NestedAccordion } from "../../../components/Core/NestedAccordion";
-import { ModalSelect } from "../../../components/Core/ModalSelect";
+import { ModalSelect } from "../../../components/Core/ModalSelect copy";
 
 import {
   FormInput,
@@ -33,14 +35,22 @@ import {
   FormTextArea,
 } from "../../../components/Inputs";
 import { useFormik } from "formik";
-import AddImageComp from "../../../components/Core/AddImageComp";
-import TextColorizer from "./ColorText";
-import { IProduct } from "./product.type";
+import AddImageComp from "../../../components/Core/ProductAddImage";
+import TextColorizer from "./ClickInput";
+import { IProduct } from "./nwproduct.type";
 import {
   fetchCategories,
   fetchCategory,
 } from "../../../Services/category.service";
 import { fetchBrands } from "../../../Services/brand.service";
+import {
+  ProductInput,
+  ProductInputSelectForm,
+  ProductSelect,
+  ProductTextArea,
+} from "../../../components/Inputs/ProductInput";
+import ImageUpload from "../../../components/Core/ImgUploader";
+import { nigeriaStates } from "./States";
 
 interface DiscountOption {
   quantity: string;
@@ -70,8 +80,99 @@ interface Brand {
   name: string;
 }
 
+interface Form {
+  id: number;
+  values: {
+    discount_quantity_fixed: number;
+    price_per_unit: number;
+  };
+}
+
+interface DiscountPercentageForm {
+  id: number;
+  values: {
+    discount_quantity: number;
+    discount_percentage: number;
+  };
+}
+
+interface ShippingForm {
+  id: number;
+  values: {
+    delivery_state: string;
+    delivery_price: number;
+  };
+}
+interface ProductVariation {
+  id: number;
+  values: {
+    size: number;
+    color: string;
+    variation_price: number;
+    variation_sales_price: number;
+    variation_quantity: number;
+    variation_sku: string;
+    variation_image: string;
+  };
+}
+
 const AddProduct = () => {
   const navigate = useNavigate();
+
+  const [quantityDiscountForms, setQuantityDiscountForms] = useState<Form[]>([
+    {
+      id: new Date().getTime(),
+      values: {
+        discount_quantity_fixed: 0,
+        price_per_unit: 0,
+      },
+    },
+  ]);
+
+  const [percentageDiscountForms, setPercentageDiscountForms] = useState<
+    DiscountPercentageForm[]
+  >([
+    {
+      id: new Date().getTime(),
+      values: {
+        discount_percentage: 0,
+        discount_quantity: 0,
+      },
+    },
+  ]);
+
+  const [shippingForm, setShippingForm] = useState<ShippingForm[]>([
+    {
+      id: new Date().getTime(),
+      values: {
+        delivery_state: "",
+        delivery_price: 0,
+      },
+    },
+  ]);
+
+  const [productVariations, setProductVariations] = useState<
+    ProductVariation[]
+  >([
+    {
+      id: new Date().getTime(),
+      values: {
+        size: 0,
+        color: "",
+        variation_price: 0,
+        variation_sales_price: 0,
+        variation_quantity: 0,
+        variation_sku: "",
+        variation_image: "",
+      },
+    },
+  ]);
+
+  const [discountIsChecked, setDiscountIsChecked] = useState<boolean>(false);
+
+  const [id, setId] = useState<number>(0);
+  const [discountType, setDiscountType] = useState<string>("");
+  const [uploadedImages, setUploadedImages] = useState<any[]>([]);
 
   const [selectedImages, setSelectedImages] = useState<FileWithPath[]>([]);
   const [attributes, setAttributes] = useState<Attribute[]>([]);
@@ -117,8 +218,30 @@ const AddProduct = () => {
     sale_start_date: "",
     sale_end_date: "",
     stock_quantity: "",
+    sku: "",
+    quantity: "",
+    manufacturer: "",
+    length: "",
+    length_unit: "",
+    width: "",
+    width_unit: "",
+    height: "",
+    height_unit: "",
+    product_weight: "",
+    weight_unit: "",
+    package_weight: "",
+    package_weight_unit: "",
+    external_product_id: "",
+    product_discount: [],
+    manage_stock_quantity: "",
+    product_local_delivery: [],
+    no_product_id: 0,
   };
   const [formData, setFormData] = useState<IProduct>(initialFormData);
+
+  formData.product_discount = quantityDiscountForms.map((quantity) => {
+    return quantity.values;
+  });
 
   const handleColorizedTextsChange = (colorizedTexts: ColorizedText) => {
     // Access the colorizedTexts value in the parent component
@@ -169,10 +292,21 @@ const AddProduct = () => {
 
     try {
       let data = new FormData();
+      data.append("no_product_id", formData.no_product_id.toString());
+      data.append("manage_stock_quantity", formData.manage_stock_quantity);
+      data.append("sku", formData.sku);
+      data.append("external_product_id", formData.external_product_id);
+      data.append("width", formData.width);
+      data.append("width_unit", formData.width_unit);
+      data.append("manufacturer", formData.manufacturer);
+      data.append("length", formData.width);
+      data.append("length_unit", formData.width_unit);
+      data.append("weight", formData.width);
+      data.append("weight_unit", formData.width_unit);
       data.append("category", formData.product_category);
       data.append("product_name", formData.product_name);
       data.append("stock", formData.stock);
-      data.append("quantity", formData.stock_quantity);
+      data.append("quantity", formData.quantity);
       data.append("currency", formData.currency);
       data.append("price", formData.price);
       data.append("brand_id", formData.brand);
@@ -182,6 +316,49 @@ const AddProduct = () => {
       data.append("sales_price", formData.sale_price);
       data.append("start_date", formData.sale_start_date);
       data.append("end_date", formData.sale_end_date);
+
+      if (hasVartion) data.append("has_variation", "1");
+      else {
+        data.append("has_variation", "0");
+      }
+
+      const productLocalDeliveryValues = shippingForm.map(
+        (shipping) => shipping.values
+      );
+
+      productLocalDeliveryValues.forEach((product, index) => {
+        Object.entries(product).forEach(([key, value]) => {
+          data.append(`${key}[${index}]`, value.toString());
+        });
+      });
+
+      const productDiscountValues = quantityDiscountForms.map(
+        (discount) => discount.values
+      );
+
+      productDiscountValues.forEach((discount, index) => {
+        Object.entries(discount).forEach(([key, value]) => {
+          data.append(`${key}[${index}]`, value.toString());
+        });
+      });
+
+      const percentageDiscount = percentageDiscountForms.map(
+        (percentage) => percentage.values
+      );
+
+      percentageDiscount.forEach((percentage, index) => {
+        Object.entries(percentage).forEach(([key, value]) => {
+          data.append(`${key}[${index}]`, value.toString());
+        });
+      });
+
+      const variations = productVariations.map((variation) => variation.values);
+
+      variations.forEach((variation, index) => {
+        Object.entries(variation).forEach(([key, value]) => {
+          data.append(`${key}[${index}]`, value.toString());
+        });
+      });
 
       parentColorizedTexts.forEach(
         (attribute: ColorizedText, index: number) => {
@@ -196,9 +373,23 @@ const AddProduct = () => {
         data.append(`attribute_key[${index}]`, attribute.name);
       });
 
-      selectedImages?.forEach((image, index) => {
-        data.append(`image_1[${index}]`, image);
+      // uploadedImages.forEach((image, index) => {
+      //   Object.entries(image).forEach(([key, value]) => {
+      //     if (typeof value === "string" || typeof value === "number") {
+      //       data.append(`${key}[${index}]`, value.toString());
+      //     }
+      //   });
+      // });
+
+      uploadedImages?.forEach((image, index) => {
+        data.append(`image_1[${index}]`, image.image);
       });
+
+      // selectedImages?.forEach((image, index) => {
+      //   data.append(`image_1[${index}]`, image);
+      // });
+
+      console.log(data);
 
       const response = await callAPI(
         "auth/store/create_store_product",
@@ -209,6 +400,8 @@ const AddProduct = () => {
           Authorization: `Bearer ${authToken}`,
         }
       );
+      console.log(data);
+
       console.log(response);
 
       if (response.status && response.status_code === 200) {
@@ -303,7 +496,7 @@ const AddProduct = () => {
   useEffect(() => {
     fetchCategories()
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setCategories(res);
       })
       .catch((error) => {
@@ -312,6 +505,7 @@ const AddProduct = () => {
 
     fetchBrands()
       .then((res) => {
+        console.log(res);
         setBrands(res);
       })
       .catch((error) => {
@@ -319,609 +513,1447 @@ const AddProduct = () => {
       });
   }, []);
 
-  return (
-    <div className="bg-[#F5F5F5] relative w-full h-full xs:overflow-x-hidden">
-      {/* <TopHeader /> */}
-      <BottomHeader style={"bg-[#1B7CFC] py-2 xs:hidden"} />
-      <MobileHeader />
-      <Header style={"bg-[#70ADFF] xs:hidden"} />
-      <div className="flex-row gap-2 p-2 w-[90%] flex mx-auto items-center xs:hidden">
-        <p>Home</p>
-        <ArrowForwardIosIcon fontSize="small" />
-        <p>Your Account</p>
-        <ArrowForwardIosIcon fontSize="small" />
-        <p className="text-gray-700">Add Product</p>
-      </div>
-      <div className="sm:hidden lg:hidden md:hidden 2xl:hidden xl:hidden p-2">
-        <BackButton />
-      </div>
-      <div className="p-10 xs:p-4 w-[90%] xs:w-[94%] mx-auto mb-10 bg-white rounded-lg">
-        <div className="flex justify-between xs:hidden">
-          <BackButton />
-        </div>
-        <div className="pl-0 md:pl-40 w-full mx-auto">
-          <div className="flex justify-between items-start">
-            <h1 className="md:text-[36px] text-[26px] font-medium general-font">
-              Add Product
-            </h1>
+  console.log(brands);
 
-            <div className="mb-16">
-              <div className="relative mb-8">
-                <img src="/images/addProductBg.svg" alt="add product" />
-                <div className="absolute bottom-0 left-0 transform translate-x-[20%] translate-y-[70%]">
-                  <img src="/images/addProductSubImg.svg" alt="profile" />
-                </div>
-              </div>
-              <div className="w-full pl-[-10px]">
-                <MaterialSwitch onStockStatusChange={handleStockStatusChange} />
-                {/* <StockCheckbox /> */}
-              </div>
-            </div>
+  const [selectedProductId, setSelectedProductId] = useState("");
+  const [sizes2Checked, setSizes2Checked] = useState(false);
+  const [color2Checked, setColor2Checked] = useState(false);
+  const [material2Checked, setMaterial2Checked] = useState(false);
+
+  const handleSizes2Checked = () => {
+    setSizes2Checked((prev) => !prev);
+  };
+
+  const handleColor2Checked = () => {
+    setColor2Checked((prev) => !prev);
+  };
+
+  const handleMaterial2Checked = () => {
+    setMaterial2Checked((prev) => !prev);
+  };
+
+  const handleSelectedVariation = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setSelectedProductId(event.target.value);
+  };
+
+  const handleAddForm = () => {
+    setQuantityDiscountForms((prevForms) => [
+      ...prevForms,
+      {
+        id: new Date().getTime(),
+        values: {
+          discount_quantity_fixed: 0,
+          price_per_unit: 0,
+        },
+      },
+    ]);
+  };
+
+  const handleAddPercentageForm = () => {
+    setPercentageDiscountForms((prevForms) => [
+      ...prevForms,
+      {
+        id: new Date().getTime(),
+        values: {
+          discount_quantity: 0,
+          discount_percentage: 0,
+        },
+      },
+    ]);
+  };
+
+  const handleAddShippingForm = () => {
+    setShippingForm((prevForms) => [
+      ...prevForms,
+      {
+        id: new Date().getTime(),
+        values: {
+          delivery_state: "",
+          delivery_price: 0,
+        },
+      },
+    ]);
+  };
+
+  const handleAddProductVariations = () => {
+    setProductVariations((prevForms) => [
+      ...prevForms,
+      {
+        id: new Date().getTime(),
+        values: {
+          size: 0,
+          color: "",
+          variation_price: 0,
+          variation_sales_price: 0,
+          variation_quantity: 0,
+          variation_sku: "",
+          variation_image: "",
+        },
+      },
+    ]);
+  };
+  const handleRemoveForm = (formId: number) => {
+    setQuantityDiscountForms((prevForms) =>
+      prevForms.filter((form) => form.id !== formId)
+    );
+  };
+
+  const handleRemovePercentageForm = (formId: number) => {
+    setPercentageDiscountForms((prevForms) =>
+      prevForms.filter((form) => form.id !== formId)
+    );
+  };
+
+  const handleRemoveShippingForm = (formId: number) => {
+    setShippingForm((prevForms) =>
+      prevForms.filter((form) => form.id !== formId)
+    );
+  };
+
+  const handleRemoveProductVariations = (formId: number) => {
+    setProductVariations((prevForms) =>
+      prevForms.filter((form) => form.id !== formId)
+    );
+  };
+
+  const handleInputChange = (
+    formId: number,
+    fieldName: string,
+    value: string
+  ) => {
+    setQuantityDiscountForms((prevForms) =>
+      prevForms.map((form) => {
+        if (form.id === formId) {
+          return {
+            ...form,
+            values: {
+              ...form.values,
+              [fieldName]: value,
+            },
+          };
+        }
+        return form;
+      })
+    );
+  };
+
+  const handlePercentageInputChange = (
+    formId: number,
+    fieldName: string,
+    value: string
+  ) => {
+    setPercentageDiscountForms((prevForms) =>
+      prevForms.map((form) => {
+        if (form.id === formId) {
+          return {
+            ...form,
+            values: {
+              ...form.values,
+              [fieldName]: value,
+            },
+          };
+        }
+        return form;
+      })
+    );
+  };
+
+  const handleShippingInputChange = (
+    formId: number,
+    fieldName: string,
+    value: string
+  ) => {
+    setShippingForm((prevForms) =>
+      prevForms.map((form) => {
+        if (form.id === formId) {
+          return {
+            ...form,
+            values: {
+              ...form.values,
+              [fieldName]: value,
+            },
+          };
+        }
+        return form;
+      })
+    );
+  };
+
+  const handleVariationChange = (
+    formId: number,
+    fieldName: string,
+    value: string
+  ) => {
+    setProductVariations((prevForms) =>
+      prevForms.map((form) => {
+        if (form.id === formId) {
+          return {
+            ...form,
+            values: {
+              ...form.values,
+              [fieldName]: value,
+            },
+          };
+        }
+        return form;
+      })
+    );
+  };
+
+  const handleSubmitDiscountForms = () => {
+    // console.log(quantityDiscountForms);
+  };
+
+  const handleSubmitShippingForms = () => {
+    // console.log(shippingForm);
+  };
+
+  const handleSubmitPercentageForms = () => {
+    // console.log(percentageDiscountForms);
+  };
+
+  const handleSubmitProductVariationForms = () => {
+    console.log(productVariations);
+  };
+
+  const [checkboxStates, setCheckboxStates] = useState<{
+    [key: string]: boolean;
+  }>({});
+
+  const [variationCheckboxStates, setVariationsCheckboxStates] = useState<{
+    [key: string]: boolean;
+  }>({});
+
+  const handleCheckboxChange = (attributeName: string) => {
+    setCheckboxStates((prevStates) => ({
+      ...prevStates,
+      [attributeName]: !prevStates[attributeName],
+    }));
+  };
+
+  const handleVariationCheckboxChange = (attributeName: string) => {
+    setVariationsCheckboxStates((prevStates) => ({
+      ...prevStates,
+      [attributeName]: !prevStates[attributeName],
+    }));
+  };
+
+  const handleInputChangeUnit = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { id, value } = event.target;
+    setFormData((prevFormData) => ({ ...prevFormData, [id]: value }));
+  };
+
+  const handleUnitChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { id, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [id]: value,
+    }));
+  };
+
+  const [isLocalChecked, setIsLocalChecked] = useState(false);
+  const [isIntChecked, setIsIntChecked] = useState(false);
+
+  const handleLocalCheckboxChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setIsLocalChecked(event.target.checked);
+  };
+  const handleIntCheckboxChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setIsIntChecked(event.target.checked);
+  };
+
+  const [variationImage, setVariationImage] = useState<string>("");
+
+  const handleVariationImageUploader = (imageDataUrl: string) =>
+    setVariationImage(imageDataUrl);
+
+  const handleImageUpload = (imageDataUrl: any) => {
+    console.log("Image uploaded:", imageDataUrl);
+    setUploadedImages((prevImages) => [
+      ...prevImages,
+      { image_1: imageDataUrl },
+    ]);
+
+    // Handle the uploaded image data in your parent component
+  };
+
+  console.log(uploadedImages);
+  console.log(selectedImages);
+
+  const handleVariationImageUpload = (imageDataUrl: string) => {
+    console.log("Image uploaded:", imageDataUrl);
+  };
+
+  // console.log(uploadedImages);
+
+  const handleIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newId = Number(event.target.value);
+    setId(isNaN(newId) ? 0 : newId);
+    setFormData({ ...formData, no_product_id: id });
+  };
+
+  const handleDiscountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDiscountType(event.target.value);
+  };
+
+  const [hasVartion, setHasVariation] = useState<boolean>(false);
+  const handleHasVariation = () => {
+    setHasVariation(!hasVartion);
+  };
+
+  const handleDiscountChecked = () => {
+    setDiscountIsChecked(!discountIsChecked);
+  };
+
+  console.log(hasVartion);
+
+  // console.log(uploadedImages);
+
+  // console.log(localStorage.getItem("token"));
+
+  return (
+    <ManufacturersProfileLayout>
+      <div className="px-[30px] font-DM-sans">
+        <div className="mb-[30px] flex justify-between">
+          <div>
+            <p className="font-medium text-sm text-[#29020280]">Add products</p>
+            <p className="text-[34px] text-[#290202] font-bold">Products</p>
+          </div>
+          <div className="bg-white py-[10px] px-[11px] flex items-center rounded-[30px]">
+            <button
+              className="px-[14px] py-[9px] bg-[#01B574] rounded-[20px] mr-[30px]"
+              onClick={handleSubmit}
+            >
+              <p className="text-white font-DM-sans font-medium text-sm flex items-center">
+                Add Products
+              </p>
+            </button>
+            <button className="px-[14px] py-[9px] bg-[#F6F6F6] rounded-[20px] border border-[#00000019] mr-2.5">
+              <p className="text-[#29020266] font-DM-sans font-medium text-sm flex items-center">
+                Save to Draft
+              </p>
+            </button>
+            <button className="px-[14px] py-[9px] bg-[#F6F6F6] rounded-[20px] border border-[#00000019]">
+              <p className="text-[#29020266] font-DM-sans font-medium text-sm flex items-center">
+                Discard
+              </p>
+            </button>
           </div>
         </div>
-        <div className="md:w-[70%] w-full mx-auto">
-          <form onSubmit={handleSubmit}>
-            <div className="w-full mb-10">
-              <FormInput
-                labelStyle="mb-[22px] text-base font-semibold uppercase"
-                type="text"
-                id="product_name"
-                name="Product name*"
-                value={formData?.product_name}
-                onChange={handleChange}
-                // error={Formik?.errors?.product_name as string}
-                // touched={Formik?.touched?.product_name as boolean}
-                // onBlur={Formik.handleBlur}
-              />
-            </div>
-            <div className="w-full mb-10">
-              <div className="flex flex-col gap-4 ">
-                <p className="block text-base general-font uppercase font-bold text-black">
-                  Product Category*
-                </p>
-                <div
-                  className="bg-[#F5F5F5] hover:cursor-pointer border general-font border-[#C1C1C1] text-[black] text-sm rounded-[10px] focus:ring-[#D65D5B] focus:border-[#D65D5B] block w-full py-5 pl-6"
-                  onClick={openCategoryModal}
-                >
-                  {formData.product_category
-                    ? formData.product_category
-                    : "Select Product category"}
-                </div>
-              </div>
-            </div>
-            <div className="w-full mb-10 grid grid-cols-3 gap-x-[18.9px]">
-              <div className="w-full col-span-2">
-                <FormSelect
-                  name="Product brand*"
-                  id="brand"
-                  value={formData?.brand}
-                  onChange={handleChange}
-                  // onBlur={Formik.handleBlur}
-                  // error={Formik?.errors?.brand as string}
-                  // touched={Formik?.touched?.brand as boolean}
-                  options={
-                    brands
-                      ? brands?.map((brand: Brand, index: number) => {
-                          return {
-                            label: brand.name,
-                            value: brand.id.toString(),
-                          };
-                        })
-                      : []
-                  }
-                  optionsLabel="Select brand"
-                  labelStyle="font-semibold mb-[22px]"
-                />
-              </div>
-              <div className="w-full col-span-1">
-                <FormInput
-                  labelStyle="capitalize mb-[22px] text-base font-semibold"
-                  type="text"
-                  id="weight"
-                  name="Weight (kg)*"
-                  value={formData?.weight}
-                  onChange={handleChange}
-                  // error={Formik?.errors?.weight as string}
-                  // touched={Formik?.touched?.weight as boolean}
-                  // onBlur={Formik.handleBlur}
-                />
-              </div>
-            </div>
-            <div className="w-full mb-10">
-              <p className="block mb-[22px] text-base font-semibold general-font uppercase text-black">
-                Description*
+        <div className="grid grid-cols-3 gap-[30px]">
+          <div className="col-span-1 flex flex-col ">
+            <div className="bg-white w-full rounded-[20px] mb-10 py-[19px] px-[31px]">
+              <p className="text-[#4F4141] font-DM-sans font-bold text-2xl mb-[27px]">
+                Product Image
               </p>
-              <div className="w-full my-5">
-                <FormTextArea
-                  labelStyle="font-semibold"
-                  placeholder="Input short description"
-                  id="short_description"
-                  name="short description"
-                  value={formData?.short_description}
-                  onChange={handleChange}
-                  // error={Formik?.errors?.short_description as string}
-                  // touched={Formik?.touched?.short_description as boolean}
-                />
-              </div>
-              <div className="w-full">
-                <FormTextArea
-                  labelStyle="font-semibold"
-                  placeholder="Input product description"
-                  id="product_description"
-                  name="product description"
-                  value={formData?.product_description}
-                  onChange={handleChange}
-                  // error={Formik?.errors?.product_description as string}
-                  // touched={Formik?.touched?.product_description as boolean}
-                />
-              </div>
-            </div>
+              <div className="grid grid-cols-2 gap-4">
+                <ImageUpload onImageUpload={handleImageUpload} />
+                {/* <AddImageComp onImageSelect={handleImageSelect} /> */}
 
-            <div className="w-full mb-10">
-              <p className="block mb-[22px] text-base font-semibold general-font uppercase text-black">
-                Images*
-              </p>
-              <div className="">
-                <AddImageComp onImageSelect={handleImageSelect} />
+                {uploadedImages.map((image) => (
+                  <img
+                    src={image?.image_1}
+                    className="w-full h-full object-cover"
+                  />
+                ))}
+                {/* <AddImageComp onImageSelect={handleImageSelect} /> */}
               </div>
             </div>
-            <div className="w-full mb-10">
-              <p className="block mb-[22px] text-base font-semibold general-font uppercase text-black">
-                Specifications*
+            <div className="bg-white w-full rounded-[20px] py-[19px] px-[31px]">
+              <p className="text-[#4F4141] font-DM-sans font-bold text-2xl mb-[27px]">
+                Shipping & Delivery
               </p>
-              <div className="flex flex-col gap-4">
-                {attributes.length !== 0 ? (
-                  attributes?.map((attribute: Attribute, index: number) => (
-                    <TextColorizer
-                      key={index}
-                      id={attribute.id.toString()}
-                      attributeText={attribute.items}
-                      name={attribute.name}
-                      onColorizedTextsChange={handleColorizedTextsChange}
-                    />
-                  ))
-                ) : (
-                  <p className="text-[#515151] text-lg">
-                    Select Category to specifications
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <ProductInputSelectForm
+                  type="text"
+                  name="Items Weight"
+                  id="weight"
+                  onChange={handleInputChangeUnit}
+                  onSelectChange={handleUnitChange}
+                  value={formData.weight}
+                  selectValue={formData.weight_unit}
+                  placeholder="18.00"
+                  optionsLabel="kg"
+                  options={[
+                    { value: "kg", label: "kg" },
+                    { value: "m", label: "m" },
+                    { value: "g", label: "g" },
+                  ]}
+                  selectId="weight_unit"
+                />
+
+                <ProductInputSelectForm
+                  type="text"
+                  name="Items Length"
+                  id="length"
+                  onChange={handleInputChangeUnit}
+                  onSelectChange={handleUnitChange}
+                  value={formData.length}
+                  selectValue={formData.length_unit}
+                  placeholder="18.00"
+                  optionsLabel="kg"
+                  options={[
+                    { value: "kg", label: "kg" },
+                    { value: "m", label: "m" },
+                    { value: "g", label: "g" },
+                  ]}
+                  selectId="length_unit"
+                />
+
+                <ProductInputSelectForm
+                  type="text"
+                  name="Items Width"
+                  id="width"
+                  onChange={handleInputChangeUnit}
+                  onSelectChange={handleUnitChange}
+                  value={formData.width}
+                  selectValue={formData.width_unit}
+                  placeholder="18.00"
+                  optionsLabel="kg"
+                  options={[
+                    { value: "kg", label: "kg" },
+                    { value: "m", label: "m" },
+                    { value: "g", label: "g" },
+                  ]}
+                  selectId="width_unit"
+                />
+
+                <ProductInputSelectForm
+                  type="text"
+                  name="Items Height"
+                  id="height"
+                  onChange={handleInputChangeUnit}
+                  onSelectChange={handleUnitChange}
+                  value={formData.height}
+                  selectValue={formData.height_unit}
+                  placeholder="18.00"
+                  optionsLabel="kg"
+                  options={[
+                    { value: "kg", label: "kg" },
+                    { value: "m", label: "m" },
+                    { value: "g", label: "g" },
+                  ]}
+                  selectId="height_unit"
+                />
+              </div>
+              <div className="grid mb-[123px]">
+                <ProductInputSelectForm
+                  type="text"
+                  name="Package Weight"
+                  id="package_weight"
+                  onChange={handleInputChangeUnit}
+                  onSelectChange={handleUnitChange}
+                  value={formData.package_weight}
+                  selectValue={formData.package_weight_unit}
+                  placeholder="245.82"
+                  optionsLabel="kg"
+                  options={[
+                    { value: "kg", label: "kg" },
+                    { value: "m", label: "m" },
+                    { value: "g", label: "g" },
+                  ]}
+                  selectId="package_weight_unit"
+                />
+              </div>
+              <p className="text-[#4F4141] font-DM-sans font-medium text-xl mb-[27px]">
+                Select Delivery Coverages
+              </p>
+              <div className="mb-[14px]">
+                <div className="flex items-center">
+                  <input
+                    id="link-checkbox"
+                    type="checkbox"
+                    checked={isLocalChecked}
+                    onChange={handleLocalCheckboxChange}
+                    className="w-4 h-4 text-[#FF1818] bg-gray-100 border-gray-300 rounded focus:ring-0"
+                  />
+                  <label
+                    htmlFor="link-checkbox"
+                    className="ms-2 text-base font-bold text-[#4F4141] font-DM-sans"
+                  >
+                    Local Delivery (Fulfilled by Sellers)
+                  </label>
+                </div>
+                {isLocalChecked && (
+                  <p className="text-sm font-normal font-DM-sans text-[#4F4141]">
+                    <span className="font-medium">For Local Delivery,</span>
+                    Fulfilment will be handle by seller but will monitored in
+                    each order stage by Azany
                   </p>
                 )}
               </div>
-              {/* <div className="grid grid-cols-3 w-full gap-x-5 mb-5">
-                <div className="w-full col-span-1">
-                  <FormSelect
-                    name="Certification"
-                    id="certification"
-                    value={formData?.certification}
-                    onChange={handleChange}
-                    // onBlur={Formik.handleBlur}
-                    // error={Formik?.errors?.certification as string}
-                    // touched={Formik?.touched?.certification as boolean}
-                    options={[
-                      { label: "Euro", value: "EUR" },
-                      { label: "US Dollars", value: "USD" },
-                    ]}
-                    optionsLabel="Certifications"
-                    labelStyle="block text-sm mb-2 font-normal general-font capitalize text-black"
+              <div>
+                <div className="flex items-center">
+                  <input
+                    id="link-checkbox"
+                    type="checkbox"
+                    checked={isIntChecked}
+                    onChange={handleIntCheckboxChange}
+                    className="w-4 h-4 text-[#FF1818] bg-gray-100 border-gray-300 rounded focus:ring-0"
                   />
+                  <label
+                    htmlFor="link-checkbox"
+                    className="ms-2 text-base font-bold text-[#4F4141] font-DM-sans"
+                  >
+                    International Delivery (Fulfilled by Azany)
+                  </label>
                 </div>
-                <div className="w-full col-span-1">
-                  <FormInput
-                    labelStyle="capitalize mb-2 font-normal text-sm"
-                    type="text"
-                    id="main_material"
-                    name="Main material"
-                    value={formData?.main_material}
-                    onChange={handleChange}
-                    // error={Formik?.errors?.main_material as string}
-                    // touched={Formik?.touched?.main_material as boolean}
-                    // onBlur={Formik.handleBlur}
-                    placeholder="Material of the product"
-                  />
-                </div>
-                <div className="w-full col-span-1">
-                  <FormInput
-                    labelStyle="capitalize mb-2 font-normal text-sm"
-                    type="text"
-                    id="material_family"
-                    name="Material family"
-                    value={formData?.material_family}
-                    onChange={handleChange}
-                    // error={Formik?.errors?.material_family as string}
-                    // touched={Formik?.touched?.material_family as boolean}
-                    // onBlur={Formik.handleBlur}
-                    placeholder="Material family of the product"
-                  />
-                </div>
+                {isIntChecked && (
+                  <p className="text-sm font-normal font-DM-sans text-[#4F4141]">
+                    <span className="font-medium">
+                      For international shipping,
+                    </span>{" "}
+                    Azany will be handling fulfillment
+                  </p>
+                )}
               </div>
-              <div className="grid grid-cols-3 w-full gap-x-5 mb-5">
-                <div className="w-full col-span-1">
-                  <FormInput
-                    name="Model"
-                    id="model"
-                    value={formData?.model}
-                    onChange={handleChange}
-                    // onBlur={Formik.handleBlur}
-                    // error={Formik?.errors?.model as string}
-                    // touched={Formik?.touched?.model as boolean}
-                    type="text"
-                    labelStyle="block text-sm mb-2 font-normal general-font capitalize text-black"
-                    placeholder="Model ID or Manufacturer part Number"
-                  />
-                </div>
-                <div className="w-full col-span-1">
-                  <FormInput
-                    labelStyle="capitalize mb-2 font-normal text-sm"
-                    type="text"
-                    id="production_country"
-                    name="Production country"
-                    value={formData?.production_country}
-                    onChange={handleChange}
-                    // error={Formik?.errors?.production_country as string}
-                    // touched={Formik?.touched?.production_country as boolean}
-                    // onBlur={Formik.handleBlur}
-                    placeholder="Material of the product"
-                  />
-                </div>
-                <div className="w-full col-span-1">
-                  <FormInput
-                    labelStyle="capitalize mb-2 font-normal text-sm"
-                    type="text"
-                    id="production_line"
-                    name="Production line"
-                    value={formData?.production_line}
-                    onChange={handleChange}
-                    // error={Formik?.errors?.production_line as string}
-                    // touched={Formik?.touched?.production_line as boolean}
-                    // onBlur={Formik.handleBlur}
-                    placeholder="Production line"
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-3 w-full gap-x-5 mb-5">
-                <div className="w-full col-span-1">
-                  <FormInput
-                    name="Size (L x X x H cm)"
-                    id="size"
-                    value={formData?.size}
-                    onChange={handleChange}
-                    // onBlur={Formik.handleBlur}
-                    // error={Formik?.errors?.size as string}
-                    // touched={Formik?.touched?.size as boolean}
-                    placeholder="Input size"
-                    type="text"
-                    labelStyle="block text-sm mb-2 font-normal general-font text-black"
-                  />
-                </div>
-                <div className="w-full col-span-1">
-                  <FormSelect
-                    name="Warranty Duration"
-                    id="warranty_duration"
-                    value={formData?.warranty_duration}
-                    onChange={handleChange}
-                    // onBlur={Formik.handleBlur}
-                    // error={Formik?.errors?.warranty_duration as string}
-                    // touched={Formik?.touched?.warranty_duration as boolean}
-                    options={[
-                      { label: "Euro", value: "EUR" },
-                      { label: "US Dollars", value: "USD" },
-                    ]}
-                    optionsLabel="Warranty duration of product"
-                    labelStyle="block text-sm mb-2 font-normal general-font capitalize text-black"
-                  />
-                </div>
-                <div className="w-full col-span-1">
-                  <FormSelect
-                    name="Warranty type"
-                    id="warranty_type"
-                    value={formData?.warranty_type}
-                    onChange={handleChange}
-                    // onBlur={Formik.handleBlur}
-                    // error={Formik?.errors?.warranty_type as string}
-                    // touched={Formik?.touched?.warranty_type as boolean}
-                    options={[
-                      { label: "Euro", value: "EUR" },
-                      { label: "US Dollars", value: "USD" },
-                    ]}
-                    optionsLabel="Warranty type of product"
-                    labelStyle="block text-sm mb-2 font-normal general-font capitalize text-black"
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-3 w-full gap-x-5 mb-5">
-                <div className="w-full col-span-2">
-                  <FormInput
-                    name="note"
-                    id="note"
-                    value={formData?.note}
-                    onChange={handleChange}
-                    // onBlur={Formik.handleBlur}
-                    // error={Formik?.errors?.note as string}
-                    // touched={Formik?.touched?.note as boolean}
-                    placeholder="Note/Comment"
-                    type="text"
-                    labelStyle="block text-sm mb-2 font-normal general-font text-black"
-                  />
-                </div>
+              {isLocalChecked && (
+                <div
+                  className="col-span-2 w-full bg-white rounded-[20px] relative px-[21px] py-[21px] mb-[46px] mt-[32px]"
+                  style={{
+                    boxShadow: "0px 15px 40px 0px rgba(112, 144, 176, 0.12)",
+                  }}
+                >
+                  <p
+                    className="text-[#01B574] text-sm font-medium flex items-center absolute right-0 top-0"
+                    onClick={handleAddShippingForm}
+                  >
+                    <span>
+                      <img src="/images/circle-plus.svg" alt="icon" />
+                    </span>
+                    <span>Add..</span>
+                  </p>
+                  <p className="text-[18px] font-bold font-DM-sans text-app-gray-300 mt-4 mb-[5px]">
+                    Shipping Fee
+                  </p>
+                  <div className="grid grid-cols-3 gap-4 text-[#A3AED0] font-medium text-sm border-b border-[#E9EDF7] font-DM-sans pb-[6px] mb-[13px] ">
+                    <p>State</p>
+                    <p>Shipping cost</p>
+                  </div>
 
-                <div className="w-full col-span-1">
-                  <FormInput
-                    name="color"
-                    id="color"
-                    value={formData?.color}
-                    onChange={handleChange}
-                    // onBlur={Formik.handleBlur}
-                    // error={Formik?.errors?.color as string}
-                    // touched={Formik?.touched?.color as boolean}
-                    placeholder="Input color"
-                    type="text"
-                    labelStyle="block text-sm mb-2 font-normal general-font text-black"
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-3 w-full gap-x-5 mb-5">
-                <div className="w-full col-span-1">
-                  <FormInput
-                    name="RAM Size (GB)"
-                    id="ram_size"
-                    value={formData?.ram_size}
-                    onChange={handleChange}
-                    // onBlur={Formik.handleBlur}
-                    // error={Formik?.errors?.ram_size as string}
-                    // touched={Formik?.touched?.ram_size as boolean}
-                    placeholder="RAM Size (GB)"
-                    type="text"
-                    labelStyle="block text-sm mb-2 font-normal general-font text-black"
-                  />
-                </div>
+                  {shippingForm.map((form) => (
+                    <div
+                      className="grid grid-cols-3 gap-x-4 pb-[13px] items-center"
+                      key={form.id}
+                    >
+                      <ProductSelect
+                        // name="Brand Name"
+                        id="delivery_state"
+                        onChange={(e) =>
+                          handleShippingInputChange(
+                            form.id,
+                            "delivery_state",
+                            e.target.value
+                          )
+                        }
+                        value={form.values.delivery_state}
+                        optionsLabel="Select"
+                        options={nigeriaStates?.map((state) => ({
+                          value: state.value,
+                          label: state.label,
+                        }))}
+                      />
+                      {/* <input
+                      type="text"
+                      id="delivery_state"
+                      // aria-describedby="helper-text-explanation"
+                      value={form.values.delivery_state}
+                      onChange={(e) =>
+                        handleShippingInputChange(
+                          form.id,
+                          "delivery_state",
+                          e.target.value
+                        )
+                      }
+                      className="bg-transparent border border-[#DCDCE4] rounded-[10px] text-gray-900 text-sm block w-full p-2.5"
+                      placeholder="0"
+                    /> */}
 
-                <div className="w-full col-span-1">
-                  <FormInput
-                    name="CPU Cores"
-                    id="cpu_core"
-                    value={formData?.cpu_core}
-                    onChange={handleChange}
-                    // onBlur={Formik.handleBlur}
-                    // error={Formik?.errors?.cpu_core as string}
-                    // touched={Formik?.touched?.cpu_core as boolean}
-                    placeholder="CPU Cores"
-                    type="text"
-                    labelStyle="block text-sm mb-2 font-normal general-font text-black"
-                  />
-                </div>
+                      <div className="relative w-full">
+                        <div className="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none"></div>
+                        <input
+                          type="number"
+                          id="delivery_price"
+                          value={form.values.delivery_price}
+                          onChange={(e) =>
+                            handleShippingInputChange(
+                              form.id,
+                              "delivery_price",
+                              e.target.value
+                            )
+                          }
+                          className="bg-transparent border border-[#DCDCE4] rounded-[10px] text-gray-900 text-sm block w-full p-2.5"
+                          placeholder="0"
+                        />
+                      </div>
+                      <img
+                        src="/images/close-icon.svg"
+                        alt="icon"
+                        className="cursor-pointer"
+                        onClick={() => handleRemoveShippingForm(form.id)}
+                      />
 
-                <div className="w-full col-span-1">
-                  <FormInput
-                    name="Operating System"
-                    id="operating_system"
-                    value={formData?.operating_system}
-                    onChange={handleChange}
-                    // onBlur={Formik.handleBlur}
-                    // error={Formik?.errors?.operating_system as string}
-                    // touched={Formik?.touched?.operating_system as boolean}
-                    placeholder="Operating System"
-                    type="text"
-                    labelStyle="block text-sm mb-2 font-normal general-font text-black"
-                  />
+                      <input />
+                    </div>
+                  ))}
+                  <button
+                    className="px-[14px] py-[9px] bg-[#01B574] rounded-[10px]"
+                    onClick={handleSubmitShippingForms}
+                    type="button"
+                  >
+                    <p className="text-white font-DM-sans font-medium text-sm flex items-center">
+                      Add Fee
+                    </p>
+                  </button>
                 </div>
-              </div>
-              <div className="grid grid-cols-3 w-full gap-x-5 mb-5">
-                <div className="w-full col-span-1">
-                  <FormInput
-                    name="Screen Size"
-                    id="screen_size"
-                    value={formData?.screen_size}
-                    onChange={handleChange}
-                    // onBlur={Formik.handleBlur}
-                    // error={Formik?.errors?.screen_size as string}
-                    // touched={Formik?.touched?.screen_size as boolean}
-                    placeholder="Screen Size"
-                    type="text"
-                    labelStyle="block text-sm mb-2 font-normal general-font text-black"
-                  />
-                </div>
-
-                <div className="w-full col-span-1">
-                  <FormInput
-                    name="Display Features"
-                    id="display_features"
-                    value={formData?.display_features}
-                    onChange={handleChange}
-                    // onBlur={Formik.handleBlur}
-                    // error={Formik?.errors?.display_features as string}
-                    // touched={Formik?.touched?.display_features as boolean}
-                    placeholder="Display Features"
-                    type="text"
-                    labelStyle="block text-sm mb-2 font-normal general-font text-black"
-                  />
-                </div>
-
-                <div className="w-full col-span-1">
-                  <FormInput
-                    name="Battery Size"
-                    id="battery_size"
-                    value={formData?.battery_size}
-                    onChange={handleChange}
-                    // onBlur={Formik.handleBlur}
-                    // error={Formik?.errors?.battery_size as string}
-                    // touched={Formik?.touched?.battery_size as boolean}
-                    placeholder="Battery Size"
-                    type="text"
-                    labelStyle="block text-sm mb-2 font-normal general-font text-black"
-                  />
-                </div>
-              </div> */}
+              )}
             </div>
-            {/* <div className="flex flex-col gap-3 w-full mb-10">
-              <TextColorizer
-                attributeText={["lorem", "ipsum", "jeje", "glow", "wine"]}
-                name="exampleName"
-                onColorizedTextsChange={handleColorizedTextsChange}
-              />
-              <FormInput
-                name=""
-                id="product_attributes"
-                value={formData?.product_attributes}
-                onChange={handleChange}
-                // onBlur={Formik.handleBlur}
-                // error={Formik?.errors?.product_attributes as string}
-                // touched={Formik?.touched?.product_attributes as boolean}
-                placeholder=""
-                type="text"
-                labelStyle="block text-sm mb-2 font-normal general-font text-black uppercase"
-              />
-              <p className="text-[#515151] w-2/3 text-sm"><span className="text-black">Related Attributes: </span> Color,  Size,  Branding,  Depth,  Logo,  Color,  Size,  Branding,  Depth,  Logo,  Color,  Size,  Branding,  Depth,  Logo,</p>
-            </div> */}
-            <div className="w-full col-span-2 mb-10">
-              <FormSelect
-                name="Currency*"
-                id="currency"
-                value={formData?.currency}
-                onChange={handleChange}
-                // onBlur={Formik.handleBlur}
-                // error={Formik?.errors?.brand as string}
-                // touched={Formik?.touched?.brand as boolean}
-                options={[
-                  { label: "Euro", value: "EUR" },
-                  { label: "Naira", value: "NGN" },
-                  { label: "US Dollars", value: "USD" },
-                ]}
-                optionsLabel="Select Currency"
-                labelStyle="font-semibold mb-[22px]"
-              />
-            </div>
-            <div className="w-full mb-10">
-              <p className="block mb-[22px] font-bold text-base general-font uppercase text-black">
-                Price*
+          </div>
+          <div className="col-span-2 flex flex-col">
+            <div className="bg-white w-full rounded-[20px] mb-10 py-[19px] px-[31px]">
+              <p className="text-[#4F4141] font-DM-sans font-bold text-2xl mb-[27px]">
+                Product Details
               </p>
-              <div className="w-full mb-5">
-                <FormInput
-                  name={`Global Price (${formData.currency})`}
-                  id="price"
-                  value={formData?.price}
-                  onChange={handleChange}
-                  // onBlur={Formik.handleBlur}
-                  // error={Formik?.errors?.price as string}
-                  // touched={Formik?.touched?.price as boolean}
-                  placeholder=""
-                  type="text"
-                  labelStyle="block text-sm mb-2 font-normal general-font text-black capitalize"
-                />
-              </div>
-              <div className="w-full grid grid-cols-3 gap-x-5">
-                <div className="w-full col-span-1">
-                  <FormInput
-                    name={`Sale Price (${formData.currency})`}
-                    id="sale_price"
-                    value={formData?.sale_price}
-                    onChange={handleChange}
-                    // onBlur={Formik.handleBlur}
-                    // error={Formik?.errors?.sale_price as string}
-                    // touched={Formik?.touched?.sale_price as boolean}
-                    placeholder="Input product description"
-                    type="text"
-                    labelStyle="block text-sm mb-2 font-normal general-font text-black capitalize"
-                  />
-                </div>
-                <div className="w-full col-span-1">
-                  <FormInput
-                    name="Sale Start Date"
-                    id="sale_start_date"
-                    value={formData?.sale_start_date}
-                    onChange={handleChange}
-                    // onBlur={Formik.handleBlur}
-                    // error={Formik?.errors?.sale_start_date as string}
-                    // touched={Formik?.touched?.sale_start_date as boolean}
-                    placeholder="Select date"
-                    type="date"
-                    labelStyle="block text-sm mb-2 font-normal general-font text-black capitalize"
-                  />
-                </div>
-                <div className="w-full col-span-1">
-                  <FormInput
-                    name="Sale End Date"
-                    id="sale_end_date"
-                    value={formData?.sale_end_date}
-                    onChange={handleChange}
-                    // onBlur={Formik.handleBlur}
-                    // error={Formik?.errors?.sale_end_date as string}
-                    // touched={Formik?.touched?.sale_end_date as boolean}
-                    placeholder="Select date"
-                    type="date"
-                    labelStyle="block text-sm mb-2 font-normal general-font text-black capitalize"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="w-full mb-[70px]">
-              <p className="block font-bold mb-[22px] text-base general-font uppercase text-black">
-                Stock Management*
-              </p>
-              <div className="w-full mb-5">
-                <FormInput
-                  name="Stock quantity"
-                  id="stock_quantity"
-                  value={formData?.stock_quantity}
-                  onChange={handleChange}
-                  // onBlur={Formik.handleBlur}
-                  // error={Formik?.errors?.stock_quantity as string}
-                  // touched={Formik?.touched?.stock_quantity as boolean}
-                  placeholder="Select stock quantity"
-                  type="text"
-                  labelStyle="block text-sm mb-2 font-normal general-font text-black capitalize"
-                />
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full focus:outline-none text-white bg-[#E51B48] hover:bg-[#E51B48] focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-5 "
-            >
-              {loading ? "loading..." : "Add Product"}
-            </button>
-            <div className="max-w-[808px]">
-              <p className=" text-sm font-normal general-font text-[#515151]">
-                By clicking add product, you accept the Terms of Use, confirm
-                that you will abide by the Safety Tips, and declare that this
-                posting does not include any Prohibited Items
-              </p>
-            </div>
-          </form>
-        </div>
-      </div>
-      <Footer style={"bg-[#1B7CFC] py-10 px-10 hidden"} />
-      <MobileFooter style={"bg-[#1B7CFC] md:hidden"} />
-      {isCategoryModal && (
-        <div className="flex justify-end z-40 fixed top-0 w-full h-screen bg-black/50  backdrop-blur-[1px]">
-          <div onClick={closeCategoryModal} className="w-1/2 h-full"></div>
-          <div className="flex justify-start items-center flex-col h-full bg-white w-1/2">
-            <div className="flex px-8 w-full py-4 bg-[#221E22] justify-between items-center">
-              <p className="font-bold text-lg  text-white">Select Category</p>
-              <span
-                className="hover:cursor-pointer"
-                onClick={closeCategoryModal}
+              <form
+                className="font-DM-sans text-sm font-normal"
+                // onSubmit={}
               >
-                <Icon
-                  icon="ic:outline-cancel"
-                  color="white"
-                  width="24"
-                  height="24"
-                />
-              </span>
+                <div className="mb-6">
+                  <ProductInput
+                    name="Product Name"
+                    id="product_name"
+                    value={formData?.product_name}
+                    onChange={handleChange}
+                    type="text"
+                    placeholder="Advanced Snail 92, All in One Cream"
+                  />
+                </div>
+                <div className="mb-6 grid grid-cols-2 gap-4">
+                  <div onClick={openCategoryModal}>
+                    <ProductInput
+                      name="Product Categoory"
+                      id="name"
+                      value={
+                        formData.product_category
+                          ? formData.product_category
+                          : "Select"
+                      }
+                      type="text"
+                      placeholder="Select"
+                    />
+                  </div>
+                  <div>
+                    <ProductSelect
+                      name="Brand Name"
+                      id="brand"
+                      onChange={handleChange}
+                      value={formData?.brand}
+                      optionsLabel="Reckitt Benckiser"
+                      options={brands?.map((brand, index) => ({
+                        value: brand.id,
+                        label: brand.name,
+                      }))}
+                    />
+                  </div>
+                </div>
+                <div className="mb-6 grid grid-cols-2 gap-4 ">
+                  <div>
+                    <ProductInput
+                      name="Manufacturer"
+                      id="manufacturer"
+                      value={formData?.manufacturer}
+                      onChange={handleChange}
+                      type="text"
+                      placeholder="Reckitt Benckiser"
+                    />
+                  </div>
+                  <div>
+                    <p className="block mb-2 text-app-gray-300">
+                      Don’t have a product ID?
+                    </p>
+                    <div className="flex mt-4">
+                      <div className="flex items-center mr-4 ">
+                        <input
+                          type="radio"
+                          value="1"
+                          checked={id === 1}
+                          onChange={handleIdChange}
+                          className="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 outline-none focus:ring-0"
+                        />
+                        <label
+                          htmlFor="default-radio-1"
+                          className="ms-2 text-sm font-medium text-gray-900"
+                        >
+                          Yes
+                        </label>
+                      </div>
+                      <div className="flex items-center">
+                        <input
+                          type="radio"
+                          value="0"
+                          checked={id === 0}
+                          onChange={handleIdChange}
+                          className="w-4 h-4 text-[#FF1818] focus:ring-0 focus:ring-none bg-gray-100 border-gray-300"
+                        />
+                        <label
+                          htmlFor="default-radio-2"
+                          className="ms-2 text-sm font-medium text-[#FF1818"
+                        >
+                          No
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="mb-6 grid grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      htmlFor="countries"
+                      className="block mb-2 text-app-gray-300"
+                    >
+                      Ext. Product ID type
+                    </label>
+                    <select
+                      id="countries"
+                      className="bg-transparent border border-app-gray-100 text-app-gray-300 text-sm rounded-[10px] focus:ring-0 focus:ring-none focus:border-gray-900 block w-full p-2.5"
+                    >
+                      <option selected>Select</option>
+                      <option value="EAN">EAN</option>
+                      <option value="UPC">UPC</option>
+                      <option value="ISBN">ISBN</option>
+                      <option value="GTIN">GTIN</option>
+                    </select>
+                  </div>
+                  <div>
+                    <ProductInput
+                      name="External Product ID"
+                      id="external_product_id"
+                      value={formData?.external_product_id}
+                      onChange={handleChange}
+                      type="text"
+                      placeholder="EAN/UPC/ISBN/GTINr"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex items-center mb-[37px]">
+                  <input
+                    type="checkbox"
+                    checked={hasVartion}
+                    onChange={handleHasVariation}
+                    className="w-4 h-4 text-[#FF1818] bg-gray-100 border-gray-300 rounded focus:ring-0"
+                  />
+                  <label
+                    htmlFor="link-checkbox"
+                    className="ms-2 text-base font-bold text-[#4F4141] font-DM-sans"
+                  >
+                    Create Variation & prices
+                  </label>
+                </div>
+                <div className="mb-6">
+                  {attributes.length >= 1 && (
+                    <p className="block mb-2 text-app-gray-300">Attributes</p>
+                  )}
+                  <div className="flex items-center">
+                    {attributes.map((attribute) => (
+                      <div className="flex items-center mr-[30px]">
+                        <input
+                          id="size"
+                          type="checkbox"
+                          onChange={() => {
+                            handleCheckboxChange(attribute.name);
+                          }}
+                          checked={checkboxStates[attribute.name] || false}
+                          className="w-4 h-4 text-[#FF1818] bg-gray-100 border-gray-300 rounded focus:ring-0"
+                        />
+                        <label
+                          htmlFor="link-checkbox"
+                          className="ms-2 text-base font-bold text-[#4F4141] font-DM-sans"
+                        >
+                          {attribute.name}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="mb-6 grid grid-cols-2 gap-4">
+                  {attributes.length !== 0 ? (
+                    attributes?.map((attribute: Attribute, index: number) => {
+                      // console.log(attribute);
+                      if (checkboxStates[attribute.name])
+                        return (
+                          <TextColorizer
+                            key={index}
+                            id={attribute.id.toString()}
+                            attributeText={attribute.items}
+                            name={attribute.name}
+                            onColorizedTextsChange={handleColorizedTextsChange}
+                          />
+                        );
+                    })
+                  ) : (
+                    <p className="text-app-gray-300 text-sm">
+                      {/* Select Category */}
+                    </p>
+                  )}
+                </div>
+                <div className="mb-6">
+                  <ProductTextArea
+                    name="Short Description"
+                    id="short_description"
+                    onChange={handleChange}
+                    value={formData.short_description}
+                    placeholder="Write down the Short Description"
+                    wordsLimit="0 / 500"
+                  />
+                </div>
+                <div className="mb-6">
+                  <ProductTextArea
+                    name="Full Description"
+                    id="product_description"
+                    onChange={handleChange}
+                    value={formData.product_description}
+                    placeholder="Write down the Full Description"
+                    wordsLimit="0 / 500"
+                  />
+                </div>
+              </form>
             </div>
-            <div className="flex w-full bg-[#44444C] text-white text-sm px-8 py-2 font-bold">
-              Electronics `{">"}` TVs `{">"}` Smart TVs
-            </div>
-            <div className="flex flex-col w-full overflow-y-scroll">
-              <ModalSelect
-                categories={categories}
-                handleCategorySelect={handleCategorySelect}
-              />
+            <div className="bg-white w-full rounded-[20px] py-[19px] px-[31px]">
+              <p className="text-[#4F4141] font-DM-sans font-bold text-2xl mb-[27px]">
+                Stocks & Pricing
+              </p>
+              <form className="font-DM-sans text-sm font-normal">
+                <div className="mb-6 grid grid-cols-3 gap-4">
+                  <div>
+                    <ProductSelect
+                      name="Currency"
+                      id="currency"
+                      onChange={handleChange}
+                      value={formData?.currency}
+                      optionsLabel="US$"
+                      options={[
+                        { value: "USD", label: "US$" },
+                        { value: "NGN", label: "NGN₦" },
+                      ]}
+                    />
+                  </div>
+
+                  <div>
+                    <ProductInput
+                      name="Regular Price"
+                      id="price"
+                      value={formData?.price}
+                      onChange={handleChange}
+                      type="text"
+                      placeholder="Enter Price"
+                    />
+                  </div>
+                  <div>
+                    <ProductInput
+                      name="Sales Price"
+                      id="sale_price"
+                      value={formData?.sale_price}
+                      onChange={handleChange}
+                      type="text"
+                      placeholder="Enter Price"
+                    />
+                  </div>
+                  <div>
+                    <ProductInput
+                      name="Store Keeping Unit (SKU)"
+                      id="sku"
+                      value={formData.sku}
+                      onChange={handleChange}
+                      type="text"
+                      placeholder="#### - #### - ####"
+                    />
+                  </div>
+                </div>
+                <div className="mb-6 grid grid-cols-3 gap-4">
+                  <div>
+                    <ProductInput
+                      name="Sales Duration (START)"
+                      id="sale_start_date"
+                      value={formData?.sale_start_date}
+                      onChange={handleChange}
+                      type="date"
+                      placeholder="select"
+                    />
+                  </div>
+                  <div>
+                    <ProductInput
+                      name="Sales Duration (END)"
+                      id="sale_end_date"
+                      value={formData?.sale_end_date}
+                      onChange={handleChange}
+                      type="date"
+                      placeholder="select"
+                    />
+                  </div>
+                  <div>
+                    <ProductInput
+                      name="Quantity"
+                      id="quantity"
+                      value={formData?.quantity}
+                      onChange={handleChange}
+                      type="number"
+                      placeholder="Enter quantity in stock"
+                    />
+                  </div>
+                </div>
+                <div className="mb-6 grid grid-cols-3 gap-4">
+                  <div>
+                    <ProductInput
+                      name="Minimum Stock"
+                      id="manage_stock_quantity"
+                      value={formData.manage_stock_quantity}
+                      onChange={handleChange}
+                      type="number"
+                      placeholder="Set a low stock alert"
+                    />
+                  </div>
+                </div>
+                <div className="flex items-center mb-[30px]">
+                  <input
+                    type="checkbox"
+                    checked={discountIsChecked}
+                    onChange={handleDiscountChecked}
+                    className="w-4 h-4 text-[#FF1818] bg-gray-100 border-gray-300 rounded focus:ring-0"
+                  />
+                  <label
+                    htmlFor="link-checkbox"
+                    className="ms-2 text-base font-bold text-[#4F4141] font-DM-sans"
+                  >
+                    Enable Quantity discount pricing?
+                  </label>
+                </div>
+                {discountIsChecked && (
+                  <>
+                    {" "}
+                    <div className="mb-6 grid  gap-4">
+                      <div>
+                        {/* <p className="block mb-2 text-app-gray-300">
+                      Don’t have a product ID?
+                    </p> */}
+                        <div className="flex">
+                          <div className="flex items-center mr-4 ">
+                            <input
+                              type="radio"
+                              value="fixed"
+                              checked={discountType === "fixed"}
+                              onChange={handleDiscountChange}
+                              className="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 outline-none focus:ring-0"
+                            />
+                            <label
+                              htmlFor="default-radio-1"
+                              className="ms-2 text-sm font-medium text-gray-900"
+                            >
+                              Fixed Prices
+                            </label>
+                          </div>
+                          <div className="flex items-center">
+                            <input
+                              type="radio"
+                              value="percentage"
+                              checked={discountType === "percentage"}
+                              onChange={handleDiscountChange}
+                              className="w-4 h-4 text-[#FF1818] focus:ring-0 focus:ring-none bg-gray-100 border-gray-300"
+                            />
+                            <label
+                              htmlFor="default-radio-2"
+                              className="ms-2 text-sm font-medium text-[#FF1818"
+                            >
+                              Percent off
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {discountType === "fixed" && (
+                      <div className="grid grid-cols-3">
+                        <div
+                          className="col-span-2 w-full bg-white rounded-[20px] relative px-[21px] py-[21px] mb-[46px]"
+                          style={{
+                            boxShadow:
+                              "0px 15px 40px 0px rgba(112, 144, 176, 0.12)",
+                          }}
+                        >
+                          <p
+                            className="text-[#01B574] text-sm font-medium flex items-center absolute right-0 top-0"
+                            onClick={handleAddForm}
+                          >
+                            <span>
+                              <img src="/images/circle-plus.svg" alt="icon" />
+                            </span>
+                            <span>Add..</span>
+                          </p>
+                          <p className="text-[18px] font-bold font-DM-sans text-app-gray-300 mt-4 mb-[5px]">
+                            Quantity discounts
+                          </p>
+                          <div className="grid grid-cols-3 gap-4 text-[#A3AED0] font-medium text-sm border-b border-[#E9EDF7] font-DM-sans pb-[6px] mb-[13px] ">
+                            <p>Minimum Quantity</p>
+                            <p>Price/Unit</p>
+                          </div>
+
+                          {quantityDiscountForms.map((form) => (
+                            <div
+                              className="grid grid-cols-3 gap-x-4 pb-[13px] items-center"
+                              key={form.id}
+                            >
+                              <input
+                                type="number"
+                                id="number-input"
+                                aria-describedby="helper-text-explanation"
+                                value={form.values.discount_quantity_fixed}
+                                onChange={(e) =>
+                                  handleInputChange(
+                                    form.id,
+                                    "discount_quantity_fixed",
+                                    e.target.value
+                                  )
+                                }
+                                className="bg-transparent border border-[#DCDCE4] rounded-[10px] text-gray-900 text-sm block w-full p-2.5"
+                                placeholder="0"
+                              />
+
+                              <div className="relative w-full">
+                                <div className="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none"></div>
+                                <input
+                                  type="number"
+                                  id="currency-input"
+                                  value={form.values.price_per_unit}
+                                  onChange={(e) =>
+                                    handleInputChange(
+                                      form.id,
+                                      "price_per_unit",
+                                      e.target.value
+                                    )
+                                  }
+                                  className="bg-transparent border border-[#DCDCE4] rounded-[10px] text-gray-900 text-sm block w-full p-2.5"
+                                  placeholder="0"
+                                />
+                              </div>
+                              <img
+                                src="/images/close-icon.svg"
+                                alt="icon"
+                                className="cursor-pointer"
+                                onClick={() => handleRemoveForm(form.id)}
+                              />
+
+                              <input />
+                            </div>
+                          ))}
+                          <button
+                            className="px-[14px] py-[9px] bg-[#01B574] rounded-[10px]"
+                            onClick={handleSubmitDiscountForms}
+                            type="button"
+                          >
+                            <p className="text-white font-DM-sans font-medium text-sm flex items-center">
+                              Add Price
+                            </p>
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                    {discountType === "percentage" && (
+                      <div className="grid grid-cols-3">
+                        <div
+                          className="col-span-2 w-full bg-white rounded-[20px] relative px-[21px] py-[21px] mb-[46px]"
+                          style={{
+                            boxShadow:
+                              "0px 15px 40px 0px rgba(112, 144, 176, 0.12)",
+                          }}
+                        >
+                          <p
+                            className="text-[#01B574] text-sm font-medium flex items-center absolute right-0 top-0"
+                            onClick={handleAddPercentageForm}
+                          >
+                            <span>
+                              <img src="/images/circle-plus.svg" alt="icon" />
+                            </span>
+                            <span>Add..</span>
+                          </p>
+                          <p className="text-[18px] font-bold font-DM-sans text-app-gray-300 mt-4 mb-[5px]">
+                            Quantity discounts
+                          </p>
+                          <div className="grid grid-cols-3 gap-4 text-[#A3AED0] font-medium text-sm border-b border-[#E9EDF7] font-DM-sans pb-[6px] mb-[13px] ">
+                            <p>Minimum Quantity</p>
+                            <p>Percentage</p>
+                          </div>
+
+                          {percentageDiscountForms.map((form) => (
+                            <div
+                              className="grid grid-cols-3 gap-x-4 pb-[13px] items-center"
+                              key={form.id}
+                            >
+                              <input
+                                type="number"
+                                id="number-input"
+                                aria-describedby="helper-text-explanation"
+                                value={form.values.discount_quantity}
+                                onChange={(e) =>
+                                  handlePercentageInputChange(
+                                    form.id,
+                                    "discount_quantity",
+                                    e.target.value
+                                  )
+                                }
+                                className="bg-transparent border border-[#DCDCE4] rounded-[10px] text-gray-900 text-sm block w-full p-2.5"
+                                placeholder="0"
+                              />
+
+                              <div className="relative w-full">
+                                <div className="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none"></div>
+                                <input
+                                  type="number"
+                                  id="discount_percentag"
+                                  value={form.values.discount_percentage}
+                                  onChange={(e) =>
+                                    handlePercentageInputChange(
+                                      form.id,
+                                      "discount_percentage",
+                                      e.target.value
+                                    )
+                                  }
+                                  className="bg-transparent border border-[#DCDCE4] rounded-[10px] text-gray-900 text-sm block w-full p-2.5"
+                                  placeholder="0"
+                                />
+                              </div>
+                              <img
+                                src="/images/close-icon.svg"
+                                alt="icon"
+                                className="cursor-pointer"
+                                onClick={() =>
+                                  handleRemovePercentageForm(form.id)
+                                }
+                              />
+
+                              <input />
+                            </div>
+                          ))}
+                          <button
+                            className="px-[14px] py-[9px] bg-[#01B574] rounded-[10px]"
+                            onClick={handleSubmitPercentageForms}
+                            type="button"
+                          >
+                            <p className="text-white font-DM-sans font-medium text-sm flex items-center">
+                              Add Price
+                            </p>
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </>
+                )}
+              </form>
+
+              {hasVartion && (
+                <>
+                  {" "}
+                  <p className="text-[#4F4141] font-DM-sans font-bold text-2xl mb-[27px]">
+                    Variation & Pricing
+                  </p>
+                  <div className="mb-6">
+                    <p className="block mb-2 text-app-gray-300">
+                      Choose your attribute*
+                    </p>
+                    <div className="flex items-center">
+                      {attributes.map((attribute) => (
+                        <div className="flex items-center mr-[30px] mb-4">
+                          <input
+                            id="size"
+                            type="checkbox"
+                            onChange={() => {
+                              handleVariationCheckboxChange(attribute.name);
+                            }}
+                            checked={
+                              variationCheckboxStates[attribute.name] || false
+                            }
+                            className="w-4 h-4 text-[#FF1818] bg-gray-100 border-gray-300 rounded focus:ring-0"
+                          />
+                          <label
+                            htmlFor="link-checkbox"
+                            className="ms-2 text-base font-bold text-[#4F4141] font-DM-sans"
+                          >
+                            {attribute.name}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-4 items-center mb-[52px]">
+                      {sizes2Checked && (
+                        <div>
+                          <ProductInput
+                            name="Sizes"
+                            id="brand"
+                            value=""
+                            onChange={() => {}}
+                            onBlur={() => {}}
+                            type="text"
+                            placeholder=""
+                          />
+                        </div>
+                      )}
+                      {color2Checked && (
+                        <div>
+                          <ProductInput
+                            name="Color"
+                            id="brand"
+                            value=""
+                            onChange={() => {}}
+                            onBlur={() => {}}
+                            type="text"
+                            placeholder=""
+                          />
+                        </div>
+                      )}
+                      {material2Checked && (
+                        <div>
+                          <ProductInput
+                            name="Material"
+                            id="brand"
+                            value=""
+                            onChange={() => {}}
+                            onBlur={() => {}}
+                            type="text"
+                            placeholder=""
+                          />
+                        </div>
+                      )}
+                      {/* <div className="mt-5">
+                        <button className="px-[14px] py-[9px] bg-[#01B574] rounded-[10px] mr-[30px]">
+                          <p className="text-white font-DM-sans font-medium text-sm flex items-center">
+                            Add
+                          </p>
+                        </button>
+                      </div> */}
+                    </div>
+
+                    <div
+                      className="col-span-2 w-full bg-white rounded-[20px] relative px-[21px] py-[21px] mb-[46px]"
+                      style={{
+                        boxShadow:
+                          "0px 15px 40px 0px rgba(112, 144, 176, 0.12)",
+                      }}
+                    >
+                      <p
+                        className="text-[#01B574] text-sm font-medium flex items-center absolute right-0 top-0 cursor-pointer"
+                        onClick={handleAddProductVariations}
+                      >
+                        <span>
+                          <img src="/images/circle-plus.svg" alt="icon" />
+                        </span>
+                        <span>More..</span>
+                      </p>
+                      <p className="text-[18px] font-bold font-DM-sans text-app-gray-300 mt-4 mb-[5px]">
+                        Modify variation/s
+                      </p>
+                      <div className="grid grid-cols-8 gap-4 text-[#A3AED0] font-medium text-sm border-b border-[#E9EDF7] font-DM-sans pb-[6px] mb-[13px] ">
+                        <p>Size</p>
+                        <p>Color</p>
+                        <p>Regular price</p>
+                        <p>Salse price</p>
+                        <p>Quanity</p>
+                        <p>Sku</p>
+                        <p>Image</p>
+                      </div>
+
+                      {productVariations.map((form) => (
+                        <div
+                          className="grid grid-cols-8 gap-x-4 pb-[13px] items-center"
+                          key={form.id}
+                        >
+                          <div className="relative w-full">
+                            {/* <input
+                          type="number"
+                          id="number-input"
+                          aria-describedby="helper-text-explanation"
+                          value={form.values.discount_quantity_fixed}
+                          onChange={(e) =>
+                            handleInputChange(
+                              form.id,
+                              "discount_quantity_fixed",
+                              e.target.value
+                            )
+                          }
+                          className="bg-transparent border border-[#DCDCE4] rounded-[10px] text-gray-900 text-sm block w-full p-2.5"
+                          placeholder="0"
+                        /> */}
+
+                            <div className="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none"></div>
+                            <input
+                              type="number"
+                              // id="size"
+                              value={form.values.size}
+                              onChange={(e) =>
+                                handleVariationChange(
+                                  form.id,
+                                  "size",
+                                  e.target.value
+                                )
+                              }
+                              className="bg-transparent border border-[#DCDCE4] rounded-[10px] text-gray-900 text-sm block w-full p-2.5"
+                              placeholder="0"
+                            />
+                          </div>
+                          <div className="relative w-full">
+                            <div className="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none"></div>
+                            <input
+                              type="text"
+                              // id="color"
+                              value={form.values.color}
+                              onChange={(e) =>
+                                handleVariationChange(
+                                  form.id,
+                                  "color",
+                                  e.target.value
+                                )
+                              }
+                              className="bg-transparent border border-[#DCDCE4] rounded-[10px] text-gray-900 text-sm block w-full p-2.5"
+                              placeholder="0"
+                            />
+                          </div>
+                          <div className="relative w-full">
+                            <div className="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none"></div>
+                            <input
+                              type="number"
+                              // id="variation_price"
+                              value={form.values.variation_price}
+                              onChange={(e) =>
+                                handleVariationChange(
+                                  form.id,
+                                  "variation_price",
+                                  e.target.value
+                                )
+                              }
+                              className="bg-transparent border border-[#DCDCE4] rounded-[10px] text-gray-900 text-sm block w-full p-2.5"
+                              placeholder="0"
+                            />
+                          </div>
+                          <div className="relative w-full">
+                            <div className="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none"></div>
+                            <input
+                              type="number"
+                              id="variation_sales_price"
+                              value={form.values.variation_sales_price}
+                              onChange={(e) =>
+                                handleVariationChange(
+                                  form.id,
+                                  "variation_sales_price",
+                                  e.target.value
+                                )
+                              }
+                              className="bg-transparent border border-[#DCDCE4] rounded-[10px] text-gray-900 text-sm block w-full p-2.5"
+                              placeholder="0"
+                            />
+                          </div>
+                          <div className="relative w-full">
+                            <div className="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none"></div>
+                            <input
+                              type="number"
+                              id="variation_quantity"
+                              value={form.values.variation_quantity}
+                              onChange={(e) =>
+                                handleVariationChange(
+                                  form.id,
+                                  "variation_quantity",
+                                  e.target.value
+                                )
+                              }
+                              className="bg-transparent border border-[#DCDCE4] rounded-[10px] text-gray-900 text-sm block w-full p-2.5"
+                              placeholder="0"
+                            />
+                          </div>
+                          <div className="relative w-full">
+                            <div className="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none"></div>
+                            <input
+                              type="text"
+                              // id="variation_sku"
+                              value={form.values.variation_sku}
+                              onChange={(e) =>
+                                handleVariationChange(
+                                  form.id,
+                                  "variation_sku",
+                                  e.target.value
+                                )
+                              }
+                              className="bg-transparent border border-[#DCDCE4] rounded-[10px] text-gray-900 text-sm block w-full p-2.5"
+                              placeholder="0"
+                            />
+                          </div>
+                          <div className="max-w-[52px] max-h-[52px]">
+                            {/* <ImageUpload
+                              onImageUpload={handleVariationImageUploader}
+                            /> */}
+                          </div>
+
+                          <img
+                            src="/images/close-icon.svg"
+                            alt="icon"
+                            className="cursor-pointer"
+                            onClick={() =>
+                              handleRemoveProductVariations(form.id)
+                            }
+                          />
+
+                          <input />
+                        </div>
+                      ))}
+                      <button
+                        className="px-[14px] py-[9px] bg-[#01B574] rounded-[10px]"
+                        onClick={handleSubmitProductVariationForms}
+                        type="button"
+                      >
+                        <p className="text-white font-DM-sans font-medium text-sm flex items-center">
+                          Add
+                        </p>
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
-      )}
-    </div>
+        {isCategoryModal && (
+          <div
+            className={`fixed top-0 left-0 right-0 z-50 bg-[#000000] bg-opacity-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 max-h-full flex justify-center items-center`}
+          >
+            <div
+              className="p-4 w-full max-w-[590px] max-h-[500px]"
+              style={{ maxHeight: "500px" }}
+            >
+              <div className="relative bg-white rounded-[26.7px] shadow px-[20px] pb-[28.69px]">
+                <span
+                  className="hover:cursor-pointer flex justify-end pt-4"
+                  onClick={closeCategoryModal}
+                >
+                  <Icon
+                    icon="ic:outline-cancel"
+                    color="black"
+                    width="24"
+                    height="24"
+                  />
+                </span>
+                <ModalSelect
+                  categories={categories}
+                  handleCategorySelect={handleCategorySelect}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </ManufacturersProfileLayout>
   );
 };
 
