@@ -87,7 +87,7 @@ const ManufacturersProfileLayout = ({
     {
       image: "/images/Message.png",
       title: "Inbox",
-      subheading: "View messages from Azany",
+      subheading: "View messages from Azany.",
       path: "/messages",
     },
     {
