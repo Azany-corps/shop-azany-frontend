@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { data, data2 } from "./dataFile";
+import { data, data2 } from "./menuData";
 import { Link, useNavigate } from "react-router-dom";
 import useAuthToken from "../../../../hooks/useAuthToken";
 
@@ -263,7 +263,7 @@ const ManufacturersProfileLayoutComp = ({
                 </li>
               </ul>
             </li>
-            {data.map((each, index) => (
+            {data.map((each: any, index: number) => (
               <li
                 key={index}
                 onClick={() => {
@@ -293,8 +293,9 @@ const ManufacturersProfileLayoutComp = ({
               </li>
             ))}
           </ul>
+
           <ul className="space-y-[20px] font-medium border-b border-b-[#F4F7FE] pt-[20px] pb-[127px] font-DM-sans">
-            {data2.map((each, index) => (
+            {data2.map((each: any, index: number) => (
               <li
                 key={index}
                 onClick={() => {
