@@ -7,6 +7,7 @@ import ManufacturersProfileLayout from "../../../components/General/manufacturer
 import TopHeader from "../../../components/General/TopHeader";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import DiscountComponent from "../../../components/Core/Discount";
+import ManufacturersProfileLayout from "../../../components/General/manufacturers/profile/Layout";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import callAPI from "../../../api/callApi";
@@ -819,6 +820,7 @@ const AddProduct = () => {
   // console.log(localStorage.getItem("token"));
 
   return (
+
     <ManufacturersProfileLayout>
       <div className="px-[30px] font-DM-sans">
         <div className="mb-[30px] flex justify-between">
@@ -1427,6 +1429,7 @@ const AddProduct = () => {
                     checked={discountIsChecked}
                     onChange={handleDiscountChecked}
                     className="w-4 h-4 text-[#FF1818] bg-gray-100 border-gray-300 rounded focus:ring-0"
+
                   />
                   <label
                     htmlFor="link-checkbox"
@@ -1435,6 +1438,7 @@ const AddProduct = () => {
                     Enable Quantity discount pricing?
                   </label>
                 </div>
+
                 {discountIsChecked && (
                   <>
                     {" "}
@@ -1954,6 +1958,7 @@ const AddProduct = () => {
         )}
       </div>
     </ManufacturersProfileLayout>
+
   );
 };
 

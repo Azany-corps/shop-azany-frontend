@@ -1,4 +1,4 @@
-import dateFormat, { masks } from "dateformat";
+import dateFormat from "dateformat";
 
 export const CurrencyFormatter = (amount) =>
   new Intl.NumberFormat("NGN", {

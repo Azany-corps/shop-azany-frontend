@@ -12,10 +12,9 @@ import MobileFooter from "../../components/General/MobileFooter";
 const Manufacturers = () => {
   return (
     <div className="bg-[#F5F5F5] xs:overflow-x-hidden">
-      <TopHeader />
-      <BottomHeader style={"bg-[#1B7CFC] py-2 xs:hidden"} />
-      <Header style={"bg-[#70ADFF] xs:hidden"} />
+      <BottomHeader style={"bg-[#221E22] py-2 hidden md:block"} />
       <MobileHeader />
+      <Header style={"bg-[#44444C] hidden md:block"} />
       <Banner />
       <Category
         styles={"text-white bg-blue-400 font-medium text-lg"}

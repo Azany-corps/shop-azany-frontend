@@ -1,3 +1,4 @@
+
 @import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Public+Sans:wght@100;300;400;500;600;700;800;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
@@ -5,25 +6,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
-.font-baloo {
-  font-family: "Baloo 2", sans-serif;
-}
 
-.font-public-sans {
-  font-family: "Public Sans", sans-serif;
-}
+.font-baloo { font-family: "Baloo 2",sans-serif; }
 
-.font-poppins {
-  font-family: "Poppins", sans-serif;
-}
+.font-public-sans { font-family: "Public Sans",sans-serif; }
 
-.font-asap {
-  font-family: "Asap", sans-serif;
-}
+.font-poppins { font-family: "Poppins",sans-serif; }
 
-.font-inter {
-  font-family: "Inter", sans-serif;
-}
+.font-asap { font-family: "Asap",sans-serif; }
+
 
 .font-DM-sans {
   font-family: "DM Sans", sans-serif;
@@ -41,84 +32,41 @@ body {
   /* color: #29020266; */
 }
 
-.bx_shadow {
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
-}
-.general-font {
-  font-family: "Lato";
-}
-.home-background {
-  background: linear-gradient(180deg, #d8cbcb 0%, rgba(169, 116, 114, 0) 100%);
-}
+.font-inter { font-family: "Inter",sans-serif; }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
+body { background-color: #fafafa; }
 
-input[type="number"] {
-  -moz-appearance: textfield;
-}
+.azany_main { color: "#1B7CFC"; }
+.azany_secondary { color: "#E51B48"; /* color: #d0d0d026; */ }
 
-hr {
-  margin: 1.875em 0;
-  border: none;
-  border-bottom: solid 2px #fff;
-}
-.dashed {
-  border-bottom: dashed 1px #000000;
-}
-.dashed-2 {
-  border: none;
-  height: 2px;
-  background: #000;
-  background: repeating-linear-gradient(
-    90deg,
-    #fff,
-    #fff 6px,
-    transparent 6px,
-    transparent 12px
-  );
-}
+.bx_shadow { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+.general-font { font-family: "Lato"; }
+.home-background { background: linear-gradient(180deg, #d8cbcb 0, rgba(169, 116, 114, 0) 100%); }
 
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
+input::-webkit-inner-spin-button, input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+
+input[type="number"] { -moz-appearance: textfield; }
+
+hr { margin: 1.875em 0; border: none; border-bottom: solid 2px #fff; }
+.dashed { border-bottom: dashed 1px #000; }
+.dashed-2 { border: none; height: 2px; background: #000; background: repeating-linear-gradient(     90deg,     #fff,     #fff 6px,     transparent 6px,     transparent 12px   ); }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
 
 /* Hide scrollbar for IE, Edge and Firefox */
-.no-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
+.no-scrollbar { -ms-overflow-style: none; /* IE and Edge */ scrollbar-width: none; /* Firefox */ }
 
 @keyframes scroll {
-  0% {
-    left: 0;
-  }
-  100% {
-    left: -100%;
-  }
+  0% { left: 0; }
+  100% { left: -100%; }
 }
 
-.animate {
-  animation: scroll 15s linear infinite;
-}
+.animate { animation: scroll 15s linear infinite; }
 
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+.line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; }
 
-.line-clamp-1 {
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.line-clamp-1 { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; }
+@layer utilities {
 }
 
 #custom-select {

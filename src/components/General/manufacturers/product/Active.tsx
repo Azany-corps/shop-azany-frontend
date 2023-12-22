@@ -93,36 +93,36 @@ const ProductActive = ({ data }: ProductData) => {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex smm:gap-3 gap-2 flex-col smm:p-4 px-2 py-4 bg-white rounded-md shadow-md">
+      <div className="flex md:gap-3 gap-2 flex-col md:p-4 px-2 py-4 bg-white rounded-md shadow-md">
         <div className=" flex justify-between gap-2">
-          <div className="flex flex-row smm:gap-4 gap-2">
+          <div className="flex flex-row md:gap-4 gap-2">
             <img
               src={data?.image_url ? data?.image_url : ""}
               className="object-cover h-[70px] !w-[70px] rounded-lg"
               alt=""
             />
-            <div className="flex flex-col smm:gap-4 gap-1 smm:text-[16px] text-sm">
-              <p className="font-medium smm:text-[16px] text-sm line-clamp-2">
+            <div className="flex flex-col md:gap-4 gap-1 md:text-[16px] text-sm">
+              <p className="font-medium md:text-[16px] text-sm line-clamp-2">
                 {data?.product_name}
               </p>
-              <p className="smm:font-medium font-light">{data.stock}</p>
-              <p className="smm:font-medium font-light">
+              <p className="md:font-normal font-light">{data.stock}</p>
+              <p className="text-sm md:font-normal font-light">
                 {changeTImeStampToDDYY(data?.updated_at)}
               </p>
             </div>
           </div>
           <div className="flex flex-col justify-between items-end">
-            <p className="font-medium smm:text-[24px] text-sm text-right">
+            <p className="font-medium text-sm md:text-xl text-right">
               {data.currency} {data.price}
             </p>
           </div>
         </div>
         <div className="flex justify-between items-center">
           <div className="flex flex-row gap-2">
-            <button className="smm:text-[12px] text-sm p-1 bg-[#F3F3F3] rounded-md">
+            <button className="md:text-[12px] text-sm p-1 bg-[#F3F3F3] rounded-md">
               231 Views
             </button>
-            <button className="smm:text-[12px] text-sm p-1 bg-[#F3F3F3] rounded-md">
+            <button className="md:text-[12px] text-sm p-1 bg-[#F3F3F3] rounded-md">
               20 Orders
             </button>
           </div>
