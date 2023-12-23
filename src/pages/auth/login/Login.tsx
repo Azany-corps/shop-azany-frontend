@@ -48,6 +48,7 @@ const AuthLogin = () => {
         console.log(response.data?.values);
 
         saveAuthToken(token);
+        localStorage.setItem("token", response.token);
         localStorage.setItem("name", response.data?.values?.first_name);
         localStorage.setItem("last_name", response.data?.values?.last_name);
         localStorage.setItem("phone", response.data?.values?.phone);

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import ManufacturersProfileLayout from "../../components/General/manufacturers/profile/Layout";
 import { Grid } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import ManufacturersProfileLayoutComp from "../../components/General/manufacturers/profile/Layout";
+import ManufacturersProfileLayoutComp from "../../components/General/manufacturers/profile/LayoutComp";
 type each = {
   image: string;
   title: string;
@@ -89,7 +88,7 @@ const ManufacturersIndex = () => {
 
   return (
     <div className="bg-[#F5F5F5]">
-      <ManufacturersProfileLayout>
+      <ManufacturersProfileLayoutComp>
         {/* <ManufacturersProfileLayoutComp title="overview"> */}
         <Grid item xs={12} md={4} display={{ xs: "block", sm: "none" }}>
           <div className="w-full bg-transparent mx-auto">
@@ -131,8 +130,9 @@ const ManufacturersIndex = () => {
                 <div className="px-2 space-y-2">
                   {data?.map((each, index) => (
                     <div
-                      className={`list-itemed xs:shadow-md text-black ${active === each ? "bg-[#E51B48]" : ""
-                        } hover:bg-[#E51B48] hover:text-white focus:bg-[#E51B48]`}
+                      className={`list-itemed xs:shadow-md text-black ${
+                        active === each ? "bg-[#E51B48]" : ""
+                      } hover:bg-[#E51B48] hover:text-white focus:bg-[#E51B48]`}
                       key={index}
                       onClick={() => {
                         setActive(each);
@@ -170,7 +170,7 @@ const ManufacturersIndex = () => {
           </div>
         </Grid>
         {/* </ManufacturersProfileLayoutComp> */}
-      </ManufacturersProfileLayout>
+      </ManufacturersProfileLayoutComp>
     </div>
   );
 };
