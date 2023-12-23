@@ -1435,6 +1435,7 @@ const AddProduct = () => {
                     Enable Quantity discount pricing?
                   </label>
                 </div>
+
                 {discountIsChecked && (
                   <>
                     {" "}
