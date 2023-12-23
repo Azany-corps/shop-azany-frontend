@@ -685,7 +685,7 @@ const MProduct = () => {
             <div className="bg-white py-[10px] px-[11px] flex items-center rounded-[30px]">
               <form>
                 <div className="relative">
-                  <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                  <div className="absolute inset-y-0 end-0 flex items-center pe-3 pointer-events-none">
                     <svg
                       className="w-4 h-4 text-gray-500 "
                       aria-hidden="true"
