@@ -47,6 +47,7 @@ export const AddImageComp = ({ onImageSelect }: AddImageProps) => {
         setSelectedImages((prevSelectedImages) => {
           const newSelectedImages = [...prevSelectedImages];
           newSelectedImages[index] = file as FileWithPath;
+
           return newSelectedImages;
         });
         onImageSelect([...selectedImages]); // sending the updated selected images
@@ -56,17 +57,17 @@ export const AddImageComp = ({ onImageSelect }: AddImageProps) => {
   };
 
   return (
-    <div style={{ display: "flex", gap: "10px" }}>
+    <div className="grid grid-cols-2 gap-4">
       {selectedImages.map((image, index) => (
         <div
           key={index}
           onClick={() => handleImageClick(index)}
-          className="cursor-pointer w-[120px] h-[120px] object-cover rounded-[10px] overflow-hidden"
+          className="cursor-pointer w-full h-full overflow-hidden rounded-[13px]"
         >
           <img
             src={URL.createObjectURL(image)}
             alt={`add_product_${index}`}
-            className="w-[120px] h-[120px] object-cover"
+            className="w-full h-full object-cover"
           />
         </div>
       ))}
@@ -77,9 +78,9 @@ export const AddImageComp = ({ onImageSelect }: AddImageProps) => {
             <p>Drop the files here ...</p>
           ) : (
             <img
-              src="/images/addimage.png"
+              src="/images/file-upload.svg"
               alt="new_product"
-              className="w-[120px] h-[120px] object-cover rounded-[10px]"
+              className="w-full h-full object-cover rounded-[13px]"
             />
           )}
         </div>

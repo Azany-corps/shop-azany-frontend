@@ -1,41 +1,14 @@
 import React, { useEffect, useState } from "react";
-import BottomHeader from "../../../components/General/BottomHeader";
-import Footer from "../../../components/General/Footer";
-import Header from "../../../components/General/Header";
 import ManufacturersProfileLayout from "../../../components/General/manufacturers/profile/LayoutComp";
-
-import TopHeader from "../../../components/General/TopHeader";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import DiscountComponent from "../../../components/Core/Discount";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import callAPI from "../../../api/callApi";
 import { useNavigate } from "react-router-dom";
-import BackButton from "../../../components/Core/BackButton";
-import MaterialSwitch from "../../../components/Core/MuiSwitchIcon";
-import { DropdownComponent } from "../../../components/Core/DropdownComponent";
-import AddImage from "../../../components/Core/AddImage";
 import { FileWithPath } from "react-dropzone";
 import useAuthToken from "../../../hooks/useAuthToken";
-import { Editor } from "react-draft-wysiwyg";
-import { convertToRaw, EditorState } from "draft-js";
-import SubCategoryDropdown from "../../../components/Core/SubCategoryDropdown";
-import draftToHtml from "draftjs-to-html";
-import MobileHeader from "../../../components/General/MobileHeader";
-import MobileFooter from "../../../components/General/MobileFooter";
-import * as countryList from "../../../newCountries";
-import StockCheckbox from "./StockCheck";
 import { Icon } from "@iconify/react";
-import { NestedAccordion } from "../../../components/Core/NestedAccordion";
 import { ModalSelect } from "../../../components/Core/ModalSelect copy";
-
-import {
-  FormInput,
-  FormSelect,
-  FormTextArea,
-} from "../../../components/Inputs";
-import { useFormik } from "formik";
-import AddImageComp from "../../../components/Core/ProductAddImage";
+import AddImageComp from "../../../components/Core/AddImageComp";
 import TextColorizer from "./ClickInput";
 import { IProduct } from "./nwproduct.type";
 import {
@@ -274,6 +247,9 @@ const AddProduct = () => {
     setSelectedImages(images);
   };
 
+  const imageClick = (clicked: any) => {
+    clicked();
+  };
   const handleChange = (
     event:
       | React.ChangeEvent<HTMLInputElement>
@@ -373,21 +349,9 @@ const AddProduct = () => {
         data.append(`attribute_key[${index}]`, attribute.name);
       });
 
-      // uploadedImages.forEach((image, index) => {
-      //   Object.entries(image).forEach(([key, value]) => {
-      //     if (typeof value === "string" || typeof value === "number") {
-      //       data.append(`${key}[${index}]`, value.toString());
-      //     }
-      //   });
-      // });
-
-      uploadedImages?.forEach((image, index) => {
-        data.append(`image_1[${index}]`, image.image);
+      selectedImages?.forEach((image, index) => {
+        data.append(`image_1[${index}]`, image);
       });
-
-      // selectedImages?.forEach((image, index) => {
-      //   data.append(`image_1[${index}]`, image);
-      // });
 
       console.log(data);
 
@@ -774,24 +738,9 @@ const AddProduct = () => {
   const handleVariationImageUploader = (imageDataUrl: string) =>
     setVariationImage(imageDataUrl);
 
-  const handleImageUpload = (imageDataUrl: any) => {
-    console.log("Image uploaded:", imageDataUrl);
-    setUploadedImages((prevImages) => [
-      ...prevImages,
-      { image_1: imageDataUrl },
-    ]);
-
-    // Handle the uploaded image data in your parent component
-  };
-
-  console.log(uploadedImages);
-  console.log(selectedImages);
-
   const handleVariationImageUpload = (imageDataUrl: string) => {
     console.log("Image uploaded:", imageDataUrl);
   };
-
-  // console.log(uploadedImages);
 
   const handleIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newId = Number(event.target.value);
@@ -812,11 +761,7 @@ const AddProduct = () => {
     setDiscountIsChecked(!discountIsChecked);
   };
 
-  console.log(hasVartion);
-
-  // console.log(uploadedImages);
-
-  // console.log(localStorage.getItem("token"));
+  console.log(selectedImages);
 
   return (
     <ManufacturersProfileLayout>
@@ -853,17 +798,8 @@ const AddProduct = () => {
               <p className="text-[#4F4141] font-DM-sans font-bold text-2xl mb-[27px]">
                 Product Image
               </p>
-              <div className="grid grid-cols-2 gap-4">
-                <ImageUpload onImageUpload={handleImageUpload} />
-                {/* <AddImageComp onImageSelect={handleImageSelect} /> */}
-
-                {uploadedImages.map((image) => (
-                  <img
-                    src={image?.image_1}
-                    className="w-full h-full object-cover"
-                  />
-                ))}
-                {/* <AddImageComp onImageSelect={handleImageSelect} /> */}
+              <div className="w-full">
+                <AddImageComp onImageSelect={handleImageSelect} />
               </div>
             </div>
             <div className="bg-white w-full rounded-[20px] py-[19px] px-[31px]">
