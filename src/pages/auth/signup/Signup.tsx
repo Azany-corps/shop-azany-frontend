@@ -9,16 +9,15 @@ import callAPI from "../../../api/callApi";
 import { DropdownComponent } from "../../../components/Core/DropdownComponent";
 import { countries } from "../../../newCountries";
 import Logo from "../../../assets/azanylogofinal 2.png";
-import Progress_1 from "../../../assets/Progress_1.png"
-import Progress_2 from "../../../assets/Progress_2.png"
-import Progress_3 from "../../../assets/Progress_3.png"
+import Progress_1 from "../../../assets/Progress_1.png";
+import Progress_2 from "../../../assets/Progress_2.png";
+import Progress_3 from "../../../assets/Progress_3.png";
 import { ISignUp } from "./signup.type";
-import { Icon } from '@iconify/react';
+import { Icon } from "@iconify/react";
 import BusinessInfo from "./BusinessInfo";
 import SellerInfo from "./SellerInfo";
 import AccountInfo from "./AccountInfo";
 import Preview from "./Preview";
-
 
 interface Country {
   id: number;
@@ -45,24 +44,29 @@ const AuthSignup = () => {
   const [states, setStates] = useState<any[]>([]);
   const [cities, setCities] = useState<any[]>([]);
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
-  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState<boolean>(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] =
+    useState<boolean>(false);
   const [step, setStep] = useState<number>(1);
   const [previewUrls, setPreviewUrls] = useState<any>({
     cac_document: "",
     tax_document: "",
-    id_document: ""
-  })
+    id_document: "",
+  });
 
   const navigate = useNavigate();
 
   const handleChangeCountry = (selectedCountryName: string) => {
-    const selectedCountry = countries.find((country) => country.name === selectedCountryName);
+    const selectedCountry = countries.find(
+      (country) => country.name === selectedCountryName
+    );
     setCountry(selectedCountry!);
     getStatesInCountry(selectedCountry?.id);
   };
 
   const handleChangeState = (selectedStateName: string) => {
-    const selectedstate = states.find((state) => state.name === selectedStateName);
+    const selectedstate = states.find(
+      (state) => state.name === selectedStateName
+    );
     setState(selectedstate!);
     console.log(selectedstate);
     getCitiesInState(selectedstate?.id);
@@ -76,7 +80,12 @@ const AuthSignup = () => {
 
   const getStatesInCountry = async (countryId: any) => {
     try {
-      const response = await callAPI(`general/products/populate_states_by_country/${countryId}`, "GET", null, Headers);
+      const response = await callAPI(
+        `general/products/populate_states_by_country/${countryId}`,
+        "GET",
+        null,
+        Headers
+      );
 
       setStates(response?.data?.values);
     } catch (error) {
@@ -87,7 +96,12 @@ const AuthSignup = () => {
   const getCitiesInState = async (id: any) => {
     try {
       console.log({ id });
-      const response = await callAPI(`general/products/populate_cities_by_state/${id}`, "GET", null, Headers);
+      const response = await callAPI(
+        `general/products/populate_cities_by_state/${id}`,
+        "GET",
+        null,
+        Headers
+      );
       setCities(response?.data?.values);
     } catch (error) {
       console.log(error);
@@ -123,7 +137,7 @@ const AuthSignup = () => {
     id_document: "",
     account_number: "",
     bank_name: "",
-    account_name: ""
+    account_name: "",
   });
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -133,20 +147,18 @@ const AuthSignup = () => {
 
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = event.target;
-    if (name === 'country') {
+    if (name === "country") {
       const selectedCountry = countries.find(
         (country) => country?.name === value
       );
       getStatesInCountry(selectedCountry?.id);
     }
-    if (name === 'state') {
-      const selectedState = states.find(
-        (state) => state.name === value
-      );
+    if (name === "state") {
+      const selectedState = states.find((state) => state.name === value);
 
       getCitiesInState(selectedState?.id);
     }
-    if (name === 'city') {
+    if (name === "city") {
       const selectedCity = cities.find((city) => city.name === value);
     }
     setFormData({ ...formData, [name]: value });
@@ -154,21 +166,21 @@ const AuthSignup = () => {
 
   const previous = () => {
     setStep(step - 1);
-  }
+  };
 
   const next = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setStep(step + 1);
-  }
+  };
 
   const handleFileChange = async (event: any) => {
     event.preventDefault();
     let reader = new FileReader();
     let value = event?.target?.files[0];
-    let name = event.currentTarget.name
+    let name = event.currentTarget.name;
 
     reader.onloadend = () => {
-      setPreviewUrls({ ...previewUrls, [name]: reader.result })
+      setPreviewUrls({ ...previewUrls, [name]: reader.result });
       setFormData({ ...formData, [name]: value });
     };
 
@@ -180,10 +192,10 @@ const AuthSignup = () => {
     { progress: Progress_2, heading: "Business Information" },
     { progress: Progress_3, heading: "Bank Account Information" },
     { progress: "", heading: "Summary" },
-  ]
+  ];
 
   const handleSubmit = async () => {
-    console.log("formd: ", formData)
+    console.log("formd: ", formData);
 
     if (formData.password !== formData.password_confirmation) {
       toast.warning("Password and Confirm Password must match.", {
@@ -261,7 +273,6 @@ const AuthSignup = () => {
     }
   };
 
-
   const accountType = [
     { label: "Customer", value: "customer" },
     { label: "Manufacturer", value: "manufacturer" },
@@ -274,17 +285,49 @@ const AuthSignup = () => {
         <img className="md:scale-1 scale-[0.65] z-20" src={Logo} alt="logo" />
         <div className="flex md:w-[60%] w-[90%] flex-col justify-center items-center gap-3">
           <img src={data[step - 1].progress} alt={`Progress stage ${step}`} />
-          <p className="text-xs">
-            {data[step - 1].heading}
-          </p>
+          <p className="text-xs">{data[step - 1].heading}</p>
         </div>
 
-        {step === 1 && <SellerInfo handleChange={handleChange} handleSelectChange={handleSelectChange} handleSubmit={next} formData={formData} />}
-        {step === 2 && <BusinessInfo handleChange={handleChange} handleSelectChange={handleSelectChange} states={states} countries={countries} cities={cities} previewUrls={previewUrls} handleFileChange={handleFileChange} handleSubmit={next} formData={formData} previous={previous} />}
-        {step === 3 && <AccountInfo handleChange={handleChange} handleSubmit={next} formData={formData} previous={previous} />}
-        {step === 4 && <Preview formData={formData} previous={previous} previewUrls={previewUrls} handleSubmit={handleSubmit} />}
-      </div >
-    </div >
+        {step === 1 && (
+          <SellerInfo
+            handleChange={handleChange}
+            handleSelectChange={handleSelectChange}
+            handleSubmit={next}
+            formData={formData}
+          />
+        )}
+        {step === 2 && (
+          <BusinessInfo
+            handleChange={handleChange}
+            handleSelectChange={handleSelectChange}
+            states={states}
+            countries={countries}
+            cities={cities}
+            previewUrls={previewUrls}
+            handleFileChange={handleFileChange}
+            handleSubmit={next}
+            formData={formData}
+            previous={previous}
+          />
+        )}
+        {step === 3 && (
+          <AccountInfo
+            handleChange={handleChange}
+            handleSubmit={next}
+            formData={formData}
+            previous={previous}
+          />
+        )}
+        {step === 4 && (
+          <Preview
+            formData={formData}
+            previous={previous}
+            previewUrls={previewUrls}
+            handleSubmit={handleSubmit}
+          />
+        )}
+      </div>
+    </div>
   );
 };
 

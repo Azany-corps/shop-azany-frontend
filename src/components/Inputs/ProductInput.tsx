@@ -8,7 +8,7 @@ interface FormInputProps {
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (event: ChangeEvent<HTMLInputElement>) => void;
   style?: string;
-  type: string;
+  type: "text" | "number" | "date";
   value: string;
   placeholder?: string;
   labelStyle?: string;

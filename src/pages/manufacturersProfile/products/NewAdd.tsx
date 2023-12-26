@@ -22,8 +22,9 @@ import {
   ProductSelect,
   ProductTextArea,
 } from "../../../components/Inputs/ProductInput";
-import ImageUpload from "../../../components/Core/ImgUploader";
-import { nigeriaStates } from "./States";
+import { states } from "./States";
+import TableComponent from "../../../components/Core/Table";
+import AddSingleImageComp from "../../../components/Core/AddSingleImage";
 
 interface DiscountOption {
   quantity: string;
@@ -73,19 +74,28 @@ interface ShippingForm {
   id: number;
   values: {
     delivery_state: string;
+    delivery_city: string;
     delivery_price: number;
   };
 }
 interface ProductVariation {
   id: number;
   values: {
-    size: number;
-    color: string;
+    // size: number;
+    // color: string;
     variation_price: number;
     variation_sales_price: number;
     variation_quantity: number;
     variation_sku: string;
-    variation_image: string;
+    variation_start_date: string;
+    variation_end_date: string;
+    variation_external_product_id: string;
+    variation_image: FileWithPath[] | null;
+    variation_attr: {
+      size: number;
+      color: string;
+      brand: string;
+    };
   };
 }
 
@@ -119,6 +129,7 @@ const AddProduct = () => {
       id: new Date().getTime(),
       values: {
         delivery_state: "",
+        delivery_city: "",
         delivery_price: 0,
       },
     },
@@ -130,13 +141,21 @@ const AddProduct = () => {
     {
       id: new Date().getTime(),
       values: {
-        size: 0,
-        color: "",
+        // size: 0,
+        // color: "",
         variation_price: 0,
         variation_sales_price: 0,
         variation_quantity: 0,
         variation_sku: "",
-        variation_image: "",
+        variation_start_date: "",
+        variation_end_date: "",
+        variation_external_product_id: "",
+        variation_image: null,
+        variation_attr: {
+          size: 0,
+          color: "",
+          brand: "",
+        },
       },
     },
   ]);
@@ -145,9 +164,10 @@ const AddProduct = () => {
 
   const [id, setId] = useState<number>(0);
   const [discountType, setDiscountType] = useState<string>("");
-  const [uploadedImages, setUploadedImages] = useState<any[]>([]);
 
   const [selectedImages, setSelectedImages] = useState<FileWithPath[]>([]);
+  const [variationImg, setVariationImg] = useState<FileWithPath | null>(null);
+
   const [attributes, setAttributes] = useState<Attribute[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [authToken] = useAuthToken();
@@ -209,6 +229,10 @@ const AddProduct = () => {
     manage_stock_quantity: "",
     product_local_delivery: [],
     no_product_id: 0,
+    discount_enabled: 0,
+    manage_stock_status: "1",
+    local_delievry_status: "",
+    international_delivery_status: "",
   };
   const [formData, setFormData] = useState<IProduct>(initialFormData);
 
@@ -292,10 +316,25 @@ const AddProduct = () => {
       data.append("sales_price", formData.sale_price);
       data.append("start_date", formData.sale_start_date);
       data.append("end_date", formData.sale_end_date);
+      data.append("manage_stock_status", "1");
 
       if (hasVartion) data.append("has_variation", "1");
       else {
         data.append("has_variation", "0");
+      }
+      if (isLocalChecked) data.append("local_delievry_status", "1");
+      else {
+        data.append("local_delievry_status", "0");
+      }
+      if (isIntChecked) data.append("international_delievry_status", "1");
+      else {
+        data.append("local_delievry_status", "0");
+      }
+      if (discountIsChecked) {
+        if (discountType === "fixed") data.append("discount_enabled", "1");
+        else {
+          data.append("discount_enabled", "2");
+        }
       }
 
       const productLocalDeliveryValues = shippingForm.map(
@@ -330,9 +369,34 @@ const AddProduct = () => {
 
       const variations = productVariations.map((variation) => variation.values);
 
+      console.log(variations);
+
       variations.forEach((variation, index) => {
         Object.entries(variation).forEach(([key, value]) => {
-          data.append(`${key}[${index}]`, value.toString());
+          if (
+            key === "variation_image" &&
+            value !== null &&
+            value !== undefined
+          ) {
+            if (Array.isArray(value)) {
+              data.append(`${key}[${index}]`, value[0]);
+            }
+          } else if (key === "variation_attr") {
+            let attrCounter = 0;
+            Object.entries(variation.variation_attr).forEach(([key, value]) => {
+              attrCounter += 1;
+              data.append(
+                `variations_attr[${index}][key${attrCounter}]`,
+                key!.toString()
+              );
+              data.append(
+                `variations_attr[${index}][value${attrCounter}]`,
+                value!.toString()
+              );
+            });
+          } else if (key !== "variation_image") {
+            data.append(`${key}[${index}]`, value!.toString());
+          }
         });
       });
 
@@ -477,31 +541,6 @@ const AddProduct = () => {
       });
   }, []);
 
-  console.log(brands);
-
-  const [selectedProductId, setSelectedProductId] = useState("");
-  const [sizes2Checked, setSizes2Checked] = useState(false);
-  const [color2Checked, setColor2Checked] = useState(false);
-  const [material2Checked, setMaterial2Checked] = useState(false);
-
-  const handleSizes2Checked = () => {
-    setSizes2Checked((prev) => !prev);
-  };
-
-  const handleColor2Checked = () => {
-    setColor2Checked((prev) => !prev);
-  };
-
-  const handleMaterial2Checked = () => {
-    setMaterial2Checked((prev) => !prev);
-  };
-
-  const handleSelectedVariation = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setSelectedProductId(event.target.value);
-  };
-
   const handleAddForm = () => {
     setQuantityDiscountForms((prevForms) => [
       ...prevForms,
@@ -535,6 +574,7 @@ const AddProduct = () => {
         id: new Date().getTime(),
         values: {
           delivery_state: "",
+          delivery_city: "",
           delivery_price: 0,
         },
       },
@@ -547,17 +587,26 @@ const AddProduct = () => {
       {
         id: new Date().getTime(),
         values: {
-          size: 0,
-          color: "",
+          // size: 0,
+          // color: "",
           variation_price: 0,
           variation_sales_price: 0,
           variation_quantity: 0,
           variation_sku: "",
-          variation_image: "",
+          variation_start_date: "",
+          variation_end_date: "",
+          variation_external_product_id: "",
+          variation_image: null,
+          variation_attr: {
+            size: 0,
+            color: "",
+            brand: "",
+          },
         },
       },
     ]);
   };
+
   const handleRemoveForm = (formId: number) => {
     setQuantityDiscountForms((prevForms) =>
       prevForms.filter((form) => form.id !== formId)
@@ -579,6 +628,51 @@ const AddProduct = () => {
   const handleRemoveProductVariations = (formId: number) => {
     setProductVariations((prevForms) =>
       prevForms.filter((form) => form.id !== formId)
+    );
+  };
+
+  const handleVariationChange = (
+    formId: number,
+    fieldName: string,
+    value: string
+  ) => {
+    setProductVariations((prevForms) =>
+      prevForms.map((form) => {
+        if (form.id === formId) {
+          return {
+            ...form,
+            values: {
+              ...form.values,
+              [fieldName]: value,
+            },
+          };
+        }
+        return form;
+      })
+    );
+  };
+
+  const handleAttInputChange = (
+    formId: number,
+    fieldName: string,
+    value: string
+  ) => {
+    setProductVariations((prevForms) =>
+      prevForms.map((form) => {
+        if (form.id === formId) {
+          return {
+            ...form,
+            values: {
+              ...form.values,
+              variation_attr: {
+                ...form.values.variation_attr,
+                [fieldName]: value,
+              },
+            },
+          };
+        }
+        return form;
+      })
     );
   };
 
@@ -645,37 +739,16 @@ const AddProduct = () => {
     );
   };
 
-  const handleVariationChange = (
-    formId: number,
-    fieldName: string,
-    value: string
-  ) => {
-    setProductVariations((prevForms) =>
-      prevForms.map((form) => {
-        if (form.id === formId) {
-          return {
-            ...form,
-            values: {
-              ...form.values,
-              [fieldName]: value,
-            },
-          };
-        }
-        return form;
-      })
-    );
-  };
-
   const handleSubmitDiscountForms = () => {
-    // console.log(quantityDiscountForms);
+    console.log(quantityDiscountForms);
   };
 
   const handleSubmitShippingForms = () => {
-    // console.log(shippingForm);
+    console.log(shippingForm);
   };
 
   const handleSubmitPercentageForms = () => {
-    // console.log(percentageDiscountForms);
+    console.log(percentageDiscountForms);
   };
 
   const handleSubmitProductVariationForms = () => {
@@ -733,15 +806,6 @@ const AddProduct = () => {
     setIsIntChecked(event.target.checked);
   };
 
-  const [variationImage, setVariationImage] = useState<string>("");
-
-  const handleVariationImageUploader = (imageDataUrl: string) =>
-    setVariationImage(imageDataUrl);
-
-  const handleVariationImageUpload = (imageDataUrl: string) => {
-    console.log("Image uploaded:", imageDataUrl);
-  };
-
   const handleIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newId = Number(event.target.value);
     setId(isNaN(newId) ? 0 : newId);
@@ -761,7 +825,42 @@ const AddProduct = () => {
     setDiscountIsChecked(!discountIsChecked);
   };
 
-  console.log(selectedImages);
+  const handleSingleImageSelect = (
+    image: FileWithPath[],
+    variationId: number
+  ) => {
+    setProductVariations((prevVariations) => {
+      const newVariations = [...prevVariations];
+      const variationIndex = newVariations.findIndex(
+        (v) => v.id === variationId
+      );
+
+      if (variationIndex !== -1) {
+        newVariations[variationIndex].values.variation_image = image;
+      }
+
+      return newVariations;
+    });
+  };
+
+  console.log(localStorage.getItem("token"));
+
+  const nigeriaStates = Object.values(states).map((state) => state.name);
+
+  function CheckLGA(value: string) {
+    if (!value || !nigeriaStates) {
+      return;
+    }
+    let stat = Object.values(states)?.find(
+      (state) => state.name.toLocaleLowerCase() == value.toLocaleLowerCase()
+    );
+    if (!stat) {
+      return;
+    }
+    return stat.LGA;
+  }
+
+  // console.log(CheckLGA("Abia"));
 
   return (
     <ManufacturersProfileLayout>
@@ -775,9 +874,10 @@ const AddProduct = () => {
             <button
               className="px-[14px] py-[9px] bg-[#01B574] rounded-[20px] mr-[30px]"
               onClick={handleSubmit}
+              disabled={loading}
             >
               <p className="text-white font-DM-sans font-medium text-sm flex items-center">
-                Add Products
+                {loading ? "Adding Product..." : "Add Products"}
               </p>
             </button>
             <button className="px-[14px] py-[9px] bg-[#F6F6F6] rounded-[20px] border border-[#00000019] mr-2.5">
@@ -792,7 +892,7 @@ const AddProduct = () => {
             </button>
           </div>
         </div>
-        <div className="grid grid-cols-3 gap-[30px]">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-[30px]">
           <div className="col-span-1 flex flex-col ">
             <div className="bg-white w-full rounded-[20px] mb-10 py-[19px] px-[31px]">
               <p className="text-[#4F4141] font-DM-sans font-bold text-2xl mb-[27px]">
@@ -810,10 +910,10 @@ const AddProduct = () => {
                 <ProductInputSelectForm
                   type="text"
                   name="Items Weight"
-                  id="weight"
+                  id="product_weight"
                   onChange={handleInputChangeUnit}
                   onSelectChange={handleUnitChange}
-                  value={formData.weight}
+                  value={formData.product_weight}
                   selectValue={formData.weight_unit}
                   placeholder="18.00"
                   optionsLabel="kg"
@@ -958,7 +1058,7 @@ const AddProduct = () => {
                   }}
                 >
                   <p
-                    className="text-[#01B574] text-sm font-medium flex items-center absolute right-0 top-0"
+                    className="text-[#01B574] text-sm font-medium flex items-center absolute right-4 top-"
                     onClick={handleAddShippingForm}
                   >
                     <span>
@@ -969,85 +1069,110 @@ const AddProduct = () => {
                   <p className="text-[18px] font-bold font-DM-sans text-app-gray-300 mt-4 mb-[5px]">
                     Shipping Fee
                   </p>
-                  <div className="grid grid-cols-3 gap-4 text-[#A3AED0] font-medium text-sm border-b border-[#E9EDF7] font-DM-sans pb-[6px] mb-[13px] ">
-                    <p>State</p>
-                    <p>Shipping cost</p>
-                  </div>
 
-                  {shippingForm.map((form) => (
-                    <div
-                      className="grid grid-cols-3 gap-x-4 pb-[13px] items-center"
-                      key={form.id}
+                  <div className="relative overflow-x-auto">
+                    <table className="w-full text-sm text-left rtl:text-right">
+                      <thead className="text-[#A3AED0] font-medium text-sm border-b border-[#E9EDF7] font-DM-sans">
+                        <tr>
+                          <td scope="col" className="min-w-[150px]">
+                            State
+                          </td>
+                          <td scope="col" className="min-w-[150px]">
+                            City
+                          </td>
+                          <td scope="col" className="min-w-[150px]">
+                            Shipping cost
+                          </td>
+                          <td scope="col" className="min-w-[50px]"></td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {shippingForm.map((form) => (
+                          <tr className="bg-white font-DM-sans" key={form.id}>
+                            <td className="pr-[14px]">
+                              <ProductSelect
+                                // name="Brand Name"
+                                id="delivery_state"
+                                onChange={(e) =>
+                                  handleShippingInputChange(
+                                    form.id,
+                                    "delivery_state",
+                                    e.target.value
+                                  )
+                                }
+                                value={form.values.delivery_state}
+                                optionsLabel="Select"
+                                options={nigeriaStates?.map((state) => ({
+                                  value: state,
+                                  label: state,
+                                }))}
+                              />
+                            </td>
+                            <td className="pr-[14px]">
+                              <ProductSelect
+                                id="delivery_city"
+                                onChange={(e) =>
+                                  handleShippingInputChange(
+                                    form.id,
+                                    "delivery_city",
+                                    e.target.value
+                                  )
+                                }
+                                value={form.values.delivery_city}
+                                optionsLabel="City"
+                                options={
+                                  CheckLGA(form.values.delivery_state)?.map(
+                                    (city) => ({
+                                      value: city,
+                                      label: city,
+                                    })
+                                  ) || []
+                                }
+                              />
+                            </td>
+                            <td
+                              scope="row"
+                              className="pr-[14px] font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              <ProductInput
+                                type="number"
+                                id="delivery_price"
+                                value={form.values.delivery_price.toString()}
+                                onChange={(e) =>
+                                  handleShippingInputChange(
+                                    form.id,
+                                    "delivery_price",
+                                    e.target.value
+                                  )
+                                }
+                                placeholder="0"
+                              />
+                            </td>
+
+                            <td>
+                              <img
+                                src="/images/close-icon.svg"
+                                alt="icon"
+                                className="cursor-pointer"
+                                onClick={() =>
+                                  handleRemoveShippingForm(form.id)
+                                }
+                              />
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    <button
+                      className="px-[14px] py-[9px] bg-[#01B574] rounded-[10px] mt-[23px]"
+                      onClick={handleSubmitShippingForms}
+                      type="button"
                     >
-                      <ProductSelect
-                        // name="Brand Name"
-                        id="delivery_state"
-                        onChange={(e) =>
-                          handleShippingInputChange(
-                            form.id,
-                            "delivery_state",
-                            e.target.value
-                          )
-                        }
-                        value={form.values.delivery_state}
-                        optionsLabel="Select"
-                        options={nigeriaStates?.map((state) => ({
-                          value: state.value,
-                          label: state.label,
-                        }))}
-                      />
-                      {/* <input
-                      type="text"
-                      id="delivery_state"
-                      // aria-describedby="helper-text-explanation"
-                      value={form.values.delivery_state}
-                      onChange={(e) =>
-                        handleShippingInputChange(
-                          form.id,
-                          "delivery_state",
-                          e.target.value
-                        )
-                      }
-                      className="bg-transparent border border-[#DCDCE4] rounded-[10px] text-gray-900 text-sm block w-full p-2.5"
-                      placeholder="0"
-                    /> */}
-
-                      <div className="relative w-full">
-                        <div className="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none"></div>
-                        <input
-                          type="number"
-                          id="delivery_price"
-                          value={form.values.delivery_price}
-                          onChange={(e) =>
-                            handleShippingInputChange(
-                              form.id,
-                              "delivery_price",
-                              e.target.value
-                            )
-                          }
-                          className="bg-transparent border border-[#DCDCE4] rounded-[10px] text-gray-900 text-sm block w-full p-2.5"
-                          placeholder="0"
-                        />
-                      </div>
-                      <img
-                        src="/images/close-icon.svg"
-                        alt="icon"
-                        className="cursor-pointer"
-                        onClick={() => handleRemoveShippingForm(form.id)}
-                      />
-
-                      <input />
-                    </div>
-                  ))}
-                  <button
-                    className="px-[14px] py-[9px] bg-[#01B574] rounded-[10px]"
-                    onClick={handleSubmitShippingForms}
-                    type="button"
-                  >
-                    <p className="text-white font-DM-sans font-medium text-sm flex items-center">
-                      Add Fee
-                    </p>
-                  </button>
+                      <p className="text-white font-DM-sans font-medium text-sm flex items-center">
+                        Add Fee
+                      </p>
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
@@ -1074,7 +1199,7 @@ const AddProduct = () => {
                 <div className="mb-6 grid grid-cols-2 gap-4">
                   <div onClick={openCategoryModal}>
                     <ProductInput
-                      name="Product Categoory"
+                      name="Product Category"
                       id="name"
                       value={
                         formData.product_category
@@ -1276,8 +1401,8 @@ const AddProduct = () => {
                       value={formData?.currency}
                       optionsLabel="US$"
                       options={[
-                        { value: "USD", label: "US$" },
-                        { value: "NGN", label: "NGN₦" },
+                        { value: "usd", label: "US$" },
+                        { value: "ngn", label: "NGN₦" },
                       ]}
                     />
                   </div>
@@ -1374,7 +1499,6 @@ const AddProduct = () => {
 
                 {discountIsChecked && (
                   <>
-                    {" "}
                     <div className="mb-6 grid  gap-4">
                       <div>
                         {/* <p className="block mb-2 text-app-gray-300">
@@ -1435,68 +1559,84 @@ const AddProduct = () => {
                           <p className="text-[18px] font-bold font-DM-sans text-app-gray-300 mt-4 mb-[5px]">
                             Quantity discounts
                           </p>
-                          <div className="grid grid-cols-3 gap-4 text-[#A3AED0] font-medium text-sm border-b border-[#E9EDF7] font-DM-sans pb-[6px] mb-[13px] ">
-                            <p>Minimum Quantity</p>
-                            <p>Price/Unit</p>
-                          </div>
+                          <div className="relative overflow-x-auto">
+                            <table className="w-full text-sm text-left rtl:text-right">
+                              <thead className="text-[#A3AED0] font-medium text-sm border-b border-[#E9EDF7] font-DM-sans">
+                                <tr>
+                                  <td scope="col" className="min-w-[150px]">
+                                    Minimum Quantity
+                                  </td>
+                                  <td scope="col" className="min-w-[150px]">
+                                    Price/Unit
+                                  </td>
+                                  <td scope="col" className="min-w-[50px]"></td>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {quantityDiscountForms.map((form) => (
+                                  <tr
+                                    className="bg-white font-DM-sans"
+                                    key={form.id}
+                                  >
+                                    <td className="pr-[14px]">
+                                      <ProductInput
+                                        type="number"
+                                        id="discount_quantity_fixed"
+                                        value={form.values.discount_quantity_fixed.toString()}
+                                        onChange={(e) =>
+                                          handleInputChange(
+                                            form.id,
+                                            "discount_quantity_fixed",
+                                            e.target.value
+                                          )
+                                        }
+                                        placeholder="0"
+                                      />
+                                    </td>
+                                    <td
+                                      scope="row"
+                                      className="pr-[14px] font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    >
+                                      <ProductInput
+                                        type="number"
+                                        id="price_per_unit"
+                                        value={form.values.price_per_unit.toString()}
+                                        onChange={(e) =>
+                                          handleInputChange(
+                                            form.id,
+                                            "price_per_unit",
+                                            e.target.value
+                                          )
+                                        }
+                                        placeholder="0"
+                                      />
+                                    </td>
 
-                          {quantityDiscountForms.map((form) => (
-                            <div
-                              className="grid grid-cols-3 gap-x-4 pb-[13px] items-center"
-                              key={form.id}
+                                    <td>
+                                      <img
+                                        src="/images/close-icon.svg"
+                                        alt="icon"
+                                        className="cursor-pointer"
+                                        onClick={() =>
+                                          handleRemoveForm(form.id)
+                                        }
+                                      />
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+
+                            <button
+                              className="px-[14px] py-[9px] bg-[#01B574] rounded-[10px] mt-[23px]"
+                              onClick={handleSubmitDiscountForms}
+                              type="button"
                             >
-                              <input
-                                type="number"
-                                id="number-input"
-                                aria-describedby="helper-text-explanation"
-                                value={form.values.discount_quantity_fixed}
-                                onChange={(e) =>
-                                  handleInputChange(
-                                    form.id,
-                                    "discount_quantity_fixed",
-                                    e.target.value
-                                  )
-                                }
-                                className="bg-transparent border border-[#DCDCE4] rounded-[10px] text-gray-900 text-sm block w-full p-2.5"
-                                placeholder="0"
-                              />
-
-                              <div className="relative w-full">
-                                <div className="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none"></div>
-                                <input
-                                  type="number"
-                                  id="currency-input"
-                                  value={form.values.price_per_unit}
-                                  onChange={(e) =>
-                                    handleInputChange(
-                                      form.id,
-                                      "price_per_unit",
-                                      e.target.value
-                                    )
-                                  }
-                                  className="bg-transparent border border-[#DCDCE4] rounded-[10px] text-gray-900 text-sm block w-full p-2.5"
-                                  placeholder="0"
-                                />
-                              </div>
-                              <img
-                                src="/images/close-icon.svg"
-                                alt="icon"
-                                className="cursor-pointer"
-                                onClick={() => handleRemoveForm(form.id)}
-                              />
-
-                              <input />
-                            </div>
-                          ))}
-                          <button
-                            className="px-[14px] py-[9px] bg-[#01B574] rounded-[10px]"
-                            onClick={handleSubmitDiscountForms}
-                            type="button"
-                          >
-                            <p className="text-white font-DM-sans font-medium text-sm flex items-center">
-                              Add Price
-                            </p>
-                          </button>
+                              <p className="text-white font-DM-sans font-medium text-sm flex items-center">
+                                Set Price
+                              </p>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     )}
@@ -1510,81 +1650,95 @@ const AddProduct = () => {
                           }}
                         >
                           <p
-                            className="text-[#01B574] text-sm font-medium flex items-center absolute right-0 top-0"
+                            className="text-[#01B574] text-sm font-medium flex items-center absolute right-4 top-2 cursor-pointer"
                             onClick={handleAddPercentageForm}
                           >
                             <span>
                               <img src="/images/circle-plus.svg" alt="icon" />
                             </span>
-                            <span>Add..</span>
+                            <span>More...</span>
                           </p>
                           <p className="text-[18px] font-bold font-DM-sans text-app-gray-300 mt-4 mb-[5px]">
                             Quantity discounts
                           </p>
-                          <div className="grid grid-cols-3 gap-4 text-[#A3AED0] font-medium text-sm border-b border-[#E9EDF7] font-DM-sans pb-[6px] mb-[13px] ">
-                            <p>Minimum Quantity</p>
-                            <p>Percentage</p>
-                          </div>
 
-                          {percentageDiscountForms.map((form) => (
-                            <div
-                              className="grid grid-cols-3 gap-x-4 pb-[13px] items-center"
-                              key={form.id}
+                          <div className="relative overflow-x-auto">
+                            <table className="w-full text-sm text-left rtl:text-right">
+                              <thead className="text-[#A3AED0] font-medium text-sm border-b border-[#E9EDF7] font-DM-sans">
+                                <tr>
+                                  <td scope="col" className="min-w-[150px]">
+                                    Minimum Quantity
+                                  </td>
+                                  <td scope="col" className="min-w-[150px]">
+                                    Percentage
+                                  </td>
+                                  <td scope="col" className="min-w-[50px]"></td>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {percentageDiscountForms.map((form) => (
+                                  <tr
+                                    className="bg-white font-DM-sans"
+                                    key={form.id}
+                                  >
+                                    <td className="pr-[14px]">
+                                      <ProductInput
+                                        type="number"
+                                        id="discount_quantity"
+                                        value={form.values.discount_quantity.toString()}
+                                        onChange={(e) =>
+                                          handlePercentageInputChange(
+                                            form.id,
+                                            "discount_quantity",
+                                            e.target.value
+                                          )
+                                        }
+                                        placeholder="0"
+                                      />
+                                    </td>
+                                    <td
+                                      scope="row"
+                                      className="pr-[14px] font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    >
+                                      <ProductInput
+                                        type="number"
+                                        id="discount_percentage"
+                                        value={form.values.discount_percentage.toString()}
+                                        onChange={(e) =>
+                                          handlePercentageInputChange(
+                                            form.id,
+                                            "discount_percentage",
+                                            e.target.value
+                                          )
+                                        }
+                                        placeholder="0"
+                                      />
+                                    </td>
+
+                                    <td>
+                                      <img
+                                        src="/images/close-icon.svg"
+                                        alt="icon"
+                                        className="cursor-pointer"
+                                        onClick={() =>
+                                          handleRemovePercentageForm(form.id)
+                                        }
+                                      />
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                            <button
+                              className="px-[14px] py-[9px] bg-[#01B574] rounded-[10px] mt-[23px] "
+                              onClick={handleSubmitPercentageForms}
+                              type="button"
                             >
-                              <input
-                                type="number"
-                                id="number-input"
-                                aria-describedby="helper-text-explanation"
-                                value={form.values.discount_quantity}
-                                onChange={(e) =>
-                                  handlePercentageInputChange(
-                                    form.id,
-                                    "discount_quantity",
-                                    e.target.value
-                                  )
-                                }
-                                className="bg-transparent border border-[#DCDCE4] rounded-[10px] text-gray-900 text-sm block w-full p-2.5"
-                                placeholder="0"
-                              />
-
-                              <div className="relative w-full">
-                                <div className="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none"></div>
-                                <input
-                                  type="number"
-                                  id="discount_percentag"
-                                  value={form.values.discount_percentage}
-                                  onChange={(e) =>
-                                    handlePercentageInputChange(
-                                      form.id,
-                                      "discount_percentage",
-                                      e.target.value
-                                    )
-                                  }
-                                  className="bg-transparent border border-[#DCDCE4] rounded-[10px] text-gray-900 text-sm block w-full p-2.5"
-                                  placeholder="0"
-                                />
-                              </div>
-                              <img
-                                src="/images/close-icon.svg"
-                                alt="icon"
-                                className="cursor-pointer"
-                                onClick={() =>
-                                  handleRemovePercentageForm(form.id)
-                                }
-                              />
-
-                              <input />
-                            </div>
-                          ))}
-                          <button
-                            className="px-[14px] py-[9px] bg-[#01B574] rounded-[10px]"
-                            onClick={handleSubmitPercentageForms}
-                            type="button"
-                          >
-                            <p className="text-white font-DM-sans font-medium text-sm flex items-center">
-                              Add Price
-                            </p>
-                          </button>
+                              <p className="text-white font-DM-sans font-medium text-sm flex items-center">
+                                Set Price
+                              </p>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     )}
@@ -1594,7 +1748,6 @@ const AddProduct = () => {
 
               {hasVartion && (
                 <>
-                  {" "}
                   <p className="text-[#4F4141] font-DM-sans font-bold text-2xl mb-[27px]">
                     Variation & Pricing
                   </p>
@@ -1626,55 +1779,6 @@ const AddProduct = () => {
                       ))}
                     </div>
 
-                    <div className="grid grid-cols-3 gap-4 items-center mb-[52px]">
-                      {sizes2Checked && (
-                        <div>
-                          <ProductInput
-                            name="Sizes"
-                            id="brand"
-                            value=""
-                            onChange={() => {}}
-                            onBlur={() => {}}
-                            type="text"
-                            placeholder=""
-                          />
-                        </div>
-                      )}
-                      {color2Checked && (
-                        <div>
-                          <ProductInput
-                            name="Color"
-                            id="brand"
-                            value=""
-                            onChange={() => {}}
-                            onBlur={() => {}}
-                            type="text"
-                            placeholder=""
-                          />
-                        </div>
-                      )}
-                      {material2Checked && (
-                        <div>
-                          <ProductInput
-                            name="Material"
-                            id="brand"
-                            value=""
-                            onChange={() => {}}
-                            onBlur={() => {}}
-                            type="text"
-                            placeholder=""
-                          />
-                        </div>
-                      )}
-                      {/* <div className="mt-5">
-                        <button className="px-[14px] py-[9px] bg-[#01B574] rounded-[10px] mr-[30px]">
-                          <p className="text-white font-DM-sans font-medium text-sm flex items-center">
-                            Add
-                          </p>
-                        </button>
-                      </div> */}
-                    </div>
-
                     <div
                       className="col-span-2 w-full bg-white rounded-[20px] relative px-[21px] py-[21px] mb-[46px]"
                       style={{
@@ -1683,177 +1787,263 @@ const AddProduct = () => {
                       }}
                     >
                       <p
-                        className="text-[#01B574] text-sm font-medium flex items-center absolute right-0 top-0 cursor-pointer"
+                        className="text-[#01B574] text-sm font-medium flex items-center absolute right-4 top-2 cursor-pointer"
                         onClick={handleAddProductVariations}
                       >
                         <span>
                           <img src="/images/circle-plus.svg" alt="icon" />
                         </span>
-                        <span>More..</span>
+                        <span>Add..</span>
                       </p>
                       <p className="text-[18px] font-bold font-DM-sans text-app-gray-300 mt-4 mb-[5px]">
                         Modify variation/s
                       </p>
-                      <div className="grid grid-cols-8 gap-4 text-[#A3AED0] font-medium text-sm border-b border-[#E9EDF7] font-DM-sans pb-[6px] mb-[13px] ">
-                        <p>Size</p>
-                        <p>Color</p>
-                        <p>Regular price</p>
-                        <p>Salse price</p>
-                        <p>Quanity</p>
-                        <p>Sku</p>
-                        <p>Image</p>
-                      </div>
-
-                      {productVariations.map((form) => (
-                        <div
-                          className="grid grid-cols-8 gap-x-4 pb-[13px] items-center"
-                          key={form.id}
+                      <div className="relative overflow-x-auto">
+                        <table className="w-full text-sm text-left rtl:text-right">
+                          <thead className="text-[#A3AED0] font-medium text-sm border-b border-[#E9EDF7] font-DM-sans">
+                            <tr>
+                              {variationCheckboxStates.size && (
+                                <td scope="col" className="min-w-[100px]">
+                                  Size
+                                </td>
+                              )}
+                              {variationCheckboxStates.Color && (
+                                <td scope="col" className="min-w-[100px]">
+                                  Color
+                                </td>
+                              )}
+                              {variationCheckboxStates.Brand && (
+                                <td scope="col" className="min-w-[100px]">
+                                  Brand
+                                </td>
+                              )}
+                              <td scope="col" className="min-w-[113px]">
+                                Regular price
+                              </td>
+                              <td scope="col" className="min-w-[113px]">
+                                Sales price
+                              </td>
+                              <td scope="col" className="min-w-[100px]">
+                                Quantity
+                              </td>
+                              <td scope="col" className="min-w-[100px]">
+                                Sku
+                              </td>
+                              <td scope="col" className="min-w-[150px]">
+                                External Product Id
+                              </td>
+                              <td scope="col" className="min-w-[120px]">
+                                Sales start date
+                              </td>
+                              <td scope="col" className="min-w-[120px]">
+                                Sales end date
+                              </td>
+                              <td scope="col" className="min-w-[80px]">
+                                Image
+                              </td>
+                              <td scope="col" className="min-w-[50px]"></td>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {productVariations.map((form) => (
+                              <tr
+                                className="bg-white font-DM-sans"
+                                key={form.id}
+                              >
+                                {variationCheckboxStates.size && (
+                                  <td
+                                    scope="row"
+                                    className="pr-[14px] font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                  >
+                                    <ProductInput
+                                      type="number"
+                                      placeholder="0"
+                                      id="size"
+                                      value={form.values.variation_attr.size.toString()}
+                                      onChange={(e) =>
+                                        handleAttInputChange(
+                                          form.id,
+                                          "size",
+                                          e.target.value
+                                        )
+                                      }
+                                    />
+                                  </td>
+                                )}
+                                {variationCheckboxStates.Color && (
+                                  <td className="pr-[14px]">
+                                    <ProductInput
+                                      id="color"
+                                      type="text"
+                                      value={form.values.variation_attr.color}
+                                      onChange={(e) =>
+                                        handleAttInputChange(
+                                          form.id,
+                                          "color",
+                                          e.target.value
+                                        )
+                                      }
+                                      placeholder="blue"
+                                    />
+                                  </td>
+                                )}
+                                {variationCheckboxStates.Brand && (
+                                  <td className="pr-[14px]">
+                                    <ProductInput
+                                      id="brand"
+                                      type="text"
+                                      value={form.values.variation_attr.brand}
+                                      onChange={(e) =>
+                                        handleAttInputChange(
+                                          form.id,
+                                          "brand",
+                                          e.target.value
+                                        )
+                                      }
+                                      placeholder="swift"
+                                    />
+                                  </td>
+                                )}
+                                <td className="pr-[14px]">
+                                  <ProductInput
+                                    type="number"
+                                    id="variation_price"
+                                    value={form.values.variation_price.toString()}
+                                    onChange={(e) =>
+                                      handleVariationChange(
+                                        form.id,
+                                        "variation_price",
+                                        e.target.value
+                                      )
+                                    }
+                                    placeholder="price"
+                                  />
+                                </td>
+                                <td className="pr-[14px]">
+                                  <ProductInput
+                                    type="number"
+                                    id="variation_sales_price"
+                                    value={form.values.variation_sales_price.toString()}
+                                    onChange={(e) =>
+                                      handleVariationChange(
+                                        form.id,
+                                        "variation_sales_price",
+                                        e.target.value
+                                      )
+                                    }
+                                    placeholder="price"
+                                  />
+                                </td>
+                                <td className="pr-[14px]">
+                                  <ProductInput
+                                    type="number"
+                                    id="variation_quantity"
+                                    value={form.values.variation_quantity.toString()}
+                                    onChange={(e) =>
+                                      handleVariationChange(
+                                        form.id,
+                                        "variation_quantity",
+                                        e.target.value
+                                      )
+                                    }
+                                    placeholder="quantity"
+                                  />
+                                </td>
+                                <td className="pr-[14px]">
+                                  <ProductInput
+                                    type="text"
+                                    id="variation_sku"
+                                    value={form.values.variation_sku}
+                                    onChange={(e) =>
+                                      handleVariationChange(
+                                        form.id,
+                                        "variation_sku",
+                                        e.target.value
+                                      )
+                                    }
+                                    placeholder="SKU"
+                                  />
+                                </td>
+                                <td className="pr-[14px]">
+                                  <ProductInput
+                                    type="text"
+                                    id="variation_external_product_id"
+                                    value={
+                                      form.values.variation_external_product_id
+                                    }
+                                    onChange={(e) =>
+                                      handleVariationChange(
+                                        form.id,
+                                        "variation_external_product_id",
+                                        e.target.value
+                                      )
+                                    }
+                                    placeholder="External Product ID"
+                                  />
+                                </td>
+                                <td className="pr-[14px]">
+                                  <ProductInput
+                                    type="date"
+                                    id="variation_start_date"
+                                    value={form.values.variation_start_date}
+                                    onChange={(e) =>
+                                      handleVariationChange(
+                                        form.id,
+                                        "variation_start_date",
+                                        e.target.value
+                                      )
+                                    }
+                                    placeholder="0"
+                                  />
+                                </td>
+                                <td className="pr-[14px]">
+                                  <ProductInput
+                                    type="date"
+                                    id="variation_end_date"
+                                    value={form.values.variation_end_date}
+                                    onChange={(e) =>
+                                      handleVariationChange(
+                                        form.id,
+                                        "variation_end_date",
+                                        e.target.value
+                                      )
+                                    }
+                                    placeholder="0"
+                                  />
+                                </td>
+                                <td className="pr-[14px] ">
+                                  <div className="w-[52px] h-[52px]">
+                                    <AddSingleImageComp
+                                      onImageSelect={(image) =>
+                                        handleSingleImageSelect(image, form.id)
+                                      }
+                                    />
+                                  </div>
+                                </td>
+                                <td>
+                                  <img
+                                    src="/images/close-icon.svg"
+                                    alt="icon"
+                                    className="cursor-pointer"
+                                    onClick={() =>
+                                      handleRemoveProductVariations(form.id)
+                                    }
+                                  />
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                        <button
+                          className="px-[14px] py-[9px] bg-[#01B574] rounded-[10px] mt-[62px]"
+                          onClick={handleSubmitProductVariationForms}
+                          type="button"
                         >
-                          <div className="relative w-full">
-                            {/* <input
-                          type="number"
-                          id="number-input"
-                          aria-describedby="helper-text-explanation"
-                          value={form.values.discount_quantity_fixed}
-                          onChange={(e) =>
-                            handleInputChange(
-                              form.id,
-                              "discount_quantity_fixed",
-                              e.target.value
-                            )
-                          }
-                          className="bg-transparent border border-[#DCDCE4] rounded-[10px] text-gray-900 text-sm block w-full p-2.5"
-                          placeholder="0"
-                        /> */}
-
-                            <div className="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none"></div>
-                            <input
-                              type="number"
-                              // id="size"
-                              value={form.values.size}
-                              onChange={(e) =>
-                                handleVariationChange(
-                                  form.id,
-                                  "size",
-                                  e.target.value
-                                )
-                              }
-                              className="bg-transparent border border-[#DCDCE4] rounded-[10px] text-gray-900 text-sm block w-full p-2.5"
-                              placeholder="0"
-                            />
-                          </div>
-                          <div className="relative w-full">
-                            <div className="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none"></div>
-                            <input
-                              type="text"
-                              // id="color"
-                              value={form.values.color}
-                              onChange={(e) =>
-                                handleVariationChange(
-                                  form.id,
-                                  "color",
-                                  e.target.value
-                                )
-                              }
-                              className="bg-transparent border border-[#DCDCE4] rounded-[10px] text-gray-900 text-sm block w-full p-2.5"
-                              placeholder="0"
-                            />
-                          </div>
-                          <div className="relative w-full">
-                            <div className="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none"></div>
-                            <input
-                              type="number"
-                              // id="variation_price"
-                              value={form.values.variation_price}
-                              onChange={(e) =>
-                                handleVariationChange(
-                                  form.id,
-                                  "variation_price",
-                                  e.target.value
-                                )
-                              }
-                              className="bg-transparent border border-[#DCDCE4] rounded-[10px] text-gray-900 text-sm block w-full p-2.5"
-                              placeholder="0"
-                            />
-                          </div>
-                          <div className="relative w-full">
-                            <div className="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none"></div>
-                            <input
-                              type="number"
-                              id="variation_sales_price"
-                              value={form.values.variation_sales_price}
-                              onChange={(e) =>
-                                handleVariationChange(
-                                  form.id,
-                                  "variation_sales_price",
-                                  e.target.value
-                                )
-                              }
-                              className="bg-transparent border border-[#DCDCE4] rounded-[10px] text-gray-900 text-sm block w-full p-2.5"
-                              placeholder="0"
-                            />
-                          </div>
-                          <div className="relative w-full">
-                            <div className="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none"></div>
-                            <input
-                              type="number"
-                              id="variation_quantity"
-                              value={form.values.variation_quantity}
-                              onChange={(e) =>
-                                handleVariationChange(
-                                  form.id,
-                                  "variation_quantity",
-                                  e.target.value
-                                )
-                              }
-                              className="bg-transparent border border-[#DCDCE4] rounded-[10px] text-gray-900 text-sm block w-full p-2.5"
-                              placeholder="0"
-                            />
-                          </div>
-                          <div className="relative w-full">
-                            <div className="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none"></div>
-                            <input
-                              type="text"
-                              // id="variation_sku"
-                              value={form.values.variation_sku}
-                              onChange={(e) =>
-                                handleVariationChange(
-                                  form.id,
-                                  "variation_sku",
-                                  e.target.value
-                                )
-                              }
-                              className="bg-transparent border border-[#DCDCE4] rounded-[10px] text-gray-900 text-sm block w-full p-2.5"
-                              placeholder="0"
-                            />
-                          </div>
-                          <div className="max-w-[52px] max-h-[52px]">
-                            {/* <ImageUpload
-                              onImageUpload={handleVariationImageUploader}
-                            /> */}
-                          </div>
-
-                          <img
-                            src="/images/close-icon.svg"
-                            alt="icon"
-                            className="cursor-pointer"
-                            onClick={() =>
-                              handleRemoveProductVariations(form.id)
-                            }
-                          />
-
-                          <input />
-                        </div>
-                      ))}
-                      <button
-                        className="px-[14px] py-[9px] bg-[#01B574] rounded-[10px]"
-                        onClick={handleSubmitProductVariationForms}
-                        type="button"
-                      >
-                        <p className="text-white font-DM-sans font-medium text-sm flex items-center">
-                          Add
-                        </p>
-                      </button>
+                          <p className="text-white font-DM-sans font-medium text-sm flex items-center">
+                            Confirm
+                          </p>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </>
@@ -1861,7 +2051,7 @@ const AddProduct = () => {
             </div>
           </div>
         </div>
-        {isCategoryModal && (
+        {isCategoryModal ? (
           <div
             className={`fixed top-0 left-0 right-0 z-50 bg-[#000000] bg-opacity-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 max-h-full flex justify-center items-center`}
           >
@@ -1882,12 +2072,14 @@ const AddProduct = () => {
                   />
                 </span>
                 <ModalSelect
-                  categories={categories}
+                  categories={categories || []}
                   handleCategorySelect={handleCategorySelect}
                 />
               </div>
             </div>
           </div>
+        ) : (
+          ""
         )}
       </div>
     </ManufacturersProfileLayout>
