@@ -3,7 +3,7 @@ import ProductActive from "../../../components/General/manufacturers/product/Act
 import ProductClose from "../../../components/General/manufacturers/product/Closed";
 import ProductRev from "../../../components/General/manufacturers/product/Reviewing";
 import ManufacturersProfileLayout from "../../../components/General/manufacturers/profile/LayoutComp";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import callAPI from "../../../api/callApi";
 import useAuthToken from "../../../hooks/useAuthToken";
 import TableComponent from "../../../components/Core/Table";
@@ -46,6 +46,7 @@ interface SettingsMenuState {
 }
 
 const MProduct = () => {
+  const navigate = useNavigate();
   const [selected, setSelected] = useState([]);
 
   const [products, setProducts] = useState<Product[]>([]);
@@ -514,29 +515,7 @@ const MProduct = () => {
     name: string;
   }
 
-  // const initialData: DataItem[] = [
-  //   { id: 1, name: "John" },
-  //   { id: 2, name: "Jane" },
-  //   { id: 3, name: "Bob" },
-  //   // Add more objects as needed
-  // ];
-
-  // const [data, setData] = useState<DataItem[]>(initialData);
-  // const [searchTerm, setSearchTerm] = useState<string>("");
-
-  // const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const term = event.target.value.toLowerCase();
-  //   setSearchTerm(term);
-
-  //   // Filter the data based on the search term
-  //   const filteredData = initialData.filter((item) =>
-  //     item.name.toLowerCase().includes(term)
-  //   );
-
-  //   setData(filteredData);
-
-  //   console.log(searchTerm, data);
-  // };
+  console.log(products);
 
   return (
     <div className="bg-[#]">
@@ -717,11 +696,16 @@ const MProduct = () => {
               <p className="mx-4 font-DM-sans text-[#4F4141] font-medium">
                 245 <span className="text-[#2902027f] ">items</span>
               </p>
-              <button className="px-[14px] py-[9px] bg-[#01B574] rounded-[20px]">
+              <button
+                className="px-[14px] py-[9px] bg-[#01B574] rounded-[20px]"
+                onClick={() => {
+                  navigate("/manufacturers-profile/add-product");
+                }}
+              >
                 <p className="text-white font-DM-sans font-medium text-sm flex items-center">
                   <span>
                     <img src="/images/plus.svg" alt="icon" />
-                  </span>{" "}
+                  </span>
                   New Products
                 </p>
               </button>

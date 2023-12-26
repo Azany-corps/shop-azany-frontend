@@ -48,6 +48,10 @@ export interface IProduct {
   manage_stock_quantity: string;
   product_local_delivery: Array<any>;
   no_product_id: number;
+  discount_enabled: number;
+  local_delievry_status: string;
+  international_delivery_status: string;
+  manage_stock_status: string;
 }
 
 export {};
