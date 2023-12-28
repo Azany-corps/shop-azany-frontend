@@ -8,7 +8,7 @@ const Loader: React.FC<LoaderProps> = ({}) => {
       id="staticModal"
       data-modal-backdrop="static"
       aria-hidden="true"
-      className={`fixed top-0 left-0 right-0 z-50 w-full h-screen p-4 overflow-x-hidden overflow-y-auto md:inset-0  max-h-full flex justify-center items-center bg-black bg-opacity-70`}
+      className={`fixed top-0 left-0 right-0 z-50 w-full h-screen p-4 overflow-x-hidden overflow-y-auto md:inset-0  max-h-full flex justify-center items-center bg-[#000000] bg-opacity-70`}
     >
       <div role="status">
         <svg

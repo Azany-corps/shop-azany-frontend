@@ -91,6 +91,7 @@ interface ProductVariation {
     variation_end_date: string;
     variation_external_product_id: string;
     variation_image: FileWithPath[] | null;
+    variation_product_name: string;
     variation_attr: {
       size: number;
       color: string;
@@ -151,6 +152,7 @@ const AddProduct = () => {
         variation_end_date: "",
         variation_external_product_id: "",
         variation_image: null,
+        variation_product_name: "",
         variation_attr: {
           size: 0,
           color: "",
@@ -396,6 +398,7 @@ const AddProduct = () => {
             });
           } else if (key !== "variation_image") {
             data.append(`${key}[${index}]`, value!.toString());
+            // console.log(`${key}[${index}]`, value!.toString());
           }
         });
       });
@@ -597,6 +600,7 @@ const AddProduct = () => {
           variation_end_date: "",
           variation_external_product_id: "",
           variation_image: null,
+          variation_product_name: "",
           variation_attr: {
             size: 0,
             color: "",
@@ -1818,6 +1822,9 @@ const AddProduct = () => {
                                 </td>
                               )}
                               <td scope="col" className="min-w-[113px]">
+                                Product name
+                              </td>
+                              <td scope="col" className="min-w-[113px]">
                                 Regular price
                               </td>
                               <td scope="col" className="min-w-[113px]">
@@ -1904,6 +1911,21 @@ const AddProduct = () => {
                                     />
                                   </td>
                                 )}
+                                <td className="pr-[14px]">
+                                  <ProductInput
+                                    type="text"
+                                    id="variation_product_name"
+                                    value={form.values.variation_product_name.toString()}
+                                    onChange={(e) =>
+                                      handleVariationChange(
+                                        form.id,
+                                        "variation_product_name",
+                                        e.target.value
+                                      )
+                                    }
+                                    placeholder="Product name"
+                                  />
+                                </td>
                                 <td className="pr-[14px]">
                                   <ProductInput
                                     type="number"
@@ -2014,7 +2036,7 @@ const AddProduct = () => {
                                 <td className="pr-[14px] ">
                                   <div className="w-[52px] h-[52px]">
                                     <AddSingleImageComp
-                                      onImageSelect={(image) =>
+                                      onImageSelect={(image: any) =>
                                         handleSingleImageSelect(image, form.id)
                                       }
                                     />

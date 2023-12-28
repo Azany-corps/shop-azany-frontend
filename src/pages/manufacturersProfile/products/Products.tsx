@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react";
-import ProductActive from "../../../components/General/manufacturers/product/Active";
-import ProductClose from "../../../components/General/manufacturers/product/Closed";
-import ProductRev from "../../../components/General/manufacturers/product/Reviewing";
 import ManufacturersProfileLayout from "../../../components/General/manufacturers/profile/LayoutComp";
 import { Link, useNavigate } from "react-router-dom";
 import callAPI from "../../../api/callApi";
@@ -9,6 +6,8 @@ import useAuthToken from "../../../hooks/useAuthToken";
 import TableComponent from "../../../components/Core/Table";
 import { Checkbox } from "@mui/material";
 import { handleClick, isSelected } from "../../../helpers/helperFunction";
+import { fetchBrands } from "../../../Services/brand.service";
+import Loader from "../../../components/Core/Loader";
 
 type Product = {
   category: string;
@@ -27,6 +26,10 @@ type Product = {
   sub_category: string;
   updated_at: string;
   user_id: number;
+  status: string;
+  quantity: string;
+  sales_price: string;
+  brand_id: string;
 };
 
 type ProductDetails = {
@@ -45,31 +48,35 @@ interface SettingsMenuState {
   [key: number]: boolean;
 }
 
+interface Brand {
+  id: number;
+  name: string;
+}
+
 const MProduct = () => {
   const navigate = useNavigate();
   const [selected, setSelected] = useState([]);
 
   const [products, setProducts] = useState<Product[]>([]);
-  const [active, setActive] = useState(true);
-  const [review, setReview] = useState(false);
-  const [closed, setClosed] = useState(false);
+  const [stat, setStat] = useState<any>({});
   const [searchBarVisible, setSearchBarVisible] = useState(false);
   const [authToken] = useAuthToken();
-  // const [showSettingsMenu, setShowSettingsMenu] = useState(false);
+  const [brands, setBrands] = useState<Brand[]>([]);
+  const [isLoading, setIsLoading] = useState<Boolean>(false);
+  const [activeTab, setActiveTab] = useState<String>("All");
 
-  // const settingsMenuHandler = () => {
-  //   setShowSettingsMenu(!showSettingsMenu);
-  //   console.log(showSettingsMenu);
-  // };
-
-  // const [showSettingsMenu, setShowSettingsMenu] = useState<Array[]>([]);
-
-  // const settingsMenuHandler = (index: any) => {
-  //   // Create a copy of the array to avoid mutating state directly
-  //   const updatedSettings = [...showSettingsMenu];
-  //   updatedSettings[index] = !updatedSettings[index];
-  //   setShowSettingsMenu(updatedSettings);
-  // };
+  useEffect(() => {
+    setIsLoading(true);
+    fetchBrands()
+      .then((res) => {
+        setBrands(res);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
+  }, []);
 
   const [showSettingsMenu, setShowSettingsMenu] = useState<SettingsMenuState>(
     {}
@@ -81,22 +88,6 @@ const MProduct = () => {
       updatedSettings[index] = !updatedSettings[index];
       return updatedSettings;
     });
-  };
-
-  const handleActive = () => {
-    setActive(true);
-    setReview(false);
-    setClosed(false);
-  };
-  const handleReview = () => {
-    setActive(false);
-    setReview(true);
-    setClosed(false);
-  };
-  const handleClosed = () => {
-    setActive(false);
-    setReview(false);
-    setClosed(true);
   };
 
   const tableColumns = [
@@ -127,17 +118,17 @@ const MProduct = () => {
     {
       id: "name",
       label: "PRODUCT NAME",
-      minWidth: 370,
+      minWidth: 300,
       sort: true,
       // format: (value: number) => value.toLocaleString("en-US"),
     },
     { id: "brand", label: "BRAND", minWidth: 170, sort: true },
-    { id: "sku", label: "SKU", minWidth: 170, sort: true },
+    { id: "SKU", label: "SKU", minWidth: 170, sort: true },
     { id: "price", label: "PRICE", minWidth: 170, sort: true },
     { id: "salesPrice", label: "SALES PRICE", minWidth: 170, sort: true },
     { id: "quantity", label: "QUANTITY", minWidth: 170, sort: true },
     {
-      id: "stock",
+      id: "manage_stock_quantity",
       label: "STOCk",
       minWidth: 170,
       sort: true,
@@ -171,149 +162,38 @@ const MProduct = () => {
       sort: false,
       // format: (value: number) => value.toFixed(2),
     },
-    // {
-    //   id: "msStatus",
-    //   label: "Status",
-    //   minWidth: 170,
-    //   format: (value: any) => console.log(value),
-    // },
+    ,
   ];
 
-  const tableRows = [
-    {
-      sku: "COD-007-KO",
-      price: 30,
-      name: "Micellar Hyaluronic Aloe Water...",
-      stock: 1230,
-      ratings: 67383,
-      review: "111",
-      activity: "34444",
-      msStatus: "1",
-    },
-    {
-      sku: "COD-007-KO",
-      price: 30,
-      name: "Micellar Hyaluronic Aloe Water...",
-      stock: 1200,
-      ratings: 67383,
-      review: "111",
-      activity: "34444",
-      msStatus: "2",
-    },
-    {
-      sku: "COD-007-KO",
-      price: 30,
-      name: "Micellar Hyaluronic Aloe Water...",
-      stock: 1230,
-      ratings: 67383,
-      review: "111",
-      activity: "34444",
-      msStatus: "3",
-    },
-    {
-      sku: "COD-007-KO",
-      price: 30,
-      name: "Micellar Hyaluronic Aloe Water...",
-      stock: 1230,
-      ratings: 67383,
-      review: "111",
-      activity: "34444",
-      msStatus: "1",
-    },
-    {
-      sku: "COD-007-KO",
-      price: 30,
-      name: "Micellar Hyaluronic Aloe Water...",
-      stock: 1230,
-      ratings: 67383,
-      review: "111",
-      activity: "34444",
-      msStatus: "2",
-    },
-    {
-      sku: "COD-007-KO",
-      price: 30,
-      name: "Micellar Hyaluronic Aloe Water...",
-      stock: 1230,
-      ratings: 67383,
-      review: "111",
-      activity: "34444",
-      msStatus: "3",
-    },
-    {
-      sku: "COD-007-KO",
-      price: 30,
-      name: "Micellar Hyaluronic Aloe Water...",
-      stock: 1230,
-      ratings: 67383,
-      review: "111",
-      activity: "34444",
-      msStatus: "1",
-    },
-    {
-      sku: "COD-007-KO",
-      price: 30,
-      name: "Micellar Hyaluronic Aloe Water...",
-      stock: 1230,
-      ratings: 67383,
-      review: "111",
-      activity: "34444",
-      msStatus: "2",
-    },
-    {
-      sku: "COD-007-KO",
-      price: 30,
-      name: "Micellar Hyaluronic Aloe Water...",
-      stock: 1230,
-      ratings: 67383,
-      review: "111",
-      activity: "34444",
-      msStatus: "3",
-    },
-    {
-      sku: "COD-007-KO",
-      price: 30,
-      name: "Micellar Hyaluronic Aloe Water...",
-      stock: 1230,
-      ratings: 67383,
-      review: "111",
-      activity: "34444",
-      msStatus: "1",
-    },
-    {
-      sku: "COD-007-KO",
-      price: 30,
-      name: "Micellar Hyaluronic Aloe Water...",
-      stock: 1230,
-      ratings: 67383,
-      review: "111",
-      activity: "34444",
-      msStatus: "2",
-    },
-    {
-      sku: "COD-007-KO",
-      price: 30,
-      name: "Micellar Hyaluronic Aloe Water...",
-      stock: 1230,
-      ratings: 67383,
-      review: "111",
-      activity: "34444",
-      msStatus: "3",
-    },
-    {
-      sku: "COD-007-KO",
-      price: 30,
-      name: "Micellar Hyaluronic Aloe Water...",
-      stock: 1230,
-      ratings: 67383,
-      review: "111",
-      activity: "34444",
-      msStatus: "3",
-    },
-  ];
+  const isToday = (date: string) => {
+    const inputDate = new Date(date);
+    const currentDate = new Date();
+
+    const isToday =
+      inputDate.getDate() === currentDate.getDate() &&
+      inputDate.getMonth() === currentDate.getMonth() &&
+      inputDate.getFullYear() === currentDate.getFullYear();
+
+    return isToday;
+  };
+
+  const idNameGetter = (brandId: string) => {
+    const brand = brands.filter((brand) => Number(brandId) === brand.id);
+    return brand[0]?.name;
+  };
+
+  console.log(brands);
 
   const addingMoreDataParameter = () =>
-    tableRows?.map((member, index) => {
+    products?.map((product, index) => {
+      const time = new Date(product?.updated_at).toLocaleTimeString([], {
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+      });
+
+      const amPm = time.slice(-2).toLowerCase();
+      // const timeWithoutAmPm = product?.updated_at.slice(0, -2);
       const isItemSelected = isSelected(index, selected);
       const labelId = `enhanced-table-checkbox-${index}`;
       return {
@@ -330,18 +210,18 @@ const MProduct = () => {
             }}
           />
         ),
-        ...member,
+        ...product,
         msStatus: (
           <p
             className={`
-            ${member.msStatus === "1" && "bg-[#ffc32733;] text-[#FFC327]"}
-            ${member.msStatus === "2" && "bg-[#3a974c33] text-[#3A974C]"} ${
-              member.msStatus === "3" && "bg-[#d11a2a33] text-[#D11A2A]"
+            ${product.status === "0" && "bg-[#ffc32733;] text-[#FFC327]"}
+            ${product.status === "1" && "bg-[#3a974c33] text-[#3A974C]"} ${
+              product.status === "2" && "bg-[#d11a2a33] text-[#D11A2A]"
             } w-max rounded-[20px] bg-gray-100 px-[12px] py-[1px] text-[14px] font-medium leading-[24px]`}
           >
-            {member.msStatus === "1" && "Pending"}
-            {member.msStatus === "2" && "Active"}
-            {member.msStatus === "3" && "Rejected"}
+            {product.status === "0" && "Pending"}
+            {product.status === "1" && "Active"}
+            {product.status === "2" && "Rejected"}
           </p>
         ),
         ratings: (
@@ -366,32 +246,46 @@ const MProduct = () => {
         ),
         activity: (
           <p className="font-medium">
-            <span className=" text-[#29020266] pr-2">8:30pm</span>
-            <span className="text-[#4F4141]">01/11/2023</span>
+            <span className=" text-[#29020266] pr-2">
+              {`${time.slice(0, -3)}${amPm}`}
+            </span>
+            <span className="text-[#4F4141]">
+              {isToday(product?.updated_at)
+                ? "Today"
+                : new Date(product?.updated_at).toLocaleDateString()}
+              {/* {new Date(product?.updated_at).toLocaleDateString()} */}
+            </span>
           </p>
         ),
         price: (
           <p className="font-normal">
             <span className="text-[#C2B4B4]">$</span>
-            <span className="text-[#4F4141]">{member.price.toFixed(2)}</span>
+            <span className="text-[#4F4141]">
+              {Number(product.price).toFixed(2)}
+            </span>
           </p>
         ),
         salesPrice: (
           <p className="font-normal">
             <span className="text-[#C2B4B4]">$</span>
-            <span className="text-[#4F4141]">{member.price.toFixed(2)}</span>
+            <span className="text-[#4F4141]">
+              {Number(product.sales_price).toFixed(2)}
+            </span>
           </p>
         ),
         quantity: (
           <p className="font-normal">
             {/* <span className="text-[#C2B4B4]">$</span> */}
-            <span className="text-[#4F4141]">50</span>
+            <span className="text-[#4F4141]">{product?.quantity}</span>
           </p>
         ),
         brand: (
           <p className="font-bold capitalize">
             {/* <span className="text-[#C2B4B4]">$</span> */}
-            <span className="text-[#4F4141]">Reckitt</span>
+            <span className="text-[#4F4141]">
+              {idNameGetter(product?.brand_id)}
+              {/* {product?.brand} */}
+            </span>
           </p>
         ),
         name: (
@@ -399,10 +293,10 @@ const MProduct = () => {
             <img src="/images/credits.svg" alt="icon" className="mr-1" />
             <p className="flex flex-col">
               <span className="text-[#4F4141] font-bold ">
-                Micellar Hyaluronic Aloe Water...
+                {product?.product_name}
               </span>
               <span className="text-[#29020266] font-medium">
-                Garnier Skin Active
+                {product?.category}
               </span>
             </p>
           </div>
@@ -455,7 +349,7 @@ const MProduct = () => {
         //   <Link
         //     className="text-[#080250]"
         //     to={APP_ROUTE.ADD_NEW_EMPLOYEE}
-        //     state={{ id: member?.mmMemberId }}>
+        //     state={{ id: product?.mmMemberId }}>
         //     View
         //   </Link>
         // ),
@@ -469,23 +363,24 @@ const MProduct = () => {
     },
     {
       title: "Pending",
-      value: "",
+      value: "0",
     },
     {
       title: "Active",
-      value: "",
-    },
-    {
-      title: "Inactive",
-      value: "",
-    },
-    {
-      title: "Draft",
-      value: "",
+      value: "1",
     },
     {
       title: "Rejected",
-      value: "",
+      value: "2",
+    },
+    {
+      title: "Draft",
+      value: "4",
+    },
+
+    {
+      title: "Blocked",
+      value: "6",
     },
   ];
 
@@ -495,6 +390,7 @@ const MProduct = () => {
     const headers = { Authorization: `Bearer ${token}` };
     const fetchActiveProducts = async () => {
       try {
+        setIsLoading(true);
         const response = await callAPI(
           "auth/store/fetch_seller_products",
           "GET",
@@ -503,156 +399,43 @@ const MProduct = () => {
         );
         // console.log(response);
         setProducts(response.data?.values);
+        setStat(response.data);
+        setIsLoading(false);
       } catch (error) {
         console.error(error);
+        setIsLoading(false);
       }
     };
     fetchActiveProducts();
   }, [authToken]);
 
-  interface DataItem {
-    id: number;
-    name: string;
-  }
+  const getProductByStatus = async (status: string) => {
+    const headers = { Authorization: `Bearer ${token}` };
+
+    try {
+      setIsLoading(true);
+      const response = await callAPI(
+        `auth/store/fetch_seller_products/${status}`,
+        "GET",
+        null,
+        headers
+      );
+      setProducts(response.data?.values);
+      setStat(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
+  };
 
   console.log(products);
+  if (isLoading) <Loader />;
 
   return (
     <div className="bg-[#]">
       <ManufacturersProfileLayout>
-        {/* <div className="smm:p-8 p-1 smm:w-full w-[calc(100%)] mx-auto">
-          <div className="smm:w-full ">
-            <div className="">
-              <div className="bg-white smm:ml-0 -ml-2 smm:w-full w-[calc(100%+16px)] smm:px-0 px-2">
-                <h1 className="text-[40px] font-[500] xs:text-[26px]">
-                  My Products
-                </h1>
-                {!searchBarVisible && (
-                  <div className="pt-3 w-full justify-between items-center flex">
-                    <div className="flex items-center text-center gap-3">
-                      <h1
-                        className={
-                          active
-                            ? "font-bold cursor-pointer border-b-4 border-[#E51B48] pb-1"
-                            : "text-[#515151] cursor-pointer pb-1 border-b-4 border-white"
-                        }
-                        onClick={() => handleActive()}
-                      >
-                        Active
-                      </h1>
-                      <h1
-                        className={
-                          review
-                            ? "font-bold cursor-pointer border-b-4 border-[#E51B48] pb-1"
-                            : "text-[#515151] cursor-pointer pb-1 border-b-4 border-white"
-                        }
-                        onClick={() => handleReview()}
-                      >
-                        Reviewing
-                      </h1>
-                      <h1
-                        className={
-                          closed
-                            ? "font-bold cursor-pointer border-b-4 pb-1 border-[#E51B48]"
-                            : "text-[#515151] cursor-pointer pb-1 border-b-4 border-white"
-                        }
-                        onClick={() => handleClosed()}
-                      >
-                        Closed
-                      </h1>
-                    </div>
-                    <div className="flex-row gap-4 hidden md:flex">
-                      <div className="hidden md:flex justify-center items-center">
-                        <input
-                          className="py-2 px-4 rounded-md border border-[#C4C4C4]"
-                          placeholder="Search my Products"
-                        />
-                      </div>
-                      <a href="/manufacturers-profile/add-product">
-                        <button className="bg-[#1B7CFC] text-white text-sm py-2 px-4 rounded-md xs:hidden">
-                          Add Product
-                        </button>
-                      </a>
-                    </div>
-                    <div
-                      className="md:hidden block pb-2 cursor-pointer"
-                      onClick={() => setSearchBarVisible(true)}
-                    >
-                      <svg
-                        width="30"
-                        height="30"
-                        viewBox="0 0 30 30"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M22.5 22.5L17.5 17.5M19.1667 13.3333C19.1667 14.0994 19.0158 14.8579 18.7226 15.5657C18.4295 16.2734 17.9998 16.9164 17.4581 17.4581C16.9164 17.9998 16.2734 18.4295 15.5657 18.7226C14.8579 19.0158 14.0994 19.1667 13.3333 19.1667C12.5673 19.1667 11.8087 19.0158 11.101 18.7226C10.3933 18.4295 9.75022 17.9998 9.20854 17.4581C8.66687 16.9164 8.23719 16.2734 7.94404 15.5657C7.65088 14.8579 7.5 14.0994 7.5 13.3333C7.5 11.7862 8.11458 10.3025 9.20854 9.20854C10.3025 8.11458 11.7862 7.5 13.3333 7.5C14.8804 7.5 16.3642 8.11458 17.4581 9.20854C18.5521 10.3025 19.1667 11.7862 19.1667 13.3333Z"
-                          stroke="#515151"
-                          stroke-width="2.25"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                )}
-
-                {searchBarVisible && (
-                  <div className="flex justify-center items-center py-3 w-full relative">
-                    <input
-                      type="text"
-                      placeholder="Search"
-                      className="py-3 w-full border-x-0 border border-gray-200 px-3"
-                    />
-                    <div
-                      className=""
-                      onClick={() => setSearchBarVisible(false)}
-                    >
-                      <span className="text-xl p-2">
-                        <svg
-                          width="14"
-                          height="14"
-                          viewBox="0 0 14 14"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M1 13L13 1M1 1L13 13"
-                            stroke="black"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          ></path>
-                        </svg>
-                      </span>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div className="py-4 px-4 bg-white">
-                {active && (
-                  <div className="space-y-3">
-                    {products.length > 0 ? (
-                      products.map((product) => (
-                        <ProductActive key={product.id} data={product} />
-                      ))
-                    ) : (
-                      <p> Fetching products ...</p>
-                    )}
-                  </div>
-                )}
-                {review && <ProductRev />}
-                {closed && <ProductClose />}
-              </div>
-              <a href="/manufacturers-profile/add-product">
-                <button className="bg-[#1B7CFC] text-white py-2 w-full px-4 rounded-md sm:hidden lg:hidden md:hidden 2xl:hidden xl:hidden">
-                  Add Product
-                </button>
-              </a>
-            </div>
-          </div>
-        </div> */}
+        {isLoading && <Loader />}
         <div className="px-[30px] font-DM-sans">
           <div className="mb-[30px] flex justify-between">
             <div>
@@ -727,7 +510,9 @@ const MProduct = () => {
                 <p className="text-[#29020280] font-medium text-base">
                   Sales this Week
                 </p>
-                <p className="text-2xl font-bold text-[#4F4141]">$642.39</p>
+                <p className="text-2xl font-bold text-[#4F4141]">
+                  ${stat?.highest_product_sale_7 || 0}
+                </p>
               </div>
             </div>
             <div className="w-[248px] max-w-[248px] col-span-1 flex py-[20px] px-[17px] bg-white rounded-[20px]">
@@ -735,7 +520,9 @@ const MProduct = () => {
                 <p className="text-[#29020280] font-medium text-base">
                   Sales this Month
                 </p>
-                <p className="text-2xl font-bold text-[#4F4141]">$574.34</p>
+                <p className="text-2xl font-bold text-[#4F4141]">
+                  ${stat?.highest_product_sale_30 || 0}
+                </p>
               </div>
             </div>
             <div className="w-[248px] max-w-[248px] col-span-1 flex py-[20px] px-[17px] bg-white rounded-[20px]">
@@ -744,7 +531,9 @@ const MProduct = () => {
                 <p className="text-[#29020280] font-medium text-base">
                   Total Orders
                 </p>
-                <p className="text-2xl font-bold text-[#4F4141]">154</p>
+                <p className="text-2xl font-bold text-[#4F4141]">
+                  {stat?.total_products_sold || 0}
+                </p>
               </div>
             </div>
             <div className="col-span-1 flex py-[20px] px-[17px] bg-white rounded-[20px] w-[248px] max-w-[248px]">
@@ -768,7 +557,7 @@ const MProduct = () => {
                       />
                     </svg>
                   </span>
-                  4.8 (467)
+                  {stat?.total_store_rating || 0}
                 </p>
               </div>
             </div>
@@ -779,7 +568,15 @@ const MProduct = () => {
                 {tabs?.map((tab, index) => (
                   <p
                     key={index}
-                    className="text-[10.77px] 3xl:text-[14px] font-bold text-[#29020266] hover:text-[#290202] cursor-pointer"
+                    className={`text-[10.77px] 3xl:text-[14px] font-bold ${
+                      tab.title === activeTab
+                        ? "text-[#290202]"
+                        : "text-[#29020266]"
+                    }  hover:text-[#290202] cursor-pointer`}
+                    onClick={() => {
+                      getProductByStatus(tab?.value);
+                      setActiveTab(tab.title);
+                    }}
                   >
                     {tab.title}
                   </p>

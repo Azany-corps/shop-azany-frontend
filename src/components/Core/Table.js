@@ -216,8 +216,8 @@ const TableComponent = ({
 
   if (rows?.length < 1 || !rows || !rows === undefined) {
     return (
-      <div className="text-center text-2xl text-gray-800">
-        No records to display!
+      <div className="text-center text-base font-DM-sans text-app-brown-300">
+        No product found
       </div>
     );
   }

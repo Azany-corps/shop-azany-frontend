@@ -35,12 +35,17 @@ export const AddSingleImageComp = ({ onImageSelect }: AddSingleImageProps) => {
     },
   });
 
-  const handleImageClick = () => {
+  const handleImageClick = (event: React.MouseEvent<HTMLImageElement>) => {
+    // Prevent the file input from being triggered when clicking on the img element
+    if (event.target instanceof HTMLImageElement) {
+      return;
+    }
+
     const input = document.createElement("input");
     input.type = "file";
     input.accept = "image/jpeg, image/png";
-    input.onchange = (event) => {
-      const fileInput = event.target as HTMLInputElement;
+    input.onchange = (changeEvent) => {
+      const fileInput = changeEvent.target as HTMLInputElement;
       const file = fileInput.files?.[0];
       if (file) {
         setSelectedImage(file as FileWithPath);
