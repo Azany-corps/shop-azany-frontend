@@ -179,7 +179,7 @@ const MProduct = () => {
 
   const idNameGetter = (brandId: string) => {
     const brand = brands.filter((brand) => Number(brandId) === brand.id);
-    return brand[0].name;
+    return brand[0]?.name;
   };
 
   console.log(brands);

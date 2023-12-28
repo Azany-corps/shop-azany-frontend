@@ -2036,7 +2036,7 @@ const AddProduct = () => {
                                 <td className="pr-[14px] ">
                                   <div className="w-[52px] h-[52px]">
                                     <AddSingleImageComp
-                                      onImageSelect={(image) =>
+                                      onImageSelect={(image: any) =>
                                         handleSingleImageSelect(image, form.id)
                                       }
                                     />
