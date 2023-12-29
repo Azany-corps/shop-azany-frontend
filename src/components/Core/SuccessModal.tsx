@@ -20,7 +20,7 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
       aria-hidden="true"
       className={`${
         isOpen ? "fixed" : "hidden"
-      } top-0 left-0 right-0 z-50 w-full h-screen p-4 overflow-x-hidden overflow-y-auto md:inset-0  max-h-full flex justify-center items-center bg-black bg-opacity-70`}
+      } top-0 left-0 right-0 z-50 w-full h-screen p-4 overflow-x-hidden overflow-y-auto md:inset-0  max-h-full flex justify-center items-center bg-[#000000] bg-opacity-70`}
     >
       <div className="relative p-4 w-full max-w-[590px] max-h-[500px]">
         <div className="relative bg-white rounded-[26.7px] shadow px-[47px]">

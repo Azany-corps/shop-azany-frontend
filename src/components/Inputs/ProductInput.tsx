@@ -106,9 +106,9 @@ export const ProductInputSelectForm: React.FC<FormInputSelectProps> = ({
           onChange={onSelectChange}
           className="border-none text-[#29020266] bg-transparent outline-none focus:ring-0 w-[60px]"
         >
-          <option value="" selected disabled>
+          {/* <option value="" selected disabled>
             {optionsLabel}
-          </option>
+          </option> */}
           {options?.map((option, index) => (
             <option value={option.value}>{option.label}</option>
           ))}
@@ -209,9 +209,7 @@ export const ProductSelect: React.FC<FormSelectProps> = ({
         onChange={onChange}
         className={`${style} bg-transparent border border-app-gray-100 text-app-gray-300 text-sm rounded-[10px] focus:ring-0 focus:ring-none focus:border-gray-900 block w-full p-2.5`}
       >
-        <option disabled selected>
-          {optionsLabel}
-        </option>
+        <option selected>{optionsLabel}</option>
         {options?.map((option: any) => (
           <option key={option.value} value={option.value}>
             {option.label}
