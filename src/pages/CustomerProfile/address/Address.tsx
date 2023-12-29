@@ -19,14 +19,35 @@ interface Address {
   address: string;
   postal_code: string;
   delivery_options: string;
-  // Add other properties as needed
+  id: string;
 }
 
 const AddressComponent: React.FC<AddressProps> = () => {
   const navigate = useNavigate();
   const [addresses, setAdresses] = useState<Address[]>([]);
-  const [isLoading, setIsLoading] = useState<Boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [deleteId, setDeleteId] = useState<string>("");
+
+  const deleteAddress = async (id: string) => {
+    const token = localStorage.getItem("token");
+    setIsLoading(true);
+    const headers = { Authorization: `Bearer ${token}` };
+    try {
+      const response = await callAPI(
+        `general/products/delete_single_customer_delivery_info/${id}`,
+        "DELETE",
+        null,
+        headers
+      );
+      setIsLoading(false);
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+      alert(err);
+      setIsLoading(false);
+    }
+  };
 
   const addAddressHandler = () => {
     navigate("/customer-profile/add-address");
@@ -66,14 +87,15 @@ const AddressComponent: React.FC<AddressProps> = () => {
     getCustomerDeliveryInfo();
   }, []);
 
-  console.log(addresses);
-
   return (
     <CustomerProfileLayout>
       <DeleteModalComp
         title="Are you sure you want to delete this address"
         isOpen={isModalOpen}
         onClose={handleCloseModal}
+        onClick={() => {
+          deleteAddress(deleteId);
+        }}
       />
       {isLoading && <Loader />}
       <div className="pt-[80px] w-full font-public-sans">
@@ -132,6 +154,7 @@ const AddressComponent: React.FC<AddressProps> = () => {
                         country: address?.country,
                         postal_code: address?.postal_code,
                         delivery_options: address?.delivery_options,
+                        id: address?.id,
                       }}
                     >
                       <button
@@ -145,7 +168,10 @@ const AddressComponent: React.FC<AddressProps> = () => {
                     </Link>
                     <button
                       type="button"
-                      onClick={handleOpenModal}
+                      onClick={() => {
+                        handleOpenModal();
+                        setDeleteId(address?.id);
+                      }}
                       className="text-white bg-[#D65D5B] hover:bg-[#b53f3d] focus:ring-4 focus:ring-[#cf7372] font-medium rounded-[16px] text-sm px-2 py-2.5 me-2 mb-2 focus:outline-none item mt-auto max-w-[130px] w-[130px] cursor-pointer"
                     >
                       <p className="w-[114px] text-[12px] font-medium">

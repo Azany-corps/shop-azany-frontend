@@ -62,8 +62,11 @@ const MProduct = () => {
   const [searchBarVisible, setSearchBarVisible] = useState(false);
   const [authToken] = useAuthToken();
   const [brands, setBrands] = useState<Brand[]>([]);
-  const [isLoading, setIsLoading] = useState<Boolean>(false);
-  const [activeTab, setActiveTab] = useState<String>("All");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [activeTab, setActiveTab] = useState<string>("All");
+  const [stockStatus, setStockStatus] = useState<string>("stock-in");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [keyProp, setKeyProp] = useState(true); // Toggle between true and false to reset key
 
   useEffect(() => {
     setIsLoading(true);
@@ -88,6 +91,14 @@ const MProduct = () => {
       updatedSettings[index] = !updatedSettings[index];
       return updatedSettings;
     });
+  };
+
+  const handleStock = (
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setStockStatus(event.target.value);
   };
 
   const tableColumns = [
@@ -118,12 +129,12 @@ const MProduct = () => {
     {
       id: "name",
       label: "PRODUCT NAME",
-      minWidth: 300,
+      minWidth: 250,
       sort: true,
       // format: (value: number) => value.toLocaleString("en-US"),
     },
     { id: "brand", label: "BRAND", minWidth: 170, sort: true },
-    { id: "SKU", label: "SKU", minWidth: 170, sort: true },
+    { id: "SKU", label: "SKU", minWidth: 250, sort: true },
     { id: "price", label: "PRICE", minWidth: 170, sort: true },
     { id: "salesPrice", label: "SALES PRICE", minWidth: 170, sort: true },
     { id: "quantity", label: "QUANTITY", minWidth: 170, sort: true },
@@ -158,7 +169,7 @@ const MProduct = () => {
     {
       id: "settings",
       // label: "ACTIVITY",
-      minWidth: 100,
+      minWidth: 50,
       sort: false,
       // format: (value: number) => value.toFixed(2),
     },
@@ -182,7 +193,111 @@ const MProduct = () => {
     return brand[0]?.name;
   };
 
-  console.log(brands);
+  const tabs = [
+    {
+      title: "All",
+      value: "",
+    },
+    {
+      title: "Pending",
+      value: "0",
+    },
+    {
+      title: "Active",
+      value: "1",
+    },
+    {
+      title: "Rejected",
+      value: "2",
+    },
+    {
+      title: "Draft",
+      value: "4",
+    },
+
+    {
+      title: "Blocked",
+      value: "6",
+    },
+  ];
+
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    const headers = { Authorization: `Bearer ${token}` };
+    const fetchActiveProducts = async () => {
+      try {
+        setIsLoading(true);
+        const response = await callAPI(
+          "auth/store/fetch_seller_products",
+          "GET",
+          null,
+          headers
+        );
+        setProducts(response.data?.values);
+        setKeyProp((prevKeyProp) => !prevKeyProp); // Toggle keyProp to reset TableComponent
+        setStat(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error(error);
+        setIsLoading(false);
+      }
+    };
+    fetchActiveProducts();
+  }, [authToken]);
+
+  const getProductByStatus = async (status: string) => {
+    const headers = { Authorization: `Bearer ${token}` };
+
+    try {
+      setIsLoading(true);
+      const response = await callAPI(
+        `auth/store/fetch_seller_products/${status}`,
+        "GET",
+        null,
+        headers
+      );
+      if (typeof response?.data?.values === "object") {
+        setProducts(response?.data?.values);
+        setKeyProp((prevKeyProp) => !prevKeyProp); // Toggle keyProp to reset TableComponent
+      } else {
+        setProducts([]);
+      }
+      setStat(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
+    setCurrentPage(1);
+  };
+
+  const getProductByStock = async (status: string) => {
+    const headers = { Authorization: `Bearer ${token}` };
+
+    try {
+      setIsLoading(true);
+      const response = await callAPI(
+        `auth/store/filter_by_stock_status/${status}`,
+        "GET",
+        null,
+        headers
+      );
+      // console.log(response?.data?.values);
+      if (typeof response?.data?.values === "object") {
+        setProducts(response?.data?.values);
+        setKeyProp((prevKeyProp) => !prevKeyProp); // Toggle keyProp to reset TableComponent
+      } else {
+        setProducts([]);
+      }
+      setStat(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
+    setCurrentPage(1);
+  };
 
   const addingMoreDataParameter = () =>
     products?.map((product, index) => {
@@ -214,14 +329,23 @@ const MProduct = () => {
         msStatus: (
           <p
             className={`
-            ${product.status === "0" && "bg-[#ffc32733;] text-[#FFC327]"}
-            ${product.status === "1" && "bg-[#3a974c33] text-[#3A974C]"} ${
-              product.status === "2" && "bg-[#d11a2a33] text-[#D11A2A]"
-            } w-max rounded-[20px] bg-gray-100 px-[12px] py-[1px] text-[14px] font-medium leading-[24px]`}
+          ${product.status === "0" && "bg-[#ffc32733;] text-[#FFC327]"}
+          ${product.status === "1" && "bg-[#3a974c33] text-[#3A974C]"} 
+          ${product.status === "2" && "bg-[#d11a2a33] text-[#D11A2A]"}
+          ${product.status === "4" && "bg-[#7c7c7c33] text-[#7F7F7F]"}
+          ${product.status === "4" && "bg-[#4f414133] text-[#4F4141]"} 
+          ${product.status === "5" && "bg-[#4945ff33] text-[#4945FF]"}
+          ${product.status === "6" && "bg-[#459bff33] text-[#459BFF]"}
+      
+           w-max rounded-[20px] bg-gray-100 px-[12px] py-[1px] text-[14px] font-medium leading-[24px]`}
           >
             {product.status === "0" && "Pending"}
             {product.status === "1" && "Active"}
             {product.status === "2" && "Rejected"}
+            {product.status === "3" && "Out of stock"}
+            {product.status === "4" && "Draft"}
+            {product.status === "5" && "Trashed"}
+            {product.status === "6" && "Blocked"}
           </p>
         ),
         ratings: (
@@ -302,134 +426,66 @@ const MProduct = () => {
           </div>
         ),
         settings: (
-          <div className="relative">
+          <div className="relative group">
             <img
               src="/images/settings-icon.svg"
               alt="settings button"
               className="cursor-pointer"
-              onClick={() => {
-                settingsMenuHandler(index);
-              }}
             />
 
-            <ul
-              className={`bg-white ${
-                showSettingsMenu[index] ? "absolute z-50" : "hidden"
-              } flex-col items-center px-[12.33px] py-[11.56px] rounded-lg w-[81.19px] max-h-[93.4px] mr-4`}
+            <div
+              className={`bg-white hidden absolute z-50 right-1 flex-col items-center px-[12.33px] py-[11.56px] rounded-lg 
+              group-hover:block`}
               style={{
                 filter: "drop-shadow(0px 3.081px 3.081px rgba(0, 0, 0, 0.10))",
               }}
             >
-              <li className="w-full mb-[6.42px]">
-                <img
-                  src="/images/edit-btn.svg"
-                  alt="edit button"
-                  className="cursor-pointer"
-                />
-              </li>
-              <li className="w-full mb-[4.42px]">
-                <img
-                  src="/images/draft-btn.svg"
-                  alt="draft button"
-                  className="cursor-pointer"
-                />
-              </li>
-              <li className="w-full">
-                <img
-                  src="/images/delete-btn.svg"
-                  alt="delete button"
-                  className="cursor-pointer"
-                />
-              </li>
-            </ul>
+              <ul className="w-full h-full flex flex-col justify-center items-center">
+                <li className="mb-[9px]">
+                  <button className="flex items-center rounded-[20px] bg-[#ffd66b33] px-3 text-[#FFC327]">
+                    <img
+                      src="/images/edit-icon.svg"
+                      alt="icon"
+                      className="pr-2.5"
+                    />
+                    <p className="font-DM-sans min-h-[24px] flex items-center justify-center">
+                      Edit
+                    </p>
+                  </button>
+                </li>
+                <li className="mb-[9px]">
+                  <button className="flex items-center rounded-[20px] bg-[#4f414133] px-3 text-[#4F4141]">
+                    <img
+                      src="/images/draft-icon.svg"
+                      alt="icon"
+                      className="pr-2.5"
+                    />
+                    <p className="font-DM-sans min-h-[24px] flex items-center justify-center">
+                      Draft
+                    </p>
+                  </button>
+                </li>
+                <li className="w-full">
+                  <button className="flex items-center rounded-[20px] bg-[#d11a2a33] px-3 text-[#D11A2A] w-full min-w-[88.6px]">
+                    <img
+                      src="/images/delete-produc-icon.svg"
+                      alt="icon"
+                      className="pr-2.5"
+                    />
+                    <p className="font-DM-sans min-h-[24px] flex items-center justify-center">
+                      Delete
+                    </p>
+                  </button>
+                </li>
+              </ul>
+            </div>
           </div>
         ),
-        // generate: <Link to="generate-card">Generate card</Link>,
-        // view: (
-        //   <Link
-        //     className="text-[#080250]"
-        //     to={APP_ROUTE.ADD_NEW_EMPLOYEE}
-        //     state={{ id: product?.mmMemberId }}>
-        //     View
-        //   </Link>
-        // ),
       };
     });
 
-  const tabs = [
-    {
-      title: "All",
-      value: "",
-    },
-    {
-      title: "Pending",
-      value: "0",
-    },
-    {
-      title: "Active",
-      value: "1",
-    },
-    {
-      title: "Rejected",
-      value: "2",
-    },
-    {
-      title: "Draft",
-      value: "4",
-    },
-
-    {
-      title: "Blocked",
-      value: "6",
-    },
-  ];
-
-  const token = localStorage.getItem("token");
-
-  useEffect(() => {
-    const headers = { Authorization: `Bearer ${token}` };
-    const fetchActiveProducts = async () => {
-      try {
-        setIsLoading(true);
-        const response = await callAPI(
-          "auth/store/fetch_seller_products",
-          "GET",
-          null,
-          headers
-        );
-        // console.log(response);
-        setProducts(response.data?.values);
-        setStat(response.data);
-        setIsLoading(false);
-      } catch (error) {
-        console.error(error);
-        setIsLoading(false);
-      }
-    };
-    fetchActiveProducts();
-  }, [authToken]);
-
-  const getProductByStatus = async (status: string) => {
-    const headers = { Authorization: `Bearer ${token}` };
-
-    try {
-      setIsLoading(true);
-      const response = await callAPI(
-        `auth/store/fetch_seller_products/${status}`,
-        "GET",
-        null,
-        headers
-      );
-      setProducts(response.data?.values);
-      setStat(response.data);
-      setIsLoading(false);
-    } catch (error) {
-      console.error(error);
-      setIsLoading(false);
-    }
-  };
-
   console.log(products);
+
   if (isLoading) <Loader />;
 
   return (
@@ -495,49 +551,73 @@ const MProduct = () => {
             </div>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-5">
-            <div className="w-[248px] max-w-[248px] col-span-1 flex py-[20px] px-[17px] bg-white rounded-[20px]">
-              <img src="/images/stat.svg" alt="stat" className="mr-[14px]" />
+            <div className="w-[248px] max-w-[248px] max-h-[97px] col-span-1 flex items-center py-[20px] px-[17px] bg-white rounded-[20px]">
+              <img
+                src="/images/stat.svg"
+                alt="stat"
+                className="mr-[14px] w-[56px] h-[56px] object-cover"
+              />
               <div className="flex flex-col justify-center">
                 <p className="text-[#29020280] font-medium text-base">
-                  Total Sales
-                </p>
-                <p className="text-2xl font-bold text-[#4F4141]">$350.4</p>
-              </div>
-            </div>
-            <div className="w-[248px] max-w-[248px] col-span-1 flex py-[20px] px-[17px] bg-white rounded-[20px]">
-              <img src="/images/dollar.svg" alt="stat" className="mr-[14px]" />
-              <div className="flex flex-col justify-center">
-                <p className="text-[#29020280] font-medium text-base">
-                  Sales this Week
+                  Total Products
                 </p>
                 <p className="text-2xl font-bold text-[#4F4141]">
-                  ${stat?.highest_product_sale_7 || 0}
+                  {stat?.total_products || 0}
                 </p>
               </div>
             </div>
-            <div className="w-[248px] max-w-[248px] col-span-1 flex py-[20px] px-[17px] bg-white rounded-[20px]">
+            <div className="w-[248px] max-w-[248px] max-h-[97px] col-span-1 flex items-center py-[20px] px-[17px] bg-white rounded-[20px]">
+              <img
+                src="/images/stat.svg"
+                alt="stat"
+                className="mr-[14px] w-[56px] h-[56px] object-cover"
+              />
               <div className="flex flex-col justify-center">
                 <p className="text-[#29020280] font-medium text-base">
-                  Sales this Month
+                  Active Products
                 </p>
                 <p className="text-2xl font-bold text-[#4F4141]">
-                  ${stat?.highest_product_sale_30 || 0}
+                  {stat?.total_products_active || 0}
                 </p>
               </div>
             </div>
-            <div className="w-[248px] max-w-[248px] col-span-1 flex py-[20px] px-[17px] bg-white rounded-[20px]">
-              <img src="/images/orders.svg" alt="stat" className="mr-[14px]" />
+            <div className="w-[248px] max-w-[248px] max-h-[97px] col-span-1 flex items-center py-[20px] px-[17px] bg-white rounded-[20px]">
+              <img
+                src="/images/dollar.svg"
+                alt="stat"
+                className="mr-[14px] w-[56px] h-[56px] object-cover"
+              />
               <div className="flex flex-col justify-center">
                 <p className="text-[#29020280] font-medium text-base">
-                  Total Orders
+                  Products Value
                 </p>
                 <p className="text-2xl font-bold text-[#4F4141]">
-                  {stat?.total_products_sold || 0}
+                  ${stat?.total_products_value?.amount || 0}
                 </p>
               </div>
             </div>
-            <div className="col-span-1 flex py-[20px] px-[17px] bg-white rounded-[20px] w-[248px] max-w-[248px]">
-              <img src="/images/store.svg" alt="stat" className="mr-[14px]" />
+
+            <div className="w-[248px] max-w-[248px] max-h-[97px] col-span-1 flex items-center py-[20px] px-[17px] bg-white rounded-[20px]">
+              <img
+                src="/images/dollar.svg"
+                alt="stat"
+                className="mr-[14px] w-[56px] h-[56px] object-cover"
+              />
+              <div className="flex flex-col justify-center">
+                <p className="text-[#29020280] font-medium text-base">
+                  Total Product Sold
+                </p>
+                <p className="text-2xl font-bold text-[#4F4141]">
+                  ${stat?.highest_products_sold || 0}
+                </p>
+              </div>
+            </div>
+            <div className="w-[248px] max-w-[248px] max-h-[97px] col-span-1 flex items-center py-[20px] px-[17px] bg-white rounded-[20px]">
+              <img
+                src="/images/store.svg"
+                alt="stat"
+                className="mr-[14px] w-[56px] h-[56px] object-cover"
+              />
               <div className="flex flex-col justify-center">
                 <p className="text-[#29020280] font-medium text-base">
                   Store Rating
@@ -568,7 +648,7 @@ const MProduct = () => {
                 {tabs?.map((tab, index) => (
                   <p
                     key={index}
-                    className={`text-[10.77px] 3xl:text-[14px] font-bold ${
+                    className={`text-sm 3xl:text-[14px] font-bold ${
                       tab.title === activeTab
                         ? "text-[#290202]"
                         : "text-[#29020266]"
@@ -586,7 +666,7 @@ const MProduct = () => {
                 <div className="col-span-1">
                   <select
                     id="countries"
-                    className="bg-[#00000019] border border-[#00000019] text-[#29020266] text-[9.424px] rounded-[10px] block p-2.5 max-h-[36.5px] min-w-[114.9px] outline-none"
+                    className="bg-[#00000019] border border-[#00000019] text-[#29020266] text-xs rounded-[10px] block p-2.5 max-h-[36.5px] min-w-[114.9px] outline-none"
                   >
                     <option selected>Select by Category</option>
                     <option value="US">United States</option>
@@ -595,10 +675,12 @@ const MProduct = () => {
                 <div className="col-span-1">
                   <select
                     id="countries"
-                    className="bg-[#00000019] border border-[#00000019] text-[#29020266] text-[9.424px] rounded-[10px] block p-2.5 max-h-[36.5px] min-w-[114.9px] outline-none"
+                    className="bg-[#00000019] border border-[#00000019] text-[#29020266] text-xs rounded-[10px] block p-2.5 max-h-[36.5px] min-w-[114.9px] outline-none"
+                    onChange={handleStock}
                   >
                     <option selected>Filter by Stock state</option>
-                    <option value="US">United States</option>
+                    <option value="stock-in">In-stock</option>
+                    <option value="stock-out">Out-of-stock</option>
                   </select>
                 </div>
                 <div className="col-span-1 w-full">
@@ -606,6 +688,9 @@ const MProduct = () => {
                     src="/images/filter-btn.svg"
                     alt="btn"
                     className="object-cover"
+                    onClick={() => {
+                      getProductByStock(stockStatus);
+                    }}
                   />
                 </div>
               </div>
@@ -613,10 +698,10 @@ const MProduct = () => {
                 <div className="col-span-1 w-full">
                   <select
                     id="countries"
-                    className="bg-[#00000019] border border-[#00000019] text-[#29020266] text-[9.424px] rounded-[10px] block w-full p-2.5 max-h-[36.5px] min-w-[114.9px] outline-none"
+                    className="bg-[#00000019] border border-[#00000019] text-[#29020266] text-xs rounded-[10px] block w-full p-2.5 max-h-[36.5px] min-w-[114.9px] outline-none"
                   >
                     <option selected>Bulk Actions</option>
-                    <option value="US">United States</option>
+                    <option value="US">Bulk Actions</option>
                   </select>
                 </div>
                 <div className="col-span-1 w-full">

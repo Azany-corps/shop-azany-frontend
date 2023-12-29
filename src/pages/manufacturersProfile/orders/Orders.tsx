@@ -107,7 +107,7 @@ const MOrders = () => {
     {
       id: "settings",
       // label: "ACTIVITY",
-      minWidth: 100,
+      minWidth: 50,
       sort: false,
       // format: (value: number) => value.toFixed(2),
     },
@@ -256,7 +256,7 @@ const MOrders = () => {
         ),
 
         settings: (
-          <div className="relative">
+          <div className="relative group">
             <img
               src="/images/settings-icon.svg"
               alt="settings button"
@@ -266,9 +266,8 @@ const MOrders = () => {
               }}
             />
             <div
-              className={`bg-white ${
-                showSettingsMenu[index] ? "absolute z-50" : "hidden"
-              } px-[12.33px] py-[11.56px] rounded-lg w-[180px] max-h-[95px] mr-4 right-0`}
+              className={`bg-white hidden absolute z-50 right-1 flex-col items-center px-[12.33px] py-[11.56px] rounded-lg 
+                   group-hover:block`}
               style={{
                 filter: "drop-shadow(0px 3.081px 3.081px rgba(0, 0, 0, 0.10))",
               }}
@@ -375,8 +374,12 @@ const MOrders = () => {
           </div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-5">
-          <div className="w-[248px] max-w-[248px] col-span-1 flex py-[20px] px-[17px] bg-white rounded-[20px]">
-            <img src="/images/stat.svg" alt="stat" className="mr-[14px]" />
+          <div className="w-[248px] max-w-[248px] max-h-[97px] col-span-1 flex items-center py-[20px] px-[17px] bg-white rounded-[20px]">
+            <img
+              src="/images/stat.svg"
+              alt="stat"
+              className="mr-[14px] w-[56px] h-[56px] object-cover"
+            />
             <div className="flex flex-col justify-center">
               <p className="text-[#29020280] font-medium text-base">
                 Total Orders
@@ -384,7 +387,8 @@ const MOrders = () => {
               <p className="text-2xl font-bold text-[#4F4141]">2368</p>
             </div>
           </div>
-          <div className="w-[248px] max-w-[248px] col-span-1 flex py-[20px] px-[17px] bg-white rounded-[20px]">
+
+          <div className="w-[248px] max-w-[248px] max-h-[97px] col-span-1 flex items-center py-[20px] px-[17px] bg-white rounded-[20px]">
             <div className="flex flex-col justify-center">
               <p className="text-[#29020280] font-medium text-base">
                 Orders this Month
@@ -395,11 +399,11 @@ const MOrders = () => {
               </p>
             </div>
           </div>
-          <div className="w-[248px] max-w-[248px] col-span-1 flex py-[20px] px-[17px] bg-white rounded-[20px]">
+          <div className="w-[248px] max-w-[248px] max-h-[97px] col-span-1 flex items-center py-[20px] px-[17px] bg-white rounded-[20px]">
             <img
               src="/images/total-customers.svg"
               alt="stat"
-              className="mr-[14px]"
+              className="mr-[14px] w-[56px] h-[56px] object-cover"
             />
             <div className="flex flex-col justify-center">
               <p className="text-[#29020280] font-medium text-base">
@@ -408,11 +412,11 @@ const MOrders = () => {
               <p className="text-2xl font-bold text-[#4F4141]">350</p>
             </div>
           </div>
-          <div className="w-[248px] max-w-[248px] col-span-1 flex py-[20px] px-[17px] bg-white rounded-[20px]">
+          <div className="w-[248px] max-w-[248px] max-h-[97px] col-span-1 flex items-center py-[20px] px-[17px] bg-white rounded-[20px]">
             <img
               src="/images/orders-delivered.svg"
               alt="stat"
-              className="mr-[14px]"
+              className="mr-[14px] w-[56px] h-[56px] object-cover"
             />
             <div className="flex flex-col justify-center">
               <p className="text-[#29020280] font-medium text-base">
@@ -421,11 +425,11 @@ const MOrders = () => {
               <p className="text-2xl font-bold text-[#4F4141]">2035</p>
             </div>
           </div>
-          <div className="w-[248px] max-w-[248px] col-span-1 flex py-[20px] px-[17px] bg-white rounded-[20px]">
+          <div className="w-[248px] max-w-[248px] max-h-[97px] col-span-1 flex items-center py-[20px] px-[17px] bg-white rounded-[20px]">
             <img
               src="/images/ongoing-orders.svg"
               alt="stat"
-              className="mr-[14px]"
+              className="mr-[14px] w-[56px] h-[56px] object-cover"
             />
             <div className="flex flex-col justify-center">
               <p className="text-[#29020280] font-medium text-base">
@@ -434,8 +438,12 @@ const MOrders = () => {
               <p className="text-2xl font-bold text-[#4F4141]">146</p>
             </div>
           </div>
-          <div className="w-[248px] max-w-[248px] col-span-1 flex py-[20px] px-[17px] bg-white rounded-[20px]">
-            <img src="/images/dollar.svg" alt="stat" className="mr-[14px]" />
+          <div className="w-[248px] max-w-[248px] max-h-[97px] col-span-1 flex items-center py-[20px] px-[17px] bg-white rounded-[20px]">
+            <img
+              src="/images/dollar.svg"
+              alt="stat"
+              className="mr-[14px] w-[56px] h-[56px] object-cover"
+            />
             <div className="flex flex-col justify-center">
               <p className="text-[#29020280] font-medium text-base">
                 Total Sales
@@ -445,8 +453,8 @@ const MOrders = () => {
           </div>
         </div>
         <div className="bg-white w-full rounded-[20px] mt-[22px] px-[31px] py-[19px]">
-          <div className="w-full grid lg:grid-cols-2 gap-12 pb-[23px]">
-            <div className="col-span-1 flex justify-between items-center">
+          <div className="w-full grid lg:grid-cols-3 gap-12 pb-[23px]">
+            <div className="col-span-2 flex justify-between items-center">
               {tabs?.map((tab, index) => (
                 <p
                   key={index}

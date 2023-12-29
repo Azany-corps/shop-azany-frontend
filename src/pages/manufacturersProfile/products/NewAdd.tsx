@@ -163,7 +163,7 @@ const AddProduct = () => {
   ]);
 
   const [discountIsChecked, setDiscountIsChecked] = useState<boolean>(false);
-
+  const [manageStockChecked, setManageStockChecked] = useState<boolean>(false);
   const [id, setId] = useState<number>(0);
   const [discountType, setDiscountType] = useState<string>("");
 
@@ -829,6 +829,10 @@ const AddProduct = () => {
     setDiscountIsChecked(!discountIsChecked);
   };
 
+  const handleManageStock = () => {
+    setManageStockChecked(!manageStockChecked);
+  };
+
   const handleSingleImageSelect = (
     image: FileWithPath[],
     variationId: number
@@ -1403,7 +1407,7 @@ const AddProduct = () => {
                       id="currency"
                       onChange={handleChange}
                       value={formData?.currency}
-                      optionsLabel="US$"
+                      optionsLabel="Select"
                       options={[
                         { value: "usd", label: "US$" },
                         { value: "ngn", label: "NGN₦" },
@@ -1441,8 +1445,6 @@ const AddProduct = () => {
                       placeholder="#### - #### - ####"
                     />
                   </div>
-                </div>
-                <div className="mb-6 grid grid-cols-3 gap-4">
                   <div>
                     <ProductInput
                       name="Sales Duration (START)"
@@ -1463,28 +1465,63 @@ const AddProduct = () => {
                       placeholder="select"
                     />
                   </div>
-                  <div>
-                    <ProductInput
-                      name="Quantity"
-                      id="quantity"
-                      value={formData?.quantity}
-                      onChange={handleChange}
-                      type="number"
-                      placeholder="Enter quantity in stock"
+                </div>
+                <div className="mb-6 grid grid-cols-2 gap-4">
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={manageStockChecked}
+                      onChange={handleManageStock}
+                      className="w-4 h-4 text-[#FF1818] bg-gray-100 border-gray-300 rounded focus:ring-0"
                     />
+                    <label
+                      htmlFor="link-checkbox"
+                      className="ms-2 text-base font-bold text-[#4F4141] font-DM-sans"
+                    >
+                      Manage Stock
+                    </label>
                   </div>
                 </div>
                 <div className="mb-6 grid grid-cols-3 gap-4">
-                  <div>
-                    <ProductInput
-                      name="Minimum Stock"
-                      id="manage_stock_quantity"
-                      value={formData.manage_stock_quantity}
-                      onChange={handleChange}
-                      type="number"
-                      placeholder="Set a low stock alert"
-                    />
-                  </div>
+                  {!manageStockChecked ? (
+                    <div>
+                      <ProductSelect
+                        name="Stock status"
+                        id="stock_status"
+                        onChange={handleChange}
+                        value={formData?.currency}
+                        optionsLabel="Select"
+                        options={[
+                          { value: "stock-in", label: "In-stock" },
+                          { value: "stock-out", label: "Out-of-stock" },
+                        ]}
+                      />
+                    </div>
+                  ) : (
+                    <>
+                      {" "}
+                      <div>
+                        <ProductInput
+                          name="Quantity"
+                          id="quantity"
+                          value={formData?.quantity}
+                          onChange={handleChange}
+                          type="number"
+                          placeholder="Enter quantity in stock"
+                        />
+                      </div>
+                      <div>
+                        <ProductInput
+                          name="Minimum Stock"
+                          id="manage_stock_quantity"
+                          value={formData.manage_stock_quantity}
+                          onChange={handleChange}
+                          type="number"
+                          placeholder="Set a low stock alert"
+                        />
+                      </div>
+                    </>
+                  )}
                 </div>
                 <div className="flex items-center mb-[30px]">
                   <input

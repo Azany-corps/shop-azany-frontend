@@ -29,6 +29,9 @@ const UpdateAddressComponent: React.FC<EditAddressProps> = () => {
   const city = location.state.city;
   const postal_code = location.state.postal_code;
   const delivery_options = location.state.delivery_options;
+  const id = location.state.id;
+
+  console.log(id);
 
   console.log(location.state);
 
@@ -45,8 +48,8 @@ const UpdateAddressComponent: React.FC<EditAddressProps> = () => {
     try {
       setIsLoading(true);
       const res = await callAPI(
-        "general/products/collect_customer_delivery_info",
-        "POST",
+        `general/products/update_customer_delivery_info/${id}`,
+        "PUT",
         values,
         {
           Authorization: getBearerToken(),
@@ -78,13 +81,13 @@ const UpdateAddressComponent: React.FC<EditAddressProps> = () => {
     onSubmit: (values, { resetForm }) => {
       alert("Still in progress");
 
-      //   try {
-      //     handleSubmit(values);
-      //     // resetForm();
-      //   } catch (err) {
-      //     alert(err);
-      //     console.error(err);
-      //   }
+      try {
+        handleSubmit(values);
+        // resetForm();
+      } catch (err) {
+        alert(err);
+        console.error(err);
+      }
     },
   });
 
