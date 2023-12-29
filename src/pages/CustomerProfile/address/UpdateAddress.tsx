@@ -79,8 +79,6 @@ const UpdateAddressComponent: React.FC<EditAddressProps> = () => {
       delivery_options: delivery_options,
     },
     onSubmit: (values, { resetForm }) => {
-      alert("Still in progress");
-
       try {
         handleSubmit(values);
         // resetForm();
