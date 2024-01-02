@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, FormEventHandler, MouseEventHandler } from 'react'
+import React, { ChangeEvent, ChangeEventHandler, FormEventHandler, MouseEventHandler, useState } from 'react'
 import { ISignUp } from "./signup.type";
 import { Icon } from '@iconify/react';
 
@@ -16,7 +16,51 @@ interface Props {
     cities: any;
 }
 
+
 const BusinessInfo = ({ handleChange, handleSubmit, previous, formData, previewUrls, handleFileChange, handleSelectChange, countries, states, cities }: Props) => {
+    const [means, setMeans] = useState<string>('')
+    const [certificate, setCertificate] = useState<string>('')
+
+    const handleIdentification = (event: ChangeEvent<HTMLSelectElement>) => {
+        const { name, value } = event.target;
+        setMeans(value);
+        console.log(formData.account_type)
+    }
+
+    const handleCertificate = (event: ChangeEvent<HTMLSelectElement>) => {
+        const { name, value } = event.target;
+        setCertificate(value);
+    }
+
+    const certificates = [
+        {
+            name: 'Tax Identification number',
+            value: 'tin'
+        },
+        {
+            name: 'CAC document',
+            value: 'cac'
+        },
+    ]
+
+    const meansArr = [
+        {
+            name: 'NIN Slip',
+            value: 'nin'
+        },
+        {
+            name: 'National Voter’s card',
+            value: 'voters_card'
+        },
+        {
+            name: 'International Passport',
+            value: 'passport'
+        },
+        {
+            name: 'Driver’s licenses',
+            value: 'drivers_license'
+        }
+    ]
     return (
         <>
             <form className="md:w-[60%] w-[90%] flex flex-col items-center md:gap-8 gap-4" onSubmit={handleSubmit} action="">
@@ -125,7 +169,6 @@ const BusinessInfo = ({ handleChange, handleSubmit, previous, formData, previewU
                         className="bg-transparent text-xs w-full px-3 outline-none md:py-[15px] py-[9px] text-[#B3B7BB] text-center border rounded-2xl border-[#B3B7BB]"
                         name="country"
                         id="country"
-                        value={formData.country}
                         onChange={handleSelectChange}
                     >
                         <option disabled selected>Select Country</option>
@@ -138,7 +181,6 @@ const BusinessInfo = ({ handleChange, handleSubmit, previous, formData, previewU
                     <select
                         className="bg-transparent text-xs w-full px-3 outline-none md:py-[15px] py-[9px] text-[#B3B7BB] text-center border rounded-2xl border-[#B3B7BB]"
                         name="state"
-                        value={formData.state}
                         id="state"
                         onChange={handleSelectChange}
                     >
@@ -155,7 +197,6 @@ const BusinessInfo = ({ handleChange, handleSubmit, previous, formData, previewU
                         className="bg-transparent text-xs w-full px-3 outline-none md:py-[15px] py-[9px] text-[#B3B7BB] text-center border rounded-2xl border-[#B3B7BB]"
                         name="city"
                         id="city"
-                        value={formData.city}
                         onChange={handleSelectChange}
                     >
                         <option disabled selected>Select City</option>
@@ -180,67 +221,161 @@ const BusinessInfo = ({ handleChange, handleSubmit, previous, formData, previewU
                         className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none md:py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] py-[9px]"
                         required
                         onChange={handleChange}
-                        placeholder="CAC registration number"
-                        type="text"
-                        name="cac_number"
-                        value={formData.cac_number}
-                    />
-                    <input
-                        className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none md:py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] py-[9px]"
-                        required
-                        onChange={handleChange}
-                        placeholder="Tax Identification number"
-                        type="text"
-                        name="tax_number"
-                        value={formData.tax_number}
-                    />
-                </div>
-                <div className="flex w-full flex-col md:flex-row justify-between md:gap-8 gap-4">
-                    <input
-                        className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none md:py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] py-[9px]"
-                        required
-                        onChange={handleChange}
                         placeholder="Country shipping from"
                         type="text"
                         name="shipping_address"
                         value={formData.shipping_address}
                     />
                 </div>
+
                 <div className="flex flex-col gap-5 w-full">
-                    <div className="flex relative justify-center items-center py-7 gap-2 bg-[#efefef] rounded-[20px]">
-                        <input type="file" onChange={handleFileChange} className="w-full absolute h-full opacity-0 cursor-pointer bg-transparent border-none outline-none focus:outline-none" name="cac_document" id="" />
-                        {
-                            previewUrls.cac_document ? (
-                                <p className="text-xs text-[#B3B7BB] overflow-hidden whitespace-normal">{previewUrls.cac_document}</p>
-                            ) : (
-                                <p className="text-xs text-[#B3B7BB]">Click here to upload CAC  a file</p>
-                            )
-                        }
-                        <Icon icon="basil:file-solid" width="24" height="24" />
+                    <div className="flex w-full">
+                        <select
+                            className="bg-transparent text-xs w-full px-3 outline-none md:py-[15px] py-[9px] text-[#B3B7BB] text-center border rounded-2xl border-[#B3B7BB]"
+                            name="means"
+                            onChange={handleIdentification}
+                        >
+                            <option disabled selected>Select means of Identification</option>
+                            {
+                                meansArr?.map((item: any, index: number) => (
+                                    <option key={index} value={item.value}>{item.name}</option>
+                                ))
+                            }
+                        </select>
                     </div>
-                    <div className="flex relative justify-center items-center py-7 gap-2 bg-[#efefef] rounded-[20px]">
-                        <input type="file" onChange={handleFileChange} className="w-full absolute h-full opacity-0 cursor-pointer bg-transparent border-none outline-none focus:outline-none" name="tax_document" id="" />
-                        {
-                            previewUrls.tax_document ? (
-                                <p className="text-xs text-[#B3B7BB] overflow-hidden whitespace-normal">{previewUrls.tax_document}</p>
-                            ) : (
-                                <p className="text-xs text-[#B3B7BB]">Click here to upload Tax Identification  file</p>
-                            )
-                        }
-                        <Icon icon="basil:file-solid" width="24" height="24" />
-                    </div>
-                    <div className="flex relative justify-center items-center py-7 gap-2 bg-[#efefef] rounded-[20px]">
-                        <input type="file" onChange={handleFileChange} className="w-full absolute h-full opacity-0 cursor-pointer bg-transparent border-none outline-none focus:outline-none" name="id_document" id="" />
-                        {
-                            previewUrls.id_document ? (
-                                <p className="text-xs text-[#B3B7BB] overflow-hidden whitespace-normal">{previewUrls.id_document}</p>
-                            ) : (
-                                <p className="text-xs text-[#B3B7BB]">Click here to upload CAC  a file</p>
-                            )
-                        }
-                        <Icon icon="basil:file-solid" width="24" height="24" />
-                    </div>
+                    {
+                        means === 'nin' && (
+                            <div className="flex relative justify-center items-center py-7 gap-2 bg-[#efefef] rounded-[20px]">
+                                <input type="file" onChange={handleFileChange} className="w-full absolute h-full opacity-0 cursor-pointer bg-transparent border-none outline-none focus:outline-none" name="cac_document" id="" />
+                                {
+                                    previewUrls.id_document ? (
+                                        <p className="text-xs text-[#B3B7BB] overflow-hidden whitespace-normal">{previewUrls.id_document}</p>
+                                    ) : (
+                                        <p className="text-xs text-[#B3B7BB]">Click here to upload NIN</p>
+                                    )
+                                }
+                                <Icon icon="basil:file-solid" width="24" height="24" />
+                            </div>
+                        )
+                    }
+                    {
+                        means === 'voters_card' && (
+                            <div className="flex relative justify-center items-center py-7 gap-2 bg-[#efefef] rounded-[20px]">
+                                <input type="file" onChange={handleFileChange} className="w-full absolute h-full opacity-0 cursor-pointer bg-transparent border-none outline-none focus:outline-none" name="id_document" id="" />
+                                {
+                                    previewUrls.id_document ? (
+                                        <p className="text-xs text-[#B3B7BB] overflow-hidden whitespace-normal">{previewUrls.id_document}</p>
+                                    ) : (
+                                        <p className="text-xs text-[#B3B7BB]">Click here to upload Voters Card</p>
+                                    )
+                                }
+                                <Icon icon="basil:file-solid" width="24" height="24" />
+                            </div>
+                        )
+                    }
+                    {
+                        means === 'passport' && (
+                            <div className="flex relative justify-center items-center py-7 gap-2 bg-[#efefef] rounded-[20px]">
+                                <input type="file" onChange={handleFileChange} className="w-full absolute h-full opacity-0 cursor-pointer bg-transparent border-none outline-none focus:outline-none" name="id_document" id="" />
+                                {
+                                    previewUrls.id_document ? (
+                                        <p className="text-xs text-[#B3B7BB] overflow-hidden whitespace-normal">{previewUrls.id_document}</p>
+                                    ) : (
+                                        <p className="text-xs text-[#B3B7BB]">Click here to upload International Passport</p>
+                                    )
+                                }
+                                <Icon icon="basil:file-solid" width="24" height="24" />
+                            </div>
+                        )
+                    }
+                    {
+                        means === 'drivers_license' && (
+                            <div className="flex relative justify-center items-center py-7 gap-2 bg-[#efefef] rounded-[20px]">
+                                <input type="file" onChange={handleFileChange} className="w-full absolute h-full opacity-0 cursor-pointer bg-transparent border-none outline-none focus:outline-none" name="id_document" id="" />
+                                {
+                                    previewUrls.id_document ? (
+                                        <p className="text-xs text-[#B3B7BB] overflow-hidden whitespace-normal">{previewUrls.id_document}</p>
+                                    ) : (
+                                        <p className="text-xs text-[#B3B7BB]">Click here to upload Drivers License</p>
+                                    )
+                                }
+                                <Icon icon="basil:file-solid" width="24" height="24" />
+                            </div>
+                        )
+                    }
                 </div>
+                {
+                    formData.account_type === "Business" && (
+                        <div className="flex flex-col gap-5 w-full">
+                            <div className="flex w-full">
+                                <select
+                                    className="bg-transparent text-xs w-full px-3 outline-none md:py-[15px] py-[9px] text-[#B3B7BB] text-center border rounded-2xl border-[#B3B7BB]"
+                                    name="means"
+                                    onChange={handleCertificate}
+                                >
+                                    <option disabled selected>Select Business Certificate</option>
+                                    {
+                                        certificates?.map((item: any, index: number) => (
+                                            <option key={index} value={item.value}>{item.name}</option>
+                                        ))
+                                    }
+                                </select>
+                            </div>
+                            {
+                                certificate === 'cac' && (
+                                    <div className="flex flex-col w-full gap-4">
+                                        <input
+                                            className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none md:py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] py-[9px]"
+                                            required
+                                            onChange={handleChange}
+                                            placeholder="CAC registration number"
+                                            type="text"
+                                            name="cac_number"
+                                            value={formData.cac_number}
+                                        />
+                                        <div className="flex relative justify-center items-center py-7 gap-2 bg-[#efefef] rounded-[20px]">
+                                            <input type="file" onChange={handleFileChange} className="w-full absolute h-full opacity-0 cursor-pointer bg-transparent border-none outline-none focus:outline-none" name="cac_document" id="" />
+                                            {
+                                                previewUrls.cac_document ? (
+                                                    <p className="text-xs text-[#B3B7BB] overflow-hidden whitespace-normal">{previewUrls.cac_document}</p>
+                                                ) : (
+                                                    <p className="text-xs text-[#B3B7BB]">Click here to upload CAC file</p>
+                                                )
+                                            }
+                                            <Icon icon="basil:file-solid" width="24" height="24" />
+                                        </div>
+                                    </div>
+                                )
+                            }
+                            {
+                                certificate === 'tin' && (
+                                    <div className="flex flex-col gap-4">
+                                        <input
+                                            className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none md:py-[15px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB] py-[9px]"
+                                            required
+                                            onChange={handleChange}
+                                            placeholder="Enter Tax Identification number"
+                                            type="text"
+                                            name="tax_number"
+                                            value={formData.tax_number}
+                                        />
+                                        <div className="flex relative justify-center items-center py-7 gap-2 bg-[#efefef] rounded-[20px]">
+                                            <input type="file" onChange={handleFileChange} className="w-full absolute h-full opacity-0 cursor-pointer bg-transparent border-none outline-none focus:outline-none" name="tax_document" id="" />
+                                            {
+                                                previewUrls.tax_document ? (
+                                                    <p className="text-xs text-[#B3B7BB] overflow-hidden whitespace-normal">{previewUrls.tax_document}</p>
+                                                ) : (
+                                                    <p className="text-xs text-[#B3B7BB]">Click here to upload Tax Identification Number</p>
+                                                )
+                                            }
+                                            <Icon icon="basil:file-solid" width="24" height="24" />
+                                        </div>
+                                    </div>
+                                )
+                            }
+                        </div>
+                    )
+                }
                 <div className="flex gap-6 md:w-[60%] w-[90%] justify-center items-center">
                     <button onClick={previous} className="border-[#D65D5B] border bg-transparent font-bold text-black rounded-2xl md:text-base text-xs py-2 w-[40%] md:py-3 md:w-[40%]">Previous</button>
                     <button className="bg-[#D65D5B] font-bold text-white rounded-2xl md:text-base text-xs py-2 w-[40%] md:py-3 md:w-[40%]">Next</button>
