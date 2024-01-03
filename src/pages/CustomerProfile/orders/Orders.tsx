@@ -47,7 +47,7 @@ const COrdersComponent: React.FC<COrdersProps> = () => {
           null,
           headers
         );
-        console.log(response?.data);
+        console.log(response?.data?.values);
         if (typeof response?.data?.values !== "object") setOrders([]);
         else {
           setOrders(response?.data?.values);
