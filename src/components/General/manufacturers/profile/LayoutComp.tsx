@@ -82,7 +82,7 @@ const ManufacturersProfileLayoutComp = ({
         // className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
         className={`md:block md:fixed ${
           showMobileNav ? "fixed" : "hidden"
-        } top-0 left-0 z-40 w-[290px] h-screen transition-transform`}
+        } top-0 left-0 z-40 w-[240px] 2xl:w-[290px] h-screen transition-transform`}
         aria-label="Sidebar font-DM-sans"
       >
         <div className="pt-[56px] pb-[48px] pl-[54px] border-b border-[#F4F7FE] bg-white">
@@ -449,7 +449,7 @@ const ManufacturersProfileLayoutComp = ({
         </div>
       </aside>
 
-      <div className="px-4 md:ml-[276px] md:mr-[28px] h-full mt-16">
+      <div className="mx-1 md:px-4 md:ml-[236px] 2xl:ml-[276px]  h-full mt-16">
         <div className="rounded-lg h-full">{children}</div>
       </div>
     </>

@@ -52,6 +52,8 @@ export interface IProduct {
   local_delievry_status: string;
   international_delivery_status: string;
   manage_stock_status: string;
+  stock_status: string;
+  manage_stock: string;
 }
 
 export {};
