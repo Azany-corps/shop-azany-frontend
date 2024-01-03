@@ -10,12 +10,6 @@ interface Props {
 }
 
 const SellerInfo = ({ handleChange, handleSubmit, formData, handleSelectChange }: Props) => {
-    const seller_type = [
-        { name: "Farmer", value: "farmer" },
-        { name: "Manufacturer", value: "manufacturer" },
-        { name: "Merchant", value: "merchant" },
-    ];
-
     const account_type = [
         { name: "Business", value: "Business" },
         { name: "Individual", value: "Individual" }
@@ -33,20 +27,6 @@ const SellerInfo = ({ handleChange, handleSubmit, formData, handleSelectChange }
                         value={formData.shop_name}
                         type="text"
                     />
-                    <select
-                        className="bg-transparent text-xs w-full px-3 outline-none md:py-[15px] py-[9px] text-[#B3B7BB] text-center border rounded-2xl border-[#B3B7BB]"
-                        name="seller_type"
-                        id="seller_type"
-                        value={formData.seller_type}
-                        onChange={handleSelectChange}
-                    >
-                        <option disabled selected>Seller type</option>
-                        {
-                            seller_type?.map((type: any, index: number) => (
-                                <option key={index} value={type?.value}>{type?.name}</option>
-                            ))
-                        }
-                    </select>
                 </div>
                 <div className="flex w-full flex-col md:flex-row justify-between md:gap-8 gap-4">
                     <input
@@ -62,11 +42,10 @@ const SellerInfo = ({ handleChange, handleSubmit, formData, handleSelectChange }
                         className="bg-transparent text-xs w-full px-3 outline-none md:py-[15px] py-[9px] text-[#B3B7BB] text-center border rounded-2xl border-[#B3B7BB]"
                         name="account_type"
                         id="account_type"
-                        value={formData.account_type}
                         onChange={handleSelectChange}
                     >
                         <option disabled selected>Account type</option>
-                        {formData?.seller_type === "merchant" &&
+                        {
                             account_type?.map((type: any, index: number) => (
                                 <option key={index} value={type?.value}>{type?.name}</option>
                             ))
