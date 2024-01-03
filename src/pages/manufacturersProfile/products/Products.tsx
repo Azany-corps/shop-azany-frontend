@@ -234,9 +234,14 @@ const MProduct = () => {
           null,
           headers
         );
-        setProducts(response.data?.values);
-        setKeyProp((prevKeyProp) => !prevKeyProp); // Toggle keyProp to reset TableComponent
+        if (typeof response?.data?.values === "object") {
+          setProducts(response?.data?.values);
+          setKeyProp((prevKeyProp) => !prevKeyProp); // Toggle keyProp to reset TableComponent
+        } else {
+          setProducts([]);
+        }
         setStat(response.data);
+        setIsLoading(false);
         setIsLoading(false);
       } catch (error) {
         console.error(error);
@@ -245,6 +250,20 @@ const MProduct = () => {
     };
     fetchActiveProducts();
   }, [authToken]);
+
+  const deleteProducts = async (id: number) => {
+    const headers = { Authorization: `Bearer ${token}` };
+    try {
+      setIsLoading(true);
+      await callAPI(`auth/store/delete_product/${id}`, "DELETE", null, headers);
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
+    setCurrentPage(1);
+    window.location.reload();
+  };
 
   const getProductByStatus = async (status: string) => {
     const headers = { Authorization: `Bearer ${token}` };
@@ -472,7 +491,12 @@ const MProduct = () => {
                       alt="icon"
                       className="pr-2.5"
                     />
-                    <p className="font-DM-sans min-h-[24px] flex items-center justify-center">
+                    <p
+                      className="font-DM-sans min-h-[24px] flex items-center justify-center"
+                      onClick={() => {
+                        deleteProducts(product?.id);
+                      }}
+                    >
                       Delete
                     </p>
                   </button>

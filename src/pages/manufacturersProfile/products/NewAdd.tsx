@@ -235,6 +235,8 @@ const AddProduct = () => {
     manage_stock_status: "1",
     local_delievry_status: "",
     international_delivery_status: "",
+    stock_status: "",
+    manage_stock: "",
   };
   const [formData, setFormData] = useState<IProduct>(initialFormData);
 
@@ -295,7 +297,6 @@ const AddProduct = () => {
     try {
       let data = new FormData();
       data.append("no_product_id", formData.no_product_id.toString());
-      data.append("manage_stock_quantity", formData.manage_stock_quantity);
       data.append("sku", formData.sku);
       data.append("external_product_id", formData.external_product_id);
       data.append("width", formData.width);
@@ -307,8 +308,6 @@ const AddProduct = () => {
       data.append("weight_unit", formData.width_unit);
       data.append("category", formData.product_category);
       data.append("product_name", formData.product_name);
-      data.append("stock", formData.stock);
-      data.append("quantity", formData.quantity);
       data.append("currency", formData.currency);
       data.append("price", formData.price);
       data.append("brand_id", formData.brand);
@@ -318,7 +317,6 @@ const AddProduct = () => {
       data.append("sales_price", formData.sale_price);
       data.append("start_date", formData.sale_start_date);
       data.append("end_date", formData.sale_end_date);
-      data.append("manage_stock_status", "1");
 
       if (hasVartion) data.append("has_variation", "1");
       else {
@@ -338,7 +336,14 @@ const AddProduct = () => {
           data.append("discount_enabled", "2");
         }
       }
-
+      if (manageStockChecked) {
+        data.append("manage_stock_status", "1");
+        data.append("manage_stock_quantity", formData.manage_stock_quantity);
+        data.append("quantity", formData.quantity);
+      } else {
+        data.append("manage_stock_status", "0");
+        data.append("stock", formData.stock_status);
+      }
       const productLocalDeliveryValues = shippingForm.map(
         (shipping) => shipping.values
       );
@@ -1489,11 +1494,11 @@ const AddProduct = () => {
                         name="Stock status"
                         id="stock_status"
                         onChange={handleChange}
-                        value={formData?.currency}
+                        value={formData?.stock_status}
                         optionsLabel="Select"
                         options={[
-                          { value: "stock-in", label: "In-stock" },
-                          { value: "stock-out", label: "Out-of-stock" },
+                          { value: "In Stock", label: "In-stock" },
+                          { value: "Out Of Stock", label: "Out-of-stock" },
                         ]}
                       />
                     </div>

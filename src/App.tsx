@@ -23,7 +23,7 @@ import PaymentInfo from "./pages/checkout/Payment";
 import Confirmation from "./pages/checkout/Confirmation";
 import AddCard from "./pages/manufacturersProfile/payment/Card";
 import AddBank from "./pages/manufacturersProfile/payment/Bank";
-import AddProduct from "./pages/manufacturersProfile/products/NewAdd";
+import AddProduct from "./pages/manufacturersProfile/products/AddProduct";
 import EditProduct from "./pages/manufacturersProfile/products/Edit";
 import SecurityQuestion from "./pages/manufacturersProfile/Security";
 import Withdraw from "./pages/manufacturersProfile/payment/Withdraw";
@@ -104,9 +104,6 @@ import EditPersonalDetailsComp from "./pages/CustomerProfile/EditPersonnalDetail
 import { APP_ROUTE } from "./helpers/constant";
 import UpdateAddressComponent from "./pages/CustomerProfile/address/UpdateAddress";
 
-
-
-
 import Home from "./pages/landing/Home";
 import RewardGloPoint from "./pages/landing/RewardGloPoint";
 import AboutUs from "./pages/landing/AboutUs";
@@ -132,12 +129,6 @@ function App() {
           <Route path="/reward-glo-point" element={<RewardGloPoint />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/store-front" element={<StoreFront />} />
-
-
-
-
-
-
 
           <Route path="login" element={<LoginCustomer />} />
           <Route path="signup" element={<SignupCustomer />} />
