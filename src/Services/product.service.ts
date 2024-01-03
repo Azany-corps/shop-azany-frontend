@@ -150,6 +150,21 @@ const getCustomerProductOrder = async (productID: number) => {
   }
 };
 
+const getSellerProducts = async () => {
+  const headers = { Authorization: `Bearer ${token}` };
+  try {
+    const response = await callAPI(
+      `auth/store/fetch_all_products/${0}/${10}`,
+      "GET",
+      null,
+      headers
+    );
+    return response.data.values;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 
 export {
   updateProductOrderStatus,
@@ -157,6 +172,6 @@ export {
   getProductOrders,
   getCustomerProductOrders,
   getProductOrder,
-  getCustomerProductOrder
-
+  getCustomerProductOrder,
+  getSellerProducts
 };

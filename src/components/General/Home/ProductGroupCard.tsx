@@ -68,7 +68,7 @@ const ProductGroupCard = ({ title, products, flex = true, showSlider = true }: P
                         <>
                             {
                                 products.map((product: any, index: number) => (
-                                    <ProductCard grid={true} product={product} key={index} />
+                                    <ProductCard showPrice={true} grid={true} product={product} key={index} />
                                 ))
                             }
                         </>

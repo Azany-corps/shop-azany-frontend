@@ -128,7 +128,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/reward-glo-point" element={<RewardGloPoint />} />
           <Route path="/about" element={<AboutUs />} />
-          <Route path="/store-front" element={<StoreFront />} />
+          <Route path="/store-front/:id" element={<StoreFront />} />
 
           <Route path="login" element={<LoginCustomer />} />
           <Route path="signup" element={<SignupCustomer />} />

@@ -161,6 +161,9 @@ const AuthSignup = () => {
     if (name === "city") {
       const selectedCity = cities.find((city) => city.name === value);
     }
+    if (name === 'account_type') {
+      console.log('account: ', value)
+    }
     setFormData({ ...formData, [name]: value });
   };
 
@@ -170,6 +173,7 @@ const AuthSignup = () => {
 
   const next = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    console.log(formData)
     setStep(step + 1);
   };
 
@@ -217,11 +221,10 @@ const AuthSignup = () => {
       data.append("first_name", formData.first_name);
       data.append("last_name", formData.last_name);
       data.append("phone", formData.phone);
-      data.append("account_type", formData.seller_type);
+      data.append("account_type", formData.account_type);
       data.append("password", formData.password);
       data.append("password_confirmation", formData.password_confirmation);
       data.append("shop_name", formData.shop_name);
-      data.append("business_type", formData.account_type || "");
       data.append("business_owner_first_name", formData.rep_first_name);
       data.append("business_owner_middle_name", formData.rep_middle_name);
       data.append("business_owner_last_name", formData.rep_last_name);
@@ -272,11 +275,6 @@ const AuthSignup = () => {
       });
     }
   };
-
-  const accountType = [
-    { label: "Customer", value: "customer" },
-    { label: "Manufacturer", value: "manufacturer" },
-  ];
 
   return (
     <div className="flex min-h-screen px-10 md:px-44 py-5 bg-[#F5F5F5]">

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from '../../components/General/Home/Header'
 import Footer from '../../components/General/Home/Footer'
 import Hero from '../../components/General/Home/Hero'
@@ -13,9 +13,65 @@ import { Icon } from '@iconify/react';
 import MobileHeader from '../../components/General/MobileHeader'
 import ProductGroupCard from '../../components/General/Home/ProductGroupCard'
 import { BestSelling, BestSellings } from './resource'
+import { getSellerDetails, getSellerLogoBanner } from '../../Services/seller.service'
+import { getSellerProducts } from '../../Services/product.service'
+import { useParams } from 'react-router-dom'
 
+interface IStoreDetails {
+    full_name: string;
+    duration_selling: string;
+    status: string;
+    country: string | null;
+    total_sales: number;
+}
 const StoreFront = () => {
+    let { id } = useParams<string>()
+    const [storeDetails, setStoreDetails] = useState<IStoreDetails>({
+        full_name: "",
+        duration_selling: "",
+        status: "",
+        country: "",
+        total_sales: 0
+    })
+    const [storeProduct, setStoreProduct] = useState<any>([])
     const [tab, setTab] = useState<string>("product")
+
+    useEffect(() => {
+        getSellerDetails(id)
+            .then((res: IStoreDetails) => {
+                if (res) {
+                    console.log(res);
+                    setStoreDetails({ ...storeDetails, ...res })
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+        getSellerLogoBanner(id)
+            .then((res: IStoreDetails) => {
+                if (res) {
+                    console.log(res);
+                    setStoreDetails({ ...storeDetails, ...res })
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+
+        getSellerProducts()
+            .then((res) => {
+                console.log(res)
+                if (res.length !== 0) {
+                    setStoreProduct(res);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, [])
+
 
     return (
         <div className='bg-[#eeeeee]'>
@@ -186,8 +242,7 @@ const StoreFront = () => {
                     </div>
                 )
             }
-
-
+            <Footer />
         </div>
     )
 }
