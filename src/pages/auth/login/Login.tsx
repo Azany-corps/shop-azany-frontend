@@ -49,19 +49,20 @@ const AuthLogin = () => {
 
         saveAuthToken(token);
         localStorage.setItem("token", response.token);
-        localStorage.setItem("name", response.data?.values?.first_name);
-        localStorage.setItem("last_name", response.data?.values?.last_name);
-        localStorage.setItem("phone", response.data?.values?.phone);
-        localStorage.setItem("email", response.data?.values?.email);
-        localStorage.setItem("state", response.data?.values?.state);
-        localStorage.setItem("country", response.data?.values?.country);
-        localStorage.setItem("address", response.data?.values?.address);
-        localStorage.setItem("city", response.data?.values?.city);
-        localStorage.setItem("main_id", response.data?.values?.id);
-        localStorage.setItem(
-          "account_type",
-          response.data?.values?.account_type
-        );
+        localStorage.setItem("sellerStatus", response.data?.values?.status);
+        // localStorage.setItem("name", response.data?.values?.first_name);
+        // localStorage.setItem("last_name", response.data?.values?.last_name);
+        // localStorage.setItem("phone", response.data?.values?.phone);
+        // localStorage.setItem("email", response.data?.values?.email);
+        // localStorage.setItem("state", response.data?.values?.state);
+        // localStorage.setItem("country", response.data?.values?.country);
+        // localStorage.setItem("address", response.data?.values?.address);
+        // localStorage.setItem("city", response.data?.values?.city);
+        // localStorage.setItem("main_id", response.data?.values?.id);
+        // localStorage.setItem(
+        //   "account_type",
+        //   response.data?.values?.account_type
+        // );
 
         toast.success(response.message, {
           position: "top-center",
@@ -75,7 +76,7 @@ const AuthLogin = () => {
         navigate("/manufacturers-profile");
       } else {
         console.log("Respose: ", response);
-        toast.error(response.response.data.message, {
+        toast.error(response?.response?.data?.message, {
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
@@ -88,15 +89,20 @@ const AuthLogin = () => {
     } catch (error: any) {
       console.log(error);
       setLoading(false);
-      toast.error(error.response.data.message || (error as Error).message || "Error: unable to login", {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast.error(
+        error?.response?.data?.message ||
+          (error as Error).message ||
+          "Error: unable to login",
+        {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        }
+      );
     }
   };
 

@@ -24,7 +24,7 @@ const ReviewsComponent: React.FC<ReviewsProps> = () => {
       const headers = { Authorization: `Bearer ${token}` };
       try {
         const response = await callAPI(
-          `general/products/2/getreview/1`,
+          `general/products/18/getreview/28`,
           "GET",
           null,
           headers
@@ -37,7 +37,7 @@ const ReviewsComponent: React.FC<ReviewsProps> = () => {
       }
     };
 
-    // getReviews();
+    getReviews();
   }, []);
 
   console.log(reviews);
@@ -64,6 +64,60 @@ const ReviewsComponent: React.FC<ReviewsProps> = () => {
               </p>
             </div>
           )}
+        </div>
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-[20.82px]">
+          <div className="border border-[#00000019] rounded-[15px] py-[20.89px] px-[23.87px]">
+            <div className="w-full flex justify-between items-center mb-[11.19px]">
+              <img src="/images/rating-star.svg" alt="rating image" />
+              <img src="/images/3-dots.svg" alt="rating image" />
+            </div>
+
+            <p className="flex items-center font-public-sans text-[14.921px] font-bold text-black mb-[8.95px]">
+              Pinnacle shoe shop
+              <span>
+                <img
+                  src="/images/circle-mark.svg"
+                  alt="rating image"
+                  className="ml-1"
+                />
+              </span>
+            </p>
+            <p className="font-public-sans text-[#00000099] text-[11.937px] font-normal mb-6">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
+              condimentum facilisis risus eu vulputate. Sed consectetur
+              tristique diam a posuere. Donec aliquam interdum sollicitudin.
+              Integer porttitor massa sapien, tincidunt
+            </p>
+            <p className="font-public-sans font-medium text-[#00000099] text-[11.937px]">
+              Posted on August 14, 2023
+            </p>
+          </div>
+          <div className="border border-[#00000019] rounded-[15px] py-[20.89px] px-[23.87px]">
+            <div className="w-full flex justify-between items-center mb-[11.19px]">
+              <img src="/images/rating-star.svg" alt="rating image" />
+              <img src="/images/3-dots.svg" alt="rating image" />
+            </div>
+
+            <p className="flex items-center font-public-sans text-[14.921px] font-bold text-black mb-[8.95px]">
+              Pinnacle shoe shop
+              <span>
+                <img
+                  src="/images/circle-mark.svg"
+                  alt="rating image"
+                  className="ml-1"
+                />
+              </span>
+            </p>
+            <p className="font-public-sans text-[#00000099] text-[11.937px] font-normal mb-6">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
+              condimentum facilisis risus eu vulputate. Sed consectetur
+              tristique diam a posuere. Donec aliquam interdum sollicitudin.
+              Integer porttitor massa sapien, tincidunt
+            </p>
+            <p className="font-public-sans font-medium text-[#00000099] text-[11.937px]">
+              Posted on August 14, 2023
+            </p>
+          </div>
         </div>
       </CustomerProfileLayout>
     </div>

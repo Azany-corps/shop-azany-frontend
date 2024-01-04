@@ -97,7 +97,7 @@ const TextColorizer: React.FC<TextColorizerProps> = ({
           {attributeText?.map((text) => (
             <span
               key={text}
-              className="text-sm  text-[#4945FF] hover:cursor-pointer font-normal text-white py-2 px-3 rounded-md bg-[#F0F0FF]"
+              className="text-sm  text-[#4945FF] hover:cursor-pointer font-normal py-2 px-3 rounded-md bg-[#F0F0FF]"
               onClick={() => handleTextClick(text)}
             >
               {`${text}`}

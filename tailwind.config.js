@@ -8,6 +8,6 @@ module.exports = {
         "app-gray-300": "#4F4141",
         "app-brown-300": "#29020266",
       },
-    }
+    },
   },
 };
