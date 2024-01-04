@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { data } from "./dataFile";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 type each = {
   image: React.ReactNode;
@@ -25,6 +25,9 @@ const CustomerProfileLayout = ({
     setShowMobileNav(!showMobileNav);
   };
   const navigate = useNavigate();
+  const location = useLocation();
+
+  console.log(location.pathname);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -151,12 +154,16 @@ const CustomerProfileLayout = ({
         } top-0 left-0 z-40 mt-16 md:mt-0 w-[246px] h-screen transition-transform`}
         aria-label="Sidebar"
       >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-black pt-[132px]">
+        <div className="h-full px-3 py-4 overflow-y-auto bg-[#000000] pt-[132px]">
           <ul className="space-y-[17px] mt-[20px] font-medium">
             <li>
               <Link
                 to="/customer-profile"
-                className="flex items-center p-2 text-[#8B909A] hover:text-white  rounded-lg hover:bg-[#231F20] group"
+                className={`${
+                  location.pathname === "/customer-profile"
+                    ? "text-white bg-[#231F20]"
+                    : "text-[#8B909A] "
+                } flex items-center p-2 hover:text-white  rounded-lg hover:bg-[#231F20] group`}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -164,7 +171,7 @@ const CustomerProfileLayout = ({
                   height="19"
                   viewBox="0 0 19 19"
                   fill="none"
-                  className="text-[#8B909A] group-hover:text-white"
+                  className="group-hover:text-white"
                 >
                   <path
                     d="M14.589 7.26123L10.5075 4.08659C9.77058 3.51333 8.73861 3.51333 8.00173 4.08659L3.9194 7.26123C3.42224 7.64785 3.13157 8.24247 3.13187 8.87227V14.3827C3.13187 15.2281 3.81718 15.9134 4.66255 15.9134H13.8466C14.692 15.9134 15.3773 15.2281 15.3773 14.3827V8.87227C15.3773 8.2424 15.0865 7.64773 14.589 7.26123"
@@ -187,16 +194,18 @@ const CustomerProfileLayout = ({
             </li>
             {data.map((each, index) => (
               <li key={index}>
-                <Link to={`/customer-profile${each.path}`}>
-                  <a
-                    href="#"
-                    className="flex items-center p-[7.51px] text-[#8B909A] hover:text-white  rounded-lg hover:bg-[#231F20] group"
-                  >
-                    {each.image}
-                    <span className="flex-1 ml-3 whitespace-nowrap text-[12.524px]">
-                      {each.title}
-                    </span>
-                  </a>
+                <Link
+                  to={`/customer-profile${each.path}`}
+                  className={`${
+                    location.pathname === `/customer-profile${each.path}`
+                      ? "text-white bg-[#231F20]"
+                      : "text-[#8B909A] "
+                  } flex items-center p-2 hover:text-white  rounded-lg hover:bg-[#231F20] group`}
+                >
+                  {each.image}
+                  <span className="flex-1 ml-3 whitespace-nowrap text-[12.524px]">
+                    {each.title}
+                  </span>
                 </Link>
               </li>
             ))}

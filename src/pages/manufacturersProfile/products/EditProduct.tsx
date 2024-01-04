@@ -3,7 +3,7 @@ import ManufacturersProfileLayout from "../../../components/General/manufacturer
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import callAPI from "../../../api/callApi";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FileWithPath } from "react-dropzone";
 import useAuthToken from "../../../hooks/useAuthToken";
 import { Icon } from "@iconify/react";
@@ -100,7 +100,7 @@ interface ProductVariation {
   };
 }
 
-const AddProduct = () => {
+const EditProduct = () => {
   const navigate = useNavigate();
 
   const [quantityDiscountForms, setQuantityDiscountForms] = useState<Form[]>([
@@ -161,10 +161,10 @@ const AddProduct = () => {
       },
     },
   ]);
-  const sellerStatus = localStorage.getItem("sellerStatus");
+
   const [discountIsChecked, setDiscountIsChecked] = useState<boolean>(false);
   const [manageStockChecked, setManageStockChecked] = useState<boolean>(false);
-  const [id, setId] = useState<string>("0");
+  const [id, setId] = useState<string>("");
   const [discountType, setDiscountType] = useState<string>("");
 
   const [selectedImages, setSelectedImages] = useState<FileWithPath[]>([]);
@@ -180,6 +180,7 @@ const AddProduct = () => {
   const [brands, setBrands] = useState<Brand[]>([]);
 
   const [isCategoryModal, setIsCategoryModal] = useState<boolean>(false);
+  const [product, setProduct] = useState<any[]>([]);
 
   const initialFormData: IProduct = {
     product_name: "",
@@ -241,6 +242,10 @@ const AddProduct = () => {
     quantity_discount_enabled: "",
   };
   const [formData, setFormData] = useState<IProduct>(initialFormData);
+  //   console.log(formData);
+
+  const location = useLocation();
+  const productId = location.state?.id;
 
   formData.product_discount = quantityDiscountForms.map((quantity) => {
     return quantity.values;
@@ -291,207 +296,189 @@ const AddProduct = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log("formd: ", formData);
+    // console.log("formd: ", formData);
 
     setLoading(true);
-    console.log("parent: ", parentColorizedTexts);
+    // console.log("parent: ", parentColorizedTexts);
 
-    if (sellerStatus === "Active") {
-      try {
-        let data = new FormData();
-        data.append("no_product_id", formData.no_product_id);
-        data.append("sku", formData.sku);
-        data.append("external_product_id", formData.external_product_id);
-        data.append("width", formData.width);
-        data.append("width_unit", formData.width_unit);
-        data.append("manufacturer", formData.manufacturer);
-        data.append("length", formData.length);
-        data.append("length_unit", formData.length_unit);
-        data.append("product_weight", formData.product_weight);
-        data.append("package_weight", formData.package_weight);
-        data.append("package_weight_unit", formData.package_weight_unit);
-        data.append("weight_unit", formData.weight_unit);
-        data.append("height", formData.height);
-        data.append("height_unit", formData.height_unit);
-        data.append("category", formData.product_category);
-        data.append("product_name", formData.product_name);
-        data.append("currency", formData.currency);
-        data.append("price", formData.price);
-        data.append("brand_id", formData.brand);
-        data.append("description", formData.product_description);
-        data.append("short_description", formData.short_description);
-        data.append("weight", formData.weight);
-        data.append("sales_price", formData.sale_price);
-        data.append("start_date", formData.sale_start_date);
-        data.append("end_date", formData.sale_end_date);
-        data.append("product_id_type", formData.product_id_type);
+    try {
+      let data = new FormData();
+      data.append("product_id", productId);
+      data.append("no_product_id", formData.no_product_id);
+      data.append("sku", formData.sku);
+      data.append("external_product_id", formData.external_product_id);
+      data.append("width", formData.width);
+      data.append("width_unit", formData.width_unit);
+      data.append("manufacturer", formData.manufacturer);
+      data.append("length", formData.length);
+      data.append("length_unit", formData.length_unit);
+      data.append("product_weight", formData.product_weight);
+      data.append("package_weight", formData.package_weight);
+      data.append("package_weight_unit", formData.package_weight_unit);
+      data.append("weight_unit", formData.weight_unit);
+      data.append("height", formData.height);
+      data.append("height_unit", formData.height_unit);
+      data.append("category", formData.product_category);
+      data.append("product_name", formData.product_name);
+      data.append("currency", formData.currency);
+      data.append("price", formData.price);
+      data.append("brand_id", formData.brand);
+      data.append("description", formData.product_description);
+      data.append("short_description", formData.short_description);
+      data.append("weight", formData.weight);
+      data.append("sales_price", formData.sale_price);
+      data.append("start_date", formData.sale_start_date);
+      data.append("end_date", formData.sale_end_date);
+      data.append("product_id_type", formData.product_id_type);
 
-        if (hasVartion) data.append("has_variation", "1");
+      if (hasVartion) data.append("has_variation", "1");
+      else {
+        data.append("has_variation", "0");
+      }
+      if (isLocalChecked) data.append("local_delivery_status", "1");
+      else {
+        data.append("local_delivery_status", "0");
+      }
+      if (isIntChecked) data.append("international_delivery_status", "1");
+      else {
+        data.append("international_delivery_status", "0");
+      }
+
+      if (discountIsChecked) {
+        data.append("quantity_discount_enabled", "1");
+      } else {
+        data.append("quantity_discount_enabled", "0");
+      }
+      if (discountIsChecked) {
+        if (discountType === "fixed") data.append("discount_enabled", "1");
         else {
-          data.append("has_variation", "0");
+          data.append("discount_enabled", "2");
         }
-        if (isLocalChecked) data.append("local_delivery_status", "1");
-        else {
-          data.append("local_delivery_status", "0");
-        }
-        if (isIntChecked) data.append("international_delivery_status", "1");
-        else {
-          data.append("international_delivery_status", "0");
-        }
+      }
+      if (manageStockChecked) {
+        data.append("manage_stock_status", "1");
+        data.append("manage_stock_quantity", formData.manage_stock_quantity);
+        data.append("quantity", formData.quantity);
+      } else {
+        data.append("manage_stock_status", "0");
+        data.append("stock", formData.stock);
+      }
+      const productLocalDeliveryValues = shippingForm.map(
+        (shipping) => shipping.values
+      );
 
-        if (discountIsChecked) {
-          data.append("quantity_discount_enabled", "1");
-        } else {
-          data.append("quantity_discount_enabled", "0");
-        }
-        if (discountIsChecked) {
-          if (discountType === "fixed") data.append("discount_enabled", "1");
-          else {
-            data.append("discount_enabled", "2");
-          }
-        }
-        if (manageStockChecked) {
-          data.append("manage_stock_status", "1");
-          data.append("manage_stock_quantity", formData.manage_stock_quantity);
-          data.append("quantity", formData.quantity);
-        } else {
-          data.append("manage_stock_status", "0");
-          data.append("stock", formData.stock_status);
-        }
-        const productLocalDeliveryValues = shippingForm.map(
-          (shipping) => shipping.values
-        );
-
-        productLocalDeliveryValues.forEach((product, index) => {
-          Object.entries(product).forEach(([key, value]) => {
-            data.append(`${key}[${index}]`, value.toString());
-          });
+      productLocalDeliveryValues.forEach((product, index) => {
+        Object.entries(product).forEach(([key, value]) => {
+          data.append(`${key}[${index}]`, value.toString());
         });
+      });
 
-        const productDiscountValues = quantityDiscountForms.map(
-          (discount) => discount.values
-        );
+      const productDiscountValues = quantityDiscountForms.map(
+        (discount) => discount.values
+      );
 
-        productDiscountValues.forEach((discount, index) => {
-          Object.entries(discount).forEach(([key, value]) => {
-            data.append(`${key}[${index}]`, value.toString());
-          });
+      productDiscountValues.forEach((discount, index) => {
+        Object.entries(discount).forEach(([key, value]) => {
+          data.append(`${key}[${index}]`, value.toString());
         });
+      });
 
-        const percentageDiscount = percentageDiscountForms.map(
-          (percentage) => percentage.values
-        );
+      const percentageDiscount = percentageDiscountForms.map(
+        (percentage) => percentage.values
+      );
 
-        percentageDiscount.forEach((percentage, index) => {
-          Object.entries(percentage).forEach(([key, value]) => {
-            data.append(`${key}[${index}]`, value.toString());
-          });
+      percentageDiscount.forEach((percentage, index) => {
+        Object.entries(percentage).forEach(([key, value]) => {
+          data.append(`${key}[${index}]`, value.toString());
         });
+      });
 
-        const variations = productVariations.map(
-          (variation) => variation.values
-        );
+      const variations = productVariations.map((variation) => variation.values);
 
-        console.log(variations);
+      //   console.log(variations);
 
-        variations.forEach((variation, index) => {
-          Object.entries(variation).forEach(([key, value]) => {
-            if (
-              key === "variation_image" &&
-              value !== null &&
-              value !== undefined
-            ) {
-              if (Array.isArray(value)) {
-                data.append(`${key}[${index}]`, value[0]);
-              }
-            } else if (key === "variation_attr") {
-              let attrCounter = 0;
-              Object.entries(variation.variation_attr).forEach(
-                ([key, value]) => {
-                  attrCounter += 1;
-                  data.append(
-                    `variations_attr[${index}][key${attrCounter}]`,
-                    key!.toString()
-                  );
-                  data.append(
-                    `variations_attr[${index}][value${attrCounter}]`,
-                    value!.toString()
-                  );
-                }
-              );
-            } else if (key !== "variation_image") {
-              data.append(`${key}[${index}]`, value!.toString());
-              // console.log(`${key}[${index}]`, value!.toString());
+      variations.forEach((variation, index) => {
+        Object.entries(variation).forEach(([key, value]) => {
+          if (
+            key === "variation_image" &&
+            value !== null &&
+            value !== undefined
+          ) {
+            if (Array.isArray(value)) {
+              data.append(`${key}[${index}]`, value[0]);
             }
-          });
-        });
-
-        parentColorizedTexts.forEach(
-          (attribute: ColorizedText, index: number) => {
-            data.append(`attribute_id[${index}]`, attribute.id);
-
-            const texts = parentColorizedTexts[index].text.join(",");
-            data.append(`attribute_value[${index}]`, texts);
+          } else if (key === "variation_attr") {
+            let attrCounter = 0;
+            Object.entries(variation.variation_attr).forEach(([key, value]) => {
+              attrCounter += 1;
+              data.append(
+                `variations_attr[${index}][key${attrCounter}]`,
+                key!.toString()
+              );
+              data.append(
+                `variations_attr[${index}][value${attrCounter}]`,
+                value!.toString()
+              );
+            });
+          } else if (key !== "variation_image") {
+            data.append(`${key}[${index}]`, value!.toString());
+            // console.log(`${key}[${index}]`, value!.toString());
           }
-        );
-
-        attributes.forEach((attribute: Attribute, index: number) => {
-          data.append(`attribute_key[${index}]`, attribute.name);
         });
+      });
 
-        selectedImages?.forEach((image, index) => {
-          data.append(`image_1[${index}]`, image);
-        });
+      parentColorizedTexts.forEach(
+        (attribute: ColorizedText, index: number) => {
+          data.append(`attribute_id[${index}]`, attribute.id);
 
-        console.log(data);
-
-        const response = await callAPI(
-          "auth/store/create_store_product",
-          "POST",
-          data,
-          {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${authToken}`,
-          }
-        );
-        console.log(data);
-
-        console.log(response);
-
-        if (response.status && response.status_code === 200) {
-          setLoading(false);
-          setAttributes([]);
-          setParentColorizedTexts([]);
-          setFormData(initialFormData);
-
-          toast.success("Product added successfully", {
-            position: "top-center",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-          navigate("/manufacturers-profile/product");
-        } else {
-          setLoading(false);
-          const errorMessage = response.data.data.errors[0];
-          toast.error(errorMessage, {
-            position: "top-center",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
+          const texts = parentColorizedTexts[index].text.join(",");
+          data.append(`attribute_value[${index}]`, texts);
         }
-        navigate("/manufacturers-profile/product");
-      } catch (err: any) {
-        console.log(err);
+      );
+
+      attributes.forEach((attribute: Attribute, index: number) => {
+        data.append(`attribute_key[${index}]`, attribute.name);
+      });
+
+      selectedImages?.forEach((image, index) => {
+        data.append(`image_1[${index}]`, image);
+      });
+
+      console.log(data);
+
+      const response = await callAPI(
+        "auth/store/update_store_product",
+        "POST",
+        data,
+        {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${authToken}`,
+        }
+      );
+      console.log(data);
+
+      console.log(response);
+
+      if (response.status && response.status_code === 200) {
         setLoading(false);
-        toast.error(err?.response?.data?.data?.errors?.[0], {
+        setAttributes([]);
+        setParentColorizedTexts([]);
+        setFormData(initialFormData);
+
+        toast.success("Product added successfully", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        navigate("/manufacturers-profile/product");
+      } else {
+        setLoading(false);
+        const errorMessage = response.data.data.errors[0];
+        toast.error(errorMessage, {
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
@@ -501,8 +488,11 @@ const AddProduct = () => {
           progress: undefined,
         });
       }
-    } else {
-      toast.error("Seller not approved", {
+      navigate("/manufacturers-profile/product");
+    } catch (err: any) {
+      console.log(err);
+      setLoading(false);
+      toast.error(err?.response?.data?.data?.errors?.[0], {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
@@ -520,7 +510,7 @@ const AddProduct = () => {
       .then((res: any) => {
         const attributes: Attribute[] = res.category_attributes?.map(
           (attribute: any, index: number) => {
-            // console.log(attribute);
+            console.log(attribute);
             return {
               id: attribute.attribute.id,
               name: attribute.attribute.attribute_name,
@@ -850,8 +840,6 @@ const AddProduct = () => {
     setFormData({ ...formData, no_product_id: newId });
   };
 
-  console.log(formData?.no_product_id);
-
   const handleDiscountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDiscountType(event.target.value);
   };
@@ -887,8 +875,6 @@ const AddProduct = () => {
     });
   };
 
-  console.log(localStorage.getItem("token"));
-
   const nigeriaStates = Object.values(states).map((state) => state.name);
 
   function CheckLGA(value: string) {
@@ -923,11 +909,136 @@ const AddProduct = () => {
     console.log(formNo);
   };
 
-  console.log(attributes);
-  console.log(sellerStatus);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const fetchActiveProducts = async () => {
+      try {
+        setLoading(true);
+        const response = await callAPI(
+          `auth/store/fetch_single_product/${productId}`,
+          "GET",
+          null,
+          headers
+        );
+        if (typeof response?.data?.values === "object") {
+          setFormData({
+            ...formData,
+            ...response?.data?.values[0],
+            short_description:
+              response?.data?.values[0]?.product_details[0]?.short_description,
+            product_description:
+              response?.data?.values[0]?.product_details[0]?.description,
+            product_category: response?.data?.values[0]?.category,
+            brand: response?.data?.values[0]?.brand_id,
+            sku: response?.data?.values[0]?.SKU,
+            sale_price: response?.data?.values[0]?.sales_price,
+            sale_start_date: response?.data?.values[0]?.start_date,
+            sale_end_date: response?.data?.values[0]?.end_date,
+          });
+          setId(response?.data?.values[0]?.no_product_id);
+          if (response?.data?.values[0]?.manage_stock_status === "1") {
+            setManageStockChecked(true);
+          } else {
+            setManageStockChecked(false);
+          }
+          if (response?.data?.values[0]?.discount_enabled) {
+            setDiscountIsChecked(true);
+          }
+          if (response?.data?.values[0]?.discount_enabled === "1") {
+            setDiscountType("fixed");
+          } else {
+            setDiscountType("percentage");
+          }
+          if (response?.data?.values[0]?.product_variation.length >= 1) {
+            setHasVariation(true);
+          }
 
-  //   [{id: 1, name: blue, items: ['white', 'red']}]
+          const newVar = response?.data?.values[0]?.product_variation?.map(
+            (variation: any) => ({
+              id: variation.id,
+              values: {
+                variation_price: variation?.price,
+                variation_sales_price: variation?.sales_price,
+                variation_quantity: variation?.quantity,
+                variation_sku: variation?.SKU,
+                variation_start_date: variation?.start_date,
+                variation_end_date: variation?.end_date,
+                variation_external_product_id: variation?.external_product_id,
+                variation_image: variation?.image_url,
+                variation_product_name: variation?.product_name,
+                variation_attr: {
+                  size: variation?.attributes[0]?.value1,
+                  color: variation?.attributes[0]?.value2,
+                  brand: variation?.attributes[0]?.value3,
+                },
+              },
+            })
+          );
+          setProductVariations([...newVar]);
+          console.log(newVar);
+          const newDeli =
+            response?.data?.values[0]?.product_local_delivery?.map(
+              (delivery: any) => ({
+                id: delivery.id,
+                values: {
+                  delivery_state: delivery?.state,
+                  delivery_city: delivery?.city,
+                  delivery_price: delivery?.price,
+                },
+              })
+            );
+          setShippingForm([...newDeli]);
+          setAttributes([
+            ...convertToObjectArray(response?.data?.values[0]?.attributes),
+          ]);
+          setSelectedImages([response?.data?.values[0]?.image_url]);
+          const selAttr = [
+            ...convertToObjectArray(response?.data?.values[0]?.attributes).map(
+              (attr) => ({ [attr.name]: true })
+            ),
+          ];
+          const mergedObject = selAttr.reduce((result, currentObject) => {
+            return { ...result, ...currentObject };
+          }, {});
 
+          setCheckboxStates(mergedObject);
+        } else {
+          setProduct([]);
+        }
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+      }
+    };
+    fetchActiveProducts();
+  }, [productId]);
+
+  interface ConvertedObject {
+    id: number;
+    name: string;
+    items: string[];
+  }
+
+  function convertToObjectArray(
+    input: Record<string, string>
+  ): ConvertedObject[] {
+    return Object.entries(input).map(([name, values], id) => {
+      const items = values.split(",").map((item) => item.trim());
+      return {
+        id: id + 1,
+        name: name.toLowerCase(),
+        items,
+      };
+    });
+  }
+
+  console.log(formData);
+  //   console.log(attributes);
+  //   console.log(checkboxStates);
   return (
     <ManufacturersProfileLayout>
       <div className="px-[30px] font-DM-sans">
@@ -1079,15 +1190,13 @@ const AddProduct = () => {
                     <div className="mb-6 grid grid-cols-2 gap-4">
                       <div>
                         <label
-                          htmlFor="id_type"
+                          htmlFor="countries"
                           className="block mb-2 text-app-gray-300"
                         >
                           Ext. Product ID type
                         </label>
                         <select
-                          id="product_id_type"
-                          value={formData?.product_id_type}
-                          onChange={handleChange}
+                          id="countries"
                           className="bg-transparent border border-app-gray-100 text-app-gray-300 text-sm rounded-[10px] focus:ring-0 focus:ring-none focus:border-gray-900 block w-full p-2.5"
                         >
                           <option selected>Select</option>
@@ -1167,7 +1276,7 @@ const AddProduct = () => {
                         name="Short Description"
                         id="short_description"
                         onChange={handleChange}
-                        value={formData.short_description}
+                        value={formData?.short_description}
                         placeholder="Write down the Short Description"
                         wordsLimit="0 / 500"
                       />
@@ -1328,9 +1437,9 @@ const AddProduct = () => {
                 <div className="mb-6 grid grid-cols-3 gap-4">
                   <ProductSelect
                     name="Stock status"
-                    id="stock_status"
+                    id="stock"
                     onChange={handleChange}
-                    value={formData?.stock_status}
+                    value={formData?.stock}
                     optionsLabel="Select"
                     options={[
                       { value: "In Stock", label: "In-stock" },
@@ -1354,13 +1463,12 @@ const AddProduct = () => {
                 </div>
                 <div className="mb-6 grid grid-cols-3 gap-4">
                   <div>
-                    {formData.stock_status !== "Select" &&
-                      manageStockChecked && (
-                        <p className="text-xs text-[#FF1818]">
-                          Stock status and manage stock cannot be seleceted
-                          together
-                        </p>
-                      )}
+                    {formData.stock !== "Select" && manageStockChecked && (
+                      <p className="text-xs text-[#FF1818]">
+                        Stock status and manage stock cannot be seleceted
+                        together
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="mb-6 grid grid-cols-3 gap-4">
@@ -2369,7 +2477,7 @@ const AddProduct = () => {
               <button
                 className="px-[34px] py-[9px] bg-[#01B574] rounded-[10px] "
                 onClick={handleSubmit}
-                disabled={loading || sellerStatus !== "Active"}
+                // disabled={loading}
               >
                 <p className="text-white font-DM-sans font-medium text-sm flex items-center ">
                   {loading ? "Submitting..." : "Sunmit"}
@@ -2413,4 +2521,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default EditProduct;

@@ -18,11 +18,11 @@ const TextColorizer: React.FC<TextColorizerProps> = ({
   attributeText,
   name,
   id,
-  onColorizedTextsChange
+  onColorizedTextsChange,
 }) => {
   const [colorizedTexts, setColorizedTexts] = useState<ColorizedText>({
     id: id,
-    text: []
+    text: [],
   });
 
   // const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -36,13 +36,16 @@ const TextColorizer: React.FC<TextColorizerProps> = ({
       // Choose a random color (you can customize this logic)
 
       // Add the clicked text and color to the array
-      setColorizedTexts({ ...colorizedTexts, text: [...colorizedTexts.text, text] });
+      setColorizedTexts({
+        ...colorizedTexts,
+        text: [...colorizedTexts.text, text],
+      });
     }
   };
 
   const handleCancelClick = (textToRemove: string) => {
     // Remove the item from the array based on the text
-    const newText = colorizedTexts.text.filter((item) => item !== textToRemove)
+    const newText = colorizedTexts.text.filter((item) => item !== textToRemove);
 
     setColorizedTexts({ ...colorizedTexts, text: [...newText] });
   };
@@ -50,7 +53,6 @@ const TextColorizer: React.FC<TextColorizerProps> = ({
   useEffect(() => {
     onColorizedTextsChange(colorizedTexts);
   }, [colorizedTexts]);
-
 
   return (
     <div>
@@ -101,7 +103,11 @@ const TextColorizer: React.FC<TextColorizerProps> = ({
         {/* Click event listeners for each word */}
         <div className="flex flex-wrap gap-4">
           {attributeText?.map((text) => (
-            <span key={text} className="text-sm hover:cursor-pointer font-normal text-white py-2 px-3 rounded-md bg-gray-600" onClick={() => handleTextClick(text)}>
+            <span
+              key={text}
+              className="text-sm hover:cursor-pointer font-normal text-black py-2 px-3 rounded-md bg-gray-600"
+              onClick={() => handleTextClick(text)}
+            >
               {`${text}`}
             </span>
           ))}

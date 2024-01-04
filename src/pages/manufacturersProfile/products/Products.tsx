@@ -189,7 +189,7 @@ const MProduct = () => {
   };
 
   const idNameGetter = (brandId: string) => {
-    const brand = brands.filter((brand) => Number(brandId) === brand.id);
+    const brand = brands?.filter((brand) => Number(brandId) === brand.id);
     return brand[0]?.name;
   };
 
@@ -241,7 +241,6 @@ const MProduct = () => {
           setProducts([]);
         }
         setStat(response.data);
-        setIsLoading(false);
         setIsLoading(false);
       } catch (error) {
         console.error(error);
@@ -461,16 +460,21 @@ const MProduct = () => {
             >
               <ul className="w-full h-full flex flex-col justify-center items-center">
                 <li className="mb-[9px]">
-                  <button className="flex items-center rounded-[20px] bg-[#ffd66b33] px-3 text-[#FFC327]">
-                    <img
-                      src="/images/edit-icon.svg"
-                      alt="icon"
-                      className="pr-2.5"
-                    />
-                    <p className="font-DM-sans min-h-[24px] flex items-center justify-center">
-                      Edit
-                    </p>
-                  </button>
+                  <Link
+                    to={"/manufacturers-profile/edit-product"}
+                    state={{ id: product.id }}
+                  >
+                    <button className="flex items-center rounded-[20px] bg-[#ffd66b33] px-3 text-[#FFC327]">
+                      <img
+                        src="/images/edit-icon.svg"
+                        alt="icon"
+                        className="pr-2.5"
+                      />
+                      <p className="font-DM-sans min-h-[24px] flex items-center justify-center">
+                        Edit
+                      </p>
+                    </button>
+                  </Link>
                 </li>
                 <li className="mb-[9px]">
                   <button className="flex items-center rounded-[20px] bg-[#4f414133] px-3 text-[#4F4141]">
@@ -517,7 +521,7 @@ const MProduct = () => {
       <ManufacturersProfileLayout>
         {isLoading && <Loader />}
         <div className="px-[30px] font-DM-sans">
-          <div className="mb-[30px] flex justify-between">
+          <div className="mb-[30px] flex flex-col md:flex-row justify-between">
             <div>
               <p className="font-medium text-sm text-[#29020280]">
                 Products/All
@@ -526,7 +530,7 @@ const MProduct = () => {
             </div>
             <div className="bg-white py-[10px] px-[11px] flex items-center rounded-[30px]">
               <form>
-                <div className="relative">
+                <div className="hidden lg:block lg:relative">
                   <div className="absolute inset-y-0 end-0 flex items-center pe-3 pointer-events-none">
                     <svg
                       className="w-4 h-4 text-gray-500 "
@@ -574,7 +578,7 @@ const MProduct = () => {
               </button>
             </div>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-5">
             <div className="w-[248px] max-w-[248px] max-h-[97px] col-span-1 flex items-center py-[20px] px-[17px] bg-white rounded-[20px]">
               <img
                 src="/images/stat.svg"
@@ -667,7 +671,7 @@ const MProduct = () => {
             </div>
           </div>
           <div className="bg-white w-full rounded-[20px] mt-[22px] px-[31px] py-[19px]">
-            <div className="w-full grid lg:grid-cols-4 gap-4 pb-[23px]">
+            <div className="w-full hidden sm:grid lg:grid-cols-4 gap-4 pb-[23px]">
               <div className="col-span-2 flex justify-between items-center">
                 {tabs?.map((tab, index) => (
                   <p
@@ -686,7 +690,7 @@ const MProduct = () => {
                   </p>
                 ))}
               </div>
-              <div className="col-span-2 grid grid-cols-3 gap-4">
+              <div className="hidden col-span-2 md:grid grid-cols-3 gap-4">
                 <div className="col-span-1">
                   <select
                     id="countries"
@@ -718,7 +722,7 @@ const MProduct = () => {
                   />
                 </div>
               </div>
-              <div className="col-span-1 grid grid-cols-2 items-center gap-4 w-full">
+              <div className="hidden col-span-1 md:grid grid-cols-2 items-center gap-4 w-full">
                 <div className="col-span-1 w-full">
                   <select
                     id="countries"

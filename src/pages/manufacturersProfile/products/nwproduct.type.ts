@@ -47,13 +47,15 @@ export interface IProduct {
   product_discount: Array<any>;
   manage_stock_quantity: string;
   product_local_delivery: Array<any>;
-  no_product_id: number;
+  no_product_id: string;
   discount_enabled: number;
   local_delievry_status: string;
   international_delivery_status: string;
   manage_stock_status: string;
   stock_status: string;
   manage_stock: string;
+  product_id_type: string;
+  quantity_discount_enabled: string;
 }
 
 export {};

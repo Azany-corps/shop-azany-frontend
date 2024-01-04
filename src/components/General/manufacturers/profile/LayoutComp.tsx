@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { data, data2 } from "./menuData";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuthToken from "../../../../hooks/useAuthToken";
 
 type each = {
@@ -28,6 +28,7 @@ const ManufacturersProfileLayoutComp = ({
     setShowMobileNav(!showMobileNav);
   };
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [authToken, deleteAuthToken] = useAuthToken();
 
@@ -51,6 +52,7 @@ const ManufacturersProfileLayoutComp = ({
     setShowAccDropdown(false);
   };
 
+  console.log(location.pathname);
   return (
     <>
       <div className="bg-transparent z-50 w-full fixed md:hidden top-0 left-0">
@@ -98,14 +100,14 @@ const ManufacturersProfileLayoutComp = ({
               <Link
                 to="/manufacturers-profile"
                 className={`${
-                  active === "Overview"
+                  location.pathname === "/manufacturers-profile"
                     ? "text-[#4F4141] group border-[#FF1818] border-r-[4px]"
                     : ""
                 } flex items-center p-2 text-[#29020266] hover:text-[#4F4141] group border-[#FF1818] hover:border-r-[4px] max-h-[30px]  pl-[31px]`}
               >
                 <div
                   className={`${
-                    active === "Overview"
+                    location.pathname === "/manufacturers-profile"
                       ? "text-[#FF1818]"
                       : "text-[#29020266]"
                   } group-hover:text-[#FF1818]`}
@@ -143,14 +145,16 @@ const ManufacturersProfileLayoutComp = ({
               <Link
                 to="/manufacturers-profile/orders"
                 className={`${
-                  active === "Orders"
+                  location.pathname === "/manufacturers-profile/orders"
                     ? "text-[#4F4141] group border-[#FF1818] border-r-[4px]"
                     : ""
                 } flex items-center p-2 text-[#29020266] hover:text-[#4F4141] group border-[#FF1818] hover:border-r-[4px] max-h-[30px]  pl-[31px]`}
               >
                 <svg
                   className={`${
-                    active === "Orders" ? "text-[#FF1818]" : "text-[#29020266]"
+                    location.pathname === "/manufacturers-profile/orders"
+                      ? "text-[#FF1818]"
+                      : "text-[#29020266]"
                   } group-hover:text-[#FF1818]`}
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -177,7 +181,7 @@ const ManufacturersProfileLayoutComp = ({
             <li>
               <button
                 type="button"
-                className="flex items-center p-2 text-[#29020266] hover:text-[#4F4141] group border-[#FF1818] hover:border-r-[4px] max-h-[30px] w-full  pl-[31px]"
+                className={`flex items-center p-2 text-[#29020266] hover:text-[#4F4141] group border-[#FF1818] hover:border-r-[4px] max-h-[30px] w-full  pl-[31px]`}
                 onClick={() => {
                   accDropdownHandler();
                   setActive("Products");
@@ -186,7 +190,8 @@ const ManufacturersProfileLayoutComp = ({
                 <div>
                   <svg
                     className={`${
-                      active === "Products"
+                      location.pathname === "/manufacturers-profile/product" ||
+                      "/manufacturers-profile/add-product"
                         ? "text-[#FF1818]"
                         : "text-[#29020266]"
                     } group-hover:text-[#FF1818]`}
@@ -243,7 +248,11 @@ const ManufacturersProfileLayoutComp = ({
                 >
                   <Link
                     to="/manufacturers-profile/product"
-                    className="flex items-center w-full p-2 text-[12.524px] group hover:text-[#4F4141] text-[#29020266]  pl-[31px]"
+                    className={`${
+                      location.pathname === "/manufacturers-profile/product"
+                        ? "text-[#4F4141]"
+                        : "text-[#29020266]"
+                    } flex items-center w-full p-2 text-[12.524px] group hover:text-[#4F4141]   pl-[31px]`}
                   >
                     Manage Products
                   </Link>
@@ -256,7 +265,11 @@ const ManufacturersProfileLayoutComp = ({
                 >
                   <Link
                     to="/manufacturers-profile/add-product"
-                    className="flex items-center w-full p-2 text-[12.524px] group hover:text-[#4F4141] text-[#29020266] pl-[31px]"
+                    className={` ${
+                      location.pathname === "/manufacturers-profile/add-product"
+                        ? "text-[#4F4141]"
+                        : "text-[#29020266]"
+                    } flex items-center w-full p-2 text-[12.524px] group hover:text-[#4F4141] pl-[31px]`}
                   >
                     Add Products
                   </Link>
@@ -274,14 +287,14 @@ const ManufacturersProfileLayoutComp = ({
                   to={each.path}
                   // to="/manufacturers-profile/product"
                   className={`${
-                    active === each?.title
+                    location.pathname === each?.path
                       ? "text-[#4F4141] group border-[#FF1818] border-r-[4px]"
                       : ""
                   } flex items-center p-2 text-[#29020266] hover:text-[#4F4141] group border-[#FF1818] hover:border-r-[4px] max-h-[30px]  pl-[31px]`}
                 >
                   <div
                     className={`${
-                      active === each?.title
+                      location.pathname === each?.path
                         ? "text-[#FF1818]"
                         : "text-[#29020266]"
                     } group-hover:text-[#FF1818]`}
@@ -306,20 +319,20 @@ const ManufacturersProfileLayoutComp = ({
                   to={each.path}
                   // to="/manufacturers-profile/product"
                   className={`${
-                    active === each?.title
+                    location.pathname === each?.path
                       ? "text-[#4F4141] group border-[#FF1818] border-r-[4px]"
                       : ""
                   } flex items-center p-2 text-[#29020266] hover:text-[#4F4141] group border-[#FF1818] hover:border-r-[4px] max-h-[30px]  pl-[31px]`}
                 >
                   <div
                     className={`${
-                      active === each?.title
+                      location.pathname === each?.path
                         ? "text-[#FF1818]"
                         : "text-[#29020266]"
                     } group-hover:text-[#FF1818]`}
                   >
                     {each.image}
-                  </div>{" "}
+                  </div>
                   <span className="ml-3 text-[12.524px]">{each.title}</span>
                 </Link>
               </li>
@@ -398,11 +411,11 @@ const ManufacturersProfileLayoutComp = ({
               </ul>
             </li>
           </ul>
-          <ul className="space-y-[20px] pt-[20px] font-medium pb-[116px] font-DM-sans">
+          <ul className="space-y-[20px] pt-[20px] font-medium pb-[116px] font-DM-sans mb-4">
             <li>
               <Link
                 to="/manufacturers-profile"
-                className="flex items-center p-2 text-[#29020266] hover:text-[#4F4141] group border-[#FF1818] hover:border-r-[4px] max-h-[30px]  pl-[31px]"
+                className={`flex items-center p-2 text-[#29020266] hover:text-[#4F4141] group border-[#FF1818] hover:border-r-[4px] max-h-[30px]  pl-[31px]`}
               >
                 <div className="w-6 h-6 rounded-full">
                   <img

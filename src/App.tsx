@@ -24,7 +24,7 @@ import Confirmation from "./pages/checkout/Confirmation";
 import AddCard from "./pages/manufacturersProfile/payment/Card";
 import AddBank from "./pages/manufacturersProfile/payment/Bank";
 import AddProduct from "./pages/manufacturersProfile/products/AddProduct";
-import EditProduct from "./pages/manufacturersProfile/products/Edit";
+import EditProduct from "./pages/manufacturersProfile/products/EditProduct";
 import SecurityQuestion from "./pages/manufacturersProfile/Security";
 import Withdraw from "./pages/manufacturersProfile/payment/Withdraw";
 import WalletHistory from "./pages/manufacturersProfile/payment/Wallet";
@@ -256,7 +256,7 @@ function App() {
           <Route path="business-info" element={<MBusiness />} />
           <Route path="product" element={<MProduct />} />
           <Route path="add-product" element={<AddProduct />} />
-          <Route path="edit-product/:id" element={<EditProduct />} />
+          <Route path="edit-product" element={<EditProduct />} />
           <Route path="orders" element={<MOrders />} />
           <Route path="confirm-order" element={<ConfirmOrder />} />
           <Route path="edit" element={<EditStore />} />
