@@ -74,8 +74,8 @@ const MobileHeader = ({ isFarmer, style, hideScrollMenu }: Props) => {
       link: "/about",
     },
     {
-      label: "Become a Member",
-      link: "/signup",
+      label: "Become a Seller",
+      link: "/sellers/signup",
     },
   ];
 
@@ -215,7 +215,7 @@ const MobileHeader = ({ isFarmer, style, hideScrollMenu }: Props) => {
             <Icon icon="mingcute:location-3-line" color="#db4444" width="24" />
             <span className='text-[#db4444]'>Eti-Osa</span>
           </div>
-          <Link to={'/signup'}>Become a Member</Link>
+          <Link to={'/sellers/signup'}>Become a Seller</Link>
         </div>
 
       </div>
