@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { data } from "./dataFile";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import Header from "../General/Home/Header";
 
 type each = {
   image: React.ReactNode;
@@ -38,26 +39,13 @@ const CustomerProfileLayout = ({
 
   return (
     <>
-      <nav className={`fixed top-0  w-full bg-[#231F20] z-50`}>
-        <div className="px-3 py-[39px] lg:px-[32.52px]">
+      <nav className={`fixed top-0 w-full bg-[#231F20] md:bg-transparent z-50`}>
+        <div className="hidden md:block">
+          <Header />
+        </div>
+        <div className="px-3 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center justify-start">
-              <div className="flex flex-row items-end cursor-pointer">
-                <img
-                  className="cursor-pointer mr-[23px]"
-                  src="/images/azanyLogoCustomer.svg"
-                />
-                <div className="flex-row items-center cursor-pointer hidden md:flex">
-                  <p className="font-public-sans text-[13.79px] font-medium text-white mr-1">
-                    Shopping from |
-                  </p>
-                  <div className="flex flex-row items-center mr-[13px] cursor-pointer font-public-sans text-[13.79px] font-medium text-white">
-                    <p> kenya</p>
-                    <img src="/images/arrowUpFill.svg" />
-                  </div>
-                </div>
-              </div>
-
               <button
                 className="inline-flex items-center p-2 mt-2 ml-1 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
                 onClick={navHanlder}
@@ -95,45 +83,6 @@ const CustomerProfileLayout = ({
                   </svg>
                 )}
               </button>
-
-              {/* <p className="self-center text-lg font-bold text-[#23272E] whitespace-nowrap md:flex ml-[219px] md:mr-24 hidden">
-                {title}
-              </p> */}
-            </div>
-
-            <form className="w-full max-w-[500px] hidden lg:block">
-              <div className="relative">
-                <button
-                  type="submit"
-                  className="text-white absolute end-[1px] bottom-[0.8px] hover:bg-[#d34e4b] bg-[#D65D5B] focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-[32.517px] text-[13.795px] font-semibold py-[13px] px-[44px]"
-                >
-                  Search
-                </button>
-                <input
-                  type="search"
-                  id="default-search"
-                  className="block w-full p-4 ps-10 text-sm h-[43.35px] text-gray-900 border border-gray-300 bg-white focus:ring-[#D65D5B] focus:border-[#D65D5B] rounded-[32.517px] placeholder:text-[#B3B7BB] placeholder:font-normal placeholder:text-[13.795px]"
-                  placeholder="Search product, brands and categories"
-                  required
-                />
-              </div>
-            </form>
-
-            <div className="flex-row items-center cursor-pointer hidden md:flex">
-              <img src="/images/userIcon.svg" />
-              <p className="font-public-sans text-[13.79px] font-semibold text-white">
-                {name}
-              </p>
-            </div>
-
-            <div
-              className="flex flex-row items-center justify-center cursor-pointer"
-              onClick={handleLogout}
-            >
-              <img src="/images/logoutIcon.svg" />
-              <p className="font-public-sans text-[13.79px] font-semibold text-white">
-                Logout
-              </p>
             </div>
           </div>
         </div>
@@ -154,7 +103,7 @@ const CustomerProfileLayout = ({
         } top-0 left-0 z-40 mt-16 md:mt-0 w-[246px] h-screen transition-transform`}
         aria-label="Sidebar"
       >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-[#000000] pt-[132px]">
+        <div className="h-full px-3 py-4 overflow-y-auto bg-[#000000] pt-[80px]">
           <ul className="space-y-[17px] mt-[20px] font-medium">
             <li>
               <Link
@@ -213,7 +162,7 @@ const CustomerProfileLayout = ({
         </div>
       </aside>
 
-      <div className="px-4 md:ml-[276px] md:mr-[28px] h-full mt-16">
+      <div className="px-4 md:ml-[276px] md:mr-[28px] h-full mt-6">
         <div className="rounded-lg h-full">{children}</div>
       </div>
     </>
