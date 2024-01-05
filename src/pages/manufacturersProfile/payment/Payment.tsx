@@ -1,5 +1,5 @@
 import React from "react";
-import ManufacturersProfileLayout from "../../../components/General/manufacturers/profile/Layout";
+import ManufacturersProfileLayout from "../../../components/General/manufacturers/profile/LayoutComp";
 
 const MPayment = () => {
   return (

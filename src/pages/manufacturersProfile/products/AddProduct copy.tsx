@@ -74,15 +74,14 @@ interface ShippingForm {
   id: number;
   values: {
     delivery_state: string;
-    // delivery_city: string;
+    delivery_city: string;
     delivery_price: number;
   };
 }
+
 interface ProductVariation {
   id: number;
   values: {
-    // size: number;
-    // color: string;
     variation_price: number;
     variation_sales_price: number;
     variation_quantity: number;
@@ -92,11 +91,7 @@ interface ProductVariation {
     variation_external_product_id: string;
     variation_image: FileWithPath[] | null;
     variation_product_name: string;
-    variation_attr: {
-      size: number;
-      color: string;
-      brand: string;
-    };
+    variation_attr: Record<string, any>; // Dynamic attributes
   };
 }
 
@@ -130,37 +125,12 @@ const AddProduct = () => {
       id: new Date().getTime(),
       values: {
         delivery_state: "",
-        // delivery_city: "",
+        delivery_city: "",
         delivery_price: 0,
       },
     },
   ]);
 
-  const [productVariations, setProductVariations] = useState<
-    ProductVariation[]
-  >([
-    {
-      id: new Date().getTime(),
-      values: {
-        // size: 0,
-        // color: "",
-        variation_price: 0,
-        variation_sales_price: 0,
-        variation_quantity: 0,
-        variation_sku: "",
-        variation_start_date: "",
-        variation_end_date: "",
-        variation_external_product_id: "",
-        variation_image: null,
-        variation_product_name: "",
-        variation_attr: {
-          size: 0,
-          color: "",
-          brand: "",
-        },
-      },
-    },
-  ]);
   const sellerStatus = localStorage.getItem("sellerStatus");
   const [discountIsChecked, setDiscountIsChecked] = useState<boolean>(false);
   const [manageStockChecked, setManageStockChecked] = useState<boolean>(false);
@@ -345,9 +315,9 @@ const AddProduct = () => {
           data.append("quantity_discount_enabled", "0");
         }
         if (discountIsChecked) {
-          if (discountType === "fixed") data.append("discount_enabled", "2");
+          if (discountType === "fixed") data.append("discount_enabled", "1");
           else {
-            data.append("discount_enabled", "1");
+            data.append("discount_enabled", "2");
           }
         }
         if (manageStockChecked) {
@@ -618,33 +588,6 @@ const AddProduct = () => {
     ]);
   };
 
-  const handleAddProductVariations = () => {
-    setProductVariations((prevForms) => [
-      ...prevForms,
-      {
-        id: new Date().getTime(),
-        values: {
-          // size: 0,
-          // color: "",
-          variation_price: 0,
-          variation_sales_price: 0,
-          variation_quantity: 0,
-          variation_sku: "",
-          variation_start_date: "",
-          variation_end_date: "",
-          variation_external_product_id: "",
-          variation_image: null,
-          variation_product_name: "",
-          variation_attr: {
-            size: 0,
-            color: "",
-            brand: "",
-          },
-        },
-      },
-    ]);
-  };
-
   const handleRemoveForm = (formId: number) => {
     setQuantityDiscountForms((prevForms) =>
       prevForms.filter((form) => form.id !== formId)
@@ -682,52 +625,6 @@ const AddProduct = () => {
             values: {
               ...form.values,
               [fieldName]: value,
-            },
-          };
-        }
-        return form;
-      })
-    );
-  };
-
-  interface ProductVariation {
-    id: number;
-    values: {
-      // size: number;
-      // color: string;
-      variation_price: number;
-      variation_sales_price: number;
-      variation_quantity: number;
-      variation_sku: string;
-      variation_start_date: string;
-      variation_end_date: string;
-      variation_external_product_id: string;
-      variation_image: FileWithPath[] | null;
-      variation_product_name: string;
-      variation_attr: {
-        size: number;
-        color: string;
-        brand: string;
-      };
-    };
-  }
-
-  const handleAttInputChange = (
-    formId: number,
-    fieldName: string,
-    value: string
-  ) => {
-    setProductVariations((prevForms) =>
-      prevForms.map((form) => {
-        if (form.id === formId) {
-          return {
-            ...form,
-            values: {
-              ...form.values,
-              variation_attr: {
-                ...form.values.variation_attr,
-                [fieldName]: value,
-              },
             },
           };
         }
@@ -945,10 +842,82 @@ const AddProduct = () => {
     console.log(formNo);
   };
 
-  console.log(attributes);
-  console.log(sellerStatus);
+  // console.log(attributes);
+  // console.log(sellerStatus);
 
   //   [{id: 1, name: blue, items: ['white', 'red']}]
+  const [productVariations, setProductVariations] = useState<
+    ProductVariation[]
+  >([
+    {
+      id: new Date().getTime(),
+      values: {
+        variation_price: 0,
+        variation_sales_price: 0,
+        variation_quantity: 0,
+        variation_sku: "",
+        variation_start_date: "",
+        variation_end_date: "",
+        variation_external_product_id: "",
+        variation_image: null,
+        variation_product_name: "",
+        variation_attr: {}, // Start with an empty object
+      },
+    },
+  ]);
+
+  const handleAddProductVariations = () => {
+    setProductVariations((prevForms) => [
+      ...prevForms,
+      {
+        id: new Date().getTime(),
+        values: {
+          variation_price: 0,
+          variation_sales_price: 0,
+          variation_quantity: 0,
+          variation_sku: "",
+          variation_start_date: "",
+          variation_end_date: "",
+          variation_external_product_id: "",
+          variation_image: null,
+          variation_product_name: "",
+          variation_attr: {},
+        },
+      },
+    ]);
+  };
+
+  const handleAttInputChange = (
+    formId: number,
+    fieldName: string,
+    value: string
+  ) => {
+    setProductVariations((prevForms) =>
+      prevForms.map((form) => {
+        if (form.id === formId) {
+          return {
+            ...form,
+            values: {
+              ...form.values,
+              variation_attr: {
+                ...form.values.variation_attr,
+                [fieldName]: value,
+              },
+            },
+          };
+        }
+        return form;
+      })
+    );
+  };
+
+  // console.log(variationCheckboxStates);
+
+  const mappedElements = Object.entries(variationCheckboxStates)
+    .filter(([title, isVisible]) => title)
+    .map(([title, isVisible]) => ({ title, value: isVisible }));
+
+  console.log(mappedElements);
 
   return (
     <ManufacturersProfileLayout>
@@ -1804,20 +1773,13 @@ const AddProduct = () => {
                       <table className="w-full text-sm text-left rtl:text-right">
                         <thead className="text-[#A3AED0] font-medium text-sm border-b border-[#E9EDF7] font-DM-sans">
                           <tr>
-                            {variationCheckboxStates.size && (
-                              <td scope="col" className="min-w-[100px]">
-                                Size
-                              </td>
-                            )}
-                            {variationCheckboxStates.Color && (
-                              <td scope="col" className="min-w-[100px]">
-                                Color
-                              </td>
-                            )}
-                            {variationCheckboxStates.Brand && (
-                              <td scope="col" className="min-w-[100px]">
-                                Brand
-                              </td>
+                            {mappedElements?.map(
+                              (attr) =>
+                                attr.value && (
+                                  <td scope="col" className="min-w-[100px]">
+                                    {attr.title}
+                                  </td>
+                                )
                             )}
                             <td scope="col" className="min-w-[113px]">
                               Product name
@@ -1852,60 +1814,30 @@ const AddProduct = () => {
                         <tbody>
                           {productVariations.map((form) => (
                             <tr className="bg-white font-DM-sans" key={form.id}>
-                              {variationCheckboxStates.size && (
-                                <td
-                                  scope="row"
-                                  className="pr-[14px] font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                >
-                                  <ProductInput
-                                    type="number"
-                                    placeholder="0"
-                                    id="size"
-                                    value={form.values.variation_attr.size.toString()}
-                                    onChange={(e) =>
-                                      handleAttInputChange(
-                                        form.id,
-                                        "size",
-                                        e.target.value
-                                      )
-                                    }
-                                  />
-                                </td>
+                              {mappedElements?.map(
+                                (attr) =>
+                                  attr.value && (
+                                    <td className="pr-[14px]" key={attr.title}>
+                                      <ProductInput
+                                        id={attr.title.toLocaleLowerCase()}
+                                        type="text"
+                                        value={
+                                          form.values.variation_attr[
+                                            attr.title.toLocaleLowerCase()
+                                          ] || ""
+                                        }
+                                        onChange={(e) =>
+                                          handleAttInputChange(
+                                            form.id,
+                                            attr.title.toLocaleLowerCase(),
+                                            e.target.value
+                                          )
+                                        }
+                                      />
+                                    </td>
+                                  )
                               )}
-                              {variationCheckboxStates.Color && (
-                                <td className="pr-[14px]">
-                                  <ProductInput
-                                    id="color"
-                                    type="text"
-                                    value={form.values.variation_attr.color}
-                                    onChange={(e) =>
-                                      handleAttInputChange(
-                                        form.id,
-                                        "color",
-                                        e.target.value
-                                      )
-                                    }
-                                    placeholder="blue"
-                                  />
-                                </td>
-                              )}
-                              {variationCheckboxStates.Brand && (
-                                <td className="pr-[14px]">
-                                  <ProductInput
-                                    id="brand"
-                                    type="text"
-                                    value={form.values.variation_attr.brand}
-                                    onChange={(e) =>
-                                      handleAttInputChange(
-                                        form.id,
-                                        "brand",
-                                        e.target.value
-                                      )
-                                    }
-                                    placeholder="swift"
-                                  />
-                                </td>
-                              )}
+
                               <td className="pr-[14px]">
                                 <ProductInput
                                   type="text"
@@ -2276,9 +2208,9 @@ const AddProduct = () => {
                           <td scope="col" className="min-w-[150px]">
                             State
                           </td>
-                          {/* <td scope="col" className="min-w-[150px]">
+                          <td scope="col" className="min-w-[150px]">
                             City
-                          </td> */}
+                          </td>
                           <td scope="col" className="min-w-[150px]">
                             Shipping cost
                           </td>
@@ -2307,7 +2239,7 @@ const AddProduct = () => {
                                 }))}
                               />
                             </td>
-                            {/* <td className="pr-[14px]">
+                            <td className="pr-[14px]">
                               <ProductSelect
                                 id="delivery_city"
                                 onChange={(e) =>
@@ -2328,7 +2260,7 @@ const AddProduct = () => {
                                   ) || []
                                 }
                               />
-                            </td> */}
+                            </td>
                             <td
                               scope="row"
                               className="pr-[14px] font-medium text-gray-900 whitespace-nowrap dark:text-white"

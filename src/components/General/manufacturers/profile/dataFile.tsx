@@ -155,6 +155,6 @@ export const data2 = [
       </svg>
     ),
     title: "Notifications",
-    path: "/manufacturers-profile/address",
+    path: "/manufacturers-profile/messages",
   },
 ];

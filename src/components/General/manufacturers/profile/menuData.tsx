@@ -24,7 +24,7 @@ export const data = [
       </svg>
     ),
     title: "Customers",
-    path: "/manufacturers-profile/orders",
+    path: "/manufacturers-profile",
   },
 
   {
@@ -50,7 +50,7 @@ export const data = [
       </svg>
     ),
     title: "Discounts",
-    path: "/manufacturers-profile/address",
+    path: "/manufacturers-profile",
   },
   {
     image: (
@@ -72,7 +72,7 @@ export const data = [
       </svg>
     ),
     title: "Payments",
-    path: "/manufacturers-profile/recently-viewed",
+    path: "/manufacturers-profile/payment",
   },
   {
     image: (
@@ -97,7 +97,7 @@ export const data = [
       </svg>
     ),
     title: "Reviews",
-    path: "/manufacturers-profile/saved-items",
+    path: "/manufacturers-profile",
   },
 ];
 
@@ -127,7 +127,7 @@ export const data2 = [
       </svg>
     ),
     title: "Support",
-    path: "/manufacturers-profile/orders",
+    path: "/manufacturers-profile",
   },
 
   {
@@ -155,6 +155,6 @@ export const data2 = [
       </svg>
     ),
     title: "Notifications",
-    path: "/manufacturers-profile/address",
+    path: "/manufacturers-profile/messages",
   },
 ];

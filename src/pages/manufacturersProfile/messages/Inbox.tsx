@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ManufacturersProfileLayout from "../../../components/General/manufacturers/profile/Layout";
+import ManufacturersProfileLayout from "../../../components/General/manufacturers/profile/LayoutComp";
 import Buyers from "../../../components/CustomerProfile/Inbox/Buyers";
 import Message from "../../../components/CustomerProfile/Inbox/Message";
 

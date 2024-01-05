@@ -74,7 +74,7 @@ interface ShippingForm {
   id: number;
   values: {
     delivery_state: string;
-    delivery_city: string;
+    // delivery_city: string;
     delivery_price: number;
   };
 }
@@ -130,7 +130,7 @@ const EditProduct = () => {
       id: new Date().getTime(),
       values: {
         delivery_state: "",
-        delivery_city: "",
+        // delivery_city: "",
         delivery_price: 0,
       },
     },
@@ -344,15 +344,15 @@ const EditProduct = () => {
         data.append("international_delivery_status", "0");
       }
 
+      //   if (discountIsChecked) {
+      //     data.append("quantity_discount_enabled", "1");
+      //   } else {
+      //     data.append("quantity_discount_enabled", "0");
+      //   }
       if (discountIsChecked) {
-        data.append("quantity_discount_enabled", "1");
-      } else {
-        data.append("quantity_discount_enabled", "0");
-      }
-      if (discountIsChecked) {
-        if (discountType === "fixed") data.append("discount_enabled", "1");
+        if (discountType === "fixed") data.append("discount_enabled", "2");
         else {
-          data.append("discount_enabled", "2");
+          data.append("discount_enabled", "1");
         }
       }
       if (manageStockChecked) {
@@ -937,6 +937,16 @@ const EditProduct = () => {
             sale_price: response?.data?.values[0]?.sales_price,
             sale_start_date: response?.data?.values[0]?.start_date,
             sale_end_date: response?.data?.values[0]?.end_date,
+            height: Number(response?.data?.values[0]?.height).toFixed(0),
+            width: Number(response?.data?.values[0]?.width).toFixed(0),
+            length: Number(response?.data?.values[0]?.length).toFixed(0),
+            product_weight: Number(
+              response?.data?.values[0]?.product_weight
+            ).toFixed(0),
+            package_weight: Number(
+              response?.data?.values[0]?.package_weight
+            ).toFixed(0),
+            price: Number(response?.data?.values[0]?.price).toFixed(0),
           });
           setId(response?.data?.values[0]?.no_product_id);
           if (response?.data?.values[0]?.manage_stock_status === "1") {
@@ -944,10 +954,12 @@ const EditProduct = () => {
           } else {
             setManageStockChecked(false);
           }
-          if (response?.data?.values[0]?.discount_enabled) {
+          if (response?.data?.values[0]?.discount_enabled === "0") {
+            setDiscountIsChecked(false);
+          } else {
             setDiscountIsChecked(true);
           }
-          if (response?.data?.values[0]?.discount_enabled === "1") {
+          if (response?.data?.values[0]?.discount_enabled === "2") {
             setDiscountType("fixed");
           } else {
             setDiscountType("percentage");
@@ -955,7 +967,11 @@ const EditProduct = () => {
           if (response?.data?.values[0]?.product_variation.length >= 1) {
             setHasVariation(true);
           }
-
+          if (response?.data?.values[0]?.local_delivery_status === "1") {
+            setIsLocalChecked(true);
+          }
+          response?.data?.values[0]?.international_delivery_status === "1" &&
+            setIsIntChecked(true);
           const newVar = response?.data?.values[0]?.product_variation?.map(
             (variation: any) => ({
               id: variation.id,
@@ -978,19 +994,42 @@ const EditProduct = () => {
             })
           );
           setProductVariations([...newVar]);
-          console.log(newVar);
           const newDeli =
             response?.data?.values[0]?.product_local_delivery?.map(
               (delivery: any) => ({
                 id: delivery.id,
                 values: {
                   delivery_state: delivery?.state,
-                  delivery_city: delivery?.city,
-                  delivery_price: delivery?.price,
+                  //   delivery_city: delivery?.city,
+                  delivery_price: Number(delivery?.price).toFixed(0),
                 },
               })
             );
           setShippingForm([...newDeli]);
+          const newFixedQuantity =
+            response?.data?.values[0]?.fixed_product_discounts?.map(
+              (discount: any) => ({
+                id: discount?.id,
+                values: {
+                  discount_quantity_fixed: discount?.quantity,
+                  price_per_unit: Number(discount?.price_per_unit).toFixed(0),
+                },
+              })
+            );
+          setQuantityDiscountForms([...newFixedQuantity]);
+
+          const newPercentageForm =
+            response?.data?.values[0]?.product_discounts?.map(
+              (percentage: any) => ({
+                id: percentage?.id,
+                values: {
+                  discount_quantity: percentage?.quantity,
+                  discount_percentage: percentage?.percentage,
+                },
+              })
+            );
+          setPercentageDiscountForms([...newPercentageForm]);
+
           setAttributes([
             ...convertToObjectArray(response?.data?.values[0]?.attributes),
           ]);
@@ -1037,6 +1076,7 @@ const EditProduct = () => {
   }
 
   console.log(formData);
+  console.log(quantityDiscountForms);
   //   console.log(attributes);
   //   console.log(checkboxStates);
   return (
@@ -2362,9 +2402,9 @@ const EditProduct = () => {
                           <td scope="col" className="min-w-[150px]">
                             State
                           </td>
-                          <td scope="col" className="min-w-[150px]">
+                          {/* <td scope="col" className="min-w-[150px]">
                             City
-                          </td>
+                          </td> */}
                           <td scope="col" className="min-w-[150px]">
                             Shipping cost
                           </td>
@@ -2393,7 +2433,7 @@ const EditProduct = () => {
                                 }))}
                               />
                             </td>
-                            <td className="pr-[14px]">
+                            {/* <td className="pr-[14px]">
                               <ProductSelect
                                 id="delivery_city"
                                 onChange={(e) =>
@@ -2414,7 +2454,7 @@ const EditProduct = () => {
                                   ) || []
                                 }
                               />
-                            </td>
+                            </td> */}
                             <td
                               scope="row"
                               className="pr-[14px] font-medium text-gray-900 whitespace-nowrap dark:text-white"

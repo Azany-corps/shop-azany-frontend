@@ -52,7 +52,7 @@ const ManufacturersProfileLayoutComp = ({
     setShowAccDropdown(false);
   };
 
-  console.log(location.pathname);
+  // console.log(location.pathname);
   return (
     <>
       <div className="bg-transparent z-50 w-full fixed md:hidden top-0 left-0">
@@ -393,7 +393,7 @@ const ManufacturersProfileLayoutComp = ({
               >
                 <li>
                   <Link
-                    to="/"
+                    to="/manufacturers-profile"
                     className="flex items-center w-full p-2 text-[12.524px] group hover:text-[#4F4141] text-[#29020266]  pl-[31px]"
                   >
                     Account Settings
