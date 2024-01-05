@@ -336,7 +336,7 @@ const MOrders = () => {
             </p>
             <p className="text-[34px] text-[#290202] font-bold">Orders</p>
           </div>
-          <div className="bg-white py-[10px] px-[11px] flex items-center rounded-[30px]">
+          <div className="bg-white py-[10px] px-[11px] items-center rounded-[30px] hidden md:flex">
             <form>
               <div className="relative">
                 <div className="absolute inset-y-0 end-0 flex items-center pe-3 pointer-events-none">
@@ -373,7 +373,7 @@ const MOrders = () => {
             </p>
           </div>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-5">
           <div className="w-[248px] max-w-[248px] max-h-[97px] col-span-1 flex items-center py-[20px] px-[17px] bg-white rounded-[20px]">
             <img
               src="/images/stat.svg"
@@ -454,11 +454,11 @@ const MOrders = () => {
         </div>
         <div className="bg-white w-full rounded-[20px] mt-[22px] px-[31px] py-[19px]">
           <div className="w-full grid lg:grid-cols-3 gap-12 pb-[23px]">
-            <div className="col-span-2 flex justify-between items-center">
+            <div className="col-span-2 hidden sm:flex justify-between items-center">
               {tabs?.map((tab, index) => (
                 <p
                   key={index}
-                  className="text-sm font-bold text-[#29020266] hover:text-[#290202] cursor-pointer"
+                  className="text-xs xl:text-sm font-bold text-[#29020266] hover:text-[#290202] cursor-pointer"
                 >
                   {tab.title}
                 </p>

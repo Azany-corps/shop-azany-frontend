@@ -92,15 +92,15 @@ const ManufacturersIndex = () => {
         {/* <ManufacturersProfileLayoutComp title="overview"> */}
 
         <div className="px-[30px] font-DM-sans">
-          <div className="mb-[30px] flex justify-between">
+          <div className="mb-[30px] flex-col flex sm:flex-row justify-between">
             <div>
               <p className="font-medium text-sm text-[#29020280]">Dashboard </p>
-              <p className="text-[34px] text-[#290202] font-bold">
+              <p className="text-[24px] sm:text-[34px] text-[#290202] font-bold">
                 Welcome to Azany
               </p>
             </div>
             <div className="bg-white py-[10px] px-[11px] flex items-center rounded-[30px]">
-              <form>
+              <form className="hidden lg:block">
                 <div className="relative">
                   <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                     <svg
@@ -162,7 +162,7 @@ const ManufacturersIndex = () => {
               </button> */}
             </div>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-5">
             <div className="w-[248px] max-w-[248px] max-h-[97px] col-span-1 flex items-center py-[20px] px-[17px] bg-white rounded-[20px]">
               <img
                 src="/images/stat.svg"
