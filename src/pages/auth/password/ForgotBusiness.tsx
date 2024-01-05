@@ -107,7 +107,7 @@ const AuthForgotBusiness = () => {
             <div className="flex flex-col w-full justify-between max-w-[254px]">
               <input
                 className="bg-transparent text-xs w-full placeholder:text-xs px-3 outline-none py-[15px] xs:py-[9px] sm:py-[9px] placeholder:text-[#B3B7BB] placeholder:text-center border rounded-2xl border-[#B3B7BB]"
-                placeholder="Enter Email"
+                placeholder="Enter Email...."
                 name="email"
                 onChange={handleChange}
                 required
@@ -125,7 +125,7 @@ const AuthForgotBusiness = () => {
             </button>
           </form>
 
-          <Link className="mt-3 z-20 font-semibold" to="/auth">
+          <Link className="mt-3 z-20 font-semibold" to="/login">
             <span className="text-[#0F60FF]">Back</span>
           </Link>
         </div>
