@@ -94,7 +94,7 @@ const CategoryModal: React.FC<CategoryModalProps> = (props) => {
   return isOpen ? (
     <>
       {/* Modal Background */}
-      <div aria-hidden="false" className="fixed top-0 left-0 z-20 w-1/4 xs:w-3/4 h-full overflow-auto  overflow-x-hidden flex bg-white">
+      <div aria-hidden="false" className="fixed top-0 left-0 z-20 flex w-3/4 h-full overflow-auto overflow-x-hidden bg-white md:w-1/4 xs:w-3/4">
         {/* Modal */}
         <div
           ref={modalRef}
@@ -106,20 +106,20 @@ const CategoryModal: React.FC<CategoryModalProps> = (props) => {
           })}
         >
           {/* MODAL HEADER */}
-          <div className="flex items-start justify-between py-3 px-6 bg-[#1B7CFC]">
-            <Icon icon="gg:profile" width="40" height="40" />
+          <div className="flex items-start justify-between py-3 px-6 bg-[#470505]">
+            <Icon icon="gg:profile" width="40" height="40" color="#fff" />
             <h3 className="text-[18px] font-bold ml-[12px] text-white">Hello {username}</h3>
             <button
               aria-label="Close"
-              className="ml-auto inline-flex items-center rounded-lg bg-transparent text-white"
+              className="inline-flex items-center ml-auto text-white bg-transparent rounded-lg"
               type="button"
               onClick={handleClose}
             >
               <Icon icon="material-symbols:close" />
             </button>
           </div>
-          <div className="bg-[#70ADFF] py-2 px-6">
-            <p className="font-medium text-[14px]">
+          <div className="bg-[#47050575] py-2 px-6">
+            <p className="font-medium text-white text-[14px]">
               {selectedCategory ? (
                 <button className="text-white underline" onClick={handleBackClick}>
                   Back
@@ -131,7 +131,7 @@ const CategoryModal: React.FC<CategoryModalProps> = (props) => {
           </div>
 
           {/* MODAL BODY */}
-          <div className="px-6 text-black mt-4 mb-4 bg-white font-medium">
+          <div className="px-6 mt-4 mb-4 font-medium text-black bg-white">
             {selectedCategory ? (
               <>
                 <h4 className="text-lg font-bold">{selectedCategory.category}</h4>
@@ -164,7 +164,7 @@ const CategoryModal: React.FC<CategoryModalProps> = (props) => {
             )}
           </div>
           <div className="border-t border-gray-400"></div>
-          <div className="px-6 flex font-medium flex-col mb-4 py-4 gap-4 text-black">
+          <div className="flex flex-col gap-4 px-6 py-4 mb-4 font-medium text-black">
             <Link to="/manufacturers-profile/">
               <p className="font-medium hover:text-[#515151]">Account</p>
             </Link>
@@ -172,7 +172,7 @@ const CategoryModal: React.FC<CategoryModalProps> = (props) => {
               <Icon icon="circle-flags:us" width="24" height="24" /> <p>English</p>
             </div>
             <p>Customer Service</p>
-            <p onClick={handleLogout} className="text-red-400 hover:text-red-600 cursor-pointer">
+            <p onClick={handleLogout} className="text-red-400 cursor-pointer hover:text-red-600">
               Sign Out
             </p>
           </div>

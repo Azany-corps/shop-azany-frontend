@@ -104,7 +104,7 @@ const Home = () => {
         <ProductGroupGrid products={BestSellers} title={"Today Deal "} />
         <ProductGroupGrid products={mostLoveFashion} title={"Shop deaps in Fashion"} />
         <div className="flex h-[514px] w-full  overflow-hidden rounded-[20px]">
-          <img className='h-full w-full object-cover' src={Banner} alt="" />
+          <img className='object-cover w-full h-full' src={Banner} alt="" />
         </div>
       </div>
       <div className="flex py-[14px] px-4 md:px-7 w-full">
@@ -113,19 +113,19 @@ const Home = () => {
 
       <div className="flex py-[14px] px-4 md:px-7 w-full">
         <div className="flex w-full relative rounded-[20px] overflow-hidden">
-          <img className='h-full w-full object-cover' src={AdBanner} alt="ad banner" />
+          <img className='object-cover w-full h-full' src={AdBanner} alt="ad banner" />
           <span className="bg-[#0056FF] rounded-sm px-2 py-1 text-white absolute bottom-4 left-4 md:bottom-24 md:left-24 text-xs">Ads Banner 2</span>
         </div>
       </div>
 
-      <div className="flex w-full flex-col md:flex-row gap-8 px-7 py-6">
+      <div className="flex flex-col w-full gap-8 py-6 md:flex-row px-7">
         <div className="flex w-full relative text-white overflow-hidden  item-center justify-between pt-4 pr-14 bg-black rounded-[20px] px-8">
           <div className="flex z-10 flex-col md:h-full h-[360px] w-full  md:w-1/3 gap-4 justify-center items-start">
-            <h2 className='font-semibold text-2xl'>Play Station 5</h2>
+            <h2 className='text-2xl font-semibold'>Play Station 5</h2>
             <p className="font-normal">
               Black and White version of the PS5 coming out on sale.
             </p>
-            <button className="underline bg-transparent font-medium">Shop Now</button>
+            <button className="font-medium underline bg-transparent">Shop Now</button>
           </div>
           <img className='absolute bottom-0 md:relative' src={PsImg} alt="ps5" />
         </div>
@@ -140,17 +140,17 @@ const Home = () => {
         <ProductGroupGrid products={mostLoveFashion.slice(0, 4)} title={"Top gift"} />
       </div>
 
-      <div className="flex relative overflow-hidden w-full">
-        <div style={gradientStyle} className="absolute z-10 h-full w-full top-0"></div>
-        <img className='absolute w-full h-full object-cover' src={Img} alt="who we are bg" />
-        <div className="flex flex-col md:flex-row gap-6 text-white z-20 py-28 px-16">
-          <div className="flex w-full flex-col gap-4 items-start">
+      <div className="relative flex w-full overflow-hidden">
+        <div style={gradientStyle} className="absolute top-0 z-10 w-full h-full"></div>
+        <img className='absolute object-cover w-full h-full' src={Img} alt="who we are bg" />
+        <div className="z-20 flex flex-col gap-6 px-16 text-white md:flex-row py-28">
+          <div className="flex flex-col items-start w-full gap-4">
             <h1 className='text-3xl font-bold'>Who We Are</h1>
             <p className='text-xl'>Amazon is guided by four principles: customer obsession rather than competitor focus, passion for invention, commitment to operational excellence, and long-term thinking. Amazon strives to be Earth’s most customer-centric company, Earth’s best employer, and Earth’s safest place to work.</p>
             <button className='text-xs px-3 bg-white rounded-sm py-1 text-[#DB4444]'>See more</button>
           </div>
-          <div className="flex w-full flex-col gap-2">
-            <div className="flex flex-col md:flex-row justify-center items-center gap-6">
+          <div className="flex flex-col w-full gap-2">
+            <div className="flex flex-col items-center justify-center gap-6 md:flex-row">
               <span className="p-4 rounded-[20px] bg-white">
                 <Icon icon="mdi:cart-outline" color="#c68c57" width="28" />
               </span>
@@ -159,7 +159,7 @@ const Home = () => {
                 <p className='w-full md:w-2/3'>Our Leadership Principles are more than inspirational wall hangings.</p>
               </div>
             </div>
-            <div className="flex flex-col md:flex-row justify-center items-center gap-6">
+            <div className="flex flex-col items-center justify-center gap-6 md:flex-row">
               <span className="p-4 rounded-[20px] bg-white">
                 <Icon rotate={45} icon="icon-park-twotone:tape-measure" color="#3734a9" width="24" />
               </span>
@@ -168,12 +168,12 @@ const Home = () => {
                 <p className='w-full md:w-2/3'>Our Leadership Principles are more than inspirational wall hangings.</p>
               </div>
             </div>
-            <div className="flex flex-col md:flex-row justify-center items-center gap-6">
+            <div className="flex flex-col items-center justify-center gap-6 md:flex-row">
               <a
                 href='https://www.bbb.org/us/ga/fayetteville/profile/online-shopping/azany-0443-91827400/#sealclick'
                 className="p-2 rounded-[20px] bg-white"
               >
-                <div className="w-10 grid place-items-center h-10">
+                <div className="grid w-10 h-10 place-items-center">
                   <img className='object-cover' src={BBBLogo} alt="" />
                 </div>
               </a>

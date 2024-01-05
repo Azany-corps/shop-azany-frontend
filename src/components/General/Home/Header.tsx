@@ -9,7 +9,7 @@ const Header = () => {
             <Link to="/">
                 <img src={Logo} alt="Logo" />
             </Link>
-            <div className="flex h-9 rounded-md w-1/3 overflow-hidden">
+            <div className="flex w-1/3 overflow-hidden rounded-md h-9">
                 <input
                     className='h-full w-full text-[#8B96A5] text-sm'
                     type="text"
@@ -19,16 +19,16 @@ const Header = () => {
                     <Icon icon="iconamoon:search" color="white" height={20} />
                 </div>
             </div>
-            <div className="flex justify-between gap-4 items-center">
-                <div className="flex gap-2 items-center">
+            <div className="flex items-center justify-between gap-4">
+                <Link to={'/login'} className="flex items-center gap-2">
                     <Icon icon="line-md:account" color='white' height={24} />
-                    <span className='text-white'>Account</span>
-                </div>
-                <div className="flex gap-2 items-center">
+                    <span className='text-white'>Login</span>
+                </Link>
+                <Link to={'/cart'} className="flex items-center gap-2">
                     <Icon icon="mdi:cart-outline" color='white' height={24} />
                     <span className='text-white'>Cart</span>
-                </div>
-                <div className="flex gap-2 items-center">
+                </Link>
+                <div className="flex items-center gap-2">
                     <Icon icon="emojione:flag-for-nigeria" width="24" />
                     <span className='text-white'>en - NGN</span>
                 </div>
