@@ -65,7 +65,7 @@ const ReviewsComponent: React.FC<ReviewsProps> = () => {
             </div>
           )}
         </div>
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-[20.82px]">
+        {/* <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-[20.82px]">
           <div className="border border-[#00000019] rounded-[15px] py-[20.89px] px-[23.87px]">
             <div className="w-full flex justify-between items-center mb-[11.19px]">
               <img src="/images/rating-star.svg" alt="rating image" />
@@ -118,7 +118,7 @@ const ReviewsComponent: React.FC<ReviewsProps> = () => {
               Posted on August 14, 2023
             </p>
           </div>
-        </div>
+        </div> */}
       </CustomerProfileLayout>
     </div>
   );
