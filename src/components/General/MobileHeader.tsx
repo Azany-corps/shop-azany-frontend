@@ -74,8 +74,8 @@ const MobileHeader = ({ isFarmer, style, hideScrollMenu }: Props) => {
       link: "/about",
     },
     {
-      label: "Become a Seller",
-      link: "/Customer Service",
+      label: "Become a Member",
+      link: "/signup",
     },
   ];
 
@@ -210,10 +210,14 @@ const MobileHeader = ({ isFarmer, style, hideScrollMenu }: Props) => {
           </div>
         )}
 
-        <div className="flex">
-          <Icon icon="mingcute:location-3-line" color="#db4444" width="24" />
-          <span className='text-[#db4444]'>Eti-Osa</span>
+        <div className="flex items-center justify-between w-full">
+          <div className="flex">
+            <Icon icon="mingcute:location-3-line" color="#db4444" width="24" />
+            <span className='text-[#db4444]'>Eti-Osa</span>
+          </div>
+          <Link to={'/signup'}>Become a Member</Link>
         </div>
+
       </div>
     </div>
   );
