@@ -55,19 +55,23 @@ const MobileHeader = ({ isFarmer, style, hideScrollMenu }: Props) => {
   let otherMenu = [
     {
       label: "Worldwide flex card",
-      link: "/manufacturers",
+      link: "/",
     },
     {
-      label: "RewardGlo",
-      link: "/merchants",
+      label: "Reward Glo",
+      link: "/reward-glo-point",
     },
     {
       label: "Multicurrency",
-      link: "/farmers",
+      link: "/",
     },
     {
       label: "Help",
-      link: "/manufacturers-profile/orders",
+      link: "/",
+    },
+    {
+      label: "About",
+      link: "/about",
     },
     {
       label: "Become a Seller",
@@ -136,7 +140,7 @@ const MobileHeader = ({ isFarmer, style, hideScrollMenu }: Props) => {
   };
   return (
     <div className={`${style ? style : " bg-[#470505]"} md:hidden flex flex-col w-screen gap-4`}>
-      <div className="flex justify-between items-center mx-2 mt-4">
+      <div className="flex items-center justify-between mx-2 mt-4">
         <div>
           <IconButton onClick={handleOpenModal} className="">
             <MenuIcon className="text-white" />
@@ -152,11 +156,11 @@ const MobileHeader = ({ isFarmer, style, hideScrollMenu }: Props) => {
           {
             /*user &&*/ authToken ? ( // Render the user's name if they are logged in
               <>
-                <div className="gap-2 flex-row flex items-center">
+                <div className="flex flex-row items-center gap-2">
                   <h2 className="text-white text-md" onClick={handleOpenMobileModal}>
                     Hi {username}
                   </h2>
-                  <h2 className="text-white font-medium text-xl hidden sm:flex">Account</h2>
+                  <h2 className="hidden text-xl font-medium text-white sm:flex">Account</h2>
                   <Icon icon="icon-park-solid:down-one" color="white" />
                 </div>
               </>
@@ -182,7 +186,7 @@ const MobileHeader = ({ isFarmer, style, hideScrollMenu }: Props) => {
         </div>
         <MobileModal show={showMobileModal} onClose={handleCloseMobileModal} />
       </div>
-      <div className="flex flex-row space-x-2 items-center mx-4">
+      <div className="flex flex-row items-center mx-4 space-x-2">
         <input className="py-2 px-8 w-80 rounded-[8px]" placeholder="Search Azany" />
         <div className="bg-white px-2 py-0 rounded-[8px]">
           <IconButton>
@@ -190,9 +194,9 @@ const MobileHeader = ({ isFarmer, style, hideScrollMenu }: Props) => {
           </IconButton>
         </div>
       </div>
-      <div className="flex bg-white px-4 pb-4 flex-col">
+      <div className="flex flex-col px-4 pb-4 bg-white">
         {!isNotScrollabe && (
-          <div className="text-black bg-white text-sm py-4 font-medium gap-8 flex overflow-x-scroll flex-row no-scrollbar">
+          <div className="flex flex-row gap-8 py-4 overflow-x-scroll text-sm font-medium text-black bg-white no-scrollbar">
             {currentMenu &&
               currentMenu.map((menuItem) => (
                 <Link to={`${menuItem.link}`} key={menuItem.label}>
