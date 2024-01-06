@@ -49,7 +49,7 @@ const CategorySlider = () => {
                 <Icon icon="tabler:arrow-left" width="24" />
             </span>
             <div className="overflow-hidden">
-                <div className="w-full flex gap-6">
+                <div className="w-full flex gap-6 overflow-x-auto no-scrollbar">
                     <div className={`flex gap-6 justify-start items-center`} style={slideStyle}>
                         {
                             images.map((text: string, index: number) => (

@@ -1,14 +1,24 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { Icon } from '@iconify/react';
+import { CategoryModal } from '../../Core/CategoryModal';
 
 const NavBar = () => {
+    const [showModal, setShowModal] = React.useState(false);
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+    const handleOpenModal = () => {
+        setShowModal(true);
+    };
     return (
         <div className='relative flex-col items-center justify-between hidden w-full gap-4 px-4 py-2 bg-white md:flex md:flex-row md:px-12'>
-            <div className="items-center hidden gap-2 font-semibold md:flex">
+            <div onClick={handleOpenModal} className="items-center hover:cursor-pointer hidden gap-2 font-semibold md:flex">
                 <Icon icon="ion:menu" width="24" color='black' />
                 <span className=''>Categories</span>
             </div>
+            <CategoryModal show={showModal} onClose={handleCloseModal} />
+
             <ul className='flex items-center gap-6 overflow-x-scroll no-scrollbar md:gap-12'>
                 <li className='w-full text-sm font-semibold '>Worldwide flex card</li>
                 <li className='text-sm font-semibold '>
