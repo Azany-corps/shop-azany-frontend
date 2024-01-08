@@ -111,7 +111,7 @@ const SellOnAzany = () => {
                     <p className='md:w-1/3 text-center'>Take a sneak peek 👀 into our platform</p>
                 </div>
                 <div className="flex flex-col items-center p-3 md:px-16">
-                    <div className="flex flex-col-reverse md:flex-row w-full relative bg-[#EEF9F2] gap-6 text:center md:text-left items-center md:items-start px-6 md:px-20 md:gap-24 py-12">
+                    <div className="flex flex-col-reverse md:flex-row w-full relative bg-[#EEF9F2] gap-6 text:center md:text-left items-center px-6 md:px-20 md:gap-24 py-12">
                         <div className="flex flex-col justify-center md:w-1/2 gap-5 text-center md:text-left items-center md:items-start ">
                             <h2 className=' font-bold text-3xl'>User friendly personalized homepage</h2>
                             <p className='font-semibold'>The fastest-growing and preferred acquisition channel for over half our multichannel sellers.</p>
@@ -120,8 +120,8 @@ const SellOnAzany = () => {
                             <img className='w-full h-full object-cover' src={laptop} alt="" />
                         </div>
                     </div>
-                    <div className="flex flex-col-reverse md:flex-row w-full relative bg-[#FFF4DB] gap-6 text:center md:text-left items-center md:items-start px-6 md:px-20 md:gap-24 py-12">
-                        <div className="flex flex-col justify-center md:w-1/2 gap-5 text-center md:text-left items-center md:items-start ">
+                    <div className="flex flex-col-reverse md:flex-row w-full md:justify-center relative bg-[#FFF4DB] gap-6 text:center md:text-left items-center px-6 md:px-20 md:gap-24 py-12">
+                        <div className="flex flex-col justify-center h-full md:w-1/2 gap-5 text-center md:text-left items-center md:items-start ">
                             <h2 className=' font-bold text-3xl'>Easy product listing</h2>
                             <p className='font-semibold'>The fastest-growing and preferred acquisition channel for over half our multichannel sellers.</p>
                         </div>
@@ -129,7 +129,7 @@ const SellOnAzany = () => {
                             <img className='w-full h-full object-cover' src={laptop} alt="" />
                         </div>
                     </div>
-                    <div className="flex flex-col-reverse md:flex-row w-full relative bg-[#E4E8FF] gap-6 text:center md:text-left items-center md:items-start px-6 md:px-20 md:gap-24 py-12">
+                    <div className="flex flex-col-reverse md:flex-row w-full relative bg-[#E4E8FF] gap-6 text:center md:text-left items-center px-6 md:px-20 md:gap-24 py-12">
                         <div className="flex z-10 flex-col justify-center md:w-1/2 gap-5 text-center md:text-left items-center md:items-start ">
                             <h2 className=' font-bold text-3xl'>Selection insights</h2>
                             <p className='font-semibold'>The fastest-growing and preferred acquisition channel for over half our multichannel sellers.</p>
