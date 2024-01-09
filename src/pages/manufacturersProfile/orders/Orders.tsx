@@ -23,7 +23,7 @@ const MOrders = () => {
 
   useEffect(() => {
     const headers = { Authorization: `Bearer ${token}` };
-    const fetchActiveProducts = async () => {
+    const fetchOrders = async () => {
       try {
         const response = await callAPI(
           "product/fetch_product_orders",
@@ -37,7 +37,7 @@ const MOrders = () => {
         console.error(error);
       }
     };
-    fetchActiveProducts();
+    fetchOrders();
   }, [token]);
 
   console.log(token);

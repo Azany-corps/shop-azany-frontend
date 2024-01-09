@@ -4,12 +4,16 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import CustomerProfileLayout from "../../../components/CustomerProfile/NewCustomerProfileLayout";
 import CustomButton from "../../../components/Inputs/button";
-import { getCustomerProductOrders } from "../../../Services/order.service";
+import {
+  getCustomerProductOrders,
+  getCustomerProductOrder,
+} from "../../../Services/order.service";
 import {
   DateFormatter,
   CurrencyFormatter,
 } from "../../../helpers/helperFunction";
 import { Link } from "react-router-dom";
+import Loader from "../../../components/Core/Loader";
 
 interface OrderDetailsProps {}
 
@@ -35,18 +39,28 @@ const OrderDetailsComponent: React.FC<OrderDetailsProps> = () => {
   const backButtonHandler = () => {
     navigate(-1);
   };
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const location = useLocation();
   const id = location?.state?.id;
 
-  const [order, setOrder] = useState<Array<IOrder>>([]);
+  const [order, setOrder] = useState<IOrder>({
+    order_code: "",
+    created_at: "",
+    address: "",
+    order_status: 0,
+    products: [],
+    sub_total: 0,
+    id: 0,
+    quantity: 0,
+  });
 
   useEffect(() => {
     const getOrders = async () => {
-      const orders = await getCustomerProductOrders();
-      console.log(orders);
-      const order = orders?.filter((order: any) => order.id === id);
+      setIsLoading(true);
+      const order = await getCustomerProductOrder(id);
       setOrder(order);
+      setIsLoading(false);
     };
     getOrders();
   }, []);
@@ -55,6 +69,7 @@ const OrderDetailsComponent: React.FC<OrderDetailsProps> = () => {
 
   return (
     <CustomerProfileLayout>
+      {isLoading && <Loader />}
       <div className="pt-[80px] font-public-sans">
         <div className="flex justify-between items-center w-full">
           <div
@@ -84,7 +99,7 @@ const OrderDetailsComponent: React.FC<OrderDetailsProps> = () => {
                     Product name:
                   </th>
                   <td className="text-[#231F20] pt-[13px] w-[70%] font-asap capitalize">
-                    {order[0]?.products[0]?.product_name || ""}
+                    {order?.products[0]?.product_name || ""}
                   </td>
                 </tr>
                 <tr>
@@ -92,7 +107,7 @@ const OrderDetailsComponent: React.FC<OrderDetailsProps> = () => {
                     Order number:
                   </th>
                   <td className="text-[#231F20] pt-[13px] w-[70%] font-asap">
-                    {order[0]?.order_code}
+                    {order?.order_code}
                   </td>
                 </tr>
                 <tr>
@@ -101,7 +116,7 @@ const OrderDetailsComponent: React.FC<OrderDetailsProps> = () => {
                   </th>
                   <td className="text-[#231F20] pt-[13px] w-[70%] font-asap">
                     {DateFormatter(
-                      order[0]?.created_at || new Date(),
+                      order?.created_at || new Date(),
                       "dS mmmm  yyyy"
                     )}
                   </td>
@@ -119,7 +134,7 @@ const OrderDetailsComponent: React.FC<OrderDetailsProps> = () => {
                     Quantity
                   </th>
                   <td className="text-[#231F20] pt-[13px] w-[70%] font-asap">
-                    {order[0]?.products[0]?.quantity}
+                    {order?.products[0]?.quantity}
                   </td>
                 </tr>
                 <tr>
@@ -133,7 +148,7 @@ const OrderDetailsComponent: React.FC<OrderDetailsProps> = () => {
                     Total fee
                   </th>
                   <td className="text-[#231F20] pt-[13px] w-[70%] font-asap font-bold">
-                    {CurrencyFormatter(order[0]?.sub_total || 0)}
+                    {CurrencyFormatter(order?.sub_total || 0)}
                   </td>
                 </tr>
               </tbody>
@@ -216,7 +231,7 @@ const OrderDetailsComponent: React.FC<OrderDetailsProps> = () => {
                       Item total:
                     </th>
                     <td className="text-[#231F20] pt-[13px] w-[70%] font-asap">
-                      {CurrencyFormatter(order[0]?.sub_total || 0)}
+                      {CurrencyFormatter(order?.sub_total || 0)}
                     </td>
                   </tr>
                   <tr>

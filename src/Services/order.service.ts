@@ -136,7 +136,7 @@ const getCustomerProductOrder = async (productID: number) => {
   const headers = { Authorization: `Bearer ${token}` };
   try {
     const response = await callAPI(
-      `product/fetch_customer_product_order/${productID}`,
+      `product/fetch_customer_single_product_order/${productID}`,
       "GET",
       null,
       headers
