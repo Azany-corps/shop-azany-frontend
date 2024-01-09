@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import CustomerProfileLayout from "../../../components/CustomerProfile/NewCustomerProfileLayout";
 import callAPI from "../../../api/callApi";
 import { CurrencyFormatter } from "../../../helpers/helperFunction";
-import { formatDate } from "../../../helpers/functions";
+import { formatDate } from "../../../helpers/helpers";
 import Loader from "../../../components/Core/Loader";
 import SuccessModal from "../../../components/Core/SuccessModal";
 

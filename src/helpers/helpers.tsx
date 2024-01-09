@@ -1,31 +1,3 @@
-// export function formatDate(inputDate: string): string {
-//   const months: string[] = [
-//     "Jan",
-//     "Feb",
-//     "Mar",
-//     "Apr",
-//     "May",
-//     "Jun",
-//     "Jul",
-//     "Aug",
-//     "Sep",
-//     "Oct",
-//     "Nov",
-//     "Dec",
-//   ];
-
-//   const date: Date = new Date(inputDate);
-//   const dayOfWeek: string = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][
-//     date.getDay()
-//   ];
-//   const dayOfMonth: number = date.getDate();
-//   const month: string = months[date.getMonth()];
-//   const year: number = date.getFullYear();
-
-//   const formattedDate: string = `${dayOfWeek}, ${dayOfMonth}th ${month}`;
-//   return formattedDate;
-// }
-
 interface FormattedDate {
   dayOfWeek: string;
   dayOfMonth: number;

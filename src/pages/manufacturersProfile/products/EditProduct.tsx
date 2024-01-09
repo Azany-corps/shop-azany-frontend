@@ -23,12 +23,13 @@ import {
   ProductTextArea,
 } from "../../../components/Inputs/ProductInput";
 import AddSingleImageComp from "../../../components/Core/AddSingleImage";
+
 import {
   convertToObjectArray,
   modifyObject,
   modifyObjectForCheck,
-} from "../../../helpers/functions";
-import { nigeriaStates } from "./functions";
+} from "../../../helpers/helpers";
+// import { nigeriaStates } from "./functions";
 import {
   Attribute,
   Brand,
@@ -38,9 +39,12 @@ import {
   ProductVariation,
   QuantityForm,
   ShippingForm,
-} from "./interfaces";
+} from "./types";
+import states from "./States";
 
 const EditProduct = () => {
+  const nigeriaStates = Object.values(states).map((state) => state.name);
+
   const navigate = useNavigate();
 
   const [quantityDiscountForms, setQuantityDiscountForms] = useState<
@@ -302,7 +306,9 @@ const EditProduct = () => {
 
       productLocalDeliveryValues.forEach((product, index) => {
         Object.entries(product).forEach(([key, value]) => {
-          data.append(`${key}[${index}]`, value.toString());
+          if (typeof value === "string" || typeof value === "number") {
+            data.append(`${key}[${index}]`, value.toString());
+          }
         });
       });
 
@@ -312,7 +318,9 @@ const EditProduct = () => {
 
       productDiscountValues.forEach((discount, index) => {
         Object.entries(discount).forEach(([key, value]) => {
-          data.append(`${key}[${index}]`, value.toString());
+          if (typeof value === "string" || typeof value === "number") {
+            data.append(`${key}[${index}]`, value.toString());
+          }
         });
       });
 
@@ -322,7 +330,9 @@ const EditProduct = () => {
 
       percentageDiscount.forEach((percentage, index) => {
         Object.entries(percentage).forEach(([key, value]) => {
-          data.append(`${key}[${index}]`, value.toString());
+          if (typeof value === "string" || typeof value === "number") {
+            data.append(`${key}[${index}]`, value.toString());
+          }
         });
       });
 
@@ -969,7 +979,7 @@ const EditProduct = () => {
           setSelectedImages([response?.data?.values[0]?.image_url]);
           const selAttr = [
             ...convertToObjectArray(response?.data?.values[0]?.attributes).map(
-              (attr) => ({ [attr.name]: true })
+              (attr: any) => ({ [attr.name]: true })
             ),
           ];
           const mergedObject = selAttr.reduce((result, currentObject) => {
