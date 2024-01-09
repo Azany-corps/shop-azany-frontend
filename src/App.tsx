@@ -77,7 +77,7 @@ import Warehouse from "./components/Documents/Warehouse";
 import Logistics from "./components/Documents/Logistics";
 import CancelledOrder from "./components/Documents/CancelledOrder";
 import OrderTracking from "./components/Documents/OrderTracking";
-import SellOnAzany from "./components/Documents/SellOnAzany";
+// import SellOnAzany from "./components/Documents/SellOnAzany";
 import Avc from "./pages/docs/Avc";
 import RefundPolicy from "./pages/docs/RefundPolicy";
 import ManufacturersIndex from "./pages/manufacturersProfile";
@@ -108,6 +108,7 @@ import Home from "./pages/landing/Home";
 import RewardGloPoint from "./pages/landing/RewardGloPoint";
 import AboutUs from "./pages/landing/AboutUs";
 import StoreFront from "./pages/landing/StoreFront";
+import SellOnAzany from "./pages/landing/SellOnAzany";
 
 function App() {
   return (
@@ -129,6 +130,8 @@ function App() {
           <Route path="/reward-glo-point" element={<RewardGloPoint />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/store-front/:id" element={<StoreFront />} />
+          <Route path="/sell-on-azany" element={<SellOnAzany />} />
+
 
           <Route path="login" element={<LoginCustomer />} />
           <Route path="signup" element={<SignupCustomer />} />
@@ -186,13 +189,13 @@ function App() {
           <Route path="plans" element={<Plans />} />
         </Route>
 
-        <Route path="/sell-on-azany">
+        {/* <Route path="/sell-on-azany">
           <Route path="farmers" element={<AzanyFarmers />} />
           <Route
             path="manufacturers-merchant"
             element={<ManufacturerHomePage />}
           />
-        </Route>
+        </Route> */}
 
         <Route path="/auth">
           <Route

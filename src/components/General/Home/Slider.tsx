@@ -7,7 +7,7 @@ interface Props {
     next: Function;
 }
 
-const CategorySlider = ({ items }: Props) => {
+const Slider = ({ items }: Props) => {
     const [currentIndex, setCurrentIndex] = useState<number>(0);
     const myDivRef = useRef<HTMLDivElement | null>(null);
     const [divWidth, setDivWidth] = useState<number>(0)
@@ -66,4 +66,4 @@ const CategorySlider = ({ items }: Props) => {
     )
 }
 
-export default CategorySlider
+export default Slider

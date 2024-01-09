@@ -12,33 +12,7 @@ import { Icon } from '@iconify/react';
 import MobileHeader from '../../components/General/MobileHeader'
 
 const AboutUs = () => {
-    const howTos = [
-        {
-            id: 1,
-            heading: 'Sign Up',
-            body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-        },
-        {
-            id: 2,
-            heading: 'Add product to cart',
-            body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-        },
-        {
-            id: 3,
-            heading: 'Shop like 5 times',
-            body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-        },
-        {
-            id: 4,
-            heading: 'Refer someone',
-            body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-        },
-        {
-            id: 5,
-            heading: 'Get Rewarded',
-            body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-        },
-    ]
+
     return (
         <div className='bg-[#eeeeee]'>
             <Header />

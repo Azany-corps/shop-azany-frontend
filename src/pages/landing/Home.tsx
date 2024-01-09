@@ -26,6 +26,7 @@ import MobileHeader from "../../components/General/MobileHeader";
 import BBBLogo from "../../assets/Group.png";
 import Banner from "../../assets/VERTICAL (1).gif";
 import { BestSellingProduct, BestSellers, mostLoveFashion } from "./resource";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const gradientStyle = {
@@ -132,9 +133,6 @@ const Home = () => {
             src={AdBanner}
             alt="ad banner"
           />
-          <span className="bg-[#0056FF] rounded-sm px-2 py-1 text-white absolute bottom-4 left-4 md:bottom-24 md:left-24 text-xs">
-            Ads Banner 2
-          </span>
         </div>
       </div>
 
@@ -195,9 +193,9 @@ const Home = () => {
               be Earth’s most customer-centric company, Earth’s best employer,
               and Earth’s safest place to work.
             </p>
-            <button className="text-xs px-3 bg-white rounded-sm py-1 text-[#DB4444]">
+            <Link to="/about" className="text-sm px-6 font-bold bg-white rounded-sm py-3 text-[#DB4444]">
               See more
-            </button>
+            </Link>
           </div>
           <div className="flex flex-col w-full gap-2">
             <div className="flex flex-col items-center justify-center gap-6 md:flex-row">

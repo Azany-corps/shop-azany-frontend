@@ -45,7 +45,7 @@ const ProductGroupCard = ({ title, products, flex = true, showSlider = true }: P
                     )
                 }
             </div>
-            <div className={`${flex ? 'flex overflow-hidden items-center justify-between' : 'grid md:grid-cols-4 gap-x-4 gap-y-4 grid-cols-2 lg:grid-cols-6'} gap-4 w-full overflow-hidden`}>
+            <div className={`${flex ? 'flex overflow-x-auto no-scrollbar items-center justify-between' : 'grid md:grid-cols-4 gap-x-4 gap-y-4 grid-cols-2 lg:grid-cols-6'} gap-4 w-full overflow-hidden`}>
                 {
                     showSlider ? (
                         <>
