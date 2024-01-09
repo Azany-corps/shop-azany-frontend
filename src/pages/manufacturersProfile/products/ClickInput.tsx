@@ -9,6 +9,7 @@ interface TextColorizerProps {
   attributeText: string[];
   name: string;
   id: string;
+  text?: string[];
   onColorizedTextsChange: (colorizedTexts: ColorizedText) => void;
 }
 
@@ -16,11 +17,12 @@ const TextColorizer: React.FC<TextColorizerProps> = ({
   attributeText,
   name,
   id,
+  text,
   onColorizedTextsChange,
 }) => {
   const [colorizedTexts, setColorizedTexts] = useState<ColorizedText>({
     id: id,
-    text: [],
+    text: text || [],
   });
 
   // const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -51,6 +53,8 @@ const TextColorizer: React.FC<TextColorizerProps> = ({
   useEffect(() => {
     onColorizedTextsChange(colorizedTexts);
   }, [colorizedTexts]);
+
+  // console.log(colorizedTexts.text);
 
   return (
     <div>

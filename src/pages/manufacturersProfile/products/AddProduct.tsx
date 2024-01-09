@@ -23,8 +23,8 @@ import {
   ProductTextArea,
 } from "../../../components/Inputs/ProductInput";
 import { states } from "./States";
-import TableComponent from "../../../components/Core/Table";
 import AddSingleImageComp from "../../../components/Core/AddSingleImage";
+import { stringify } from "qs";
 
 interface DiscountOption {
   quantity: string;
@@ -74,15 +74,14 @@ interface ShippingForm {
   id: number;
   values: {
     delivery_state: string;
-    // delivery_city: string;
+    delivery_days: string;
     delivery_price: number;
   };
 }
+
 interface ProductVariation {
   id: number;
   values: {
-    // size: number;
-    // color: string;
     variation_price: number;
     variation_sales_price: number;
     variation_quantity: number;
@@ -92,11 +91,7 @@ interface ProductVariation {
     variation_external_product_id: string;
     variation_image: FileWithPath[] | null;
     variation_product_name: string;
-    variation_attr: {
-      size: number;
-      color: string;
-      brand: string;
-    };
+    variation_attr: Record<string, any>; // Dynamic attributes
   };
 }
 
@@ -130,37 +125,12 @@ const AddProduct = () => {
       id: new Date().getTime(),
       values: {
         delivery_state: "",
-        // delivery_city: "",
+        delivery_days: "",
         delivery_price: 0,
       },
     },
   ]);
 
-  const [productVariations, setProductVariations] = useState<
-    ProductVariation[]
-  >([
-    {
-      id: new Date().getTime(),
-      values: {
-        // size: 0,
-        // color: "",
-        variation_price: 0,
-        variation_sales_price: 0,
-        variation_quantity: 0,
-        variation_sku: "",
-        variation_start_date: "",
-        variation_end_date: "",
-        variation_external_product_id: "",
-        variation_image: null,
-        variation_product_name: "",
-        variation_attr: {
-          size: 0,
-          color: "",
-          brand: "",
-        },
-      },
-    },
-  ]);
   const sellerStatus = localStorage.getItem("sellerStatus");
   const [discountIsChecked, setDiscountIsChecked] = useState<boolean>(false);
   const [manageStockChecked, setManageStockChecked] = useState<boolean>(false);
@@ -239,8 +209,10 @@ const AddProduct = () => {
     manage_stock: "",
     product_id_type: "",
     quantity_discount_enabled: "",
+    category_id: "",
   };
   const [formData, setFormData] = useState<IProduct>(initialFormData);
+  const [categoryId, setCategoryId] = useState<number>(0);
 
   formData.product_discount = quantityDiscountForms.map((quantity) => {
     return quantity.values;
@@ -291,10 +263,10 @@ const AddProduct = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log("formd: ", formData);
+    // console.log("formd: ", formData);
 
     setLoading(true);
-    console.log("parent: ", parentColorizedTexts);
+    // console.log("parent: ", parentColorizedTexts);
 
     if (sellerStatus === "Active") {
       try {
@@ -325,6 +297,7 @@ const AddProduct = () => {
         data.append("start_date", formData.sale_start_date);
         data.append("end_date", formData.sale_end_date);
         data.append("product_id_type", formData.product_id_type);
+        data.append("category_id", categoryId.toString());
 
         if (hasVartion) data.append("has_variation", "1");
         else {
@@ -345,9 +318,9 @@ const AddProduct = () => {
           data.append("quantity_discount_enabled", "0");
         }
         if (discountIsChecked) {
-          if (discountType === "fixed") data.append("discount_enabled", "2");
+          if (discountType === "fixed") data.append("discount_enabled", "1");
           else {
-            data.append("discount_enabled", "1");
+            data.append("discount_enabled", "2");
           }
         }
         if (manageStockChecked) {
@@ -394,6 +367,46 @@ const AddProduct = () => {
 
         console.log(variations);
 
+        // variations.forEach((variation, index) => {
+        //   Object.entries(variation).forEach(([key, value]) => {
+        //     if (
+        //       key === "variation_image" &&
+        //       value !== null &&
+        //       value !== undefined
+        //     ) {
+        //       if (Array.isArray(value)) {
+        //         data.append(`${key}[${index}]`, value[0]);
+        //       }
+        //     } else if (key === "variation_attr") {
+        //       let attrCounter = 0;
+        //       Object.entries(variation.variation_attr).forEach(
+        //         ([key, value]) => {
+        //           // console.log(key);
+        //           // console.log(mappedElements);
+        //           const isKeyInArray = mappedElements.some(
+        //             (element) => element.title.toLocaleLowerCase() === key
+        //           );
+        //           // console.log(isKeyInArray);
+        //           attrCounter += 1;
+        //           if (isKeyInArray) {
+        //             data.append(
+        //               `variations_attr[${index}][key${attrCounter}]`,
+        //               key!.toString()
+        //             );
+        //             data.append(
+        //               `variations_attr[${index}][value${attrCounter}]`,
+        //               value!.toString()
+        //             );
+        //           }
+        //         }
+        //       );
+        //     } else if (key !== "variation_image") {
+        //       data.append(`${key}[${index}]`, value!.toString());
+        //       // console.log(`${key}[${index}]`, value!.toString());
+        //     }
+        //   });
+        // });
+
         variations.forEach((variation, index) => {
           Object.entries(variation).forEach(([key, value]) => {
             if (
@@ -408,15 +421,23 @@ const AddProduct = () => {
               let attrCounter = 0;
               Object.entries(variation.variation_attr).forEach(
                 ([key, value]) => {
+                  // console.log(key);
+                  // console.log(mappedElements);
+                  const isKeyInArray = mappedElements.some(
+                    (element) => element.title.toLocaleLowerCase() === key
+                  );
+                  // console.log(isKeyInArray);
                   attrCounter += 1;
-                  data.append(
-                    `variations_attr[${index}][key${attrCounter}]`,
-                    key!.toString()
-                  );
-                  data.append(
-                    `variations_attr[${index}][value${attrCounter}]`,
-                    value!.toString()
-                  );
+                  if (isKeyInArray) {
+                    data.append(
+                      `variations_attr[${index}][key${attrCounter}]`,
+                      key!.toString()
+                    );
+                    data.append(
+                      `variations_attr[${index}][value${attrCounter}]`,
+                      value!.toString()
+                    );
+                  }
                 }
               );
             } else if (key !== "variation_image") {
@@ -456,7 +477,7 @@ const AddProduct = () => {
         );
         console.log(data);
 
-        console.log(response);
+        // console.log(response);
 
         if (response.status && response.status_code === 200) {
           setLoading(false);
@@ -515,7 +536,15 @@ const AddProduct = () => {
   };
 
   const handleCategorySelect = async (category: string, id: number) => {
-    setFormData({ ...formData, product_category: category });
+    setFormData({
+      ...formData,
+      product_category: category,
+      category_id: stringify(id),
+    });
+    setCategoryId(id);
+    // console.log(id);
+    // console.log(category);
+
     fetchCategory(id)
       .then((res: any) => {
         const attributes: Attribute[] = res.category_attributes?.map(
@@ -539,6 +568,7 @@ const AddProduct = () => {
         );
 
         setParentColorizedTexts(attributeText);
+        console.log(parentColorizedTexts);
 
         console.log("attr: ", attributes);
 
@@ -578,6 +608,8 @@ const AddProduct = () => {
       });
   }, []);
 
+  // console.log(categoryId);
+
   const handleAddForm = () => {
     setQuantityDiscountForms((prevForms) => [
       ...prevForms,
@@ -611,35 +643,8 @@ const AddProduct = () => {
         id: new Date().getTime(),
         values: {
           delivery_state: "",
-          delivery_city: "",
+          delivery_days: "",
           delivery_price: 0,
-        },
-      },
-    ]);
-  };
-
-  const handleAddProductVariations = () => {
-    setProductVariations((prevForms) => [
-      ...prevForms,
-      {
-        id: new Date().getTime(),
-        values: {
-          // size: 0,
-          // color: "",
-          variation_price: 0,
-          variation_sales_price: 0,
-          variation_quantity: 0,
-          variation_sku: "",
-          variation_start_date: "",
-          variation_end_date: "",
-          variation_external_product_id: "",
-          variation_image: null,
-          variation_product_name: "",
-          variation_attr: {
-            size: 0,
-            color: "",
-            brand: "",
-          },
         },
       },
     ]);
@@ -682,52 +687,6 @@ const AddProduct = () => {
             values: {
               ...form.values,
               [fieldName]: value,
-            },
-          };
-        }
-        return form;
-      })
-    );
-  };
-
-  interface ProductVariation {
-    id: number;
-    values: {
-      // size: number;
-      // color: string;
-      variation_price: number;
-      variation_sales_price: number;
-      variation_quantity: number;
-      variation_sku: string;
-      variation_start_date: string;
-      variation_end_date: string;
-      variation_external_product_id: string;
-      variation_image: FileWithPath[] | null;
-      variation_product_name: string;
-      variation_attr: {
-        size: number;
-        color: string;
-        brand: string;
-      };
-    };
-  }
-
-  const handleAttInputChange = (
-    formId: number,
-    fieldName: string,
-    value: string
-  ) => {
-    setProductVariations((prevForms) =>
-      prevForms.map((form) => {
-        if (form.id === formId) {
-          return {
-            ...form,
-            values: {
-              ...form.values,
-              variation_attr: {
-                ...form.values.variation_attr,
-                [fieldName]: value,
-              },
             },
           };
         }
@@ -934,7 +893,7 @@ const AddProduct = () => {
     } else {
       setFormNo(formNo);
     }
-    console.log(formNo);
+    // console.log(formNo);
   };
   const prevFormHandler = () => {
     if (formNo > 1) {
@@ -942,13 +901,85 @@ const AddProduct = () => {
     } else {
       setFormNo(formNo);
     }
-    console.log(formNo);
+    // console.log(formNo);
   };
 
-  console.log(attributes);
-  console.log(sellerStatus);
+  // console.log(attributes);
+  // console.log(sellerStatus);
 
   //   [{id: 1, name: blue, items: ['white', 'red']}]
+  const [productVariations, setProductVariations] = useState<
+    ProductVariation[]
+  >([
+    {
+      id: new Date().getTime(),
+      values: {
+        variation_price: 0,
+        variation_sales_price: 0,
+        variation_quantity: 0,
+        variation_sku: "",
+        variation_start_date: "",
+        variation_end_date: "",
+        variation_external_product_id: "",
+        variation_image: null,
+        variation_product_name: "",
+        variation_attr: {}, // Start with an empty object
+      },
+    },
+  ]);
+
+  const handleAddProductVariations = () => {
+    setProductVariations((prevForms) => [
+      ...prevForms,
+      {
+        id: new Date().getTime(),
+        values: {
+          variation_price: 0,
+          variation_sales_price: 0,
+          variation_quantity: 0,
+          variation_sku: "",
+          variation_start_date: "",
+          variation_end_date: "",
+          variation_external_product_id: "",
+          variation_image: null,
+          variation_product_name: "",
+          variation_attr: {},
+        },
+      },
+    ]);
+  };
+
+  const handleAttInputChange = (
+    formId: number,
+    fieldName: string,
+    value: string
+  ) => {
+    setProductVariations((prevForms) =>
+      prevForms.map((form) => {
+        if (form.id === formId) {
+          return {
+            ...form,
+            values: {
+              ...form.values,
+              variation_attr: {
+                ...form.values.variation_attr,
+                [fieldName]: value,
+              },
+            },
+          };
+        }
+        return form;
+      })
+    );
+  };
+
+  // console.log(variationCheckboxStates);
+
+  const mappedElements = Object.entries(variationCheckboxStates)
+    .filter(([title, isVisible]) => isVisible)
+    .map(([title, isVisible]) => ({ title, value: isVisible }));
+
+  // console.log(mappedElements);
 
   return (
     <ManufacturersProfileLayout>
@@ -1804,20 +1835,13 @@ const AddProduct = () => {
                       <table className="w-full text-sm text-left rtl:text-right">
                         <thead className="text-[#A3AED0] font-medium text-sm border-b border-[#E9EDF7] font-DM-sans">
                           <tr>
-                            {variationCheckboxStates.size && (
-                              <td scope="col" className="min-w-[100px]">
-                                Size
-                              </td>
-                            )}
-                            {variationCheckboxStates.Color && (
-                              <td scope="col" className="min-w-[100px]">
-                                Color
-                              </td>
-                            )}
-                            {variationCheckboxStates.Brand && (
-                              <td scope="col" className="min-w-[100px]">
-                                Brand
-                              </td>
+                            {mappedElements?.map(
+                              (attr) =>
+                                attr.value && (
+                                  <td scope="col" className="min-w-[100px]">
+                                    {attr.title}
+                                  </td>
+                                )
                             )}
                             <td scope="col" className="min-w-[113px]">
                               Product name
@@ -1852,60 +1876,30 @@ const AddProduct = () => {
                         <tbody>
                           {productVariations.map((form) => (
                             <tr className="bg-white font-DM-sans" key={form.id}>
-                              {variationCheckboxStates.size && (
-                                <td
-                                  scope="row"
-                                  className="pr-[14px] font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                >
-                                  <ProductInput
-                                    type="number"
-                                    placeholder="0"
-                                    id="size"
-                                    value={form.values.variation_attr.size.toString()}
-                                    onChange={(e) =>
-                                      handleAttInputChange(
-                                        form.id,
-                                        "size",
-                                        e.target.value
-                                      )
-                                    }
-                                  />
-                                </td>
+                              {mappedElements?.map(
+                                (attr) =>
+                                  attr.value && (
+                                    <td className="pr-[14px]" key={attr.title}>
+                                      <ProductInput
+                                        id={attr.title.toLocaleLowerCase()}
+                                        type="text"
+                                        value={
+                                          form.values.variation_attr[
+                                            attr.title.toLocaleLowerCase()
+                                          ] || ""
+                                        }
+                                        onChange={(e) =>
+                                          handleAttInputChange(
+                                            form.id,
+                                            attr.title.toLocaleLowerCase(),
+                                            e.target.value
+                                          )
+                                        }
+                                      />
+                                    </td>
+                                  )
                               )}
-                              {variationCheckboxStates.Color && (
-                                <td className="pr-[14px]">
-                                  <ProductInput
-                                    id="color"
-                                    type="text"
-                                    value={form.values.variation_attr.color}
-                                    onChange={(e) =>
-                                      handleAttInputChange(
-                                        form.id,
-                                        "color",
-                                        e.target.value
-                                      )
-                                    }
-                                    placeholder="blue"
-                                  />
-                                </td>
-                              )}
-                              {variationCheckboxStates.Brand && (
-                                <td className="pr-[14px]">
-                                  <ProductInput
-                                    id="brand"
-                                    type="text"
-                                    value={form.values.variation_attr.brand}
-                                    onChange={(e) =>
-                                      handleAttInputChange(
-                                        form.id,
-                                        "brand",
-                                        e.target.value
-                                      )
-                                    }
-                                    placeholder="swift"
-                                  />
-                                </td>
-                              )}
+
                               <td className="pr-[14px]">
                                 <ProductInput
                                   type="text"
@@ -2276,9 +2270,9 @@ const AddProduct = () => {
                           <td scope="col" className="min-w-[150px]">
                             State
                           </td>
-                          {/* <td scope="col" className="min-w-[150px]">
-                            City
-                          </td> */}
+                          <td scope="col" className="min-w-[150px]">
+                            Delivery days
+                          </td>
                           <td scope="col" className="min-w-[150px]">
                             Shipping cost
                           </td>
@@ -2307,28 +2301,32 @@ const AddProduct = () => {
                                 }))}
                               />
                             </td>
-                            {/* <td className="pr-[14px]">
+                            <td className="pr-[14px]">
                               <ProductSelect
-                                id="delivery_city"
+                                id="delivery_days"
                                 onChange={(e) =>
                                   handleShippingInputChange(
                                     form.id,
-                                    "delivery_city",
+                                    "delivery_days",
                                     e.target.value
                                   )
                                 }
-                                value={form.values.delivery_city}
-                                optionsLabel="City"
-                                options={
-                                  CheckLGA(form.values.delivery_state)?.map(
-                                    (city) => ({
-                                      value: city,
-                                      label: city,
-                                    })
-                                  ) || []
-                                }
+                                value={form.values.delivery_days}
+                                optionsLabel="Select days"
+                                options={[
+                                  "1",
+                                  "2",
+                                  "3",
+                                  "4",
+                                  "5",
+                                  "6",
+                                  "7",
+                                  "8",
+                                  "9",
+                                  "10",
+                                ].map((day) => ({ value: day, label: day }))}
                               />
-                            </td> */}
+                            </td>
                             <td
                               scope="row"
                               className="pr-[14px] font-medium text-gray-900 whitespace-nowrap dark:text-white"

@@ -22,88 +22,34 @@ import {
   ProductSelect,
   ProductTextArea,
 } from "../../../components/Inputs/ProductInput";
-import { states } from "./States";
-import TableComponent from "../../../components/Core/Table";
 import AddSingleImageComp from "../../../components/Core/AddSingleImage";
 
-interface DiscountOption {
-  quantity: string;
-  percentage: string;
-}
-interface ColorizedText {
-  id: string;
-  text: string[];
-}
-
-interface Attribute {
-  id: number;
-  name: string;
-  items: string[];
-}
-
-interface Category {
-  id: number;
-  title: string;
-  business_type: string;
-  parent_category_id?: string | null;
-  subcategories: Category[];
-}
-
-interface Brand {
-  id: number;
-  name: string;
-}
-
-interface Form {
-  id: number;
-  values: {
-    discount_quantity_fixed: number;
-    price_per_unit: number;
-  };
-}
-
-interface DiscountPercentageForm {
-  id: number;
-  values: {
-    discount_quantity: number;
-    discount_percentage: number;
-  };
-}
-
-interface ShippingForm {
-  id: number;
-  values: {
-    delivery_state: string;
-    // delivery_city: string;
-    delivery_price: number;
-  };
-}
-interface ProductVariation {
-  id: number;
-  values: {
-    // size: number;
-    // color: string;
-    variation_price: number;
-    variation_sales_price: number;
-    variation_quantity: number;
-    variation_sku: string;
-    variation_start_date: string;
-    variation_end_date: string;
-    variation_external_product_id: string;
-    variation_image: FileWithPath[] | null;
-    variation_product_name: string;
-    variation_attr: {
-      size: number;
-      color: string;
-      brand: string;
-    };
-  };
-}
+import {
+  convertToObjectArray,
+  modifyObject,
+  modifyObjectForCheck,
+} from "../../../helpers/helpers";
+// import { nigeriaStates } from "./functions";
+import {
+  Attribute,
+  Brand,
+  Category,
+  ColorizedText,
+  DiscountPercentageForm,
+  ProductVariation,
+  QuantityForm,
+  ShippingForm,
+} from "./types";
+import states from "./States";
 
 const EditProduct = () => {
+  const nigeriaStates = Object.values(states).map((state) => state.name);
+
   const navigate = useNavigate();
 
-  const [quantityDiscountForms, setQuantityDiscountForms] = useState<Form[]>([
+  const [quantityDiscountForms, setQuantityDiscountForms] = useState<
+    QuantityForm[]
+  >([
     {
       id: new Date().getTime(),
       values: {
@@ -130,7 +76,7 @@ const EditProduct = () => {
       id: new Date().getTime(),
       values: {
         delivery_state: "",
-        // delivery_city: "",
+        delivery_days: "",
         delivery_price: 0,
       },
     },
@@ -142,8 +88,6 @@ const EditProduct = () => {
     {
       id: new Date().getTime(),
       values: {
-        // size: 0,
-        // color: "",
         variation_price: 0,
         variation_sales_price: 0,
         variation_quantity: 0,
@@ -153,11 +97,7 @@ const EditProduct = () => {
         variation_external_product_id: "",
         variation_image: null,
         variation_product_name: "",
-        variation_attr: {
-          size: 0,
-          color: "",
-          brand: "",
-        },
+        variation_attr: {}, // Start with an empty object
       },
     },
   ]);
@@ -240,9 +180,10 @@ const EditProduct = () => {
     manage_stock: "",
     product_id_type: "",
     quantity_discount_enabled: "",
+    category_id: "",
   };
   const [formData, setFormData] = useState<IProduct>(initialFormData);
-  //   console.log(formData);
+  const [categoryId, setCategoryId] = useState<number>(0);
 
   const location = useLocation();
   const productId = location.state?.id;
@@ -274,17 +215,12 @@ const EditProduct = () => {
     setParentColorizedTexts(newColorizedTexts || []);
   };
 
-  const handleStockStatusChange = (status: string) => {
-    setFormData({ ...formData, stock: status });
-  };
+  // console.log(parentColorizedTexts);
 
   const handleImageSelect = (images: FileWithPath[]) => {
     setSelectedImages(images);
   };
 
-  const imageClick = (clicked: any) => {
-    clicked();
-  };
   const handleChange = (
     event:
       | React.ChangeEvent<HTMLInputElement>
@@ -330,6 +266,7 @@ const EditProduct = () => {
       data.append("start_date", formData.sale_start_date);
       data.append("end_date", formData.sale_end_date);
       data.append("product_id_type", formData.product_id_type);
+      data.append("category_id", categoryId.toString());
 
       if (hasVartion) data.append("has_variation", "1");
       else {
@@ -369,7 +306,9 @@ const EditProduct = () => {
 
       productLocalDeliveryValues.forEach((product, index) => {
         Object.entries(product).forEach(([key, value]) => {
-          data.append(`${key}[${index}]`, value.toString());
+          if (typeof value === "string" || typeof value === "number") {
+            data.append(`${key}[${index}]`, value.toString());
+          }
         });
       });
 
@@ -379,7 +318,9 @@ const EditProduct = () => {
 
       productDiscountValues.forEach((discount, index) => {
         Object.entries(discount).forEach(([key, value]) => {
-          data.append(`${key}[${index}]`, value.toString());
+          if (typeof value === "string" || typeof value === "number") {
+            data.append(`${key}[${index}]`, value.toString());
+          }
         });
       });
 
@@ -389,7 +330,9 @@ const EditProduct = () => {
 
       percentageDiscount.forEach((percentage, index) => {
         Object.entries(percentage).forEach(([key, value]) => {
-          data.append(`${key}[${index}]`, value.toString());
+          if (typeof value === "string" || typeof value === "number") {
+            data.append(`${key}[${index}]`, value.toString());
+          }
         });
       });
 
@@ -410,15 +353,23 @@ const EditProduct = () => {
           } else if (key === "variation_attr") {
             let attrCounter = 0;
             Object.entries(variation.variation_attr).forEach(([key, value]) => {
+              // console.log(key);
+              // console.log(mappedElements);
+              const isKeyInArray = mappedElements.some(
+                (element) => element.title.toLocaleLowerCase() === key
+              );
+              // console.log(isKeyInArray);
               attrCounter += 1;
-              data.append(
-                `variations_attr[${index}][key${attrCounter}]`,
-                key!.toString()
-              );
-              data.append(
-                `variations_attr[${index}][value${attrCounter}]`,
-                value!.toString()
-              );
+              if (isKeyInArray) {
+                data.append(
+                  `variations_attr[${index}][key${attrCounter}]`,
+                  key!.toString()
+                );
+                data.append(
+                  `variations_attr[${index}][value${attrCounter}]`,
+                  value!.toString()
+                );
+              }
             });
           } else if (key !== "variation_image") {
             data.append(`${key}[${index}]`, value!.toString());
@@ -506,11 +457,16 @@ const EditProduct = () => {
 
   const handleCategorySelect = async (category: string, id: number) => {
     setFormData({ ...formData, product_category: category });
+    setCategoryId(id);
+
+    // console.log(id);
+    // console.log(category);
+
     fetchCategory(id)
       .then((res: any) => {
         const attributes: Attribute[] = res.category_attributes?.map(
           (attribute: any, index: number) => {
-            console.log(attribute);
+            // console.log(attribute);
             return {
               id: attribute.attribute.id,
               name: attribute.attribute.attribute_name,
@@ -529,6 +485,7 @@ const EditProduct = () => {
         );
 
         setParentColorizedTexts(attributeText);
+        console.log(parentColorizedTexts);
 
         console.log("attr: ", attributes);
 
@@ -551,7 +508,6 @@ const EditProduct = () => {
   useEffect(() => {
     fetchCategories()
       .then((res) => {
-        // console.log(res);
         setCategories(res);
       })
       .catch((error) => {
@@ -560,7 +516,6 @@ const EditProduct = () => {
 
     fetchBrands()
       .then((res) => {
-        console.log(res);
         setBrands(res);
       })
       .catch((error) => {
@@ -601,7 +556,7 @@ const EditProduct = () => {
         id: new Date().getTime(),
         values: {
           delivery_state: "",
-          delivery_city: "",
+          delivery_days: "",
           delivery_price: 0,
         },
       },
@@ -614,8 +569,6 @@ const EditProduct = () => {
       {
         id: new Date().getTime(),
         values: {
-          // size: 0,
-          // color: "",
           variation_price: 0,
           variation_sales_price: 0,
           variation_quantity: 0,
@@ -625,11 +578,7 @@ const EditProduct = () => {
           variation_external_product_id: "",
           variation_image: null,
           variation_product_name: "",
-          variation_attr: {
-            size: 0,
-            color: "",
-            brand: "",
-          },
+          variation_attr: {},
         },
       },
     ]);
@@ -768,19 +717,19 @@ const EditProduct = () => {
   };
 
   const handleSubmitDiscountForms = () => {
-    console.log(quantityDiscountForms);
+    // console.log(quantityDiscountForms);
   };
 
   const handleSubmitShippingForms = () => {
-    console.log(shippingForm);
+    // console.log(shippingForm);
   };
 
   const handleSubmitPercentageForms = () => {
-    console.log(percentageDiscountForms);
+    // console.log(percentageDiscountForms);
   };
 
   const handleSubmitProductVariationForms = () => {
-    console.log(productVariations);
+    // console.log(productVariations);
   };
 
   const [checkboxStates, setCheckboxStates] = useState<{
@@ -875,24 +824,9 @@ const EditProduct = () => {
     });
   };
 
-  const nigeriaStates = Object.values(states).map((state) => state.name);
-
-  function CheckLGA(value: string) {
-    if (!value || !nigeriaStates) {
-      return;
-    }
-    let stat = Object.values(states)?.find(
-      (state) => state.name.toLocaleLowerCase() == value.toLocaleLowerCase()
-    );
-    if (!stat) {
-      return;
-    }
-    return stat.LGA;
-  }
-
   const [formNo, setFormNo] = useState<number>(1);
 
-  const nextFormHandler = () => {
+  const nextFormHandler = (formNo: number) => {
     if (formNo < 6) {
       setFormNo((prevNo) => prevNo + 1);
     } else {
@@ -900,7 +834,7 @@ const EditProduct = () => {
     }
     console.log(formNo);
   };
-  const prevFormHandler = () => {
+  const prevFormHandler = (formNo: number) => {
     if (formNo > 1) {
       setFormNo((prevNo) => prevNo - 1);
     } else {
@@ -908,6 +842,7 @@ const EditProduct = () => {
     }
     console.log(formNo);
   };
+  const [filledAtt, setFilledAtt] = useState<any[]>([]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -924,6 +859,11 @@ const EditProduct = () => {
           headers
         );
         if (typeof response?.data?.values === "object") {
+          await handleCategorySelect(
+            response?.data?.values[0]?.category,
+            response?.data?.values[0]?.category_id
+          );
+
           setFormData({
             ...formData,
             ...response?.data?.values[0],
@@ -948,37 +888,41 @@ const EditProduct = () => {
             ).toFixed(0),
             price: Number(response?.data?.values[0]?.price).toFixed(0),
           });
+
           setId(response?.data?.values[0]?.no_product_id);
-          if (response?.data?.values[0]?.manage_stock_status === "1") {
-            setManageStockChecked(true);
-          } else {
-            setManageStockChecked(false);
-          }
-          if (response?.data?.values[0]?.discount_enabled === "0") {
-            setDiscountIsChecked(false);
-          } else {
-            setDiscountIsChecked(true);
-          }
-          if (response?.data?.values[0]?.discount_enabled === "2") {
-            setDiscountType("fixed");
-          } else {
-            setDiscountType("percentage");
-          }
-          if (response?.data?.values[0]?.product_variation.length >= 1) {
+          response?.data?.values[0]?.manage_stock_status === "1"
+            ? setManageStockChecked(true)
+            : setManageStockChecked(false);
+          response?.data?.values[0]?.discount_enabled === "0"
+            ? setDiscountIsChecked(false)
+            : setDiscountIsChecked(true);
+          response?.data?.values[0]?.discount_enabled === "2"
+            ? setDiscountType("fixed")
+            : setDiscountType("percentage");
+          response?.data?.values[0]?.product_variation.length >= 1 &&
             setHasVariation(true);
-          }
-          if (response?.data?.values[0]?.local_delivery_status === "1") {
+          response?.data?.values[0]?.local_delivery_status === "1" &&
             setIsLocalChecked(true);
-          }
           response?.data?.values[0]?.international_delivery_status === "1" &&
             setIsIntChecked(true);
+
+          setVariationsCheckboxStates(
+            modifyObjectForCheck(
+              modifyObject(
+                response?.data?.values[0]?.product_variation[0]?.attributes[0]
+              )
+            )
+          );
+
           const newVar = response?.data?.values[0]?.product_variation?.map(
-            (variation: any) => ({
+            (variation: any, index: number) => ({
               id: variation.id,
               values: {
-                variation_price: variation?.price,
-                variation_sales_price: variation?.sales_price,
-                variation_quantity: variation?.quantity,
+                variation_price: Number(variation?.price).toFixed(0),
+                variation_sales_price: Number(variation?.sales_price).toFixed(
+                  0
+                ),
+                variation_quantity: Number(variation?.quantity).toFixed(0),
                 variation_sku: variation?.SKU,
                 variation_start_date: variation?.start_date,
                 variation_end_date: variation?.end_date,
@@ -986,9 +930,7 @@ const EditProduct = () => {
                 variation_image: variation?.image_url,
                 variation_product_name: variation?.product_name,
                 variation_attr: {
-                  size: variation?.attributes[0]?.value1,
-                  color: variation?.attributes[0]?.value2,
-                  brand: variation?.attributes[0]?.value3,
+                  ...modifyObject(variation?.attributes[index]),
                 },
               },
             })
@@ -1000,7 +942,7 @@ const EditProduct = () => {
                 id: delivery.id,
                 values: {
                   delivery_state: delivery?.state,
-                  //   delivery_city: delivery?.city,
+                  delivery_days: delivery?.delivery_days,
                   delivery_price: Number(delivery?.price).toFixed(0),
                 },
               })
@@ -1030,19 +972,21 @@ const EditProduct = () => {
             );
           setPercentageDiscountForms([...newPercentageForm]);
 
-          setAttributes([
+          setFilledAtt([
             ...convertToObjectArray(response?.data?.values[0]?.attributes),
           ]);
+
           setSelectedImages([response?.data?.values[0]?.image_url]);
           const selAttr = [
             ...convertToObjectArray(response?.data?.values[0]?.attributes).map(
-              (attr) => ({ [attr.name]: true })
+              (attr: any) => ({ [attr.name]: true })
             ),
           ];
           const mergedObject = selAttr.reduce((result, currentObject) => {
             return { ...result, ...currentObject };
           }, {});
 
+          console.log(mergedObject);
           setCheckboxStates(mergedObject);
         } else {
           setProduct([]);
@@ -1056,35 +1000,18 @@ const EditProduct = () => {
     fetchActiveProducts();
   }, [productId]);
 
-  interface ConvertedObject {
-    id: number;
-    name: string;
-    items: string[];
-  }
+  const mappedElements = Object.entries(variationCheckboxStates)
+    .filter(([title, isVisible]) => isVisible)
+    .map(([title, isVisible]) => ({ title, value: isVisible }));
 
-  function convertToObjectArray(
-    input: Record<string, string>
-  ): ConvertedObject[] {
-    return Object.entries(input).map(([name, values], id) => {
-      const items = values.split(",").map((item) => item.trim());
-      return {
-        id: id + 1,
-        name: name.toLowerCase(),
-        items,
-      };
-    });
-  }
-
-  console.log(formData);
-  console.log(quantityDiscountForms);
-  //   console.log(attributes);
-  //   console.log(checkboxStates);
   return (
     <ManufacturersProfileLayout>
       <div className="px-[30px] font-DM-sans">
         <div className="mb-[30px] flex justify-between">
           <div>
-            <p className="font-medium text-sm text-[#29020280]">Add products</p>
+            <p className="font-medium text-sm text-[#29020280]">
+              Edit products
+            </p>
             <p className="text-[34px] text-[#290202] font-bold">Products</p>
           </div>
           <div className="bg-white py-[10px] px-[11px] flex items-center rounded-[30px]">
@@ -1100,7 +1027,9 @@ const EditProduct = () => {
             {formNo < 6 && (
               <button
                 className="px-[45px] py-[9px] bg-[#01B574] rounded-[20px] mr-0 md:mr-[30px]"
-                onClick={nextFormHandler}
+                onClick={() => {
+                  nextFormHandler(formNo);
+                }}
                 disabled={loading}
               >
                 <p className="text-white font-DM-sans font-medium text-sm flex items-center w-[31px] h-[24px]">
@@ -1108,7 +1037,12 @@ const EditProduct = () => {
                 </p>
               </button>
             )}
-            <button className="hidden lg:block px-[14px] py-[9px] bg-[#F6F6F6] rounded-[20px] border border-[#00000019] mr-2.5">
+            <button
+              className="hidden lg:block px-[14px] py-[9px] bg-[#F6F6F6] rounded-[20px] border border-[#00000019] mr-2.5"
+              onClick={async () => {
+                await handleCategorySelect("Test category 2", 34);
+              }}
+            >
               <p className="text-[#29020266] font-DM-sans font-medium text-sm flex items-center">
                 Save to Draft
               </p>
@@ -1271,9 +1205,15 @@ const EditProduct = () => {
                               id="size"
                               type="checkbox"
                               onChange={() => {
-                                handleCheckboxChange(attribute.name);
+                                handleCheckboxChange(
+                                  attribute.name.toLocaleLowerCase()
+                                );
                               }}
-                              checked={checkboxStates[attribute.name] || false}
+                              checked={
+                                checkboxStates[
+                                  attribute.name.toLocaleLowerCase()
+                                ] || false
+                              }
                               className="w-4 h-4 text-[#FF1818] bg-gray-100 border-gray-300 rounded focus:ring-0"
                             />
                             <label
@@ -1291,7 +1231,9 @@ const EditProduct = () => {
                         attributes?.map(
                           (attribute: Attribute, index: number) => {
                             // console.log(attribute);
-                            if (checkboxStates[attribute.name])
+                            if (
+                              checkboxStates[attribute.name.toLocaleLowerCase()]
+                            )
                               return (
                                 <TextColorizer
                                   key={index}
@@ -1300,6 +1242,13 @@ const EditProduct = () => {
                                   name={attribute.name}
                                   onColorizedTextsChange={
                                     handleColorizedTextsChange
+                                  }
+                                  text={
+                                    filledAtt.filter(
+                                      (arr) =>
+                                        arr.name ===
+                                        attribute?.name.toLocaleLowerCase()
+                                    )[0]?.items || []
                                   }
                                 />
                               );
@@ -1347,7 +1296,9 @@ const EditProduct = () => {
             </div>
             <button
               className="px-[14px] py-[9px] bg-[#01B574] rounded-[10px] mb-[133px]"
-              onClick={nextFormHandler}
+              onClick={() => {
+                nextFormHandler(formNo);
+              }}
               disabled={loading}
             >
               <p className="text-white font-DM-sans font-medium text-sm flex items-center ">
@@ -1441,7 +1392,9 @@ const EditProduct = () => {
             <div className="flex items-center pb-[90px]">
               <button
                 className="px-[34px] py-[9px] bg-transparent border border-[#29020266] rounded-[10px] mr-[23px]"
-                onClick={prevFormHandler}
+                onClick={() => {
+                  prevFormHandler(formNo);
+                }}
                 // disabled={loading}
               >
                 <p className="text-black font-DM-sans font-medium text-sm flex items-center ">
@@ -1450,7 +1403,9 @@ const EditProduct = () => {
               </button>
               <button
                 className="px-[34px] py-[9px] bg-[#01B574] rounded-[10px] "
-                onClick={nextFormHandler}
+                onClick={() => {
+                  nextFormHandler(formNo);
+                }}
                 // disabled={loading}
               >
                 <p className="text-white font-DM-sans font-medium text-sm flex items-center ">
@@ -1542,7 +1497,9 @@ const EditProduct = () => {
             <div className="flex items-center pb-[36px]">
               <button
                 className="px-[34px] py-[9px] bg-transparent border border-[#29020266] rounded-[10px] mr-[23px]"
-                onClick={prevFormHandler}
+                onClick={() => {
+                  prevFormHandler(formNo);
+                }}
                 // disabled={loading}
               >
                 <p className="text-black font-DM-sans font-medium text-sm flex items-center ">
@@ -1551,7 +1508,9 @@ const EditProduct = () => {
               </button>
               <button
                 className="px-[34px] py-[9px] bg-[#01B574] rounded-[10px] "
-                onClick={nextFormHandler}
+                onClick={() => {
+                  nextFormHandler(formNo);
+                }}
                 // disabled={loading}
               >
                 <p className="text-white font-DM-sans font-medium text-sm flex items-center ">
@@ -1833,7 +1792,9 @@ const EditProduct = () => {
             <div className="flex items-center pb-[90px]">
               <button
                 className="px-[34px] py-[9px] bg-transparent border border-[#29020266] rounded-[10px] mr-[23px]"
-                onClick={prevFormHandler}
+                onClick={() => {
+                  prevFormHandler(formNo);
+                }}
                 // disabled={loading}
               >
                 <p className="text-black font-DM-sans font-medium text-sm flex items-center ">
@@ -1842,7 +1803,9 @@ const EditProduct = () => {
               </button>
               <button
                 className="px-[34px] py-[9px] bg-[#01B574] rounded-[10px] "
-                onClick={nextFormHandler}
+                onClick={() => {
+                  nextFormHandler(formNo);
+                }}
                 // disabled={loading}
               >
                 <p className="text-white font-DM-sans font-medium text-sm flex items-center ">
@@ -1891,10 +1854,14 @@ const EditProduct = () => {
                           id="size"
                           type="checkbox"
                           onChange={() => {
-                            handleVariationCheckboxChange(attribute.name);
+                            handleVariationCheckboxChange(
+                              attribute.name.toLocaleLowerCase()
+                            );
                           }}
                           checked={
-                            variationCheckboxStates[attribute.name] || false
+                            variationCheckboxStates[
+                              attribute.name.toLocaleLowerCase()
+                            ] || false
                           }
                           className="w-4 h-4 text-[#FF1818] bg-gray-100 border-gray-300 rounded focus:ring-0"
                         />
@@ -1930,20 +1897,13 @@ const EditProduct = () => {
                       <table className="w-full text-sm text-left rtl:text-right">
                         <thead className="text-[#A3AED0] font-medium text-sm border-b border-[#E9EDF7] font-DM-sans">
                           <tr>
-                            {variationCheckboxStates.size && (
-                              <td scope="col" className="min-w-[100px]">
-                                Size
-                              </td>
-                            )}
-                            {variationCheckboxStates.Color && (
-                              <td scope="col" className="min-w-[100px]">
-                                Color
-                              </td>
-                            )}
-                            {variationCheckboxStates.Brand && (
-                              <td scope="col" className="min-w-[100px]">
-                                Brand
-                              </td>
+                            {mappedElements?.map(
+                              (attr) =>
+                                attr.value && (
+                                  <td scope="col" className="min-w-[100px]">
+                                    {attr.title}
+                                  </td>
+                                )
                             )}
                             <td scope="col" className="min-w-[113px]">
                               Product name
@@ -1978,60 +1938,30 @@ const EditProduct = () => {
                         <tbody>
                           {productVariations.map((form) => (
                             <tr className="bg-white font-DM-sans" key={form.id}>
-                              {variationCheckboxStates.size && (
-                                <td
-                                  scope="row"
-                                  className="pr-[14px] font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                >
-                                  <ProductInput
-                                    type="number"
-                                    placeholder="0"
-                                    id="size"
-                                    value={form.values.variation_attr.size.toString()}
-                                    onChange={(e) =>
-                                      handleAttInputChange(
-                                        form.id,
-                                        "size",
-                                        e.target.value
-                                      )
-                                    }
-                                  />
-                                </td>
+                              {mappedElements?.map(
+                                (attr) =>
+                                  attr.value && (
+                                    <td className="pr-[14px]" key={attr.title}>
+                                      <ProductInput
+                                        id={attr.title.toLocaleLowerCase()}
+                                        type="text"
+                                        value={
+                                          form.values.variation_attr[
+                                            attr.title.toLocaleLowerCase()
+                                          ] || ""
+                                        }
+                                        onChange={(e) =>
+                                          handleAttInputChange(
+                                            form.id,
+                                            attr.title.toLocaleLowerCase(),
+                                            e.target.value
+                                          )
+                                        }
+                                      />
+                                    </td>
+                                  )
                               )}
-                              {variationCheckboxStates.Color && (
-                                <td className="pr-[14px]">
-                                  <ProductInput
-                                    id="color"
-                                    type="text"
-                                    value={form.values.variation_attr.color}
-                                    onChange={(e) =>
-                                      handleAttInputChange(
-                                        form.id,
-                                        "color",
-                                        e.target.value
-                                      )
-                                    }
-                                    placeholder="blue"
-                                  />
-                                </td>
-                              )}
-                              {variationCheckboxStates.Brand && (
-                                <td className="pr-[14px]">
-                                  <ProductInput
-                                    id="brand"
-                                    type="text"
-                                    value={form.values.variation_attr.brand}
-                                    onChange={(e) =>
-                                      handleAttInputChange(
-                                        form.id,
-                                        "brand",
-                                        e.target.value
-                                      )
-                                    }
-                                    placeholder="swift"
-                                  />
-                                </td>
-                              )}
+
                               <td className="pr-[14px]">
                                 <ProductInput
                                   type="text"
@@ -2195,7 +2125,9 @@ const EditProduct = () => {
             <div className="flex items-center pb-[90px]">
               <button
                 className="px-[34px] py-[9px] bg-transparent border border-[#29020266] rounded-[10px] mr-[23px]"
-                onClick={prevFormHandler}
+                onClick={() => {
+                  prevFormHandler(formNo);
+                }}
                 // disabled={loading}
               >
                 <p className="text-black font-DM-sans font-medium text-sm flex items-center ">
@@ -2204,7 +2136,9 @@ const EditProduct = () => {
               </button>
               <button
                 className="px-[34px] py-[9px] bg-[#01B574] rounded-[10px] "
-                onClick={nextFormHandler}
+                onClick={() => {
+                  nextFormHandler(formNo);
+                }}
                 // disabled={loading}
               >
                 <p className="text-white font-DM-sans font-medium text-sm flex items-center ">
@@ -2402,9 +2336,9 @@ const EditProduct = () => {
                           <td scope="col" className="min-w-[150px]">
                             State
                           </td>
-                          {/* <td scope="col" className="min-w-[150px]">
-                            City
-                          </td> */}
+                          <td scope="col" className="min-w-[150px]">
+                            Delivery days
+                          </td>
                           <td scope="col" className="min-w-[150px]">
                             Shipping cost
                           </td>
@@ -2433,28 +2367,32 @@ const EditProduct = () => {
                                 }))}
                               />
                             </td>
-                            {/* <td className="pr-[14px]">
+                            <td className="pr-[14px]">
                               <ProductSelect
-                                id="delivery_city"
+                                id="delivery_days"
                                 onChange={(e) =>
                                   handleShippingInputChange(
                                     form.id,
-                                    "delivery_city",
+                                    "delivery_days",
                                     e.target.value
                                   )
                                 }
-                                value={form.values.delivery_city}
-                                optionsLabel="City"
-                                options={
-                                  CheckLGA(form.values.delivery_state)?.map(
-                                    (city) => ({
-                                      value: city,
-                                      label: city,
-                                    })
-                                  ) || []
-                                }
+                                value={form.values.delivery_days}
+                                optionsLabel="Select days"
+                                options={[
+                                  "1",
+                                  "2",
+                                  "3",
+                                  "4",
+                                  "5",
+                                  "6",
+                                  "7",
+                                  "8",
+                                  "9",
+                                  "10",
+                                ].map((day) => ({ value: day, label: day }))}
                               />
-                            </td> */}
+                            </td>
                             <td
                               scope="row"
                               className="pr-[14px] font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -2506,7 +2444,9 @@ const EditProduct = () => {
               {!loading && (
                 <button
                   className="px-[34px] py-[9px] bg-transparent border border-[#29020266] rounded-[10px] mr-[23px]"
-                  onClick={prevFormHandler}
+                  onClick={() => {
+                    prevFormHandler(formNo);
+                  }}
                   disabled={loading}
                 >
                   <p className="text-black font-DM-sans font-medium text-sm flex items-center ">

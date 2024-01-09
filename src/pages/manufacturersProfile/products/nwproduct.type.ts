@@ -56,6 +56,7 @@ export interface IProduct {
   manage_stock: string;
   product_id_type: string;
   quantity_discount_enabled: string;
+  category_id: string;
 }
 
 export {};

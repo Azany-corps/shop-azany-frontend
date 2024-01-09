@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import CustomerProfileLayout from "../../../components/CustomerProfile/NewCustomerProfileLayout";
-import { Box, Divider } from "@mui/material";
+import { Box, Divider, Pagination } from "@mui/material";
 import { TabComponent } from "../../../components/Inputs/Tabs";
 import { getCustomerProductOrders } from "../../../Services/order.service";
 
@@ -47,7 +47,7 @@ const COrdersComponent: React.FC<COrdersProps> = () => {
           null,
           headers
         );
-        console.log(response?.data?.values);
+        // console.log(response);
         if (typeof response?.data?.values !== "object") setOrders([]);
         else {
           setOrders(response?.data?.values);
@@ -62,8 +62,20 @@ const COrdersComponent: React.FC<COrdersProps> = () => {
     getOrders();
   }, []);
 
+  const [page, setPage] = useState(1);
+
+  const rowsPerPage = 6;
+
+  const pages = Math.ceil(orders.length / rowsPerPage);
+  const skip = page * rowsPerPage - rowsPerPage;
+
+  const handleChange = (e: any, p: any) => {
+    setPage(p);
+  };
+
   return (
     <CustomerProfileLayout>
+      {isLoading && <Loader />}
       <div className="pt-[80px]">
         <p className="capitalize text-xl font-semibold font-baloo">Orders</p>
         {orders.length < 1 && (
@@ -112,88 +124,100 @@ const COrdersComponent: React.FC<COrdersProps> = () => {
               />
             </Box>
             <Divider />
-            <div className="relative flex flex-col overflow-x-auto min-w-[1010px]">
-              {isLoading && <Loader />}
-              {orders &&
-                orders.length > 0 &&
-                !isLoading &&
-                orders?.map((order: any, index: number) => (
-                  <div
-                    className="bg-[#d0d0d026] w-full grid grid-cols-7 pt-[5px] pb-[14px] pl-[39px] my-[10px]"
-                    key={index}
-                  >
-                    <div className="col-span-2">
-                      <div className="flex items-center font-asap  text-[13.795px] font-normal mb-2.5">
-                        <p className="text-[#B3B7BB] max-w-[107px] w-[107px] font-asap  text-[13.795px] font-normal">
-                          Order number:
-                        </p>
-                        <p className="text-[#231F20] ml-6 font-asap  text-[13.795px] font-normal">
-                          {order?.order_code}
-                        </p>
-                      </div>
-                      <div className="flex items-center font-asap  text-[13.795px] font-normal mb-2.5">
-                        <p className="text-[#B3B7BB] max-w-[107px] w-[107px] font-asap  text-[13.795px] font-normal">
-                          Total price:
-                        </p>
-                        <p className="text-[#231F20] ml-6 font-asap  text-[13.795px] font-normal">
-                          {CurrencyFormatter(order?.sub_total || 0)}
-                        </p>
-                      </div>
-                      <div className="flex items-center font-asap  text-[13.795px] font-normal mb-2.5">
-                        <p className="text-[#B3B7BB] max-w-[107px] w-[107px] font-asap  text-[13.795px] font-normal">
-                          Order date
-                        </p>
-                        <p className="text-[#231F20] ml-6 font-asap  text-[13.795px] font-normal">
-                          {DateFormatter(
-                            order?.created_at || new Date(),
-                            "dS mmmm  yyyy"
-                          )}
-                        </p>
-                      </div>
-                      <div className="flex items-center font-asap  text-[13.795px] font-normal mb-2.5">
-                        <p className="text-[#B3B7BB] max-w-[107px] w-[107px] font-asap  text-[13.795px] font-normal">
-                          Payment method:
-                        </p>
-                        <p className="text-[#231F20] ml-6 font-asap  text-[13.795px] font-normal">
-                          Pay on delivery
-                        </p>
-                      </div>
-                    </div>
-                    <div className="col-span-2">
-                      <div className="flex items-start font-asap  text-[13.795px] font-normal mb-2.5">
-                        <p className="text-[#B3B7BB] max-w-[120px] w-[120px] font-asap  text-[13.795px] font-normal">
-                          Delivery address:
-                        </p>
-                        <p className="text-[#231F20] ml-6 font-asap  text-[13.795px] font-normal">
-                          No 12 limpopo benue, street close, maitama
-                        </p>
-                      </div>
-                    </div>
-                    <div className="col-span-2 h-full flex items-center justify-center mx-auto">
-                      <img
-                        src="/images/shoe1.svg"
-                        className="max-w-[81px] max-h-[71px] object-cover mr-0 lg:mr-[7px] border border-[#F1C9C8]"
-                      />
-                      <img
-                        src="/images/shoe2.svg"
-                        className="max-w-[81px] max-h-[71px] object-cover border border-[#F1C9C8]"
-                      />
-                    </div>
-                    <div className="col-span-1 h-full flex items-center justify-center mx-auto">
-                      <Link
-                        to="/customer-profile/order-details"
-                        state={{ id: order?.id }}
+            <div className="relative overflow-x-auto ">
+              <div className="flex flex-col min-w-[1010px]">
+                {isLoading && <Loader />}
+                {orders &&
+                  orders.length > 0 &&
+                  !isLoading &&
+                  orders
+                    ?.slice(skip, skip + rowsPerPage)
+                    ?.map((order: any, index: number) => (
+                      <div
+                        className="bg-[#d0d0d026] w-full grid grid-cols-7 pt-[5px] pb-[14px] pl-[39px] my-[10px]"
+                        key={index}
                       >
-                        <p className="text-[13.795px] cursor-pointer font-medium text-[#0F60FF]">
-                          View Details
-                        </p>
-                      </Link>
-                    </div>
-                  </div>
-                ))}
+                        <div className="col-span-2">
+                          <div className="flex items-center font-asap  text-[13.795px] font-normal mb-2.5">
+                            <p className="text-[#B3B7BB] max-w-[107px] w-[107px] font-asap  text-[13.795px] font-normal">
+                              Order number:
+                            </p>
+                            <p className="text-[#231F20] ml-6 font-asap  text-[13.795px] font-normal">
+                              {order?.order_code}
+                            </p>
+                          </div>
+                          <div className="flex items-center font-asap  text-[13.795px] font-normal mb-2.5">
+                            <p className="text-[#B3B7BB] max-w-[107px] w-[107px] font-asap  text-[13.795px] font-normal">
+                              Total price:
+                            </p>
+                            <p className="text-[#231F20] ml-6 font-asap  text-[13.795px] font-normal">
+                              {CurrencyFormatter(order?.sub_total || 0)}
+                            </p>
+                          </div>
+                          <div className="flex items-center font-asap  text-[13.795px] font-normal mb-2.5">
+                            <p className="text-[#B3B7BB] max-w-[107px] w-[107px] font-asap  text-[13.795px] font-normal">
+                              Order date
+                            </p>
+                            <p className="text-[#231F20] ml-6 font-asap  text-[13.795px] font-normal">
+                              {DateFormatter(
+                                order?.created_at || new Date(),
+                                "dS mmmm  yyyy"
+                              )}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-2">
+                          <div className="flex items-start font-asap  text-[13.795px] font-normal mb-2.5">
+                            <p className="text-[#B3B7BB] max-w-[120px] w-[120px] font-asap  text-[13.795px] font-normal">
+                              Delivery address:
+                            </p>
+                            <p className="text-[#231F20] ml-6 font-asap  text-[13.795px] font-normal">
+                              No 12 limpopo benue, street close, maitama
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-2 h-full flex items-center justify-center mx-auto">
+                          <img
+                            src="/images/shoe1.svg"
+                            className="max-w-[81px] max-h-[71px] object-cover mr-0 lg:mr-[7px] border border-[#F1C9C8]"
+                          />
+                          <img
+                            src="/images/shoe2.svg"
+                            className="max-w-[81px] max-h-[71px] object-cover border border-[#F1C9C8]"
+                          />
+                        </div>
+                        <div className="col-span-1 h-full flex items-center justify-center mx-auto">
+                          <Link
+                            to="/customer-profile/order-details"
+                            state={{ id: order?.id }}
+                          >
+                            <p className="text-[13.795px] cursor-pointer font-medium text-[#0F60FF]">
+                              View Details
+                            </p>
+                          </Link>
+                        </div>
+                      </div>
+                    ))}
+              </div>
             </div>
           </>
         )}
+
+        <nav
+          className="mb-4 flex justify-end items-center pt-4 font-DM-sans"
+          aria-label="Table navigation"
+        >
+          {orders.length > rowsPerPage && (
+            <Pagination
+              count={pages}
+              page={page}
+              onChange={handleChange}
+              color="standard"
+              shape="rounded"
+              size="large"
+            />
+          )}
+        </nav>
       </div>
     </CustomerProfileLayout>
   );
